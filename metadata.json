@@ -1,5 +1,5 @@
 {
-  "name": "Weathrobe - Konum ve Seyahat Bazlı Kıyafet & Hava Durumu Rehberi",
+  "name": "Wear Weather / Weathrobe - Konum ve Seyahat Bazlı Kıyafet & Hava Durumu Rehberi",
   "description": "Gizlilik odaklı ilçe, şehir ve rota bazlı çok kaynaklı hava durumu tahmini ve dinamik kıyafet tavsiye platformu.",
   "requestFramePermissions": [
     "geolocation"

@@ -2,17 +2,17 @@ import type {Metadata} from 'next';
 import './globals.css'; // Global styles
 
 export const metadata: Metadata = {
-  title: 'Weathrobe - Konum ve Seyahat Bazlı Kıyafet & Hava Durumu Rehberi',
-  description: 'Gizlilik odaklı ilçe, şehir ve rota bazlı çok kaynaklı hava durumu tahmini ve dinamik kıyafet tavsiye platformu.',
+  title: 'Wear Weather - by NOk',
+  description: 'Gizlilik odaklı, çok kaynaklı hava durumu konsensüsü ve renk/kumaş uyumlu akıllı giyim rehberi.',
   openGraph: {
-    title: 'Weathrobe - Konum ve Seyahat Bazlı Kıyafet & Hava Durumu Rehberi',
-    description: 'Gizlilik odaklı ilçe, şehir ve rota bazlı çok kaynaklı hava durumu tahmini ve dinamik kıyafet tavsiye platformu.',
+    title: 'Wear Weather - by NOk',
+    description: 'Gizlilik odaklı, çok kaynaklı hava durumu konsensüsü ve renk/kumaş uyumlu akıllı giyim rehberi.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Weathrobe - Konum ve Seyahat Bazlı Kıyafet & Hava Durumu Rehberi',
-    description: 'Gizlilik odaklı ilçe, şehir ve rota bazlı çok kaynaklı hava durumu tahmini ve dinamik kıyafet tavsiye platformu.',
+    title: 'Wear Weather - by NOk',
+    description: 'Gizlilik odaklı, çok kaynaklı hava durumu konsensüsü ve renk/kumaş uyumlu akıllı giyim rehberi.',
   },
 };
 
