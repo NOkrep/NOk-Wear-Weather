@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
-import { CityMap } from '@/components/CityMap';
+import { RealCityMap } from '@/components/RealCityMap';
 import { HourlyForecastChart } from '@/components/HourlyForecastChart';
 import { OutfitRecommendation } from '@/components/OutfitRecommendation';
 import { RoutePlanner } from '@/components/RoutePlanner';
@@ -315,7 +315,7 @@ export default function HomePage() {
         {activeMode === 'city' && (
           <div className="space-y-6 sm:space-y-8">
             {/* 1. City & Districts Interactive Map */}
-            <CityMap
+            <RealCityMap
               currentLocation={location}
               onSelectDistrict={(dist) => setLocation(dist)}
               tempSnapshot={consensus ? consensus.temp : 18}

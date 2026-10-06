@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Plane, AlertTriangle, ShieldCheck, Thermometer, ArrowRight, Compass } from 'lucide-react';
+import { Plane, AlertTriangle, ShieldCheck, Thermometer, ArrowRight, Compass, Map, Globe2 } from 'lucide-react';
 
 interface FlightRoute {
   id: string;
@@ -60,14 +60,100 @@ const POPULAR_FLIGHT_ROUTES: FlightRoute[] = [
     clothingShockWarning:
       'Tokyo sahil nemi ve 3°C sıcaklık artışı. Uçuş sonrasında hafif pamuklu üst katmana geçiş yapmanız ferah kalmanızı sağlayacaktır.',
   },
+  {
+    id: 'ist-par',
+    fromName: 'İstanbul (IST)',
+    toName: 'Paris (CDG)',
+    fromLat: 41.0082,
+    fromLon: 28.9784,
+    toLat: 48.8566,
+    toLon: 2.3522,
+    fromTemp: 18,
+    toTemp: 13,
+    flightHours: '3s 45dk',
+    clothingShockWarning:
+      'Ilıman ve hafif rüzgarlı Paris akşamı. Smart-casual trençkot ve ince fular iniş sonrası mükemmel uyum sağlar.',
+  },
 ];
 
 export function GlobeView() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const leafletMapRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<any>(null);
+
   const [selectedRoute, setSelectedRoute] = useState<FlightRoute>(POPULAR_FLIGHT_ROUTES[0]);
+  const [viewStyle, setViewStyle] = useState<'3d' | 'map'>('map');
   const rotationRef = useRef<number>(0);
 
+  // Initialize Real Leaflet World Map when 'map' view is selected
   useEffect(() => {
+    let isMounted = true;
+
+    async function initLeaflet() {
+      if (viewStyle !== 'map' || typeof window === 'undefined' || !leafletMapRef.current) return;
+
+      const L = (await import('leaflet')).default;
+
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+
+      if (!isMounted || !leafletMapRef.current) return;
+
+      const map = L.map(leafletMapRef.current, {
+        center: [(selectedRoute.fromLat + selectedRoute.toLat) / 2, (selectedRoute.fromLon + selectedRoute.toLon) / 2],
+        zoom: 3,
+        zoomControl: true,
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors, CartoDB',
+        maxZoom: 18,
+      }).addTo(map);
+
+      // Add Origin Marker
+      const originIcon = L.divIcon({
+        className: 'origin-marker',
+        html: `<div style="background:#0284c7; color:#fff; padding:3px 6px; border-radius:8px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid #fff; box-shadow:0 2px 4px rgba(0,0,0,0.2);">🛫 ${selectedRoute.fromName} (${selectedRoute.fromTemp}°C)</div>`,
+      });
+      L.marker([selectedRoute.fromLat, selectedRoute.fromLon], { icon: originIcon }).addTo(map);
+
+      // Add Destination Marker
+      const destIcon = L.divIcon({
+        className: 'dest-marker',
+        html: `<div style="background:#ef4444; color:#fff; padding:3px 6px; border-radius:8px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid #fff; box-shadow:0 2px 4px rgba(0,0,0,0.2);">🛬 ${selectedRoute.toName} (${selectedRoute.toTemp}°C)</div>`,
+      });
+      L.marker([selectedRoute.toLat, selectedRoute.toLon], { icon: destIcon }).addTo(map);
+
+      // Draw Flight Path Polyline
+      const latlngs = [
+        [selectedRoute.fromLat, selectedRoute.fromLon],
+        [selectedRoute.toLat, selectedRoute.toLon],
+      ];
+      L.polyline(latlngs as any, {
+        color: '#f59e0b',
+        weight: 3,
+        dashArray: '6, 6',
+      }).addTo(map);
+
+      mapInstanceRef.current = map;
+    }
+
+    initLeaflet();
+
+    return () => {
+      isMounted = false;
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [viewStyle, selectedRoute]);
+
+  // 3D Canvas Sphere Animation
+  useEffect(() => {
+    if (viewStyle !== '3d') return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -87,7 +173,7 @@ export function GlobeView() {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Globe Background Sphere
+      // Globe Gradient
       const grad = ctx.createRadialGradient(
         centerX - radius * 0.3,
         centerY - radius * 0.3,
@@ -110,11 +196,9 @@ export function GlobeView() {
       ctx.stroke();
       ctx.clip();
 
-      // Draw Latitude / Longitude lines
+      // Latitude lines
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
       ctx.lineWidth = 1;
-
-      // Latitude lines
       for (let lat = -60; lat <= 60; lat += 30) {
         const y = centerY + Math.sin((lat * Math.PI) / 180) * radius;
         const rLat = Math.cos((lat * Math.PI) / 180) * radius;
@@ -132,22 +216,20 @@ export function GlobeView() {
         ctx.stroke();
       }
 
-      // Render simplified land masses (continents)
+      // Continents
       ctx.fillStyle = 'rgba(52, 211, 153, 0.45)';
       const landPoints = [
-        { lat: 40, lon: 30, r: 24 }, // Europe/Anatolia
-        { lat: 50, lon: 10, r: 20 }, // Western Europe
-        { lat: 35, lon: 100, r: 35 }, // Asia
-        { lat: 40, lon: -100, r: 30 }, // N. America
-        { lat: -15, lon: -55, r: 25 }, // S. America
-        { lat: 5, lon: 20, r: 28 }, // Africa
+        { lat: 40, lon: 30, r: 24 },
+        { lat: 50, lon: 10, r: 20 },
+        { lat: 35, lon: 100, r: 35 },
+        { lat: 40, lon: -100, r: 30 },
+        { lat: -15, lon: -55, r: 25 },
+        { lat: 5, lon: 20, r: 28 },
       ];
 
       landPoints.forEach((pt) => {
         const lonRad = (pt.lon * Math.PI) / 180 + rot;
         const latRad = (pt.lat * Math.PI) / 180;
-
-        // Check if on visible hemisphere
         const cosLon = Math.cos(lonRad);
         if (cosLon > -0.2) {
           const x = centerX + Math.sin(lonRad) * Math.cos(latRad) * radius;
@@ -158,7 +240,7 @@ export function GlobeView() {
         }
       });
 
-      // Draw Flight Arc
+      // Flight Arc
       const fromRad = (selectedRoute.fromLon * Math.PI) / 180 + rot;
       const toRad = (selectedRoute.toLon * Math.PI) / 180 + rot;
 
@@ -168,7 +250,6 @@ export function GlobeView() {
       const toX = centerX + Math.sin(toRad) * Math.cos((selectedRoute.toLat * Math.PI) / 180) * radius;
       const toY = centerY - Math.sin((selectedRoute.toLat * Math.PI) / 180) * radius;
 
-      // Great-circle arc line
       ctx.beginPath();
       ctx.moveTo(fromX, fromY);
       const midX = (fromX + toX) / 2;
@@ -180,7 +261,6 @@ export function GlobeView() {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Nodes
       ctx.fillStyle = '#38bdf8';
       ctx.beginPath();
       ctx.arc(fromX, fromY, 4, 0, Math.PI * 2);
@@ -201,7 +281,7 @@ export function GlobeView() {
     return () => {
       cancelAnimationFrame(animId);
     };
-  }, [selectedRoute]);
+  }, [viewStyle, selectedRoute]);
 
   return (
     <div className="space-y-6">
@@ -210,56 +290,85 @@ export function GlobeView() {
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Plane className="w-5 h-5 text-sky-500" />
-              Uluslararası Rota & 3D Dünya Küresi
+              Uluslararası Rota & Dünya Haritası
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Ülkeler arası uçuşlarda iklim şokunu önleyen katmanlı seyahat gardırobu rehberi
+              Açık kaynaklı OpenStreetMap / Organic Maps tabanlı gerçek küresel harita ve 3D projeksiyon
             </p>
           </div>
 
-          {/* Route selector buttons */}
-          <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-semibold">
-            {POPULAR_FLIGHT_ROUTES.map((route) => (
+          <div className="flex items-center gap-2">
+            {/* View Style Switcher */}
+            <div className="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold">
               <button
-                key={route.id}
-                onClick={() => setSelectedRoute(route)}
-                className={`px-3 py-1.5 rounded-xl border transition-all ${
-                  selectedRoute.id === route.id
-                    ? 'bg-sky-500 text-white border-sky-400 shadow-xs'
-                    : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                onClick={() => setViewStyle('map')}
+                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${
+                  viewStyle === 'map'
+                    ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400'
                 }`}
               >
-                {route.fromName.split(' ')[0]} &rarr; {route.toName.split(' ')[0]}
+                <Map className="w-3.5 h-3.5" />
+                Gerçek Harita (OpenStreetMap)
               </button>
-            ))}
+              <button
+                onClick={() => setViewStyle('3d')}
+                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${
+                  viewStyle === '3d'
+                    ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400'
+                }`}
+              >
+                <Globe2 className="w-3.5 h-3.5" />
+                3D Küre
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* 3D Canvas Sphere & Flight Analysis Layout */}
+        {/* Route selector buttons */}
+        <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-semibold pb-1">
+          {POPULAR_FLIGHT_ROUTES.map((route) => (
+            <button
+              key={route.id}
+              onClick={() => setSelectedRoute(route)}
+              className={`px-3 py-1.5 rounded-xl border transition-all ${
+                selectedRoute.id === route.id
+                  ? 'bg-sky-500 text-white border-sky-400 shadow-xs'
+                  : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              {route.fromName.split(' ')[0]} &rarr; {route.toName.split(' ')[0]}
+            </button>
+          ))}
+        </div>
+
+        {/* Map / 3D Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          {/* 3D Globe Canvas Container */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 shadow-inner">
-            <canvas
-              ref={canvasRef}
-              width={320}
-              height={320}
-              className="max-w-full drop-shadow-2xl cursor-grab active:cursor-grabbing"
-            />
-            <span className="text-[10px] text-slate-400 mt-2 font-mono flex items-center gap-1">
-              <Compass className="w-3 h-3 text-sky-400" />
-              Firefox Donanım İvmeli 3D Vektör Projeksiyonu
-            </span>
+          <div className="lg:col-span-7 h-[360px] sm:h-[400px] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-inner relative">
+            {viewStyle === 'map' ? (
+              <div ref={leafletMapRef} className="w-full h-full z-0" />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-slate-900 to-slate-950 p-4">
+                <canvas
+                  ref={canvasRef}
+                  width={340}
+                  height={340}
+                  className="max-w-full drop-shadow-2xl cursor-grab"
+                />
+              </div>
+            )}
           </div>
 
           {/* Flight Details & Climate Shock Panel */}
-          <div className="lg:col-span-7 space-y-4">
+          <div className="lg:col-span-5 space-y-4">
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-slate-900 dark:text-white">
                   {selectedRoute.fromName}
                 </span>
                 <span className="text-slate-400 flex items-center gap-1">
-                  <span>Tahmini Uçuş: {selectedRoute.flightHours}</span>
+                  <span>{selectedRoute.flightHours}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-amber-500" />
                 </span>
                 <span className="font-bold text-slate-900 dark:text-white">
@@ -270,7 +379,7 @@ export function GlobeView() {
               {/* Temperature Delta */}
               <div className="flex items-center justify-around p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
                 <div className="text-center">
-                  <span className="text-[10px] text-slate-400 block">Kalkış Noktası</span>
+                  <span className="text-[10px] text-slate-400 block">Kalkış</span>
                   <span className="text-lg font-extrabold text-slate-900 dark:text-white">
                     {selectedRoute.fromTemp}°C
                   </span>
@@ -280,7 +389,7 @@ export function GlobeView() {
                   {selectedRoute.toTemp - selectedRoute.fromTemp}°C Fark
                 </div>
                 <div className="text-center">
-                  <span className="text-[10px] text-slate-400 block">Varış Noktası</span>
+                  <span className="text-[10px] text-slate-400 block">Varış</span>
                   <span className="text-lg font-extrabold text-slate-900 dark:text-white">
                     {selectedRoute.toTemp}°C
                   </span>

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { RouteStop, LocationInfo } from '@/lib/types';
+import React, { useEffect, useRef, useState } from 'react';
+import { RouteStop } from '@/lib/types';
 import {
   Navigation,
   Car,
@@ -14,6 +14,7 @@ import {
   Layers,
   MapPin,
   CheckCircle2,
+  Map,
 } from 'lucide-react';
 
 interface RoutePlannerProps {
@@ -21,18 +22,20 @@ interface RoutePlannerProps {
 }
 
 export function RoutePlanner({ currentCity }: RoutePlannerProps) {
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<any>(null);
+
   const [origin, setOrigin] = useState(currentCity || 'İstanbul');
   const [destination, setDestination] = useState('Ankara');
   const [transport, setTransport] = useState<'car' | 'bus' | 'train'>('car');
   const [departureTime, setDepartureTime] = useState('08:30');
 
-  // Generate simulated route waypoints based on origin & destination
-  const getRouteWaypoints = (): RouteStop[] => {
+  const waypoints = React.useMemo<RouteStop[]>(() => {
     if (destination === 'Ankara') {
       return [
         {
           id: 'w-1',
-          name: `${origin} (Kalkış Noktası)`,
+          name: `${origin} (Kalkış)`,
           lat: 41.0082,
           lon: 28.9784,
           estimatedArrival: departureTime,
@@ -42,7 +45,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
         {
           id: 'w-2',
-          name: 'Bolu Dağı Geçidi (Kritik Rakım Mola Noktası)',
+          name: 'Bolu Dağı Geçidi (Mola)',
           lat: 40.735,
           lon: 31.58,
           estimatedArrival: '11:15',
@@ -52,7 +55,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
         {
           id: 'w-3',
-          name: 'Ankara (Varış Noktası)',
+          name: 'Ankara (Varış)',
           lat: 39.9334,
           lon: 32.8597,
           estimatedArrival: '13:45',
@@ -65,7 +68,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
       return [
         {
           id: 'w-1',
-          name: `${origin} (Kalkış Noktası)`,
+          name: `${origin} (Kalkış)`,
           lat: 41.0082,
           lon: 28.9784,
           estimatedArrival: departureTime,
@@ -75,7 +78,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
         {
           id: 'w-2',
-          name: 'Balıkesir / Susurluk Dinlenme Tesisi',
+          name: 'Susurluk Dinlenme Tesisi',
           lat: 39.91,
           lon: 28.15,
           estimatedArrival: '11:00',
@@ -85,7 +88,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
         {
           id: 'w-3',
-          name: 'İzmir (Varış Noktası)',
+          name: 'İzmir (Varış)',
           lat: 38.4237,
           lon: 27.1428,
           estimatedArrival: '13:30',
@@ -95,11 +98,10 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
       ];
     } else {
-      // Antalya or other
       return [
         {
           id: 'w-1',
-          name: `${origin} (Kalkış Noktası)`,
+          name: `${origin} (Kalkış)`,
           lat: 41.0082,
           lon: 28.9784,
           estimatedArrival: departureTime,
@@ -109,7 +111,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
         {
           id: 'w-2',
-          name: 'Afyonkarahisar / Sandıklı Geçidi',
+          name: 'Afyonkarahisar Geçidi',
           lat: 38.75,
           lon: 30.54,
           estimatedArrival: '12:30',
@@ -119,7 +121,7 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
         {
           id: 'w-3',
-          name: `${destination} (Akdeniz Sahili Varış)`,
+          name: `${destination} (Varış)`,
           lat: 36.8969,
           lon: 30.7133,
           estimatedArrival: '16:00',
@@ -129,9 +131,87 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
         },
       ];
     }
-  };
+  }, [origin, destination, departureTime]);
 
-  const waypoints = getRouteWaypoints();
+  // Render Real Leaflet Map for Route with Waypoints and Polyline
+  useEffect(() => {
+    let isMounted = true;
+
+    async function initRouteMap() {
+      if (typeof window === 'undefined' || !mapContainerRef.current) return;
+
+      const L = (await import('leaflet')).default;
+
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+
+      if (!isMounted || !mapContainerRef.current) return;
+
+      const map = L.map(mapContainerRef.current, {
+        center: [39.9, 31.0],
+        zoom: 7,
+        zoomControl: true,
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors, CartoDB',
+        maxZoom: 18,
+      }).addTo(map);
+
+      const latlngs: [number, number][] = [];
+
+      waypoints.forEach((wp, idx) => {
+        latlngs.push([wp.lat, wp.lon]);
+
+        const customIcon = L.divIcon({
+          className: 'route-marker',
+          html: `
+            <div style="
+              background: ${idx === 0 ? '#0284c7' : idx === waypoints.length - 1 ? '#10b981' : '#f59e0b'};
+              color: #ffffff;
+              padding: 4px 8px;
+              border-radius: 10px;
+              font-size: 11px;
+              font-weight: bold;
+              white-space: nowrap;
+              border: 1px solid #ffffff;
+              box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+            ">
+              ${idx + 1}. ${wp.name}: ${wp.temp}°C
+            </div>
+          `,
+        });
+
+        L.marker([wp.lat, wp.lon], { icon: customIcon }).addTo(map);
+      });
+
+      // Draw Route Polyline
+      L.polyline(latlngs, {
+        color: '#0284c7',
+        weight: 4,
+        opacity: 0.8,
+        dashArray: '8, 8',
+      }).addTo(map);
+
+      // Fit map bounds to show full route
+      const bounds = L.latLngBounds(latlngs);
+      map.fitBounds(bounds, { padding: [40, 40] });
+
+      mapInstanceRef.current = map;
+    }
+
+    initRouteMap();
+
+    return () => {
+      isMounted = false;
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [waypoints]);
 
   return (
     <div className="space-y-6">
@@ -141,10 +221,10 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Navigation className="w-5 h-5 text-sky-500" />
-              Ülke İçi Şehirler Arası Rota & Seyahat Gardırobu
+              Şehirler Arası Rota & Seyahat Gardırobu
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Yol boyunca değişen rakım ve mikro-iklim şartlarına göre durak durak giysi planlaması
+              OpenStreetMap (Organic Maps veri tabanı) üzerinde canlı yol haritası ve durak analizi
             </p>
           </div>
         </div>
@@ -236,6 +316,11 @@ export function RoutePlanner({ currentCity }: RoutePlannerProps) {
             />
           </div>
         </div>
+      </div>
+
+      {/* Real Interactive Route Map */}
+      <div className="w-full h-[320px] sm:h-[380px] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-inner relative">
+        <div ref={mapContainerRef} className="w-full h-full z-0" />
       </div>
 
       {/* Waypoint Steps & Clothing Tips */}
