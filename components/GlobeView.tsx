@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { CARTO_VOYAGER_TILE_URL, MAP_ATTRIBUTION } from '@/lib/map-config';
 import { Plane, AlertTriangle, ShieldCheck, Thermometer, ArrowRight, Compass, Map, Globe2 } from 'lucide-react';
 
 interface FlightRoute {
@@ -82,10 +83,10 @@ export function GlobeView() {
   const mapInstanceRef = useRef<any>(null);
 
   const [selectedRoute, setSelectedRoute] = useState<FlightRoute>(POPULAR_FLIGHT_ROUTES[0]);
-  const [viewStyle, setViewStyle] = useState<'3d' | 'map'>('map');
+  const [viewStyle, setViewStyle] = useState<'map' | '3d'>('map');
   const rotationRef = useRef<number>(0);
 
-  // Initialize Real Leaflet World Map when 'map' view is selected
+  // Initialize Real Leaflet World Map with CARTO Voyager Raster Basemap
   useEffect(() => {
     let isMounted = true;
 
@@ -107,22 +108,24 @@ export function GlobeView() {
         zoomControl: true,
       });
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap contributors, CartoDB',
-        maxZoom: 18,
+      // CARTO Voyager Tile Layer with official key
+      L.tileLayer(CARTO_VOYAGER_TILE_URL, {
+        attribution: MAP_ATTRIBUTION,
+        maxZoom: 19,
+        subdomains: 'abcd',
       }).addTo(map);
 
       // Add Origin Marker
       const originIcon = L.divIcon({
         className: 'origin-marker',
-        html: `<div style="background:#0284c7; color:#fff; padding:3px 6px; border-radius:8px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid #fff; box-shadow:0 2px 4px rgba(0,0,0,0.2);">🛫 ${selectedRoute.fromName} (${selectedRoute.fromTemp}°C)</div>`,
+        html: `<div style="background:#0284c7; color:#fff; padding:4px 8px; border-radius:10px; font-size:11px; font-weight:bold; white-space:nowrap; border:2px solid #fff; box-shadow:0 3px 6px rgba(0,0,0,0.3);">🛫 ${selectedRoute.fromName} (${selectedRoute.fromTemp}°C)</div>`,
       });
       L.marker([selectedRoute.fromLat, selectedRoute.fromLon], { icon: originIcon }).addTo(map);
 
       // Add Destination Marker
       const destIcon = L.divIcon({
         className: 'dest-marker',
-        html: `<div style="background:#ef4444; color:#fff; padding:3px 6px; border-radius:8px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid #fff; box-shadow:0 2px 4px rgba(0,0,0,0.2);">🛬 ${selectedRoute.toName} (${selectedRoute.toTemp}°C)</div>`,
+        html: `<div style="background:#ef4444; color:#fff; padding:4px 8px; border-radius:10px; font-size:11px; font-weight:bold; white-space:nowrap; border:2px solid #fff; box-shadow:0 3px 6px rgba(0,0,0,0.3);">🛬 ${selectedRoute.toName} (${selectedRoute.toTemp}°C)</div>`,
       });
       L.marker([selectedRoute.toLat, selectedRoute.toLon], { icon: destIcon }).addTo(map);
 
@@ -133,8 +136,8 @@ export function GlobeView() {
       ];
       L.polyline(latlngs as any, {
         color: '#f59e0b',
-        weight: 3,
-        dashArray: '6, 6',
+        weight: 3.5,
+        dashArray: '8, 8',
       }).addTo(map);
 
       mapInstanceRef.current = map;
@@ -293,7 +296,7 @@ export function GlobeView() {
               Uluslararası Rota & Dünya Haritası
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Açık kaynaklı OpenStreetMap / Organic Maps tabanlı gerçek küresel harita ve 3D projeksiyon
+              CARTO Voyager küresel raster harita ve 3D dünya küresi entegrasyonu
             </p>
           </div>
 
@@ -309,7 +312,7 @@ export function GlobeView() {
                 }`}
               >
                 <Map className="w-3.5 h-3.5" />
-                Gerçek Harita (OpenStreetMap)
+                Gerçek Harita (CARTO)
               </button>
               <button
                 onClick={() => setViewStyle('3d')}

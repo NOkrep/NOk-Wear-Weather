@@ -1,98 +1,109 @@
 # 🌦️ Wear Weather (by NOk)
-## Sistem Mimarisi, API Entegrasyonları ve Tasarım Haritası (v2.3)
+## Sistem Mimarisi, API Entegrasyonları ve Tasarım Haritası (v0.2.1)
 
-**Organizasyon:** NOk  
+**Organizasyon:** NOk Collective  
 **Uygulama Adı:** Wear Weather  
-**Vizyon:** Hobi ve yenilikçi deneyler üreten bağımsız ekibimiz (NOk) tarafından geliştirilen; gizlilik odaklı, çok kaynaklı hava durumu konsensüsü sağlayan, renk ve malzeme bilimine dayalı akıllı giyim ve rota asistanı.
+**Güncel Sürüm:** `v0.2.1`  
+**Vizyon:** Hobi ve yenilikçi deneyler üreten bağımsız ekibimiz (NOk) tarafından geliştirilen; gizlilik odaklı, çok kaynaklı hava durumu konsensüsü sağlayan, CARTO Voyager haritalı, OSRM gerçek rota motorlu, renk ve malzeme bilimine dayalı akıllı giyim ve seyahat asistanı.
 
 ---
 
-## 1. 🌐 Hava Durumu API Kaynakları Analizi (Multi-Source Orkestrasyonu)
+## 1. 🗺️ Harita ve Navigasyon Altyapısı (CARTO & OSRM)
 
-Sistem, tek bir sağlayıcıya bağımlı kalmadan en az 3 bağımsız meteorolojik kaynaktan veri alarak medyan/ağırlıklı ortalama oluşturan modüler bir **"Hava Durumu Orkestratörü (Weather Aggregator)"** mimarisi kullanır.
+Uygulama, statik veya kısıtlı şehir listelerinden tamamen bağımsız, dünya çapında çalışan gerçek bir coğrafi navigasyon ve harita ekosistemine sahiptir:
 
-### A. Anahtarsız (API Key İstemeyen) Açık ve Güvenilir Kaynaklar (Kullanıma Hazır)
+### A. CARTO Voyager Yüksek Çözünürlüklü Harita Katmanı
+* **Lisanslı Basemap Entegrasyonu:** CARTO'nun resmi Voyager raster harita servisi sisteme entegre edilmiştir (`key=cb1_4dgh_1_fb67c545080244da64b27f70`).
+* **Kapasite & Kalite:** Aylık 5 milyon isteğe kadar ücretsiz, filigransız (no watermark), net sokak ve sahil detayları.
+* **Tüm Modlarda Aktif:** Şehir/İlçe haritası, Şehirler arası karayolu haritası ve Uluslararası dünya haritasında kusursuz çalışır.
 
-| Kaynak / Servis | Model / Altyapı | Ücretsiz Kullanım Limiti | Entegrasyon Özellikleri |
+### B. Canlı Harita Tıklaması & Tersine Coğrafi Kodlama (Reverse Geocoding)
+* Kullanıcı harita üzerinde dünya genelinde **herhangi bir noktaya tıkladığında**, sunucu tarafındaki `/api/geocode` rotası koordinatları anında çözümler:
+  * Tıklanan noktanın gerçek İlçe, Şehir ve Ülke adı bulunur.
+  * O koordinatın 3+ kaynaktan canlı meteorolojik konsensüsü çekilir.
+  * O konuma özel katmanlı/tekli kıyafet reçetesi anında ekrana yansıtılır.
+
+### C. Dünya Çapında Canlı Otomatik Tamamlama (Global Search Autocomplete)
+* Arama motoru Türkiye'deki tüm mahalle/ilçeler dahil olmak üzere dünya üzerindeki tüm yerleşim yerlerini destekler (`/api/geocode?q=...`).
+* Kullanıcı arama yaptığında harita yumuşak bir animasyonla (`flyTo`) hedef konuma odaklanır.
+
+### D. Gerçek Karayolu Rota Motoru (OSRM - Open Source Routing Machine)
+* Şehirler arası seyahatlerde yapay çizgiler yerine **gerçek otoyol ve karayolu geometrisi (polyline)** çizilir (`/api/route`).
+* Gerçek karayolu mesafesi (km) ve tahmini sürüş süresi hesaplanır.
+* Otoyol güzergahı boyunca duraklar (ör. dağ geçitleri, mola tesisleri) dinamik olarak örneklenerek durak bazlı iklim şoku ve kıyafet uyarıları sunulur.
+
+---
+
+## 2. 🌐 Çok Kaynaklı Hava Durumu Konsensüsü (Weather Aggregator)
+
+Sistem en az 3 bağımsız meteorolojik kaynaktan veri alarak ağırlıklı ortalama ve güven puanı (%) hesaplar:
+
+| Kaynak / Servis | Model / Altyapı | Durum | Özellikler |
 | :--- | :--- | :--- | :--- |
-| **1. Open-Meteo** (`api.open-meteo.com`) | ECMWF, GFS, DWD ICON küresel modelleri | Günde **yaklaşık 10.000 istek** (açık kullanım) | API anahtarı gerekmez. Saatlik sıcaklık, bağıl nem, çiy noktası, rüzgar hamlesi, yağış miktarı, UV indeksi ve bulutluluk verilerini yüksek doğrulukla döndürür. |
-| **2. MET Norway** (`api.met.no` - Locationforecast 2.0) | Norveç Meteoroloji Enstitüsü & ECMWF | Kamu hizmeti olarak ücretsiz ve anahtarsız | API anahtarı gerekmez; HTTP başlığında tanımlayıcı bir `User-Agent` (`WearWeatherApp/1.0 NOk-org@weathrobe.internal`) iletilmelidir. Dünya çapında yüksek çözünürlüklü saatlik tahmin ve WMO hava sembolleri sunar. |
-| **3. Bright Sky / DWD** (`api.brightsky.dev`) | Deutscher Wetterdienst (Alman Devlet Meteoroloji Servisi) | Tamamen açık kaynak ve anahtarsız | DWD meteoroloji verilerini temiz REST JSON formatında sunar. Küresel tahminler ve özellikle Avrupa/Türkiye coğrafyasında ICON modeli verisi sağlar. |
+| **1. Open-Meteo** | ECMWF, NOAA GFS, DWD ICON | **Aktif** (Anahtarsız) | Saatlik sıcaklık, bağıl nem, çiy noktası, rüzgar hamlesi, UV ve yağış olasılığı. |
+| **2. MET Norway (Yr.no)** | Norveç Meteoroloji Enstitüsü | **Aktif** (Anahtarsız) | İskandinav ve Avrupa yüksek çözünürlüklü modelleri. |
+| **3. DWD / Bright Sky** | Deutscher Wetterdienst (Alman Devlet Servisi) | **Aktif** (Anahtarsız) | ICON küresel hava modeli verisi. |
+| **Opsiyonel Ek Kaynaklar** | WeatherAPI, OpenWeatherMap, Tomorrow.io | **Destekleniyor** | Arayüzdeki "Kaynaklar" modalından kullanıcı kendi API anahtarlarını ekleyebilir. |
 
 ---
 
-### B. API Key Gerektiren Yüksek Güvenilirlikli Kaynaklar (Opsiyonel / Ek Kaynaklar)
+## 3. 👔 Kapsayıcı Kıyafet Mimarisi: Bütçe Segmentleri & Katmanlama
 
-| Servis | Ücretsiz Kullanım Kotası (Yaklaşık Değerler)* | Entegrasyon Kolaylığı & Sağlanan Veriler |
-| :--- | :--- | :--- |
-| **1. WeatherAPI.com** | Ayda **yaklaşık 100.000 istek**, saniyede 10 istek (Kredi kartı gerekmez) | Basit bir `key` parametresiyle anlık hava, 14 güne kadar saatlik tahmin, hava kalitesi, UV ve rüzgar detayları. |
-| **2. OpenWeatherMap** | Klasik Ücretsiz Plan: Dakikada 60 istek, ayda **yaklaşık 1.000.000 istek** (Kredi kartı gerekmez) | Standart `/data/2.5/forecast` uç noktası ile 5 günlük / 3 saatlik ayrıntılı tahminler, rüzgar yönü ve yağış olasılığı. |
-| **3. Tomorrow.io** | Günde **yaklaşık 500 istek**, saatte 25 istek (Kredi kartı gerekmez) | 80'den fazla meteoroloji katmanı, yüksek çözünürlüklü 5 günlük tahmin ve hassas hava kalitesi/nem profili. |
+Platform, toplumun tüm kesimlerine hitap edecek şekilde **iki eksenli hibrit bir giyim motoru** barındırır:
 
-*\*Not: Ücretsiz kotalar sağlayıcıların güncel kullanım şartlarına bağlı olarak değişkenlik gösterebilir; birincil kaynaklarından teyit edilmesi önerilir.*
+### A. Bütçe ve Malzeme Segmentleri
+1. **Erişilebilir & Temel Segment (Bütçe Dostu):**
+   * Herkesin gardırobunda bulunan temel parçalar: Pamuklu basic tişört, pamuk/flanel gömlek, polar sweatshirt, standart denim ceket, trençkot, kanvas spor ayakkabı, klasik şemsiye.
+2. **Premium & İleri Kumaşlar Segmenti:**
+   * İleri malzeme bilimi ve üst segment kumaşlar: Merinos yünü termal içlikler, kaşmir trikolar, Gore-Tex su geçirmez membranlar, DWR kaplamalı rüzgarlıklar, İtalyan keteni, Vibram tabanlı deri botlar.
 
----
+### B. Giyim Yaklaşımları
+1. **Modüler Katmanlama (Layering Timeline):**
+   * Günün saatlerine göre giysi birleştirme ve ayırma zaman çizelgesi:
+   * *Sabah (07:30 - 10:30):* 3 Katman aktif (Tişört + Gömlek/Hırka + Ceket kapalı).
+   * *Öğle (12:00 - 16:00):* Ceketi çıkar ve çantaya/omza as, gömleğin kollarını kıvır (1-2 Katman).
+   * *Akşam (18:30 - 22:30):* Ceketi tekrar giy, akşam serinliğine karşı göğsü kapat.
+2. **Doğrudan & Tekli Kombin (Direct Outfit):**
+   * Katmanlarla uğraşmak istemeyenler için hava durumuna uygun hazır setler.
+3. **"Bu Parçayla Kombinle" (Anchor Item Matching Engine):**
+   * Kullanıcının dolabından seçtiği ana parçaya (Mavi Denim Ceket, Bej Trençkot, Siyah Deri Ceket, Gri Hoodie vb.) göre hem hava koşullarına hem de renk uyumuna uygun tamamlayıcı parçaların üretilmesi.
 
-## 2. 🛡️ Gizlilik ve Konum Belirleme Mimarisi
-
-* **Konum Hassasiyeti İndirgeme (Location Obfuscation):** Tarayıcı Geolocation API'sinden gelen hassas enlem/boylam koordinatları anında ~10-15 km yarıçapında yuvarlanır. Sunucuya veya yerel depolamaya cadde, bina veya açık IP adresi kaydedilmez.
-* **Tersine Coğrafi Kodlama (Reverse Geocoding):** Noktasal veri sadece **Ülke / İl (Şehir) / İlçe** adını belirlemek için kullanılır.
-* **Manuel Arama & Seçim:** Konum izni vermek istemeyen kullanıcılar için Türkiye'nin 81 ili ve 900+ ilçesi öncelikli olmak üzere, dünya çapında tüm şehirleri kapsayan anlık arama motoru mevcuttur.
-
----
-
-## 3. 🎨 Renk Dinamikleri & "Bu Parçayla Kombinle" (Anchor Item) Motoru
-
-Kıyafet önerilerinde estetik ve kumaşın yanı sıra **termo-optik renk etkisi** ve **kullanıcının seçtiği bir parça etrafında gardırop kurma** yeteneği eklenmiştir:
-
-### A. Kıyafet Renklerinin Termal ve Meteorolojik Etkisi
-* **Yüksek UV & Sıcak (> 24°C / UV > 5):** Açık renkler (Beyaz, kırık beyaz, bej, açık pastel tonlar) güneş ışınlarını yansıtarak vücut ısısının yükselmesini engeller.
-* **Soğuk & Güneşli Kış Günleri (< 10°C):** Koyu renkler (Siyah, antrasit, lacivert) güneş ışığını soğurarak ısı tutulmasına yardımcı olur.
-* **Yağışlı & Çamurlu Havalar:** Açık renk pantolon veya ayakkabılardan kaçınma; koyu veya su geçirmez koyu tonlu alt giyim tavsiyesi.
-
-### B. "Bu Parçayla Kombinle" (Anchor Item Matching Engine)
-Kullanıcı "Bugün mavi denim ceketimi giymek istiyorum" veya "Siyah trençkotumu seçtim" dediğinde sistem:
-1. Seçilen ana parçayı kilitler (Anchor item).
-2. O günkü hava durumuna göre (sabah/öğle/akşam sıcaklıkları) bu parçanın yetersiz kalacağı veya fazla geleceği saatleri tespit eder.
-3. Hem **renk uyumuna** (Örn: Mavi denim ceket altına beyaz basic t-shirt + bej chino veya koyu gri pantolon) hem de **hava şartlarına** göre parçayı tamamlayan iç katman, alt giyim ve aksesuarları üretir.
+### C. Termal ve Optik Renk Bilimi
+* **Yüksek UV & Sıcak (> 24°C):** Güneş ışığını yansıtan açık renkler (Beyaz, bej, açık pastel).
+* **Soğuk Kış (< 10°C):** Isıyı soğuran ve muhafaza eden koyu tonlar (Siyah, antrasit, lacivert).
+* **Yağışlı & Çamurlu Havalar:** Leke ve su sıçramalarına karşı koyu renk alt giyim önerileri.
 
 ---
 
-## 4. 👔 Çift Bütçe Segmenti & Çift Giyim Yaklaşımı
-
-1. **Bütçe Segmentleri:**
-   * **Temel & Erişilebilir (Bütçe Dostu):** Pamuk basic t-shirt, standart flanel/pamuk gömlek, polar, denim ceket, standart trençkot, kanvas spor ayakkabı, klasik şemsiye.
-   * **Premium & İleri Kumaşlar:** Merinos yünü, kaşmir, Gore-Tex su geçirmez membranlar, DWR kaplamalı teknik rüzgarlık, İtalyan keteni, Vibram tabanlı deri botlar.
-2. **Giyim Yaklaşımları:**
-   * **Modüler Katmanlama (Layering Timeline):** Sabah (3 Katman), Öğle (Ceketi çıkar/kolları kıvır), Akşam (Tekrar giy).
-   * **Doğrudan & Tekli Kombin (Direct Outfit):** Tek parça kalın kazak/kaban veya tek parça ince keten gömlek.
-
----
-
-## 5. 🎨 Adaptif ve Çift Katmanlı Tema Mimarisi
+## 4. 🎨 Çift Tema ve Dinamik Ambiyans
 
 * Manuel **Koyu (Dark)** ve **Açık (Light)** tema seçici.
-* **Dinamik Hava Durumu Ambiyansı:** Güneşli, Yağmurlu, Karlı, Fırtınalı, Sisli ve Gece hava koşullarına göre akıcı arayüz renk uyarlaması.
+* **Dinamik Hava Ambiyansı:** Güneşli, Yağmurlu, Karlı, Fırtınalı, Sisli ve Gece koşullarına göre arka plan ve vurgu renklerinin otomatik adaptasyonu.
 
 ---
 
-## 6. 🗺️ Harita ve Seyahat Deneyimi (Firefox Öncelikli)
-
-1. **Şehir İçi Harita:** İlçe sınırları/vektör haritası, ilçe hava durumu pinleri ve tıklandığında açılan detaylı giysi/kombin listesi.
-2. **Şehirler Arası Rota:** Ulaşım aracı (Araç, Otobüs, Tren) ve kalkış saatine göre yol üzerindeki mola noktalarında hava tahmini.
-3. **Uluslararası Rota (3D Küre):** Three.js ile Firefox uyumlu 3D Dünya Küresi üzerinde uçuş yayı ve hedef ülke iklim şoku önlemleri.
-
----
-
-## 7. 💬 Global Geri Bildirim ve Doğruluk Değerlendirme Sistemi
+## 5. 💬 Global Geri Bildirim Sistemi
 
 * 1-5 Yıldız tahmin doğruluğu.
 * Kaynak kıyaslama ("Open-Meteo mu, MET Norway mi, DWD mi daha doğruydu?").
-* Kıyafet ve renk isabeti ("Üşüttü", "Terletti", "Renk güneş altında fazla sıcaktı", "Tam İsabet").
-* Yerel depolama ve tek tıkla dışa aktarılabilir rapor formatı.
+* Kıyafet isabeti ("Üşüttü", "Terletti", "Islattı", "Tam İsabet").
+* Yerel depolama ve tek tıkla dışa aktarılabilir JSON rapor formatı.
 
 ---
 
-## 8. 🏢 NOk Organizasyon Künyesi
+## 6. ☁️ Dağıtım Altyapısı (Oracle Cloud Free Tier)
 
-* **Geliştirici Kolektifi:** NOk (Yenilikçi tarayıcı eklentileri, etkileşimli dublaj projeleri ve akıllı web deneyleri geliştiren bağımsız yaratıcı ekip).
+* **Multi-Stage Dockerfile:** Next.js Standalone modunda çalışan, ultra hafif konteyner.
+* **docker-compose.yml:** Tek komutla (`docker compose up -d --build`) ayağa kalkma garantisi.
+* **ORACLE_CLOUD_DEPLOY_GUIDE.md:** VM oluşturma, firewall/port açma, Nginx reverse proxy ve Let's Encrypt ücretsiz SSL kurulum kılavuzu.
+
+---
+
+## 7. 🔮 Gelecek Planları ve Yol Haritası (Roadmap)
+
+| Aşama | Hedeflenen Özellik | Açıklama |
+| :--- | :--- | :--- |
+| **v0.3.0** | **Dijital Gardırop (My Wardrobe)** | Kullanıcının kendi sahip olduğu giysileri dolabına kaydetmesi ve kombin önerilerinin sadece kendi dolabındaki parçalardan türetilmesi. |
+| **v0.4.0** | **PWA & Çevrimdışı Çalışma (Offline Mode)** | Web App Manifest ve Service Worker ile cep telefonlarına "Uygulama Olarak Yükle" desteği ve son rota verilerinin çevrimdışı önbelleklenmesi. |
+| **v0.5.0** | **Kıyafet Üreticileri Entegrasyonu** | Eksik katmanlar için kullanıcı dilerse doğrudan üretici ve e-ticaret ürün önerileri (Affiliate / Sponsorlu içerik altyapısı). |
+| **v1.0.0** | **Topluluk Geri Bildirim Haritası** | Global kullanıcıların girdiği hava/kıyafet geri bildirimlerinin harita üzerinde ısı haritası (heat-map) olarak gösterilmesi. |

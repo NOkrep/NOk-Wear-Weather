@@ -366,7 +366,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-900 dark:text-white">Wear Weather</span>
             <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              v0.2.0
+              v0.2.1
             </span>
             <span>&bull;</span>
             <span>Developed by <strong className="text-slate-700 dark:text-slate-300">NOk</strong> Collective</span>
