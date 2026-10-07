@@ -2,7 +2,7 @@
 ## Sistem Mimarisi, API Entegrasyonları ve Tasarım Haritası (v0.2.1)
 
 **Organizasyon:** NOk Collective  
-**Uygulama Adı:** Wear Weather  
+**Uygulama Adı:** Weathrobe / Wear Weather  
 **Güncel Sürüm:** `v0.2.1`  
 **Vizyon:** Hobi ve yenilikçi deneyler üreten bağımsız ekibimiz (NOk) tarafından geliştirilen; gizlilik odaklı, çok kaynaklı hava durumu konsensüsü sağlayan, CARTO Voyager haritalı, OSRM gerçek rota motorlu, renk ve malzeme bilimine dayalı akıllı giyim ve seyahat asistanı.
 
