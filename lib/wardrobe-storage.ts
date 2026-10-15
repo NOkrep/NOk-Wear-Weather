@@ -1,3 +1,4 @@
+import { itemComfortAdjustment, readFeedback } from './comfort';
 import { ClothingItem, WeatherConsensus, WardrobeOutfitMatch } from './types';
 
 const WARDROBE_STORAGE_KEY = 'wear_weather_user_wardrobe_v1';
@@ -216,6 +217,7 @@ export function matchFromUserWardrobe(
   else if (effectiveTemp <= 23) targetWarmth = 2;
   else targetWarmth = 1;
 
+  const comfortRecords = readFeedback();
   const scoreItem = (item: ClothingItem): number => {
     let score = 100 - Math.abs(item.warmth - targetWarmth) * 22;
 
@@ -237,7 +239,7 @@ export function matchFromUserWardrobe(
       else if (item.windResistance === 'medium') score += 6;
     }
 
-    return score;
+    return score + itemComfortAdjustment(item, weather, comfortRecords);
   };
 
   const pickBest = (category: ClothingItem['category']): ClothingItem | null => {

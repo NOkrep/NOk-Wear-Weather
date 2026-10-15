@@ -76,6 +76,11 @@ export interface ClothingItem {
   brandHint?: string;
   isAnchorCompatible?: boolean;
   isUserOwned?: boolean;
+  catalogId?: string;
+  barcode?: string;
+  productUrl?: string;
+  dataSource?: 'template' | 'barcode' | 'user';
+  materialConfirmed?: boolean;
 }
 
 export interface LayerTimelineStep {
@@ -122,6 +127,16 @@ export interface FeedbackRecord {
   bestSource: string;
   clothingResult: 'froze' | 'sweated' | 'wet' | 'color_hot' | 'perfect';
   notes: string;
+  context?: {
+    worn: true;
+    items: { key: string; name: string; category: ClothingItem['category'] }[];
+    itemKey?: string;
+    feelsLike: number;
+    windSpeed: number;
+    precipitationProb: number;
+    activity: 'resting' | 'walking' | 'active';
+    liveWeather: boolean;
+  };
 }
 
 export interface ThermalProfile {

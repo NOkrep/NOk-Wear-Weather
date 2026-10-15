@@ -1,3 +1,4 @@
+import { computeThermalProfile, readFeedback } from './comfort';
 import {
   LocationInfo,
   WeatherConsensus,
@@ -20,45 +21,7 @@ export function getStoredCustomKeys(): CustomApiKeys {
 }
 
 export function getPersonalThermalProfile(): ThermalProfile {
-  if (typeof window === 'undefined') {
-    return { offsetC: 0, feedbackCount: 0, label: 'Standart Profil' };
-  }
-  try {
-    const raw = localStorage.getItem('wear_weather_feedbacks');
-    if (!raw) {
-      return { offsetC: 0, feedbackCount: 0, label: 'Standart Profil' };
-    }
-    const feedbacks: FeedbackRecord[] = JSON.parse(raw);
-    if (!Array.isArray(feedbacks) || feedbacks.length === 0) {
-      return { offsetC: 0, feedbackCount: 0, label: 'Standart Profil' };
-    }
-
-    const recent = feedbacks.slice(0, 10);
-    let rawOffset = 0;
-    for (const fb of recent) {
-      if (fb.clothingResult === 'froze') {
-        rawOffset -= 1.5;
-      } else if (fb.clothingResult === 'sweated' || fb.clothingResult === 'color_hot') {
-        rawOffset += 1.5;
-      }
-    }
-
-    const clamped = Math.max(-4, Math.min(4, Math.round(rawOffset * 10) / 10));
-    let label = 'Dengeli Profil (0°C)';
-    if (clamped <= -1) {
-      label = `Soğuğa Hassas (${clamped}°C)`;
-    } else if (clamped >= 1) {
-      label = `Sıcağa Hassas (+${clamped}°C)`;
-    }
-
-    return {
-      offsetC: clamped,
-      feedbackCount: feedbacks.length,
-      label,
-    };
-  } catch {
-    return { offsetC: 0, feedbackCount: 0, label: 'Standart Profil' };
-  }
+  return computeThermalProfile(readFeedback());
 }
 
 export async function fetchWeatherConsensus(location: LocationInfo): Promise<WeatherConsensus> {

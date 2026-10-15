@@ -1,6 +1,8 @@
 'use client';
-
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useLocale } from '@/lib/i18n';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { LocationSearch } from '@/components/LocationSearch';
+import { BrandMark } from '@/components/BrandMark';
 import { Navbar } from '@/components/Navbar';
 import { RealCityMap } from '@/components/RealCityMap';
 import { HourlyForecastChart } from '@/components/HourlyForecastChart';
@@ -8,533 +10,178 @@ import { OutfitRecommendation } from '@/components/OutfitRecommendation';
 import { FeedbackModal } from '@/components/FeedbackModal';
 import { SourceSettingsModal } from '@/components/SourceSettingsModal';
 import { WardrobeModal } from '@/components/WardrobeModal';
-import {
-  LocationInfo,
-  WeatherCondition,
-  ThermalProfile,
-  ClothingItem,
-  ItineraryStop,
-} from '@/lib/types';
-import {
-  fetchWeatherConsensus,
-  getPersonalThermalProfile,
-  computeCompositeItineraryWeather,
-  resolveStopWeatherAtTime,
-} from '@/lib/weather-service';
+import type { LocationInfo, WeatherCondition, ThermalProfile, ClothingItem, ItineraryStop } from '@/lib/types';
+import { fetchWeatherConsensus, getPersonalThermalProfile, computeCompositeItineraryWeather, resolveStopWeatherAtTime } from '@/lib/weather-service';
 import { getStoredWardrobe, DEFAULT_WARDROBE_ITEMS } from '@/lib/wardrobe-storage';
-import {
-  ShieldCheck,
-  Wind,
-  Droplets,
-  Sun,
-  Moon,
-  Cloud,
-  CloudRain,
-  CloudLightning,
-  CloudSnow,
-  LocateFixed,
-  Shirt,
-  Database,
-} from 'lucide-react';
-
-// Dynamic Weather Design Palette (Orbyte + Atmospheric Weather Reactive)
-function getWeatherThemePalette(cond: WeatherCondition) {
-  switch (cond) {
-    case 'sunny':
-      return {
-        label: '☀️ Güneşli & Sıcak Ambiyans',
-        accentHex: '#f59e0b',
-        pageTint: 'bg-amber-500/[0.04] dark:bg-amber-500/[0.03]',
-        cardBorder: 'border-amber-500/35 dark:border-amber-500/30',
-        badgeClass: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
-        heroGradient: 'from-amber-500/20 via-orange-500/5 to-transparent',
-      };
-    case 'rainy':
-      return {
-        label: '🌧️ Yağışlı Okyanus Ambiyansı',
-        accentHex: '#0284c7',
-        pageTint: 'bg-sky-500/[0.05] dark:bg-sky-500/[0.04]',
-        cardBorder: 'border-sky-500/40 dark:border-sky-500/30',
-        badgeClass: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
-        heroGradient: 'from-sky-500/20 via-blue-600/5 to-transparent',
-      };
-    case 'stormy':
-      return {
-        label: '⚡ Fırtına & Sağanak Ambiyansı',
-        accentHex: '#8b5cf6',
-        pageTint: 'bg-purple-500/[0.05] dark:bg-purple-500/[0.04]',
-        cardBorder: 'border-purple-500/40 dark:border-purple-500/30',
-        badgeClass: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
-        heroGradient: 'from-purple-500/20 via-indigo-600/5 to-transparent',
-      };
-    case 'snowy':
-      return {
-        label: '❄️ Kristal Kar & Ayaz Ambiyansı',
-        accentHex: '#06b6d4',
-        pageTint: 'bg-cyan-500/[0.05] dark:bg-cyan-500/[0.04]',
-        cardBorder: 'border-cyan-400/45 dark:border-cyan-400/30',
-        badgeClass: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border-cyan-500/30',
-        heroGradient: 'from-cyan-400/20 via-sky-300/5 to-transparent',
-      };
-    case 'clear_night':
-      return {
-        label: '🌙 Açık Gece Ambiyansı',
-        accentHex: '#6366f1',
-        pageTint: 'bg-indigo-500/[0.05] dark:bg-indigo-500/[0.04]',
-        cardBorder: 'border-indigo-500/35 dark:border-indigo-500/30',
-        badgeClass: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
-        heroGradient: 'from-indigo-500/20 via-slate-800/5 to-transparent',
-      };
-    default:
-      return {
-        label: '⛅ Dengeli Kuzey Ambiyansı',
-        accentHex: '#0ea5e9',
-        pageTint: 'bg-slate-100 dark:bg-slate-950',
-        cardBorder: 'border-slate-200/90 dark:border-slate-800',
-        badgeClass: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
-        heroGradient: 'from-sky-500/15 via-teal-500/5 to-transparent',
-      };
-  }
+import { getWeatherTheme } from '@/lib/weather-theme';
+import { Wind, Droplets, Sun, Moon, Cloud, CloudSun, CloudRain, CloudLightning, CloudSnow, Shirt, MapPin, ArrowUpRight, ChevronDown, Plus, LoaderCircle, Clock3, ShieldCheck, RefreshCw, Navigation, X } from 'lucide-react';
+function WeatherIcon({ condition, size = 22 }: {
+    condition: WeatherCondition;
+    size?: number;
+}) {
+    const Icon = ({ sunny: Sun, clear_night: Moon, rainy: CloudRain, stormy: CloudLightning, snowy: CloudSnow, cloudy: Cloud, foggy: Cloud, partly_cloudy: CloudSun })[condition];
+    return <Icon size={size} strokeWidth={1.5} aria-hidden="true"/>;
 }
-
-function getWeatherIcon(cond: WeatherCondition, className = 'w-6 h-6') {
-  switch (cond) {
-    case 'sunny':
-      return <Sun className={`${className} text-amber-500`} />;
-    case 'clear_night':
-      return <Moon className={`${className} text-indigo-400`} />;
-    case 'rainy':
-      return <CloudRain className={`${className} text-sky-500`} />;
-    case 'stormy':
-      return <CloudLightning className={`${className} text-purple-500`} />;
-    case 'snowy':
-      return <CloudSnow className={`${className} text-cyan-400`} />;
-    default:
-      return <Cloud className={`${className} text-slate-400`} />;
-  }
-}
-
 export default function HomePage() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
-  const [mobileTab, setMobileTab] = useState<'outfit' | 'map' | 'hourly'>('outfit');
-
-  const [stops, setStops] = useState<ItineraryStop[]>([
-    {
-      id: 'stop-initial',
-      location: {
-        country: 'Türkiye',
-        city: 'İstanbul',
-        district: 'Kadıköy',
-        lat: 40.992,
-        lon: 29.027,
-      },
-      preferredTime: '',
-    },
-  ]);
-  const [activeStopId, setActiveStopId] = useState<string>('stop-initial');
-
-  const [thermalProfile, setThermalProfile] = useState<ThermalProfile>({
-    offsetC: 0,
-    feedbackCount: 0,
-    label: '0°C',
-  });
-  const [wardrobe, setWardrobe] = useState<ClothingItem[]>(DEFAULT_WARDROBE_ITEMS);
-  const [isLocating, setIsLocating] = useState<boolean>(false);
-  const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
-  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
-  const [isWardrobeModalOpen, setIsWardrobeModalOpen] = useState(false);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') root.classList.add('dark');
-    else root.classList.remove('dark');
-  }, [theme]);
-
-  useEffect(() => {
-    setThermalProfile(getPersonalThermalProfile());
-    setWardrobe(getStoredWardrobe());
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(() => {});
-    }
-  }, []);
-
-  const refreshAllStopsWeather = useCallback(() => {
-    setStops((prev) => {
-      prev.forEach((st) => {
-        fetchWeatherConsensus(st.location).then((w) => {
-          setStops((current) =>
-            current.map((item) => (item.id === st.id ? { ...item, weather: w } : item))
-          );
-        });
-      });
-      return prev;
-    });
-  }, []);
-
-  useEffect(() => {
-    refreshAllStopsWeather();
-  }, [refreshAllStopsWeather]);
-
-  const activeStop = useMemo(
-    () => stops.find((s) => s.id === activeStopId) || stops[0],
-    [stops, activeStopId]
-  );
-
-  const compositeWeather = useMemo(
-    () => computeCompositeItineraryWeather(stops, activeStop?.weather || null),
-    [stops, activeStop]
-  );
-
-  const activeStopResolved = useMemo(() => {
-    if (!activeStop?.weather) return null;
-    return resolveStopWeatherAtTime(activeStop.weather, activeStop.preferredTime);
-  }, [activeStop]);
-
-  const currentCondition: WeatherCondition = activeStopResolved
-    ? activeStopResolved.condition
-    : compositeWeather?.condition || 'partly_cloudy';
-
-  const palette = useMemo(() => getWeatherThemePalette(currentCondition), [currentCondition]);
-
-  const handleAddStop = useCallback((loc: LocationInfo, preferredTime?: string) => {
-    const newId = `stop-${Date.now()}`;
-    const newStop: ItineraryStop = {
-      id: newId,
-      location: loc,
-      preferredTime: preferredTime || '',
-    };
-    setStops((prev) => [...prev, newStop]);
-    setActiveStopId(newId);
-
-    fetchWeatherConsensus(loc).then((w) => {
-      setStops((current) =>
-        current.map((item) => (item.id === newId ? { ...item, weather: w } : item))
-      );
-    });
-  }, []);
-
-  const handleUpdateStopLocation = useCallback((id: string, loc: LocationInfo) => {
-    setStops((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, location: loc } : item))
-    );
-    fetchWeatherConsensus(loc).then((w) => {
-      setStops((current) =>
-        current.map((item) => (item.id === id ? { ...item, weather: w } : item))
-      );
-    });
-  }, []);
-
-  const handleUpdateStopTime = useCallback((id: string, time: string) => {
-    setStops((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, preferredTime: time } : item))
-    );
-  }, []);
-
-  const handleRemoveStop = useCallback(
-    (id: string) => {
-      setStops((prev) => {
-        if (prev.length <= 1) return prev;
-        const filtered = prev.filter((item) => item.id !== id);
-        if (activeStopId === id && filtered.length > 0) {
-          setActiveStopId(filtered[0].id);
-        }
-        return filtered;
-      });
-    },
-    [activeStopId]
-  );
-
-  const handleDetectLocation = useCallback(() => {
-    if (!navigator.geolocation) return;
-    setIsLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = Math.round(pos.coords.latitude * 100) / 100;
-        const lon = Math.round(pos.coords.longitude * 100) / 100;
+    const { t, locale } = useLocale();
+    const [theme, setTheme] = useState<'dark' | 'light'>('light');
+    const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
+    const [mobileTab, setMobileTab] = useState<'outfit' | 'map' | 'hourly'>('map');
+    const [stops, setStops] = useState<ItineraryStop[]>([{ id: 'stop-initial', location: { country: 'Türkiye', city: 'İstanbul', district: 'Kadıköy', lat: 40.992, lon: 29.027 }, preferredTime: '' }]);
+    const [activeStopId, setActiveStopId] = useState('stop-initial');
+    const [thermalProfile, setThermalProfile] = useState<ThermalProfile>({ offsetC: 0, feedbackCount: 0, label: '0°C' });
+    const [wardrobe, setWardrobe] = useState<ClothingItem[]>(DEFAULT_WARDROBE_ITEMS);
+    const [isLocating, setIsLocating] = useState(false);
+    const [locationError, setLocationError] = useState('');
+    const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
+    const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+    const [isWardrobeModalOpen, setIsWardrobeModalOpen] = useState(false);
+    const [workspaceMode, setWorkspaceMode] = useState<'route' | 'outfit'>('route');
+    const [feedbackItems, setFeedbackItems] = useState<ClothingItem[]>([]);
+    const [showHourly, setShowHourly] = useState(false);
+    const [dateLabel, setDateLabel] = useState('Bugün');
+    const [pendingWeather, setPendingWeather] = useState(0);
+    const stopsRef = useRef(stops);
+    const weatherRequests = useRef(new Map<string, symbol>());
+    const mounted = useRef(true);
+    useEffect(() => { stopsRef.current = stops; }, [stops]);
+    useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
+    useEffect(() => { document.documentElement.classList.toggle('dark', theme === 'dark'); }, [theme]);
+    useEffect(() => {
+        // Leaflet must measure again after its pane or preview frame becomes visible.
+        const frame = requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+        return () => cancelAnimationFrame(frame);
+    }, [mobileTab, previewDevice, workspaceMode]);
+    useEffect(() => {
+        setThermalProfile(getPersonalThermalProfile());
+        setWardrobe(getStoredWardrobe());
+        setDateLabel(new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'tr-TR', { day: 'numeric', month: 'long', weekday: 'long' }).format(new Date()));
+        if ('serviceWorker' in navigator)
+            navigator.serviceWorker.register('/sw.js').catch(() => { });
+    }, []);
+    useEffect(() => { setDateLabel(new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'tr-TR', { day: 'numeric', month: 'long', weekday: 'long' }).format(new Date())); }, [locale]);
+    const loadStopWeather = useCallback(async (id: string, location: LocationInfo) => {
+        const request = Symbol(id);
+        weatherRequests.current.set(id, request);
+        setPendingWeather(count => count + 1);
         try {
-          const res = await fetch(`/api/geocode?lat=${lat}&lon=${lon}`);
-          if (res.ok) {
-            const data = await res.json();
-            handleUpdateStopLocation(activeStop.id, {
-              country: data.country || 'Türkiye',
-              city: data.city || 'Mevcut Şehir',
-              district: data.district || 'Bulunduğunuz İlçe',
-              lat,
-              lon,
-            });
-            setIsLocating(false);
+            const weather = await fetchWeatherConsensus(location);
+            if (mounted.current && weatherRequests.current.get(id) === request) {
+                setStops(current => current.map(stop => stop.id === id ? { ...stop, weather } : stop));
+            }
+        }
+        finally {
+            if (mounted.current)
+                setPendingWeather(count => Math.max(0, count - 1));
+        }
+    }, []);
+    const refreshAllStopsWeather = useCallback(() => {
+        stopsRef.current.forEach(stop => { void loadStopWeather(stop.id, stop.location); });
+    }, [loadStopWeather]);
+    useEffect(() => { refreshAllStopsWeather(); }, [refreshAllStopsWeather]);
+    const activeStop = useMemo(() => stops.find(stop => stop.id === activeStopId) || stops[0], [stops, activeStopId]);
+    const compositeWeather = useMemo(() => computeCompositeItineraryWeather(stops, activeStop.weather || null), [stops, activeStop.weather]);
+    const resolved = useMemo(() => activeStop.weather ? resolveStopWeatherAtTime(activeStop.weather, activeStop.preferredTime) : null, [activeStop]);
+    const condition = resolved?.condition || 'partly_cloudy';
+    const palette = useMemo(() => getWeatherTheme(condition, theme), [condition, theme]);
+    const availableSources = activeStop.weather?.sources.filter(source => source.isAvailable).length || 0;
+    const hasWeather = Boolean(resolved);
+    const allStopsReady = stops.every(stop => Boolean(stop.weather));
+    const handleAddStop = useCallback((location: LocationInfo, preferredTime = '') => {
+        const id = `stop-${crypto.randomUUID()}`;
+        setStops(current => [...current, { id, location, preferredTime }]);
+        setActiveStopId(id);
+        void loadStopWeather(id, location);
+    }, [loadStopWeather]);
+    const handleUpdateStopLocation = useCallback((id: string, location: LocationInfo) => {
+        setStops(current => current.map(stop => stop.id === id ? { ...stop, location, weather: undefined } : stop));
+        void loadStopWeather(id, location);
+    }, [loadStopWeather]);
+    const handleUpdateStopTime = useCallback((id: string, preferredTime: string) => {
+        setStops(current => current.map(stop => stop.id === id ? { ...stop, preferredTime } : stop));
+    }, []);
+    const handleRemoveStop = useCallback((id: string) => {
+        const remaining = stops.filter(stop => stop.id !== id);
+        if (!remaining.length)
             return;
-          }
-        } catch (e) {
-          console.error(e);
+        weatherRequests.current.delete(id);
+        setStops(remaining);
+        if (activeStopId === id)
+            setActiveStopId(remaining[0].id);
+    }, [stops, activeStopId]);
+    const handleDetectLocation = useCallback(() => {
+        setLocationError('');
+        if (!navigator.geolocation) {
+            setLocationError('Bu cihazda konum kullanılamıyor. Haritadan yer seçebilirsin.');
+            return;
         }
-        setIsLocating(false);
-      },
-      () => setIsLocating(false),
-      { timeout: 8000 }
-    );
-  }, [activeStop.id, handleUpdateStopLocation]);
-
-  return (
-    <div
-      className={`min-h-screen ${palette.pageTint} text-slate-900 dark:text-slate-100 transition-colors duration-300 flex flex-col justify-between`}
-    >
-      <Navbar
-        theme={theme}
-        onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
-        onOpenSources={() => setIsSourceModalOpen(true)}
-        onOpenFeedback={() => setIsFeedbackModalOpen(true)}
-        onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
-        wardrobeCount={wardrobe.length}
-        previewDevice={previewDevice}
-        onTogglePreviewDevice={() =>
-          setPreviewDevice((prev) => (prev === 'desktop' ? 'mobile' : 'desktop'))
-        }
-        weatherLabel={palette.label}
-        accentBadgeClass={palette.badgeClass}
-        accentHex={palette.accentHex}
-      />
-
-      {previewDevice === 'mobile' ? (
-        <div className="py-6 px-3 flex justify-center items-center flex-1">
-          <div className="w-full max-w-[412px] h-[760px] rounded-[42px] bg-slate-50 dark:bg-slate-950 border-[6px] border-slate-800 dark:border-slate-700 shadow-2xl flex flex-col justify-between overflow-hidden relative">
-            <div
-              className="px-5 pt-3 pb-2.5 bg-gradient-to-b border-b flex items-center justify-between"
-              style={{
-                backgroundImage: `linear-gradient(to bottom, ${palette.accentHex}20, transparent)`,
-                borderColor: palette.accentHex + '40',
-              }}
-            >
-              <div className="flex items-center gap-2">
-                {getWeatherIcon(currentCondition, 'w-6 h-6')}
-                <div>
-                  <span className="text-xs font-extrabold block leading-none">
-                    {activeStop.location.district}, {activeStop.location.city}
-                  </span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                    {stops.length} Durak Aktif &bull; His {activeStopResolved?.feelsLike ?? 17}°C
-                  </span>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-2xl font-black leading-none" style={{ color: palette.accentHex }}>
-                  {activeStopResolved?.temp ?? 18}°C
-                </span>
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-3 space-y-3">
-              {mobileTab === 'outfit' && compositeWeather && (
-                <OutfitRecommendation
-                  weather={compositeWeather}
-                  districtName={activeStop.location.district}
-                  countryName={activeStop.location.country}
-                  stopCount={stops.length}
-                  accentHex={palette.accentHex}
-                  thermalProfile={thermalProfile}
-                  wardrobe={wardrobe}
-                  onOpenFeedback={() => setIsFeedbackModalOpen(true)}
-                  onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
-                />
-              )}
-
-              {mobileTab === 'map' && (
-                <RealCityMap
-                  stops={stops}
-                  activeStopId={activeStop.id}
-                  accentHex={palette.accentHex}
-                  onSelectActiveStop={setActiveStopId}
-                  onAddStop={handleAddStop}
-                  onUpdateStopLocation={handleUpdateStopLocation}
-                  onUpdateStopTime={handleUpdateStopTime}
-                  onRemoveStop={handleRemoveStop}
-                  theme={theme}
-                />
-              )}
-
-              {mobileTab === 'hourly' && activeStop?.weather && (
-                <HourlyForecastChart
-                  consensus={activeStop.weather}
-                  districtName={activeStop.location.district}
-                />
-              )}
-            </div>
-
-            <div className="h-15 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-800 px-3 flex items-center justify-around text-[11px] font-bold">
-              <button
-                type="button"
-                onClick={() => setMobileTab('outfit')}
-                className={`flex flex-col items-center gap-0.5 cursor-pointer`}
-                style={{ color: mobileTab === 'outfit' ? palette.accentHex : undefined }}
-              >
-                <Shirt className="w-4 h-4" />
-                <span>Ne Giymeli?</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setMobileTab('map')}
-                className={`flex flex-col items-center gap-0.5 cursor-pointer`}
-                style={{ color: mobileTab === 'map' ? palette.accentHex : undefined }}
-              >
-                <LocateFixed className="w-4 h-4" />
-                <span>Duraklar ({stops.length})</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setMobileTab('hourly')}
-                className={`flex flex-col items-center gap-0.5 cursor-pointer`}
-                style={{ color: mobileTab === 'hourly' ? palette.accentHex : undefined }}
-              >
-                <Sun className="w-4 h-4" />
-                <span>Saatlik</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsWardrobeModalOpen(true)}
-                className="flex flex-col items-center gap-0.5 text-slate-400 hover:opacity-100 cursor-pointer"
-              >
-                <Database className="w-4 h-4" />
-                <span>Katalog</span>
-              </button>
-            </div>
+        setIsLocating(true);
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lat = Math.round(position.coords.latitude * 100) / 100;
+            const lon = Math.round(position.coords.longitude * 100) / 100;
+            try {
+                const response = await fetch(`/api/geocode?lat=${lat}&lon=${lon}`);
+                if (!response.ok)
+                    throw new Error('Geocoding failed');
+                const data = await response.json();
+                handleUpdateStopLocation(activeStop.id, { country: data.country || 'Global', city: data.city || 'Mevcut şehir', district: data.district || 'Konumum', lat, lon });
+            }
+            catch {
+                setLocationError('Konum çözümlenemedi. Haritadan yer seçebilirsin.');
+            }
+            finally {
+                setIsLocating(false);
+            }
+        }, () => { setIsLocating(false); setLocationError('Konuma ulaşılamadı. İznini kontrol edebilir veya haritadan yer seçebilirsin.'); }, { timeout: 8000 });
+    }, [activeStop.id, handleUpdateStopLocation]);
+    const focusMapSearch = useCallback(() => {
+        setMobileTab('map');
+        requestAnimationFrame(() => {
+            document.querySelector<HTMLInputElement>('.map-search-bar input[type="search"]')?.focus();
+            document.getElementById('route-panel')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }, []);
+    return <div className={`weather-app ${previewDevice === 'mobile' ? 'is-app-preview' : ''}`} style={palette.style} data-condition={hasWeather ? condition : 'loading'} data-mode={theme}>
+      <Navbar theme={theme} onToggleTheme={() => setTheme(current => current === 'light' ? 'dark' : 'light')} onOpenSources={() => setIsSourceModalOpen(true)} onOpenFeedback={() => setIsFeedbackModalOpen(true)} onOpenWardrobe={() => setIsWardrobeModalOpen(true)} wardrobeCount={wardrobe.length} previewDevice={previewDevice} onTogglePreviewDevice={() => setPreviewDevice(current => current === 'desktop' ? 'mobile' : 'desktop')} />
+      {previewDevice === 'mobile' && <div className="preview-caption"><span className="preview-indicator" />{t('Canlı uygulama önizlemesi')}<span>390 × 844</span></div>}
+      <div className="app-device">
+        {previewDevice === 'mobile' && <div className="device-status" aria-hidden="true"><span>Weathrobe</span><span className="device-island" /><BrandMark compact /></div>}
+        <main id="main-content" className="app-main">
+          <div className="day-heading"><div><span className="eyebrow">{t('Havanı bil. Gününü yaşa.')}</span><h1>{t('Bugün, sana göre')}<span>.</span></h1></div><span className="day-date">{dateLabel}</span></div>
+          <LocationSearch onSelect={location => handleUpdateStopLocation(activeStop.id, location)} onLocate={handleDetectLocation} isLocating={isLocating} />
+          <section className="weather-overview" aria-label={t('Seçili durağın hava durumu')} aria-busy={pendingWeather > 0}>
+            <div className="weather-location"><div className="location-heading"><MapPin size={15}/><span>{activeStop.location.district}, {activeStop.location.city}</span></div><div className="temperature"><span>{resolved ? Math.round(resolved.temp) : '—'}</span><span className="degree">°</span><div><span className="condition-name">{hasWeather ? t(palette.label) : t('Hava yükleniyor')}</span><span className="feels-like">{resolved ? t(`Hissedilen ${Math.round(resolved.feelsLike)}°`) : t('Kaynaklara bağlanılıyor…')}{activeStop.preferredTime && ` · ${activeStop.preferredTime}`}</span></div></div></div>
+            <div className="weather-art" aria-hidden="true"><span className="weather-orbit orbit-one"/><span className="weather-orbit orbit-two"/><span className="weather-disc"/><WeatherIcon condition={condition} size={98}/></div>
+            <div className="weather-metrics"><div><Droplets size={17}/><span>{t('Yağış')}</span><strong>{resolved ? `${resolved.precipitationProb}%` : '—'}</strong></div><div><Wind size={17}/><span>{t('Rüzgâr')}</span><strong>{resolved?.windSpeed ?? '—'}<small> km/h</small></strong></div><div><Sun size={17}/><span>{t('UV indeksi')}</span><strong>{activeStop.weather?.uvIndex ?? '—'}</strong></div></div>
+          </section>
+          {locationError && <p className="inline-notice" role="alert">{t(locationError)}</p>}
+          {hasWeather && !availableSources && <p className="inline-notice" role="status">{t('Canlı kaynaklara ulaşılamadı. Yedek veriler gösteriliyor; önerileri güncel tahmin olarak değerlendirme.')}<button type="button" className="text-button" onClick={refreshAllStopsWeather} disabled={pendingWeather > 0}><RefreshCw size={14}/>{t('Yenile')}</button></p>}
+          {!allStopsReady && stops.length > 1 && <p className="inline-notice" role="status">{t('Yeni durakların havası alınıyor. Kombin, verisi hazır duraklara göre gösteriliyor.')}</p>}
+          <div className="workspace-mode" role="group" aria-label={t('Çalışma alanı odağı')}><button type="button" aria-pressed={workspaceMode === 'route'} onClick={() => { setWorkspaceMode('route'); setMobileTab('map'); }}><MapPin size={16}/>{t('Rota planla')}</button><button type="button" aria-pressed={workspaceMode === 'outfit'} onClick={() => { setWorkspaceMode('outfit'); setMobileTab('outfit'); }}><Shirt size={16}/>{t('Kombini incele')}</button><span>{t('Önce günün rotası, sonra sana uygun kombin.')}</span></div>
+          <div className={`workspace-grid ${workspaceMode === 'route' ? 'route-focus' : 'outfit-focus'}`}>
+            <section id="route-panel" className={`route-region mobile-pane ${mobileTab === 'map' ? 'mobile-pane-active' : ''}`} aria-label={t('Günlük rota planlayıcısı')}>
+              <div className="route-heading"><div><span className="eyebrow">{t('01 / Günün rotası')}</span><h2>{t('Gittiğin her yerde.')}</h2></div><span className="stop-count">{t(`${stops.length} durak`)}</span></div>
+              <div className="map-panel"><RealCityMap stops={stops} activeStopId={activeStop.id} accentHex={palette.accent} onSelectActiveStop={setActiveStopId} onAddStop={handleAddStop} onUpdateStopLocation={handleUpdateStopLocation} onUpdateStopTime={handleUpdateStopTime} onRemoveStop={handleRemoveStop} theme={theme}/></div>
+              <div className="route-stop-list" aria-label={t('Durakların')}>{stops.map((stop,index) => {
+                const weather = stop.weather ? resolveStopWeatherAtTime(stop.weather,stop.preferredTime) : null;
+                return <div key={stop.id} className={`route-stop ${stop.id === activeStop.id ? 'route-stop-active' : ''}`}><button type="button" className="route-stop-select" onClick={() => setActiveStopId(stop.id)} aria-pressed={stop.id === activeStop.id}><span className="stop-number">{String(index+1).padStart(2,'0')}</span><span><strong>{stop.location.district}</strong><small>{stop.location.city} · {stop.preferredTime || t('Şimdi')}</small></span><span className="stop-weather">{weather ? <><WeatherIcon condition={weather.condition} size={19}/>{Math.round(weather.temp)}°</> : <LoaderCircle size={16} className="loading-spin"/>}</span></button>{stops.length > 1 && <button type="button" className="remove-stop" onClick={() => handleRemoveStop(stop.id)} aria-label={t(`${stop.location.district} durağını sil`)}><X size={14}/></button>}</div>;
+              })}</div>
+              <button type="button" className="add-stop-button" onClick={focusMapSearch}><Plus size={16}/>{t('Durak ekle')}<span>{t('Şehir, ülke veya haritadan')}<ArrowUpRight size={14}/></span></button>
+              <button type="button" className="primary-button show-outfit-button" onClick={() => { setWorkspaceMode('outfit'); setMobileTab('outfit'); }}>{t('Kombinimi göster')}<ArrowUpRight size={15}/></button>
+              <div className="map-attribution"><Navigation size={12}/>CARTO · © OpenStreetMap contributors</div>
+            </section>
+            <div className={`outfit-region mobile-pane ${mobileTab === 'outfit' ? 'mobile-pane-active' : ''}`}>{compositeWeather ? <OutfitRecommendation weather={compositeWeather} districtName={activeStop.location.district} countryName={activeStop.location.country} stopCount={stops.filter(stop=>stop.weather).length} thermalProfile={thermalProfile} wardrobe={wardrobe} onOpenFeedback={()=>setIsFeedbackModalOpen(true)} onItemsChange={setFeedbackItems} onOpenWardrobe={()=>setIsWardrobeModalOpen(true)}/> : <section className="outfit-panel outfit-loading" aria-live="polite"><span className="eyebrow">{t('02 / Ne giymeli?')}</span><h2>{t('Günün kombini hazırlanıyor.')}</h2><div className="loading-garments" aria-hidden="true">{[0,1,2].map(index=><div key={index}><Shirt size={64} strokeWidth={1}/></div>)}</div><p><LoaderCircle size={16} className="loading-spin"/>{t('Hava verileri bekleniyor')}</p></section>}</div>
           </div>
-        </div>
-      ) : (
-        <main className="max-w-[1380px] mx-auto px-3 sm:px-5 py-3.5 w-full space-y-3.5 relative z-10 flex-1">
-          {/* Weather-Reactive HMI Top HUD Bar */}
-          <div
-            className={`px-4 py-2.5 rounded-3xl bg-white dark:bg-slate-900 border ${palette.cardBorder} shadow-xs flex flex-wrap items-center justify-between gap-3`}
-            style={{
-              backgroundImage: `linear-gradient(to right, ${palette.accentHex}15, transparent)`,
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div
-                className="p-2 rounded-2xl bg-white/80 dark:bg-slate-800/90 border"
-                style={{ borderColor: palette.accentHex + '40' }}
-              >
-                {getWeatherIcon(currentCondition, 'w-7 h-7')}
-              </div>
-              <div className="flex items-baseline gap-3 flex-wrap">
-                <span
-                  className="text-2xl sm:text-3xl font-black tracking-tight"
-                  style={{ color: palette.accentHex }}
-                >
-                  {activeStopResolved ? `${activeStopResolved.temp}°C` : '18°C'}
-                </span>
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-extrabold text-slate-900 dark:text-white">
-                      {activeStop.location.district}, {activeStop.location.city}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleDetectLocation}
-                      disabled={isLocating}
-                      className="px-2 py-0.5 rounded-full bg-slate-900/10 dark:bg-white/10 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
-                    >
-                      <LocateFixed className="w-3 h-3" style={{ color: palette.accentHex }} />
-                      <span>{isLocating ? '...' : 'GPS'}</span>
-                    </button>
-                  </div>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                    His: <strong>{activeStopResolved?.feelsLike ?? 17}°C</strong> &bull; Çiy:{' '}
-                    {activeStop.weather?.dewPoint ?? 10}°C
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {compositeWeather && (
-              <div className="flex items-center gap-3 sm:gap-5 text-xs">
-                <div className="flex items-center gap-1.5">
-                  <Wind className="w-4 h-4" style={{ color: palette.accentHex }} />
-                  <span className="font-extrabold">{compositeWeather.windSpeed} km/s</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Droplets className="w-4 h-4" style={{ color: palette.accentHex }} />
-                  <span className="font-extrabold">%{compositeWeather.humidity}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Sun className="w-4 h-4 text-amber-500" />
-                  <span className="font-extrabold">UV {compositeWeather.uvIndex}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  <span className="font-extrabold text-emerald-600 dark:text-emerald-400">
-                    %{compositeWeather.confidenceScore}
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-3.5 items-start">
-            <div className="xl:col-span-5">
-              <RealCityMap
-                stops={stops}
-                activeStopId={activeStop.id}
-                accentHex={palette.accentHex}
-                onSelectActiveStop={setActiveStopId}
-                onAddStop={handleAddStop}
-                onUpdateStopLocation={handleUpdateStopLocation}
-                onUpdateStopTime={handleUpdateStopTime}
-                onRemoveStop={handleRemoveStop}
-                theme={theme}
-              />
-            </div>
-
-            <div className="xl:col-span-7 space-y-3.5">
-              {compositeWeather && (
-                <OutfitRecommendation
-                  weather={compositeWeather}
-                  districtName={activeStop.location.district}
-                  countryName={activeStop.location.country}
-                  stopCount={stops.length}
-                  accentHex={palette.accentHex}
-                  thermalProfile={thermalProfile}
-                  wardrobe={wardrobe}
-                  onOpenFeedback={() => setIsFeedbackModalOpen(true)}
-                  onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
-                />
-              )}
-
-              {activeStop?.weather && (
-                <HourlyForecastChart
-                  consensus={activeStop.weather}
-                  districtName={activeStop.location.district}
-                />
-              )}
-            </div>
-          </div>
+          <section className={`hourly-region mobile-pane ${mobileTab === 'hourly' ? 'mobile-pane-active' : ''}`} aria-label={t('Saatlik hava ve kaynaklar')}>
+            <button type="button" className="hourly-toggle" onClick={()=>setShowHourly(current=>!current)} aria-expanded={showHourly} aria-controls="hourly-content"><span><Clock3 size={18}/><strong>{t('Saat saat, günün havası')}</strong><span className="hourly-teaser">{activeStop.weather?.hourly.slice(0,4).map(hour=>`${hour.timeStr}  ${hour.temp}°`).join('   /   ') || t('Tahminler bekleniyor')}</span></span><span className="hourly-toggle-label">{t(showHourly?'Gizle':'İncele')}<ChevronDown size={17} className={showHourly?'rotated':''}/></span></button>
+            <div id="hourly-content" className={`hourly-content ${showHourly || mobileTab === 'hourly'?'hourly-content-open':''}`}>{activeStop.weather ? <HourlyForecastChart consensus={activeStop.weather} districtName={activeStop.location.district}/> : <p className="hourly-empty">{t('Saatlik tahminler hava verileriyle birlikte burada görünecek.')}</p>}</div>
+          </section>
+          <footer className="app-footer"><span className="footer-brand"><BrandMark compact/>{t('Biraz hava, biraz iyi his.')}</span><button type="button" className="source-status" onClick={()=>setIsSourceModalOpen(true)}><ShieldCheck size={14}/>{availableSources>0?t(`${availableSources} canlı kaynak`):t(hasWeather?'Yedek veri':'Kaynaklar')}<span className="footer-updated">{activeStop.weather?` · ${activeStop.weather.lastUpdated}`:''}</span><ArrowUpRight size={12}/></button></footer>
         </main>
-      )}
-
-      <WardrobeModal
-        isOpen={isWardrobeModalOpen}
-        onClose={() => setIsWardrobeModalOpen(false)}
-        wardrobe={wardrobe}
-        onWardrobeChange={(updated) => setWardrobe(updated)}
-        currentCountry={activeStop.location.country}
-      />
-
-      <FeedbackModal
-        isOpen={isFeedbackModalOpen}
-        onClose={() => setIsFeedbackModalOpen(false)}
-        currentLocationName={`${activeStop.location.district}, ${activeStop.location.city}`}
-        onFeedbackChanged={() => setThermalProfile(getPersonalThermalProfile())}
-      />
-
-      <SourceSettingsModal
-        isOpen={isSourceModalOpen}
-        onClose={() => setIsSourceModalOpen(false)}
-        onKeysSaved={refreshAllStopsWeather}
-        onDataWiped={() => {
-          setWardrobe(DEFAULT_WARDROBE_ITEMS);
-          setThermalProfile({ offsetC: 0, feedbackCount: 0, label: '0°C' });
-        }}
-      />
-    </div>
-  );
+        <nav className="mobile-navigation" aria-label={t('Uygulama bölümleri')}>{([{id:'map',label:'Rotam',Icon:MapPin},{id:'outfit',label:'Kombinim',Icon:Shirt},{id:'hourly',label:'Saatlik',Icon:Clock3}] as const).map(({id,label,Icon})=><button type="button" key={id} aria-pressed={mobileTab===id} onClick={()=>{setMobileTab(id); if(id!=='hourly')setWorkspaceMode(id==='map'?'route':'outfit');}}><Icon size={20}/><span>{t(label)}</span></button>)}<button type="button" onClick={()=>setIsWardrobeModalOpen(true)}><Plus size={20}/><span>{t('Dolabım')}</span></button></nav>
+      </div>
+      <WardrobeModal isOpen={isWardrobeModalOpen} onClose={()=>setIsWardrobeModalOpen(false)} wardrobe={wardrobe} onWardrobeChange={setWardrobe} currentCountry={activeStop.location.country}/>
+      <FeedbackModal items={feedbackItems} weather={activeStop.weather && resolved ? {...activeStop.weather,...resolved}:null} isOpen={isFeedbackModalOpen} onClose={()=>setIsFeedbackModalOpen(false)} currentLocationName={`${activeStop.location.district}, ${activeStop.location.city}`} onFeedbackChanged={()=>setThermalProfile(getPersonalThermalProfile())}/>
+      <SourceSettingsModal weather={activeStop.weather} isOpen={isSourceModalOpen} onClose={()=>setIsSourceModalOpen(false)} onKeysSaved={refreshAllStopsWeather} onDataWiped={()=>{setWardrobe(DEFAULT_WARDROBE_ITEMS);setThermalProfile({offsetC:0,feedbackCount:0,label:'0°C'});}}/>
+    </div>;
 }

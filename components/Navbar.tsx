@@ -1,136 +1,24 @@
 'use client';
-
-import React from 'react';
-import {
-  CloudSun,
-  Sun,
-  Moon,
-  Database,
-  MessageSquare,
-  Shirt,
-  Smartphone,
-  Monitor,
-} from 'lucide-react';
-
+import { Sun, Moon, SlidersHorizontal, MessageCircle, Shirt, Smartphone, Monitor, ArrowUpRight } from 'lucide-react';
+import { useLocale } from '@/lib/i18n';
+import { BrandMark } from './BrandMark';
 interface NavbarProps {
-  theme: 'dark' | 'light';
-  onToggleTheme: () => void;
-  onOpenSources: () => void;
-  onOpenFeedback: () => void;
-  onOpenWardrobe: () => void;
-  wardrobeCount: number;
-  previewDevice: 'desktop' | 'mobile';
-  onTogglePreviewDevice: () => void;
-  weatherLabel?: string;
-  accentBadgeClass?: string;
-  accentHex?: string;
+  theme: 'dark' | 'light'; onToggleTheme: () => void; onOpenSources: () => void; onOpenFeedback: () => void;
+  onOpenWardrobe: () => void; wardrobeCount: number; previewDevice: 'desktop' | 'mobile'; onTogglePreviewDevice: () => void;
 }
-
-export function Navbar({
-  theme,
-  onToggleTheme,
-  onOpenSources,
-  onOpenFeedback,
-  onOpenWardrobe,
-  wardrobeCount,
-  previewDevice,
-  onTogglePreviewDevice,
-  weatherLabel = 'Dinamik İklim Modu',
-  accentBadgeClass = 'bg-sky-500/15 text-sky-500 border-sky-500/30',
-  accentHex = '#0ea5e9',
-}: NavbarProps) {
-  return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/70 dark:border-slate-800/80 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md">
-      <div className="max-w-[1380px] mx-auto px-3 sm:px-5 h-13 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2.5">
-          <div
-            className="w-8 h-8 rounded-xl p-0.5 flex items-center justify-center shadow-xs"
-            style={{
-              background: `linear-gradient(to top right, ${accentHex}, #f59e0b)`,
-            }}
-          >
-            <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[9px] flex items-center justify-center">
-              <CloudSun className="w-4 h-4" style={{ color: accentHex }} />
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-slate-900 dark:text-white tracking-tight text-sm">
-              Wear Weather
-            </span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${accentBadgeClass}`}>
-              {weatherLabel}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={onTogglePreviewDevice}
-            className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
-              previewDevice === 'mobile'
-                ? 'bg-emerald-500 text-white border-emerald-500'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
-            }`}
-          >
-            {previewDevice === 'mobile' ? (
-              <>
-                <Monitor className="w-3.5 h-3.5" />
-                <span>Masaüstü Görünüm</span>
-              </>
-            ) : (
-              <>
-                <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
-                <span>📱 App Preview</span>
-              </>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={onOpenWardrobe}
-            className="px-2.5 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/20 transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
-            style={{ color: accentHex }}
-          >
-            <Shirt className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Katalog & Dolap</span>
-            <span className="px-1.5 rounded-full text-white text-[10px]" style={{ backgroundColor: accentHex }}>
-              {wardrobeCount}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onOpenSources}
-            title="Gizlilik & Kaynaklar"
-            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
-          >
-            <Database className="w-3.5 h-3.5" style={{ color: accentHex }} />
-          </button>
-
-          <button
-            type="button"
-            onClick={onOpenFeedback}
-            title="Termal Kalibrasyon"
-            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
-          >
-            <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
-          </button>
-
-          <button
-            type="button"
-            onClick={onToggleTheme}
-            title="Tema Değiştir"
-            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <Moon className="w-3.5 h-3.5 text-indigo-500" />
-            )}
-          </button>
-        </div>
-      </div>
-    </header>
-  );
+export function Navbar({ theme, onToggleTheme, onOpenSources, onOpenFeedback, onOpenWardrobe, wardrobeCount, previewDevice, onTogglePreviewDevice }: NavbarProps) {
+  const { t, locale, setLocale } = useLocale();
+  return <header className="app-header">
+    <a href="#main-content" className="skip-link">{t('İçeriğe geç')}</a>
+    <a className="brand" href="#main-content" aria-label={t('Weathrobe ana ekran')}><span>weathrobe<span className="brand-period">.</span><small>A NOk PROJECT</small></span><BrandMark /></a>
+    <nav className="header-nav" aria-label={t('Ana menü')}><a className="nav-today" href="#main-content" aria-current="page"><span className="status-dot" />{t('Bugün')}</a><button type="button" className="nav-wardrobe" aria-label={t(`Dolabım (${wardrobeCount} parça)`)} onClick={onOpenWardrobe}><Shirt size={16}/><span>{t('Dolabım')}</span><span className="nav-count">{wardrobeCount}</span></button></nav>
+    <div className="header-actions">
+      <label className="language-select"><span className="sr-only">{t('Dil')}</span><select aria-label={t('Dil')} value={locale} onChange={event => setLocale(event.target.value as 'tr' | 'en')}><option value="tr">TR</option><option value="en">EN</option></select></label>
+      <button type="button" className="preview-toggle" onClick={onTogglePreviewDevice} aria-label={t(previewDevice === 'mobile' ? 'Masaüstü' : 'App Preview')} aria-pressed={previewDevice === 'mobile'}>{previewDevice === 'mobile' ? <Monitor size={16}/> : <Smartphone size={16}/>}<span>{t(previewDevice === 'mobile' ? 'Masaüstü' : 'App Preview')}</span><ArrowUpRight size={13}/></button>
+      <span className="header-divider"/>
+      <button type="button" className="icon-button" onClick={onOpenSources} aria-label={t('Kaynaklar ve gizlilik')} title={t('Kaynaklar ve gizlilik')}><SlidersHorizontal size={18}/></button>
+      <button type="button" className="icon-button feedback-button" onClick={onOpenFeedback} aria-label={t('Geri bildirim')} title={t('Geri bildirim')}><MessageCircle size={18}/></button>
+      <button type="button" className="icon-button" onClick={onToggleTheme} aria-label={t(theme === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç')}>{theme === 'dark' ? <Sun size={18}/> : <Moon size={18}/>}</button>
+    </div>
+  </header>;
 }

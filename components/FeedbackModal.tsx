@@ -1,270 +1,158 @@
 'use client';
-
-import React, { useState } from 'react';
-import { FeedbackRecord } from '@/lib/types';
-import { getPersonalThermalProfile } from '@/lib/weather-service';
-import {
-  X,
-  Star,
-  MessageSquare,
-  CheckCircle2,
-  Copy,
-  RotateCcw,
-  Sliders,
-} from 'lucide-react';
-
+import { useLocale } from '@/lib/i18n';
+import { useEffect, useRef, useState } from 'react';
+import { Check, Download, LoaderCircle, MessageCircle, Trash2, X } from 'lucide-react';
+import type { ClothingItem, FeedbackRecord, WeatherConsensus } from '@/lib/types';
+import { COMMUNITY_CONSENT_KEY, FEEDBACK_KEY, communityPayload, computeThermalProfile, itemIdentity, readFeedback } from '@/lib/comfort';
 interface FeedbackModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  currentLocationName: string;
-  onFeedbackChanged?: () => void;
+    isOpen: boolean;
+    onClose: () => void;
+    currentLocationName: string;
+    onFeedbackChanged?: () => void;
+    items?: ClothingItem[];
+    weather?: WeatherConsensus | null;
 }
-
-export function FeedbackModal({
-  isOpen,
-  onClose,
-  currentLocationName,
-  onFeedbackChanged,
-}: FeedbackModalProps) {
-  const [rating, setRating] = useState<number>(5);
-  const [bestSource, setBestSource] = useState('Open-Meteo');
-  const [clothingResult, setClothingResult] = useState<FeedbackRecord['clothingResult']>('perfect');
-  const [notes, setNotes] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [feedbacks, setFeedbacks] = useState<FeedbackRecord[]>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('wear_weather_feedbacks');
-      if (stored) {
+const outcomes: {
+    key: FeedbackRecord['clothingResult'];
+    label: string;
+    icon: string;
+}[] = [
+    { key: 'froze', label: 'Üşüdüm', icon: '❄' }, { key: 'perfect', label: 'Rahattım', icon: '✓' },
+    { key: 'sweated', label: 'Terledim', icon: '☀' }, { key: 'wet', label: 'Islandım', icon: '☂' },
+];
+export function FeedbackModal({ isOpen, onClose, currentLocationName, onFeedbackChanged, items = [], weather }: FeedbackModalProps) {
+    const { t, garment } = useLocale();
+    const dialog = useRef<HTMLDialogElement>(null);
+    const [feedbacks, setFeedbacks] = useState<FeedbackRecord[]>([]);
+    const [outcome, setOutcome] = useState<FeedbackRecord['clothingResult']>('perfect');
+    const [itemKey, setItemKey] = useState('');
+    const [activity, setActivity] = useState<'resting' | 'walking' | 'active'>('walking');
+    const [worn, setWorn] = useState(false);
+    const [consent, setConsent] = useState(false);
+    const [notes, setNotes] = useState('');
+    const [rating, setRating] = useState(5);
+    const [bestSource, setBestSource] = useState('Konsensüs Ortalaması');
+    const [submitted, setSubmitted] = useState(false);
+    const [busy, setBusy] = useState(false);
+    const [message, setMessage] = useState('');
+    useEffect(() => {
+        if (!isOpen)
+            return;
+        const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        const oldOverflow = document.body.style.overflow;
+        setFeedbacks(readFeedback());
+        setSubmitted(false);
+        setWorn(false);
+        setItemKey('');
+        setNotes('');
+        setMessage('');
         try {
-          return JSON.parse(stored);
-        } catch (e) {
-          console.error(e);
+            setConsent(localStorage.getItem(COMMUNITY_CONSENT_KEY) === 'true');
         }
-      }
-    }
-    return [];
-  });
-
-  if (!isOpen) return null;
-
-  const thermalProfile = getPersonalThermalProfile();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newRecord: FeedbackRecord = {
-      id: `fb-${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      location: currentLocationName,
-      rating,
-      bestSource,
-      clothingResult,
-      notes,
+        catch { }
+        dialog.current?.showModal();
+        document.body.style.overflow = 'hidden';
+        return () => { dialog.current?.close(); document.body.style.overflow = oldOverflow; previous?.focus({ preventScroll: true }); };
+    }, [isOpen]);
+    if (!isOpen)
+        return null;
+    const profile = computeThermalProfile(feedbacks);
+    const liveWeather = Boolean(weather?.sources.some(source => source.isAvailable));
+    const eligible = itemKey.startsWith('gtin:') && liveWeather && worn;
+    const revoke = async () => {
+        setBusy(true);
+        try {
+            const response = await fetch('/api/community', { method: 'DELETE' });
+            if (!response.ok)
+                throw new Error();
+            localStorage.setItem(COMMUNITY_CONSENT_KEY, 'false');
+            setConsent(false);
+            setMessage('Bu tarayıcıdan gönderilen topluluk katkıları silindi.');
+        }
+        catch {
+            setMessage('Topluluk katkıları silinemedi. Bağlantını kontrol edip yeniden dene.');
+        }
+        finally {
+            setBusy(false);
+        }
     };
-
-    const updated = [newRecord, ...feedbacks];
-    setFeedbacks(updated);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('wear_weather_feedbacks', JSON.stringify(updated));
-    }
-    setSubmitted(true);
-    onFeedbackChanged?.();
-  };
-
-  const handleResetProfile = () => {
-    setFeedbacks([]);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('wear_weather_feedbacks');
-    }
-    setSubmitted(false);
-    onFeedbackChanged?.();
-  };
-
-  const handleCopyJSON = () => {
-    navigator.clipboard.writeText(JSON.stringify(feedbacks, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-      <div className="w-full max-w-lg rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-5 sm:p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-emerald-500" />
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Geri Bildirim & Kişisel Termal Kalibrasyon
-            </h3>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Active Personal Thermal Calibration Banner */}
-        <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <div>
-              <span className="font-bold text-slate-900 dark:text-white block">
-                Aktif Profil: {thermalProfile.label}
-              </span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                Toplam {feedbacks.length} geri bildirim kıyafet motorunu kişiselleştiriyor.
-              </span>
-            </div>
-          </div>
-          {feedbacks.length > 0 && (
-            <button
-              type="button"
-              onClick={handleResetProfile}
-              className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] font-semibold text-slate-600 dark:text-slate-300 hover:text-rose-500 flex items-center gap-1 shrink-0"
-              title="Kalibrasyonu Sıfırla"
-            >
-              <RotateCcw className="w-3 h-3" />
-              Sıfırla
-            </button>
-          )}
-        </div>
-
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-            {/* Location tag */}
-            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300">
-              Konum: <span className="font-bold text-slate-900 dark:text-white">{currentLocationName}</span>
-            </div>
-
-            {/* Star Rating */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700 dark:text-slate-300 block">
-                Hava Durumu Tahmin Doğruluğu (1 - 5 Yıldız):
-              </label>
-              <div className="flex items-center gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    type="button"
-                    key={star}
-                    onClick={() => setRating(star)}
-                    className="p-1 transition-transform hover:scale-110"
-                  >
-                    <Star
-                      className={`w-6 h-6 ${
-                        star <= rating
-                          ? 'text-amber-400 fill-amber-400'
-                          : 'text-slate-300 dark:text-slate-700'
-                      }`}
-                    />
-                  </button>
-                ))}
-                <span className="font-bold text-slate-700 dark:text-slate-300 ml-2">
-                  {rating} / 5 Yıldız
-                </span>
-              </div>
-            </div>
-
-            {/* Best Source Selection */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700 dark:text-slate-300 block">
-                Bulunduğunuz Konumda Hangi Kaynak Daha İsabetliydi?
-              </label>
-              <select
-                value={bestSource}
-                onChange={(e) => setBestSource(e.target.value)}
-                className="w-full font-medium p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
-              >
-                <option value="Open-Meteo">Open-Meteo (ECMWF & GFS)</option>
-                <option value="MET Norway">MET Norway (Yr.no)</option>
-                <option value="DWD ICON">DWD ICON Modeli</option>
-                <option value="Konsensüs Ortalaması">Konsensüs Ortalaması En İyisiydi</option>
-              </select>
-            </div>
-
-            {/* Clothing Accuracy */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700 dark:text-slate-300 block">
-                Kıyafet & Katman Tavsiyesinin İsabeti (Kombin Motorunu Kalibre Eder):
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {[
-                  { key: 'perfect', label: 'Tam İsabet (Konforluydu)' },
-                  { key: 'froze', label: 'Üşüttü (-1.5°C Daha Kalın Öner)' },
-                  { key: 'sweated', label: 'Terletti (+1.5°C Daha Hafif Öner)' },
-                  { key: 'wet', label: 'Islattı (Su geçirmezlik yetersizdi)' },
-                  { key: 'color_hot', label: 'Renk Güneşte Fazla Isındı' },
-                ].map((item) => (
-                  <button
-                    type="button"
-                    key={item.key}
-                    onClick={() => setClothingResult(item.key as any)}
-                    className={`p-2.5 rounded-xl text-left border transition-all ${
-                      clothingResult === item.key
-                        ? 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-300 font-semibold'
-                        : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Notes */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700 dark:text-slate-300 block">
-                Ek Notlar & Detaylı Geri Bildirim:
-              </label>
-              <textarea
-                rows={3}
-                placeholder="Örn: Sabah saat 09:00'da rüzgar tahmin edilenden daha sertti, trençkot tam korudu..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold transition-colors shadow-xs"
-            >
-              Geri Bildirimi Kaydet & Profili Kalibre Et
-            </button>
-          </form>
-        ) : (
-          <div className="py-6 text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-500 mx-auto flex items-center justify-center">
-              <CheckCircle2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                Teşekkürler! Termal Profiliniz Güncellendi.
-              </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
-                Yeni termal kalibrasyonunuz ({thermalProfile.label}) anında kıyafet motoruna uygulandı.
-              </p>
-            </div>
-
-            <div className="pt-2 flex items-center justify-center gap-2">
-              <button
-                onClick={handleCopyJSON}
-                className="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-colors"
-              >
-                <Copy className="w-4 h-4" />
-                {copied ? 'Kopyalandı!' : 'Raporu JSON Olarak Kopyala'}
-              </button>
-              <button
-                onClick={() => setSubmitted(false)}
-                className="px-3.5 py-2 rounded-xl bg-sky-500 text-white font-semibold text-xs hover:bg-sky-600 transition-colors"
-              >
-                Yeni Bildirim
-              </button>
-            </div>
-          </div>
-        )}
+    const save = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!worn || !weather || !items.length)
+            return;
+        setBusy(true);
+        setMessage('');
+        const record: FeedbackRecord = {
+            id: crypto.randomUUID(), timestamp: new Date().toISOString(), location: currentLocationName,
+            rating, bestSource, clothingResult: outcome, notes: notes.trim().slice(0, 500),
+            context: { worn: true, items: items.map(item => ({ key: itemIdentity(item), name: item.name, category: item.category })), itemKey: itemKey || undefined, feelsLike: weather.feelsLike, windSpeed: weather.windSpeed, precipitationProb: weather.precipitationProb, activity, liveWeather },
+        };
+        try {
+            const updated = [record, ...readFeedback()].slice(0, 500);
+            localStorage.setItem(FEEDBACK_KEY, JSON.stringify(updated));
+            localStorage.setItem(COMMUNITY_CONSENT_KEY, String(consent));
+            setFeedbacks(updated);
+            setSubmitted(true);
+            onFeedbackChanged?.();
+            const payload = consent ? communityPayload(record) : null;
+            if (payload) {
+                try {
+                    const response = await fetch('/api/community', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    setMessage(response.ok ? 'Kişisel kaydın ve izin verdiğin ürün katkısı kaydedildi. Genel öneriler inceleme olmadan değişmez.' : 'Kişisel kaydın saklandı; topluluk servisine ulaşılamadı. Topluluk katkısı gönderilmedi.');
+                }
+                catch {
+                    setMessage('Kişisel kaydın saklandı; topluluk katkısı gönderilemedi.');
+                }
+            }
+            else
+                setMessage('Geri bildirimin bu cihazdaki kişisel profiline kaydedildi.');
+        }
+        catch {
+            setMessage('Tarayıcı depolamasına yazılamadı. Kayıt yapılamadı.');
+        }
+        finally {
+            setBusy(false);
+        }
+    };
+    const reset = () => {
+        try {
+            localStorage.removeItem(FEEDBACK_KEY);
+            setFeedbacks([]);
+            setSubmitted(false);
+            onFeedbackChanged?.();
+            setMessage('Bu cihazdaki kişisel geri bildirimlerin sıfırlandı.');
+        }
+        catch {
+            setMessage('Yerel kayıtlar temizlenemedi.');
+        }
+    };
+    const exportFeedback = () => {
+        const blob = new Blob([JSON.stringify(feedbacks, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob), anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'weathrobe-feedback.json';
+        anchor.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+    return <dialog ref={dialog} className="feedback-dialog garment-dialog" aria-labelledby="feedback-title" onCancel={onClose} onClose={()=>{if(!dialog.current?.open)onClose();}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+      <div className="feedback-content">
+        <div className="detail-top"><span className="eyebrow"><MessageCircle size={14}/>{t('Sana göre öğrenir')}</span><button type="button" className="icon-button" onClick={onClose} aria-label={t('Geri bildirimi kapat')} autoFocus><X size={18}/></button></div>
+        <h2 id="feedback-title">{t('Nasıl hissettin?')}</h2>
+        <p className="feedback-context">{currentLocationName}{weather&&<> · {t(`Hissedilen ${weather.feelsLike}°`)} · {t('Rüzgâr')} {weather.windSpeed} km/h</>}</p>
+        <div className="personal-profile"><span>{t(profile.label)}</span><span>{t(`${profile.feedbackCount} kayıt`)}</span></div>
+        {submitted?<div className="feedback-success"><Check size={30}/><h3>{t('Bir sonraki öneriye katkın var.')}</h3><p>{t(message)}</p><button type="button" className="primary-button" onClick={onClose}>{t('Tamam')}</button></div>:<form onSubmit={save}>
+          <div className="comfort-options" role="group" aria-label={t('Kıyafet konforu')}>{outcomes.map(option=><button type="button" key={option.key} aria-pressed={outcome===option.key} onClick={()=>setOutcome(option.key)}><span>{option.icon}</span>{t(option.label)}</button>)}</div>
+          <label className="feedback-field">{t('Kombinin bütünü mü, bir parça mı?')}<select value={itemKey} onChange={e=>setItemKey(e.target.value)}><option value="">{t('Kombinin bütünü')}</option>{items.map(item=><option key={item.id} value={itemIdentity(item)}>{garment(item)}</option>)}</select></label>
+          <label className="feedback-field">{t('Ne yapıyordun?')}<select value={activity} onChange={e=>setActivity(e.target.value as typeof activity)}><option value="resting">{t('Çoğunlukla oturuyordum')}</option><option value="walking">{t('Yürüyordum / günlük hareket')}</option><option value="active">{t('Yoğun hareket ediyordum')}</option></select></label>
+          <label className="check-label"><input type="checkbox" checked={worn} onChange={e=>setWorn(e.target.checked)} required/>{t('Gösterilen hava koşulunda bu kombini gerçekten giydim.')}</label>
+          {!liveWeather&&<p className="form-message">{t('Hava verisi canlı değil. Kayıt kişisel profiline eklenir; topluluk öğrenmesine gönderilmez.')}</p>}
+          {!items.length&&<p className="form-message">{t('Önce bir kombin oluşturmalısın.')}</p>}
+          <details className="feedback-extras"><summary>{t('Hava tahmini değerlendirmesi ve not')}</summary><label className="feedback-field">{t('Tahmin doğruluğu')}<select value={rating} onChange={e=>setRating(Number(e.target.value))}>{[1,2,3,4,5].map(v=><option key={v} value={v}>{v} / 5</option>)}</select></label><label className="feedback-field">{t('Daha isabetli kaynak')}<select value={bestSource} onChange={e=>setBestSource(e.target.value)}>{['Konsensüs Ortalaması','Open-Meteo','MET Norway','DWD ICON'].map(s=><option key={s} value={s}>{t(s)}</option>)}</select></label><label className="feedback-field">{t('Not')}<textarea value={notes} onChange={e=>setNotes(e.target.value)} maxLength={500} rows={2}/></label></details>
+          <div className="community-choice"><label className="check-label"><input type="checkbox" checked={consent} disabled={busy} onChange={e=>{if(e.target.checked)setConsent(true);else void revoke();}}/>{t('Ürün geri bildirimim topluluk değerlendirmesine katkı sağlasın.')}</label><p>{t('Yalnızca barkodlu parçanın kimliği, konfor sonucu, hareket türü ve yuvarlanmış hava koşulları paylaşılır. Konum, notlar ve manken bilgileri gönderilmez. Katkılar otomatik genel güncelleme oluşturmaz.')}</p>{consent&&!eligible&&<p>{t('Bu kayıt paylaşılmayacak. Katkı için barkodlu bir parça, canlı hava ve giydim onayı gerekir.')}</p>}</div>
+          {message&&<p role="status" className="form-message">{t(message)}</p>}
+          <button type="submit" className="primary-button detail-done" disabled={busy||!worn||!weather||!items.length}>{busy?<LoaderCircle size={16} className="loading-spin"/>:<Check size={16}/>} {t('Kaydet ve kişiselleştir')}</button>
+        </form>}
+        <details className="feedback-history"><summary>{t('Kayıtlarım ve veri kontrolü')}</summary><p>{t(`${feedbacks.length} yerel kayıt. Kayıtlar dışa aktarıldığında konum ve notlarını da içerir.`)}</p><div><button type="button" className="text-button" onClick={exportFeedback}><Download size={14}/>{t('JSON indir')}</button><button type="button" className="text-button" onClick={reset}><Trash2 size={14}/>{t('Yerel profili sıfırla')}</button><button type="button" className="text-button" onClick={revoke} disabled={busy}><Trash2 size={14}/>{t('Topluluk katkılarımı sil')}</button></div></details>
       </div>
-    </div>
-  );
+    </dialog>;
 }
