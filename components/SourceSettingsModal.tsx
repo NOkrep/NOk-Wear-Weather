@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getStoredCustomKeys } from '@/lib/weather-service';
-import { X, Database, CheckCircle2, Key } from 'lucide-react';
+import { X, Database, CheckCircle2, Key, Sparkles } from 'lucide-react';
 
 interface SourceSettingsModalProps {
   isOpen: boolean;
@@ -17,6 +17,7 @@ export function SourceSettingsModal({
 }: SourceSettingsModalProps) {
   const [weatherApiKey, setWeatherApiKey] = useState('');
   const [openWeatherMapKey, setOpenWeatherMapKey] = useState('');
+  const [geminiApiKey, setGeminiApiKey] = useState('');
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export function SourceSettingsModal({
       const existing = getStoredCustomKeys();
       setWeatherApiKey(existing.weatherApiKey || '');
       setOpenWeatherMapKey(existing.openWeatherMapKey || '');
+      setGeminiApiKey(existing.geminiApiKey || '');
     }
   }, [isOpen]);
 
@@ -34,7 +36,11 @@ export function SourceSettingsModal({
     if (typeof window !== 'undefined') {
       localStorage.setItem(
         'wear_weather_custom_keys',
-        JSON.stringify({ weatherApiKey: weatherApiKey.trim(), openWeatherMapKey: openWeatherMapKey.trim() })
+        JSON.stringify({
+          weatherApiKey: weatherApiKey.trim(),
+          openWeatherMapKey: openWeatherMapKey.trim(),
+          geminiApiKey: geminiApiKey.trim(),
+        })
       );
     }
     setSaved(true);
@@ -53,7 +59,7 @@ export function SourceSettingsModal({
           <div className="flex items-center gap-2">
             <Database className="w-5 h-5 text-sky-500" />
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Hava Durumu Veri Kaynakları (3+ Paralel Model)
+              Veri Kaynakları & Gemini AI Anahtar Ayarları
             </h3>
           </div>
           <button
@@ -122,13 +128,27 @@ export function SourceSettingsModal({
         {/* Optional Custom Keys Form */}
         <form onSubmit={handleSave} className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
           <div className="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
-            <Key className="w-4 h-4 text-amber-500" />
-            <span>İsteğe Bağlı Ek Kaynak Anahtarları (Konsensüse 4. ve 5. Model Olarak Katılır)</span>
+            <Sparkles className="w-4 h-4 text-sky-500" />
+            <span>Gemini AI & Ek Meteoroloji API Anahtarları (Tarayıcınızda Yerel Saklanır)</span>
           </div>
 
           <div className="space-y-1">
             <label className="text-slate-600 dark:text-slate-400 block font-medium">
-              WeatherAPI.com API Anahtarı:
+              Google Gemini API Anahtarı (GEMINI_API_KEY - Fotoğraftan Giysi Tanıma & AI Stilist):
+            </label>
+            <input
+              type="password"
+              placeholder="AIzaSy... (Boş bırakılırsa sunucu .env anahtarı veya yerel kural motoru kullanılır)"
+              value={geminiApiKey}
+              onChange={(e) => setGeminiApiKey(e.target.value)}
+              className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-slate-600 dark:text-slate-400 block font-medium flex items-center gap-1">
+              <Key className="w-3.5 h-3.5 text-amber-500" />
+              <span>WeatherAPI.com API Anahtarı (Opsiyonel 4. Kaynak):</span>
             </label>
             <input
               type="password"
@@ -140,8 +160,9 @@ export function SourceSettingsModal({
           </div>
 
           <div className="space-y-1">
-            <label className="text-slate-600 dark:text-slate-400 block font-medium">
-              OpenWeatherMap API Anahtarı:
+            <label className="text-slate-600 dark:text-slate-400 block font-medium flex items-center gap-1">
+              <Key className="w-3.5 h-3.5 text-amber-500" />
+              <span>OpenWeatherMap API Anahtarı (Opsiyonel 5. Kaynak):</span>
             </label>
             <input
               type="password"
@@ -156,7 +177,7 @@ export function SourceSettingsModal({
             type="submit"
             className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold transition-colors shadow-xs"
           >
-            {saved ? 'Kaydedildi ve Konsensüs Güncelleniyor!' : 'Anahtarları Kaydet ve Uygula'}
+            {saved ? 'Kaydedildi ve Uygulanıyor!' : 'Anahtarları Kaydet ve Uygula'}
           </button>
         </form>
       </div>

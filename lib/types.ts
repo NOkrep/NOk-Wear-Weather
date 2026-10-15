@@ -56,7 +56,7 @@ export interface WeatherConsensus {
 }
 
 export type BudgetSegment = 'essential' | 'premium';
-export type OutfitApproach = 'layering' | 'direct';
+export type OutfitApproach = 'layering' | 'direct' | 'anchor' | 'wardrobe';
 export type GenderPreference = 'unisex' | 'men' | 'women';
 
 export interface ClothingItem {
@@ -73,6 +73,7 @@ export interface ClothingItem {
   colorType: 'light' | 'dark' | 'neutral';
   description: string;
   isAnchorCompatible?: boolean;
+  isUserOwned?: boolean;
 }
 
 export interface LayerTimelineStep {
@@ -94,6 +95,23 @@ export interface AnchorMatchResult {
   weatherFitNotes: string;
 }
 
+export interface WardrobeOutfitMatch {
+  selectedItems: ClothingItem[];
+  missingCategories: string[];
+  coverageScore: number; // 0 - 100
+  summaryNote: string;
+}
+
+export interface AiStylistResponse {
+  headline: string;
+  outfitAdvice: string;
+  fabricAndColorTip: string;
+  travelOrActivityTip: string;
+  recommendedItemNames: string[];
+  modelUsed: string;
+  isFallback?: boolean;
+}
+
 export interface FeedbackRecord {
   id: string;
   timestamp: string;
@@ -113,6 +131,7 @@ export interface ThermalProfile {
 export interface CustomApiKeys {
   weatherApiKey?: string;
   openWeatherMapKey?: string;
+  geminiApiKey?: string;
 }
 
 export interface RouteStop {

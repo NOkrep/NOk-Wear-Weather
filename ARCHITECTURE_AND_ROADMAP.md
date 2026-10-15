@@ -1,10 +1,10 @@
 # 🌦️ Wear Weather (by NOk)
-## Sistem Mimarisi, API Entegrasyonları ve Tasarım Haritası (v0.2.2)
+## Sistem Mimarisi, API Entegrasyonları ve Tasarım Haritası (v0.3.0)
 
 **Organizasyon:** NOk Collective  
 **Uygulama Adı:** Weathrobe / Wear Weather  
-**Güncel Sürüm:** `v0.2.2`  
-**Vizyon:** Hobi ve yenilikçi deneyler üreten bağımsız ekibimiz (NOk) tarafından geliştirilen; gizlilik odaklı, çok kaynaklı hava durumu konsensüsü sağlayan, CARTO Voyager & Dark Matter haritalı, OSRM gerçek rota motorlu, renk ve malzeme bilimine dayalı akıllı giyim ve seyahat asistanı.
+**Güncel Sürüm:** `v0.3.0`  
+**Vizyon:** Hobi ve yenilikçi deneyler üreten bağımsız ekibimiz (NOk) tarafından geliştirilen; gizlilik odaklı, çok kaynaklı paralel hava durumu konsensüsü sağlayan, CARTO Voyager & Dark Matter haritalı, OSRM gerçek rota motorlu, renk/malzeme bilimine ve **Gemini AI destekli Dijital Gardırop** mimarisine dayalı akıllı giyim ve seyahat asistanı.
 
 ---
 
@@ -21,7 +21,7 @@ Uygulama, statik veya kısıtlı şehir listelerinden tamamen bağımsız, düny
 * Kullanıcı harita üzerinde dünya genelinde **herhangi bir noktaya tıkladığında** veya **"Konumumu Algıla"** butonuna bastığında, sunucu tarafındaki `/api/geocode` rotası koordinatları anında çözümler:
   * Noktanın gerçek İlçe, Şehir ve Ülke adı bulunur.
   * O koordinatın 3+ kaynaktan canlı meteorolojik konsensüsü paralel olarak çekilir.
-  * O konuma özel katmanlı/tekli kıyafet reçetesi anında ekrana yansıtılır.
+  * O konuma özel katmanlı/tekli/gardırop bazlı kıyafet reçetesi anında ekrana yansıtılır.
 
 ### C. Dünya Çapında Canlı Otomatik Tamamlama (Debounced Global Search Autocomplete)
 * Arama motoru Türkiye'deki tüm mahalle/ilçeler dahil olmak üzere dünya üzerindeki tüm yerleşim yerlerini destekler (`/api/geocode?q=...`).
@@ -47,23 +47,17 @@ Sistem en az 3 bağımsız meteorolojik kaynaktan `Promise.allSettled` ile **par
 
 ---
 
-## 3. 👔 Kapsayıcı Kıyafet Mimarisi: Bütçe Segmentleri, Gerçek Saatlik Çizelge & Kişisel Kalibrasyon
+## 3. 👔 Kapsayıcı Kıyafet Mimarisi, Dijital Gardırop (`v0.3.0`) & Gemini AI
 
-Platform, toplumun tüm kesimlerine hitap edecek şekilde **iki eksenli hibrit bir giyim motoru** ve **kişisel termal kalibrasyon** barındırır:
+Platform, toplumun tüm kesimlerine hitap edecek şekilde **dört farklı kombin modu**, **kişisel termal kalibrasyon** ve **Gemini AI entegrasyonu** barındırır:
 
-### A. Bütçe ve Malzeme Segmentleri
-1. **Erişilebilir & Temel Segment (Bütçe Dostu):**
-   * Herkesin gardırobunda bulunan temel parçalar: Pamuklu basic tişört, pamuk/flanel gömlek, polar sweatshirt, standart denim ceket, trençkot, kanvas spor ayakkabı, klasik şemsiye.
-2. **Premium & İleri Kumaşlar Segmenti:**
-   * İleri malzeme bilimi ve üst segment kumaşlar: Merinos yünü termal içlikler, kaşmir trikolar, Gore-Tex su geçirmez membranlar, DWR kaplamalı rüzgarlıklar, İtalyan keteni, Vibram tabanlı deri botlar.
+### A. Dijital Gardırop (My Wardrobe) & Gemini Multimodal Etiketleme (`/api/ai-stylist`)
+* Kullanıcılar kendi dolaplarındaki giysileri **fotoğrafını yükleyerek** veya **kısa bir metin yazarak** (`"Zümrüt yeşili merinos yünü kazak"`) saniyeler içinde dijital gardıroplarına ekleyebilir.
+* `app/api/ai-stylist/route.ts` üzerindeki `@google/genai` (`gemini-2.5-flash`) motoru giysinin kategorisini, kumaş yapısını, ısı yalıtım derecesini (`1-5`), su/rüzgar direncini ve HEX renk kodunu otomatik çıkarır.
+* **"Benim Gardırobumdan Kombinle"** sekmesi, anlık hava durumuna göre yalnızca kullanıcının kendi dolabındaki parçaları puanlayarak en ideal kombini kurar ve dolaptaki eksik katmanları raporlar (`Dolap Uyum Skoru %`).
 
-### B. Giyim Yaklaşımları ve Kişisel Termal Tolerans (`±°C`)
-1. **Canlı Saatlik Modüler Katmanlama (Layering Timeline):**
-   * Günün gerçek saatlik tahmin dizisinden (`weather.hourly`) Sabah (`07:30-10:30`), Öğle (`12:00-16:00`) ve Akşam (`18:30-22:30`) sıcaklık, hissedilen sıcaklık, çiy noktası ve yağış verilerini okuyarak 4 farklı sıcaklık rejimine (`<=10°C`, `11-17°C`, `18-24°C`, `>=25°C`) göre dinamik katman reçetesi üretir.
-2. **Geri Bildirim Tabanlı Kişisel Termal Kalibrasyon:**
-   * Kullanıcının Geri Bildirim ekranında verdiği *"Üşüttü (-1.5°C)"* veya *"Terletti (+1.5°C)"* yanıtları kişisel termal profilini otomatik kalibre eder ve tüm kombin önerilerini kullanıcının metabolizma hızına uyarlar.
-3. **"Bu Parçayla Kombinle" (Anchor Item Matching Engine):**
-   * Kullanıcının dolabından seçtiği ana parçaya göre hem hava koşullarına hem de renk uyumuna uygun tamamlayıcı parçaların üretilmesi.
+### B. Gemini AI Stil & Mikroklima Danışmanı
+* Kullanıcının o günkü aktivitesini (ör. *"Sabah vapurla işe gidip akşam Kadıköy'de açık havada oturacağım"*), 3 kaynaklı meteorolojik konsensüsü, kişisel termal profilini (`±°C`) ve kendi gardırobundaki kıyafetleri birleştirerek bilimsel (çiy noktası, rüzgar soğuğu, optik yansıma) kombin reçetesi üretir.
 
 ---
 
@@ -71,7 +65,7 @@ Platform, toplumun tüm kesimlerine hitap edecek şekilde **iki eksenli hibrit b
 
 | Aşama | Hedeflenen Özellik | Açıklama |
 | :--- | :--- | :--- |
-| **v0.3.0** | **Dijital Gardırop (My Wardrobe) & Gemini AI** | Kullanıcının kendi sahip olduğu giysileri (metin veya fotoğraf ile) dolabına kaydetmesi ve Gemini AI destekli stil/kombin motoruyla kendi dolabından kombin üretilmesi. |
+| **v0.3.0** | **Dijital Gardırop (My Wardrobe) & Gemini AI** | **TAMAMLANDI** — Fotoğraf/metin ile gardırop yönetimi, kişisel dolaptan kombin eşleştirme ve Gemini AI Stil Danışmanı. |
 | **v0.4.0** | **PWA & Çevrimdışı Çalışma (Offline Mode)** | Web App Manifest ve Service Worker ile cep telefonlarına "Uygulama Olarak Yükle" desteği ve son rota verilerinin çevrimdışı önbelleklenmesi. |
 | **v0.5.0** | **Kıyafet Üreticileri Entegrasyonu** | Eksik katmanlar için kullanıcı dilerse doğrudan üretici ve e-ticaret ürün önerileri (Affiliate / Sponsorlu içerik altyapısı). |
 | **v1.0.0** | **Topluluk Geri Bildirim Haritası** | Global kullanıcıların girdiği hava/kıyafet geri bildirimlerinin harita üzerinde ısı haritası (heat-map) olarak gösterilmesi. |

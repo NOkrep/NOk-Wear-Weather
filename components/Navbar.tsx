@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
-import { CloudSun, Sun, Moon, Database, MessageSquare } from 'lucide-react';
+import { CloudSun, Sun, Moon, Database, MessageSquare, Shirt } from 'lucide-react';
 
 interface NavbarProps {
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
   onOpenSources: () => void;
   onOpenFeedback: () => void;
+  onOpenWardrobe: () => void;
+  wardrobeCount: number;
   activeMode: 'city' | 'route' | 'globe';
   onChangeMode: (mode: 'city' | 'route' | 'globe') => void;
 }
@@ -17,6 +19,8 @@ export function Navbar({
   onToggleTheme,
   onOpenSources,
   onOpenFeedback,
+  onOpenWardrobe,
+  wardrobeCount,
   activeMode,
   onChangeMode,
 }: NavbarProps) {
@@ -35,15 +39,15 @@ export function Navbar({
               <span className="font-bold text-slate-900 dark:text-white tracking-tight text-base sm:text-lg">
                 Wear Weather
               </span>
-              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                v0.2.2
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                v0.3.0
               </span>
             </div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
               <span>by</span>
               <span className="font-semibold text-slate-700 dark:text-slate-300">NOk</span>
               <span className="text-slate-400 dark:text-slate-600">&bull;</span>
-              <span className="truncate hidden sm:inline">Gizlilik & Giysi Rehberi</span>
+              <span className="truncate hidden sm:inline">AI Gardırop & Rota Rehberi</span>
             </p>
           </div>
         </div>
@@ -84,24 +88,37 @@ export function Navbar({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
+          {/* My Wardrobe Button (v0.3.0) */}
+          <button
+            onClick={onOpenWardrobe}
+            title="Dijital Gardırobum (Kıyafet Ekle / Yönet)"
+            className="p-2 rounded-xl text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/20 transition-colors flex items-center gap-1.5 text-xs font-semibold"
+          >
+            <Shirt className="w-4 h-4" />
+            <span className="hidden lg:inline">Gardırobum</span>
+            <span className="px-1.5 py-0.2 rounded-full bg-sky-500 text-white text-[10px]">
+              {wardrobeCount}
+            </span>
+          </button>
+
           {/* Multi-source Status Button */}
           <button
             onClick={onOpenSources}
-            title="Hava Durumu Kaynakları (3+ Bağımsız Model)"
+            title="Hava Durumu Kaynakları & API Anahtarları"
             className="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors flex items-center gap-1.5 text-xs"
           >
             <Database className="w-4 h-4 text-sky-500" />
-            <span className="hidden md:inline font-medium">3+ Kaynak</span>
+            <span className="hidden md:inline font-medium">Kaynaklar</span>
           </button>
 
           {/* Feedback Button */}
           <button
             onClick={onOpenFeedback}
-            title="Geri Bildirim & Doğruluk Değerlendirmesi"
+            title="Geri Bildirim & Termal Kalibrasyon"
             className="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors flex items-center gap-1.5 text-xs"
           >
             <MessageSquare className="w-4 h-4 text-emerald-500" />
-            <span className="hidden md:inline font-medium">Geri Bildirim</span>
+            <span className="hidden md:inline font-medium">Kalibrasyon</span>
           </button>
 
           {/* Theme Toggle */}

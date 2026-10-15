@@ -9,14 +9,21 @@ import { RoutePlanner } from '@/components/RoutePlanner';
 import { GlobeView } from '@/components/GlobeView';
 import { FeedbackModal } from '@/components/FeedbackModal';
 import { SourceSettingsModal } from '@/components/SourceSettingsModal';
-import { LocationInfo, WeatherConsensus, WeatherCondition, ThermalProfile } from '@/lib/types';
+import { WardrobeModal } from '@/components/WardrobeModal';
+import {
+  LocationInfo,
+  WeatherConsensus,
+  WeatherCondition,
+  ThermalProfile,
+  ClothingItem,
+} from '@/lib/types';
 import { fetchWeatherConsensus, getPersonalThermalProfile } from '@/lib/weather-service';
+import { getStoredWardrobe, DEFAULT_WARDROBE_ITEMS } from '@/lib/wardrobe-storage';
 import {
   MapPin,
   Compass,
   Plane,
   ShieldCheck,
-  Thermometer,
   Wind,
   Droplets,
   Sun,
@@ -63,9 +70,11 @@ export default function HomePage() {
     feedbackCount: 0,
     label: 'Standart Termal Profil',
   });
+  const [wardrobe, setWardrobe] = useState<ClothingItem[]>(DEFAULT_WARDROBE_ITEMS);
   const [isLocating, setIsLocating] = useState<boolean>(false);
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [isWardrobeModalOpen, setIsWardrobeModalOpen] = useState(false);
 
   // Sync theme with HTML root class
   useEffect(() => {
@@ -77,9 +86,10 @@ export default function HomePage() {
     }
   }, [theme]);
 
-  // Load personal thermal profile on mount
+  // Load personal thermal profile and user wardrobe on mount
   useEffect(() => {
     setThermalProfile(getPersonalThermalProfile());
+    setWardrobe(getStoredWardrobe());
   }, []);
 
   const loadWeather = useCallback((loc: LocationInfo) => {
@@ -177,6 +187,8 @@ export default function HomePage() {
         onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         onOpenSources={() => setIsSourceModalOpen(true)}
         onOpenFeedback={() => setIsFeedbackModalOpen(true)}
+        onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
+        wardrobeCount={wardrobe.length}
         activeMode={activeMode}
         onChangeMode={setActiveMode}
       />
@@ -189,7 +201,7 @@ export default function HomePage() {
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                  Kişiselleştirilmiş Günlük Rota & Gardırop Asistanı
+                  Kişiselleştirilmiş Günlük Rota & AI Gardırop Asistanı (v0.3.0)
                 </span>
                 <span className="text-xs text-slate-400 hidden sm:inline">&bull;</span>
                 <span className="text-xs text-slate-500 dark:text-slate-400 hidden sm:inline">
@@ -200,7 +212,7 @@ export default function HomePage() {
                 Bugün gün içerisinde nerede olacaksınız?
               </h1>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-                Şehir içinde kalacaksanız ilçeler haritasından gün boyu hava durumunu ve saatlik kıyafet katmanlarını inceleyebilir; başka bir şehre veya ülkeye seyahat edecekseniz yol güzergahı gardırobunu planlayabilirsiniz.
+                Şehir içinde kalacaksanız ilçeler haritasından gün boyu hava durumunu, saatlik kıyafet katmanlarını ve kendi gardırobunuzdan kombinleri inceleyebilir; başka bir şehre veya ülkeye gidecekseniz yol güzergahı gardırobunu planlayabilirsiniz.
               </p>
             </div>
 
@@ -354,7 +366,9 @@ export default function HomePage() {
                 weather={consensus}
                 districtName={location.district}
                 thermalProfile={thermalProfile}
+                wardrobe={wardrobe}
                 onOpenFeedback={() => setIsFeedbackModalOpen(true)}
+                onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
               />
             )}
           </div>
@@ -377,6 +391,13 @@ export default function HomePage() {
       </main>
 
       {/* Modals */}
+      <WardrobeModal
+        isOpen={isWardrobeModalOpen}
+        onClose={() => setIsWardrobeModalOpen(false)}
+        wardrobe={wardrobe}
+        onWardrobeChange={(updated) => setWardrobe(updated)}
+      />
+
       <FeedbackModal
         isOpen={isFeedbackModalOpen}
         onClose={() => setIsFeedbackModalOpen(false)}
@@ -396,7 +417,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-900 dark:text-white">Wear Weather</span>
             <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              v0.2.2
+              v0.3.0
             </span>
             <span>&bull;</span>
             <span>Developed by <strong className="text-slate-700 dark:text-slate-300">NOk</strong> Collective</span>
@@ -408,7 +429,12 @@ export default function HomePage() {
               Sıfır GPS Takibi &bull; Anonim İlçe Düzeyi
             </span>
             <span>&bull;</span>
-            <span>Firefox Optimized</span>
+            <button
+              onClick={() => setIsWardrobeModalOpen(true)}
+              className="text-sky-600 dark:text-sky-400 hover:underline font-medium"
+            >
+              Dijital Gardırop ({wardrobe.length})
+            </button>
             <span>&bull;</span>
             <button
               onClick={() => setIsSourceModalOpen(true)}
@@ -421,7 +447,7 @@ export default function HomePage() {
               onClick={() => setIsFeedbackModalOpen(true)}
               className="text-emerald-600 dark:text-emerald-400 hover:underline"
             >
-              Geri Bildirim
+              Kalibrasyon
             </button>
           </div>
         </div>
