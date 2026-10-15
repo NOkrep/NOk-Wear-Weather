@@ -27,17 +27,17 @@ import {
   Wind,
   Droplets,
   Sun,
+  Moon,
   Cloud,
   CloudRain,
   CloudLightning,
   CloudSnow,
   LocateFixed,
   Shirt,
-  Sliders,
   Database,
 } from 'lucide-react';
 
-// Dynamic Weather Design Palette (Point 5: Weather-reactive UI colors)
+// Dynamic Weather Design Palette (Orbyte + Atmospheric Weather Reactive)
 function getWeatherThemePalette(cond: WeatherCondition) {
   switch (cond) {
     case 'sunny':
@@ -45,16 +45,16 @@ function getWeatherThemePalette(cond: WeatherCondition) {
         label: '☀️ Güneşli & Sıcak Ambiyans',
         accentHex: '#f59e0b',
         pageTint: 'bg-amber-500/[0.04] dark:bg-amber-500/[0.03]',
-        cardBorder: 'border-amber-500/30 dark:border-amber-500/25',
+        cardBorder: 'border-amber-500/35 dark:border-amber-500/30',
         badgeClass: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
-        heroGradient: 'from-amber-500/15 via-orange-500/5 to-transparent',
+        heroGradient: 'from-amber-500/20 via-orange-500/5 to-transparent',
       };
     case 'rainy':
       return {
         label: '🌧️ Yağışlı Okyanus Ambiyansı',
         accentHex: '#0284c7',
         pageTint: 'bg-sky-500/[0.05] dark:bg-sky-500/[0.04]',
-        cardBorder: 'border-sky-500/35 dark:border-sky-500/30',
+        cardBorder: 'border-sky-500/40 dark:border-sky-500/30',
         badgeClass: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
         heroGradient: 'from-sky-500/20 via-blue-600/5 to-transparent',
       };
@@ -63,7 +63,7 @@ function getWeatherThemePalette(cond: WeatherCondition) {
         label: '⚡ Fırtına & Sağanak Ambiyansı',
         accentHex: '#8b5cf6',
         pageTint: 'bg-purple-500/[0.05] dark:bg-purple-500/[0.04]',
-        cardBorder: 'border-purple-500/35 dark:border-purple-500/30',
+        cardBorder: 'border-purple-500/40 dark:border-purple-500/30',
         badgeClass: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
         heroGradient: 'from-purple-500/20 via-indigo-600/5 to-transparent',
       };
@@ -72,7 +72,7 @@ function getWeatherThemePalette(cond: WeatherCondition) {
         label: '❄️ Kristal Kar & Ayaz Ambiyansı',
         accentHex: '#06b6d4',
         pageTint: 'bg-cyan-500/[0.05] dark:bg-cyan-500/[0.04]',
-        cardBorder: 'border-cyan-400/40 dark:border-cyan-400/30',
+        cardBorder: 'border-cyan-400/45 dark:border-cyan-400/30',
         badgeClass: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border-cyan-500/30',
         heroGradient: 'from-cyan-400/20 via-sky-300/5 to-transparent',
       };
@@ -81,7 +81,7 @@ function getWeatherThemePalette(cond: WeatherCondition) {
         label: '🌙 Açık Gece Ambiyansı',
         accentHex: '#6366f1',
         pageTint: 'bg-indigo-500/[0.05] dark:bg-indigo-500/[0.04]',
-        cardBorder: 'border-indigo-500/30 dark:border-indigo-500/25',
+        cardBorder: 'border-indigo-500/35 dark:border-indigo-500/30',
         badgeClass: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
         heroGradient: 'from-indigo-500/20 via-slate-800/5 to-transparent',
       };
@@ -92,7 +92,7 @@ function getWeatherThemePalette(cond: WeatherCondition) {
         pageTint: 'bg-slate-100 dark:bg-slate-950',
         cardBorder: 'border-slate-200/90 dark:border-slate-800',
         badgeClass: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
-        heroGradient: 'from-sky-500/12 via-teal-500/5 to-transparent',
+        heroGradient: 'from-sky-500/15 via-teal-500/5 to-transparent',
       };
   }
 }
@@ -102,7 +102,7 @@ function getWeatherIcon(cond: WeatherCondition, className = 'w-6 h-6') {
     case 'sunny':
       return <Sun className={`${className} text-amber-500`} />;
     case 'clear_night':
-      return <Sun className={`${className} text-indigo-400`} />;
+      return <Moon className={`${className} text-indigo-400`} />;
     case 'rainy':
       return <CloudRain className={`${className} text-sky-500`} />;
     case 'stormy':
@@ -119,7 +119,6 @@ export default function HomePage() {
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   const [mobileTab, setMobileTab] = useState<'outfit' | 'map' | 'hourly'>('outfit');
 
-  // Unified Multi-stop Daily Itinerary (works for neighborhood, intercity OSRM, or international)
   const [stops, setStops] = useState<ItineraryStop[]>([
     {
       id: 'stop-initial',
@@ -281,7 +280,6 @@ export default function HomePage() {
     <div
       className={`min-h-screen ${palette.pageTint} text-slate-900 dark:text-slate-100 transition-colors duration-300 flex flex-col justify-between`}
     >
-      {/* Top Navbar */}
       <Navbar
         theme={theme}
         onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
@@ -295,17 +293,19 @@ export default function HomePage() {
         }
         weatherLabel={palette.label}
         accentBadgeClass={palette.badgeClass}
+        accentHex={palette.accentHex}
       />
 
-      {/* Main Content: Either Full Desktop HMI or Interactive Mobile Phone Shell Preview */}
       {previewDevice === 'mobile' ? (
         <div className="py-6 px-3 flex justify-center items-center flex-1">
-          {/* Interactive Mobile App Frame (412px iOS/Android Shell) */}
-          <div
-            className={`w-full max-w-[412px] h-[760px] rounded-[42px] bg-slate-50 dark:bg-slate-950 border-[6px] border-slate-800 dark:border-slate-700 shadow-2xl flex flex-col justify-between overflow-hidden relative`}
-          >
-            {/* Mobile Notch & Status Bar */}
-            <div className={`px-5 pt-3 pb-2.5 bg-gradient-to-b ${palette.heroGradient} border-b border-slate-200/60 dark:border-slate-800/80 flex items-center justify-between`}>
+          <div className="w-full max-w-[412px] h-[760px] rounded-[42px] bg-slate-50 dark:bg-slate-950 border-[6px] border-slate-800 dark:border-slate-700 shadow-2xl flex flex-col justify-between overflow-hidden relative">
+            <div
+              className="px-5 pt-3 pb-2.5 bg-gradient-to-b border-b flex items-center justify-between"
+              style={{
+                backgroundImage: `linear-gradient(to bottom, ${palette.accentHex}20, transparent)`,
+                borderColor: palette.accentHex + '40',
+              }}
+            >
               <div className="flex items-center gap-2">
                 {getWeatherIcon(currentCondition, 'w-6 h-6')}
                 <div>
@@ -318,13 +318,12 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-black leading-none">
+                <span className="text-2xl font-black leading-none" style={{ color: palette.accentHex }}>
                   {activeStopResolved?.temp ?? 18}°C
                 </span>
               </div>
             </div>
 
-            {/* Mobile Scrollable Body */}
             <div className="flex-1 overflow-y-auto p-3 space-y-3">
               {mobileTab === 'outfit' && compositeWeather && (
                 <OutfitRecommendation
@@ -362,14 +361,12 @@ export default function HomePage() {
               )}
             </div>
 
-            {/* Native-style Mobile App Bottom Tab Bar */}
             <div className="h-15 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-800 px-3 flex items-center justify-around text-[11px] font-bold">
               <button
                 type="button"
                 onClick={() => setMobileTab('outfit')}
-                className={`flex flex-col items-center gap-0.5 cursor-pointer ${
-                  mobileTab === 'outfit' ? 'text-sky-500' : 'text-slate-400'
-                }`}
+                className={`flex flex-col items-center gap-0.5 cursor-pointer`}
+                style={{ color: mobileTab === 'outfit' ? palette.accentHex : undefined }}
               >
                 <Shirt className="w-4 h-4" />
                 <span>Ne Giymeli?</span>
@@ -377,9 +374,8 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => setMobileTab('map')}
-                className={`flex flex-col items-center gap-0.5 cursor-pointer ${
-                  mobileTab === 'map' ? 'text-sky-500' : 'text-slate-400'
-                }`}
+                className={`flex flex-col items-center gap-0.5 cursor-pointer`}
+                style={{ color: mobileTab === 'map' ? palette.accentHex : undefined }}
               >
                 <LocateFixed className="w-4 h-4" />
                 <span>Duraklar ({stops.length})</span>
@@ -387,9 +383,8 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => setMobileTab('hourly')}
-                className={`flex flex-col items-center gap-0.5 cursor-pointer ${
-                  mobileTab === 'hourly' ? 'text-sky-500' : 'text-slate-400'
-                }`}
+                className={`flex flex-col items-center gap-0.5 cursor-pointer`}
+                style={{ color: mobileTab === 'hourly' ? palette.accentHex : undefined }}
               >
                 <Sun className="w-4 h-4" />
                 <span>Saatlik</span>
@@ -397,7 +392,7 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => setIsWardrobeModalOpen(true)}
-                className="flex flex-col items-center gap-0.5 text-slate-400 hover:text-sky-500 cursor-pointer"
+                className="flex flex-col items-center gap-0.5 text-slate-400 hover:opacity-100 cursor-pointer"
               >
                 <Database className="w-4 h-4" />
                 <span>Katalog</span>
@@ -409,15 +404,23 @@ export default function HomePage() {
         <main className="max-w-[1380px] mx-auto px-3 sm:px-5 py-3.5 w-full space-y-3.5 relative z-10 flex-1">
           {/* Weather-Reactive HMI Top HUD Bar */}
           <div
-            className={`px-4 py-2.5 rounded-3xl bg-gradient-to-r ${palette.heroGradient} bg-white dark:bg-slate-900 border ${palette.cardBorder} shadow-xs flex flex-wrap items-center justify-between gap-3`}
+            className={`px-4 py-2.5 rounded-3xl bg-white dark:bg-slate-900 border ${palette.cardBorder} shadow-xs flex flex-wrap items-center justify-between gap-3`}
+            style={{
+              backgroundImage: `linear-gradient(to right, ${palette.accentHex}15, transparent)`,
+            }}
           >
-            {/* Left: Active Stop + Temperature HUD */}
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-2xl bg-white/80 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700">
+              <div
+                className="p-2 rounded-2xl bg-white/80 dark:bg-slate-800/90 border"
+                style={{ borderColor: palette.accentHex + '40' }}
+              >
                 {getWeatherIcon(currentCondition, 'w-7 h-7')}
               </div>
               <div className="flex items-baseline gap-3 flex-wrap">
-                <span className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+                <span
+                  className="text-2xl sm:text-3xl font-black tracking-tight"
+                  style={{ color: palette.accentHex }}
+                >
                   {activeStopResolved ? `${activeStopResolved.temp}°C` : '18°C'}
                 </span>
                 <div>
@@ -431,7 +434,7 @@ export default function HomePage() {
                       disabled={isLocating}
                       className="px-2 py-0.5 rounded-full bg-slate-900/10 dark:bg-white/10 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
                     >
-                      <LocateFixed className="w-3 h-3 text-sky-500" />
+                      <LocateFixed className="w-3 h-3" style={{ color: palette.accentHex }} />
                       <span>{isLocating ? '...' : 'GPS'}</span>
                     </button>
                   </div>
@@ -443,15 +446,14 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right: 4 Key HMI Telemetry Badges */}
             {compositeWeather && (
               <div className="flex items-center gap-3 sm:gap-5 text-xs">
                 <div className="flex items-center gap-1.5">
-                  <Wind className="w-4 h-4 text-sky-500" />
+                  <Wind className="w-4 h-4" style={{ color: palette.accentHex }} />
                   <span className="font-extrabold">{compositeWeather.windSpeed} km/s</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Droplets className="w-4 h-4 text-sky-500" />
+                  <Droplets className="w-4 h-4" style={{ color: palette.accentHex }} />
                   <span className="font-extrabold">%{compositeWeather.humidity}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -468,7 +470,6 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Unified Single-Screen HMI Split Grid (5 Cols Map & Stops / 7 Cols Visual Outfit) */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-3.5 items-start">
             <div className="xl:col-span-5">
               <RealCityMap
@@ -510,7 +511,6 @@ export default function HomePage() {
         </main>
       )}
 
-      {/* Modals */}
       <WardrobeModal
         isOpen={isWardrobeModalOpen}
         onClose={() => setIsWardrobeModalOpen(false)}

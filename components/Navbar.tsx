@@ -23,6 +23,7 @@ interface NavbarProps {
   onTogglePreviewDevice: () => void;
   weatherLabel?: string;
   accentBadgeClass?: string;
+  accentHex?: string;
 }
 
 export function Navbar({
@@ -36,15 +37,20 @@ export function Navbar({
   onTogglePreviewDevice,
   weatherLabel = 'Dinamik İklim Modu',
   accentBadgeClass = 'bg-sky-500/15 text-sky-500 border-sky-500/30',
+  accentHex = '#0ea5e9',
 }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 dark:border-slate-800/80 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md">
       <div className="max-w-[1380px] mx-auto px-3 sm:px-5 h-13 flex items-center justify-between gap-2">
-        {/* Brand + Dynamic Weather Theme Pill */}
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-amber-400 p-0.5 flex items-center justify-center">
+          <div
+            className="w-8 h-8 rounded-xl p-0.5 flex items-center justify-center shadow-xs"
+            style={{
+              background: `linear-gradient(to top right, ${accentHex}, #f59e0b)`,
+            }}
+          >
             <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[9px] flex items-center justify-center">
-              <CloudSun className="w-4 h-4 text-sky-500" />
+              <CloudSun className="w-4 h-4" style={{ color: accentHex }} />
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -57,9 +63,7 @@ export function Navbar({
           </div>
         </div>
 
-        {/* Right Controls: App Preview Switcher + Catalog + Privacy + Theme */}
         <div className="flex items-center gap-1.5">
-          {/* Desktop vs Mobile App Preview Toggle */}
           <button
             type="button"
             onClick={onTogglePreviewDevice}
@@ -68,7 +72,6 @@ export function Navbar({
                 ? 'bg-emerald-500 text-white border-emerald-500'
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
             }`}
-            title="Mobil Uygulama (App) Önizlemesi ile Tam Ekran Arasında Geçiş Yap"
           >
             {previewDevice === 'mobile' ? (
               <>
@@ -86,11 +89,12 @@ export function Navbar({
           <button
             type="button"
             onClick={onOpenWardrobe}
-            className="px-2.5 py-1.5 rounded-xl text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/20 transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+            className="px-2.5 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/20 transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+            style={{ color: accentHex }}
           >
             <Shirt className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Katalog & Dolap</span>
-            <span className="px-1.5 rounded-full bg-sky-500 text-white text-[10px]">
+            <span className="px-1.5 rounded-full text-white text-[10px]" style={{ backgroundColor: accentHex }}>
               {wardrobeCount}
             </span>
           </button>
@@ -101,7 +105,7 @@ export function Navbar({
             title="Gizlilik & Kaynaklar"
             className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
           >
-            <Database className="w-3.5 h-3.5 text-sky-500" />
+            <Database className="w-3.5 h-3.5" style={{ color: accentHex }} />
           </button>
 
           <button
