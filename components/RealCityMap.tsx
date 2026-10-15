@@ -11,12 +11,13 @@ import {
   Plus,
   X,
   Clock,
-  Route,
+  Navigation,
 } from 'lucide-react';
 
 interface RealCityMapProps {
   stops: ItineraryStop[];
   activeStopId: string;
+  accentHex?: string;
   onSelectActiveStop: (id: string) => void;
   onAddStop: (loc: LocationInfo, preferredTime?: string) => void;
   onUpdateStopLocation: (id: string, loc: LocationInfo) => void;
@@ -25,17 +26,24 @@ interface RealCityMapProps {
   theme?: 'dark' | 'light';
 }
 
-function buildStopMarkerHtml(index: number, label: string, temp: number, isActive: boolean, timeStr?: string) {
-  const bg = isActive ? '#0284c7' : '#334155';
-  const border = isActive ? '#38bdf8' : '#94a3b8';
+function buildStopMarkerHtml(
+  index: number,
+  label: string,
+  temp: number,
+  isActive: boolean,
+  accentHex: string,
+  timeStr?: string
+) {
+  const bg = isActive ? accentHex : '#1e293b';
+  const border = isActive ? '#ffffff' : '#64748b';
   return `
     <div style="
       background: ${bg};
       color: #ffffff;
       border: 2px solid ${border};
-      border-radius: 10px;
-      padding: 3px 8px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+      border-radius: 999px;
+      padding: 3px 9px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
       font-family: inherit;
       font-size: 11px;
       font-weight: 700;
@@ -45,12 +53,12 @@ function buildStopMarkerHtml(index: number, label: string, temp: number, isActiv
       white-space: nowrap;
       transform: translate(-50%, -50%);
     ">
-      <span style="background: rgba(255,255,255,0.2); padding: 0px 4px; border-radius: 4px; font-size: 10px;">
+      <span style="background: rgba(255,255,255,0.22); width: 16px; height: 16px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px;">
         ${index + 1}
       </span>
       <span>${label}</span>
-      ${timeStr ? `<span style="opacity:0.85; font-size:10px;">(${timeStr})</span>` : ''}
-      <span style="background: #ffffff; color: ${bg}; padding: 0.5px 4px; border-radius: 5px; font-weight: 800;">
+      ${timeStr ? `<span style="opacity:0.85; font-size:10px;">${timeStr}</span>` : ''}
+      <span style="background: #ffffff; color: #0f172a; padding: 0.5px 5px; border-radius: 999px; font-weight: 800;">
         ${temp}°C
       </span>
     </div>
@@ -60,6 +68,7 @@ function buildStopMarkerHtml(index: number, label: string, temp: number, isActiv
 export const RealCityMap = memo(function RealCityMap({
   stops,
   activeStopId,
+  accentHex = '#0284c7',
   onSelectActiveStop,
   onAddStop,
   onUpdateStopLocation,
@@ -71,17 +80,18 @@ export const RealCityMap = memo(function RealCityMap({
   const mapInstanceRef = useRef<any>(null);
   const tileLayerRef = useRef<any>(null);
   const layerGroupRef = useRef<any>(null);
+  const routePolylineRef = useRef<any>(null);
   const leafletRef = useRef<any>(null);
   const clickAbortRef = useRef<AbortController | null>(null);
 
-  const [clickAction, setClickAction] = useState<'update' | 'add'>('update');
+  const [clickAction, setClickAction] = useState<'update' | 'add'>('add');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isReverseGeocoding, setIsReverseGeocoding] = useState(false);
   const [newStopTime, setNewStopTime] = useState('');
+  const [routeSummary, setRouteSummary] = useState<{ distanceKm: number; durationStr: string } | null>(null);
 
-  // Keep latest callbacks in refs for map click handler
   const stateRef = useRef({
     clickAction,
     activeStopId,
@@ -101,7 +111,7 @@ export const RealCityMap = memo(function RealCityMap({
 
   const activeStop = stops.find((s) => s.id === activeStopId) || stops[0];
 
-  // Initialize Leaflet Map once on mount
+  // Initialize Single Unified Leaflet Map
   useEffect(() => {
     let isMounted = true;
 
@@ -116,8 +126,8 @@ export const RealCityMap = memo(function RealCityMap({
       const map = L.map(mapContainerRef.current, {
         center: [initialLoc.lat, initialLoc.lon],
         zoom: 11,
-        zoomControl: true,
-        attributionControl: true,
+        zoomControl: false,
+        attributionControl: false,
         preferCanvas: true,
         wheelPxPerZoomLevel: 110,
       });
@@ -153,7 +163,7 @@ export const RealCityMap = memo(function RealCityMap({
             const loc: LocationInfo = {
               country: data.country || 'Global',
               city: data.city || 'Bölge',
-              district: data.district || 'Seçili Konum',
+              district: data.district || 'Seçili Nokta',
               lat: roundedLat,
               lon: roundedLon,
             };
@@ -189,14 +199,13 @@ export const RealCityMap = memo(function RealCityMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Switch tile theme
   useEffect(() => {
     if (tileLayerRef.current) {
       tileLayerRef.current.setUrl(getCartoTileUrl(theme));
     }
   }, [theme]);
 
-  // Render markers and connecting line for all stops in the user's daily itinerary
+  // Draw markers and real OSRM road geometry on the SAME unified map whenever stops change!
   useEffect(() => {
     const map = mapInstanceRef.current;
     const L = leafletRef.current;
@@ -204,16 +213,6 @@ export const RealCityMap = memo(function RealCityMap({
     if (!map || !L || !group) return;
 
     group.clearLayers();
-
-    if (stops.length > 1) {
-      const coords = stops.map((s) => [s.location.lat, s.location.lon]);
-      L.polyline(coords, {
-        color: '#0284c7',
-        weight: 3,
-        dashArray: '6, 6',
-        opacity: 0.85,
-      }).addTo(group);
-    }
 
     stops.forEach((stop, idx) => {
       const isActive = stop.id === activeStopId;
@@ -223,12 +222,13 @@ export const RealCityMap = memo(function RealCityMap({
       const tempVal = resolved ? resolved.temp : 18;
 
       const icon = L.divIcon({
-        className: 'itinerary-stop-marker',
+        className: 'hmi-stop-marker',
         html: buildStopMarkerHtml(
           idx,
           stop.location.district || stop.location.city,
           tempVal,
           isActive,
+          accentHex,
           stop.preferredTime
         ),
         iconSize: [140, 28],
@@ -241,18 +241,55 @@ export const RealCityMap = memo(function RealCityMap({
       });
     });
 
-    if (stops.length > 1) {
+    // If 2 or more stops exist, fetch real OSRM road polyline on the same map!
+    if (stops.length >= 2) {
+      const first = stops[0].location;
+      const last = stops[stops.length - 1].location;
+      fetch(
+        `/api/route?fromLat=${first.lat}&fromLon=${first.lon}&toLat=${last.lat}&toLon=${last.lon}&fromName=${encodeURIComponent(first.district)}&toName=${encodeURIComponent(last.district)}`
+      )
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (!mapInstanceRef.current || !layerGroupRef.current) return;
+          if (routePolylineRef.current) {
+            layerGroupRef.current.removeLayer(routePolylineRef.current);
+          }
+          if (data?.polyline && data.polyline.length > 0 && stops.length === 2) {
+            setRouteSummary({ distanceKm: data.distanceKm, durationStr: data.durationStr });
+            const poly = L.polyline(data.polyline, {
+              color: accentHex,
+              weight: 4,
+              opacity: 0.85,
+            }).addTo(layerGroupRef.current);
+            routePolylineRef.current = poly;
+          } else {
+            setRouteSummary(null);
+            const coords = stops.map((s) => [s.location.lat, s.location.lon]);
+            const poly = L.polyline(coords, {
+              color: accentHex,
+              weight: 3.5,
+              dashArray: '6, 6',
+              opacity: 0.85,
+            }).addTo(layerGroupRef.current);
+            routePolylineRef.current = poly;
+          }
+        })
+        .catch(() => {});
+
       const bounds = L.latLngBounds(stops.map((s) => [s.location.lat, s.location.lon]));
       map.fitBounds(bounds, { padding: [45, 45], maxZoom: 12 });
-    } else if (activeStop) {
-      map.panTo([activeStop.location.lat, activeStop.location.lon], {
-        animate: true,
-        duration: 0.5,
-      });
+    } else {
+      setRouteSummary(null);
+      if (activeStop) {
+        map.panTo([activeStop.location.lat, activeStop.location.lon], {
+          animate: true,
+          duration: 0.5,
+        });
+      }
     }
-  }, [stops, activeStopId, activeStop, onSelectActiveStop]);
+  }, [stops, activeStopId, activeStop, accentHex, onSelectActiveStop]);
 
-  // Debounced search autocomplete
+  // Debounced Global Search
   useEffect(() => {
     if (!searchQuery || searchQuery.trim().length < 2) {
       setSearchResults([]);
@@ -276,7 +313,7 @@ export const RealCityMap = memo(function RealCityMap({
       } finally {
         setIsSearching(false);
       }
-    }, 260);
+    }, 250);
 
     return () => {
       clearTimeout(timer);
@@ -302,46 +339,10 @@ export const RealCityMap = memo(function RealCityMap({
   };
 
   return (
-    <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-      {/* Compact Multi-Stop Itinerary Strip */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white">
-            <Route className="w-4 h-4 text-sky-500" />
-            <span>Günlük Durak & Saat Zinciri ({stops.length} Nokta)</span>
-          </div>
-
-          {/* Click behavior toggle */}
-          <div className="flex items-center gap-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[10px] font-semibold">
-            <button
-              type="button"
-              onClick={() => setClickAction('update')}
-              className={`px-2 py-1 rounded-md transition-colors cursor-pointer ${
-                clickAction === 'update'
-                  ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-2xs'
-                  : 'text-slate-500'
-              }`}
-              title="Haritaya tıkladığınızda seçili durağı değiştirir"
-            >
-              Tıkla: Durağı Güncelle
-            </button>
-            <button
-              type="button"
-              onClick={() => setClickAction('add')}
-              className={`px-2 py-1 rounded-md transition-colors cursor-pointer ${
-                clickAction === 'add'
-                  ? 'bg-sky-500 text-white shadow-2xs'
-                  : 'text-slate-500'
-              }`}
-              title="Haritaya tıkladığınızda yeni bir durak olarak ekler"
-            >
-              + Tıkla: Yeni Durak Ekle
-            </button>
-          </div>
-        </div>
-
-        {/* Horizontal scrollable stop pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+    <div className="p-3.5 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2.5">
+      {/* Top Row: Stop Chain Pills + Click Mode */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
           {stops.map((stop, idx) => {
             const isSelected = stop.id === activeStopId;
             const resolved = stop.weather
@@ -351,38 +352,25 @@ export const RealCityMap = memo(function RealCityMap({
               <div
                 key={stop.id}
                 onClick={() => onSelectActiveStop(stop.id)}
-                className={`px-2.5 py-1.5 rounded-xl border text-xs flex items-center gap-2 shrink-0 cursor-pointer transition-all ${
+                className={`px-2.5 py-1 rounded-full border text-xs flex items-center gap-1.5 shrink-0 cursor-pointer transition-all ${
                   isSelected
-                    ? 'bg-sky-500/10 border-sky-500 text-slate-900 dark:text-white'
-                    : 'bg-slate-50 dark:bg-slate-950/60 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
+                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent font-bold shadow-2xs'
+                    : 'bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'
                 }`}
               >
-                <span className="w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
-                  {idx + 1}
-                </span>
-                <div className="leading-tight">
-                  <span className="font-bold block truncate max-w-[110px]">
-                    {stop.location.district}
-                  </span>
-                  <span className="text-[10px] text-slate-400">
-                    {stop.location.city} &bull; {resolved ? `${resolved.temp}°C` : '...'}
-                  </span>
-                </div>
+                <span className="text-[10px] opacity-75">{idx + 1}.</span>
+                <span className="truncate max-w-[95px]">{stop.location.district}</span>
+                <span className="font-extrabold">{resolved ? `${resolved.temp}°` : ''}</span>
 
-                {/* Optional Time Input for this Stop */}
-                <div
-                  className="flex items-center gap-1 bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700"
+                {/* Compact Time Selector */}
+                <input
+                  type="time"
+                  value={stop.preferredTime || ''}
                   onClick={(e) => e.stopPropagation()}
-                  title="İsteğe bağlı saat tercihi (Örn: 09:00, 14:30)"
-                >
-                  <Clock className="w-3 h-3 text-sky-500 shrink-0" />
-                  <input
-                    type="time"
-                    value={stop.preferredTime || ''}
-                    onChange={(e) => onUpdateStopTime(stop.id, e.target.value)}
-                    className="bg-transparent text-[10px] font-semibold text-slate-700 dark:text-slate-200 focus:outline-hidden w-[54px]"
-                  />
-                </div>
+                  onChange={(e) => onUpdateStopTime(stop.id, e.target.value)}
+                  title="Durak saati seçin (opsiyonel)"
+                  className="bg-transparent text-[10px] opacity-80 w-[48px] focus:outline-hidden cursor-pointer"
+                />
 
                 {stops.length > 1 && (
                   <button
@@ -391,68 +379,81 @@ export const RealCityMap = memo(function RealCityMap({
                       e.stopPropagation();
                       onRemoveStop(stop.id);
                     }}
-                    className="p-0.5 text-slate-400 hover:text-rose-500 transition-colors"
-                    title="Durağı Kaldır"
+                    className="hover:text-rose-400 transition-colors"
+                    title="Durağı Sil"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-3 h-3" />
                   </button>
                 )}
               </div>
             );
           })}
         </div>
+
+        {/* Map Click Behavior Pill */}
+        <button
+          type="button"
+          onClick={() => setClickAction((prev) => (prev === 'add' ? 'update' : 'add'))}
+          className={`px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 cursor-pointer border transition-colors ${
+            clickAction === 'add'
+              ? 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'
+          }`}
+          title="Haritaya tıkladığınızda yeni durak mı eklensin yoksa seçili durak mı güncellensin?"
+        >
+          {clickAction === 'add' ? 'Harita Tık: + Durak Ekle' : 'Harita Tık: Durağı Değiştir'}
+        </button>
       </div>
 
-      {/* Unified Search & Add Stop Input */}
+      {/* Compact Search Bar */}
       <div className="relative">
-        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-xs">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 text-xs">
           <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           <input
             type="text"
-            placeholder="Şehir içi ilçe, başka şehir veya ülke arayın (Örn: Beşiktaş, Bolu, Ankara, Londra)..."
+            placeholder="Durak ekle: İlçe, şehir veya ülke ara (Kadıköy, Bolu, Ankara, Londra)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden"
           />
-          <input
-            type="time"
-            value={newStopTime}
-            onChange={(e) => setNewStopTime(e.target.value)}
-            title="Yeni eklenecek durak için saat tercihi (opsiyonel)"
-            className="text-[11px] bg-white dark:bg-slate-900 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
-          />
+          <div className="flex items-center gap-1 text-[10px] text-slate-400 shrink-0">
+            <Clock className="w-3 h-3" />
+            <input
+              type="time"
+              value={newStopTime}
+              onChange={(e) => setNewStopTime(e.target.value)}
+              title="Eklenecek durağın saati"
+              className="bg-transparent w-[48px] text-slate-600 dark:text-slate-300 focus:outline-hidden"
+            />
+          </div>
           {isSearching && <Loader2 className="w-3.5 h-3.5 animate-spin text-sky-500 shrink-0" />}
         </div>
 
-        {/* Search Results Dropdown with "Seç" and "+ Durak Ekle" buttons */}
         {searchResults.length > 0 && (
-          <div className="absolute left-0 right-0 top-full mt-1 z-30 p-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-1 max-h-56 overflow-y-auto">
+          <div className="absolute left-0 right-0 top-full mt-1 z-30 p-1 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-0.5 max-h-52 overflow-y-auto">
             {searchResults.map((item, idx) => (
               <div
                 key={idx}
-                className="px-2.5 py-1.5 rounded-lg text-xs hover:bg-slate-50 dark:hover:bg-slate-800/80 flex items-center justify-between gap-2"
+                className="px-2.5 py-1.5 rounded-xl text-xs hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-between gap-2"
               >
-                <div className="flex items-center gap-1.5 truncate">
-                  <MapPin className="w-3.5 h-3.5 text-sky-500 shrink-0" />
-                  <span className="font-semibold text-slate-900 dark:text-white truncate">
-                    {item.displayName}
-                  </span>
-                </div>
+                <span className="font-semibold text-slate-900 dark:text-white truncate">
+                  📍 {item.displayName}
+                </span>
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
                     onClick={() => handlePickSearchResult(item, 'update')}
-                    className="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-[10px] font-bold text-slate-700 dark:text-slate-300 cursor-pointer"
+                    className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300 cursor-pointer"
                   >
-                    Durağı Değiştir
+                    Değiştir
                   </button>
                   <button
                     type="button"
                     onClick={() => handlePickSearchResult(item, 'add')}
-                    className="px-2 py-1 rounded-md bg-sky-500 hover:bg-sky-600 text-[10px] font-bold text-white flex items-center gap-0.5 cursor-pointer"
+                    className="px-2 py-1 rounded-lg bg-sky-500 text-[10px] font-bold text-white flex items-center gap-0.5 cursor-pointer"
                   >
                     <Plus className="w-3 h-3" />
-                    Yeni Durak Ekle
+                    Durak Ekle
                   </button>
                 </div>
               </div>
@@ -461,14 +462,23 @@ export const RealCityMap = memo(function RealCityMap({
         )}
       </div>
 
-      {/* Compact Interactive Map Canvas */}
-      <div className="relative w-full h-[290px] sm:h-[330px] rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      {/* Unified Map Canvas */}
+      <div className="relative w-full h-[270px] sm:h-[310px] rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden">
         <div ref={mapContainerRef} className="w-full h-full z-0" />
 
+        {routeSummary && (
+          <div className="absolute top-2.5 left-2.5 z-10 px-2.5 py-1 rounded-full bg-slate-900/85 text-white text-[10px] font-bold flex items-center gap-1.5 backdrop-blur-xs">
+            <Navigation className="w-3 h-3 text-sky-400" />
+            <span>
+              OSRM Rota: {routeSummary.distanceKm} km &bull; ~{routeSummary.durationStr}
+            </span>
+          </div>
+        )}
+
         {isReverseGeocoding && (
-          <div className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-lg bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-700 text-[11px] font-bold text-sky-500 flex items-center gap-1.5 shadow-sm">
-            <Loader2 className="w-3 h-3 animate-spin" />
-            <span>Konum alınıyor...</span>
+          <div className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-full bg-slate-900/85 text-white text-[10px] font-bold flex items-center gap-1.5">
+            <Loader2 className="w-3 h-3 animate-spin text-sky-400" />
+            <span>Konum...</span>
           </div>
         )}
       </div>

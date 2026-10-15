@@ -1,7 +1,16 @@
 'use client';
 
 import React from 'react';
-import { CloudSun, Sun, Moon, Database, MessageSquare, Shirt } from 'lucide-react';
+import {
+  CloudSun,
+  Sun,
+  Moon,
+  Database,
+  MessageSquare,
+  Shirt,
+  Smartphone,
+  Monitor,
+} from 'lucide-react';
 
 interface NavbarProps {
   theme: 'dark' | 'light';
@@ -10,8 +19,10 @@ interface NavbarProps {
   onOpenFeedback: () => void;
   onOpenWardrobe: () => void;
   wardrobeCount: number;
-  activeMode: 'city' | 'route' | 'globe';
-  onChangeMode: (mode: 'city' | 'route' | 'globe') => void;
+  previewDevice: 'desktop' | 'mobile';
+  onTogglePreviewDevice: () => void;
+  weatherLabel?: string;
+  accentBadgeClass?: string;
 }
 
 export function Navbar({
@@ -21,105 +32,92 @@ export function Navbar({
   onOpenFeedback,
   onOpenWardrobe,
   wardrobeCount,
-  activeMode,
-  onChangeMode,
+  previewDevice,
+  onTogglePreviewDevice,
+  weatherLabel = 'Dinamik İklim Modu',
+  accentBadgeClass = 'bg-sky-500/15 text-sky-500 border-sky-500/30',
 }: NavbarProps) {
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md">
-      <div className="max-w-[1380px] mx-auto px-3 sm:px-5 h-14 flex items-center justify-between gap-3">
-        {/* Brand & NOk Collective Signature */}
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 dark:border-slate-800/80 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md">
+      <div className="max-w-[1380px] mx-auto px-3 sm:px-5 h-13 flex items-center justify-between gap-2">
+        {/* Brand + Dynamic Weather Theme Pill */}
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-amber-400 p-0.5 flex items-center justify-center shadow-xs">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-amber-400 p-0.5 flex items-center justify-center">
             <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[9px] flex items-center justify-center">
-              <CloudSun className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+              <CloudSun className="w-4 h-4 text-sky-500" />
             </div>
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-slate-900 dark:text-white tracking-tight text-sm sm:text-base">
-                Wear Weather
-              </span>
-              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                v0.4.0
-              </span>
-            </div>
+          <div className="flex items-center gap-2">
+            <span className="font-extrabold text-slate-900 dark:text-white tracking-tight text-sm">
+              Wear Weather
+            </span>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${accentBadgeClass}`}>
+              {weatherLabel}
+            </span>
           </div>
         </div>
 
-        {/* Desktop Mode Switcher */}
-        <nav
-          aria-label="Görünüm Seçenekleri"
-          className="hidden md:flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 text-xs font-medium"
-        >
-          <button
-            onClick={() => onChangeMode('city')}
-            className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-              activeMode === 'city'
-                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs font-bold'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Günlük Duraklar & Kombin
-          </button>
-          <button
-            onClick={() => onChangeMode('route')}
-            className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-              activeMode === 'route'
-                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs font-bold'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Karayolu OSRM Rota
-          </button>
-          <button
-            onClick={() => onChangeMode('globe')}
-            className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-              activeMode === 'globe'
-                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs font-bold'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            3D Küre & Uçuş
-          </button>
-        </nav>
-
-        {/* Action Controls */}
+        {/* Right Controls: App Preview Switcher + Catalog + Privacy + Theme */}
         <div className="flex items-center gap-1.5">
+          {/* Desktop vs Mobile App Preview Toggle */}
           <button
+            type="button"
+            onClick={onTogglePreviewDevice}
+            className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
+              previewDevice === 'mobile'
+                ? 'bg-emerald-500 text-white border-emerald-500'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+            }`}
+            title="Mobil Uygulama (App) Önizlemesi ile Tam Ekran Arasında Geçiş Yap"
+          >
+            {previewDevice === 'mobile' ? (
+              <>
+                <Monitor className="w-3.5 h-3.5" />
+                <span>Masaüstü Görünüm</span>
+              </>
+            ) : (
+              <>
+                <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
+                <span>📱 App Preview</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
             onClick={onOpenWardrobe}
-            title="Kıyafet Kataloğu & Gardırobum"
             className="px-2.5 py-1.5 rounded-xl text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/20 transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
           >
             <Shirt className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Katalog & Dolap</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-sky-500 text-white text-[10px]">
+            <span className="px-1.5 rounded-full bg-sky-500 text-white text-[10px]">
               {wardrobeCount}
             </span>
           </button>
 
           <button
+            type="button"
             onClick={onOpenSources}
-            title="Gizlilik Kalkanı & Veri Kaynakları"
-            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors flex items-center gap-1 text-xs cursor-pointer"
+            title="Gizlilik & Kaynaklar"
+            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
           >
             <Database className="w-3.5 h-3.5 text-sky-500" />
-            <span className="hidden lg:inline font-medium">Gizlilik & Kaynaklar</span>
           </button>
 
           <button
+            type="button"
             onClick={onOpenFeedback}
             title="Termal Kalibrasyon"
-            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors flex items-center gap-1 text-xs cursor-pointer"
+            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
           >
             <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
-            <span className="hidden lg:inline font-medium">Kalibrasyon</span>
           </button>
 
           <button
+            type="button"
             onClick={onToggleTheme}
-            title={theme === 'dark' ? 'Açık Temaya Geç' : 'Karanlık Temaya Geç'}
-            aria-label="Tema Değiştir"
-            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors cursor-pointer"
+            title="Tema Değiştir"
+            className="p-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 cursor-pointer"
           >
             {theme === 'dark' ? (
               <Sun className="w-3.5 h-3.5 text-amber-400" />
