@@ -53,6 +53,29 @@ function getWeatherIcon(cond: WeatherCondition, className = 'w-6 h-6') {
   }
 }
 
+function getConditionLabelTr(cond: WeatherCondition): string {
+  switch (cond) {
+    case 'sunny':
+      return 'Güneşli & Açık';
+    case 'clear_night':
+      return 'Açık Gece';
+    case 'partly_cloudy':
+      return 'Parçalı Bulutlu';
+    case 'cloudy':
+      return 'Çok Bulutlu';
+    case 'rainy':
+      return 'Yağmurlu';
+    case 'stormy':
+      return 'Fırtınalı & Sağanak';
+    case 'snowy':
+      return 'Kar Yağışlı';
+    case 'foggy':
+      return 'Sisli & Puslu';
+    default:
+      return 'Parçalı Bulutlu';
+  }
+}
+
 export default function HomePage() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [activeMode, setActiveMode] = useState<'city' | 'route' | 'globe'>('city');
@@ -76,7 +99,7 @@ export default function HomePage() {
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isWardrobeModalOpen, setIsWardrobeModalOpen] = useState(false);
 
-  // Sync theme with HTML root class
+  // Sync theme with HTML root class (works with @custom-variant dark in globals.css)
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'dark') {
@@ -107,10 +130,13 @@ export default function HomePage() {
     loadWeather(location);
   }, [location, loadWeather]);
 
-  // Privacy-first Geolocation Detection (Obfuscated to ~1.1km grid + reverse geocoded district name)
-  const handleDetectLocation = () => {
+  const handleSelectDistrict = useCallback((dist: LocationInfo) => {
+    setLocation(dist);
+  }, []);
+
+  // Privacy-first Geolocation Detection
+  const handleDetectLocation = useCallback(() => {
     if (!navigator.geolocation) {
-      alert('Tarayıcınız konum servisini desteklemiyor.');
       return;
     }
 
@@ -153,38 +179,31 @@ export default function HomePage() {
       },
       { timeout: 8000 }
     );
-  };
+  }, []);
 
-  // Dynamic Weather Ambiance styling
-  const getAmbientStyles = () => {
-    if (!consensus) return '';
+  // Dynamic Weather Ambiance Accent Border (GPU friendly, zero full-screen repaint)
+  const getHeroAccentRing = () => {
+    if (!consensus) return 'border-slate-200/90 dark:border-slate-800';
     switch (consensus.condition) {
       case 'sunny':
-        return 'from-amber-500/5 via-sky-500/5 to-transparent';
+        return 'border-amber-400/40 dark:border-amber-500/30';
       case 'rainy':
-        return 'from-sky-600/10 via-slate-500/5 to-transparent';
+        return 'border-sky-400/40 dark:border-sky-500/30';
       case 'stormy':
-        return 'from-purple-600/10 via-indigo-900/5 to-transparent';
+        return 'border-purple-400/40 dark:border-purple-500/30';
       case 'snowy':
-        return 'from-cyan-400/10 via-slate-400/5 to-transparent';
-      case 'cloudy':
-      case 'partly_cloudy':
+        return 'border-cyan-400/40 dark:border-cyan-500/30';
       default:
-        return 'from-slate-400/5 via-slate-500/5 to-transparent';
+        return 'border-slate-200/90 dark:border-slate-800';
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col justify-between">
-      {/* Background Ambient Gradient */}
-      <div
-        className={`fixed inset-0 pointer-events-none bg-gradient-to-b ${getAmbientStyles()} transition-all duration-700`}
-      />
-
+    <div className="min-h-screen bg-slate-100/70 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col justify-between">
       {/* Navigation Header */}
       <Navbar
         theme={theme}
-        onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
         onOpenSources={() => setIsSourceModalOpen(true)}
         onOpenFeedback={() => setIsFeedbackModalOpen(true)}
         onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
@@ -194,181 +213,170 @@ export default function HomePage() {
       />
 
       {/* Main App Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full space-y-6 sm:space-y-8 relative z-10">
-        {/* Top Hero & Daily Travel Intent Prompt */}
-        <div className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                  Kişiselleştirilmiş Günlük Rota & AI Gardırop Asistanı (v0.3.0)
-                </span>
-                <span className="text-xs text-slate-400 hidden sm:inline">&bull;</span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 hidden sm:inline">
-                  Firefox Uyumlu &bull; Gizlilik Odaklı
-                </span>
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 py-5 sm:py-6 w-full space-y-5 relative z-10">
+        {/* Compact Unified Hero + Live Weather Overview Strip */}
+        <div
+          className={`p-4 sm:p-5 rounded-3xl bg-white dark:bg-slate-900 border ${getHeroAccentRing()} shadow-xs space-y-4`}
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            {/* Left: Current Location & Weather Snapshot */}
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80">
+                {getWeatherIcon(consensus ? consensus.condition : 'partly_cloudy', 'w-9 h-9')}
               </div>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                Bugün gün içerisinde nerede olacaksınız?
-              </h1>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-                Şehir içinde kalacaksanız ilçeler haritasından gün boyu hava durumunu, saatlik kıyafet katmanlarını ve kendi gardırobunuzdan kombinleri inceleyebilir; başka bir şehre veya ülkeye gidecekseniz yol güzergahı gardırobunu planlayabilirsiniz.
-              </p>
+
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+                    {location.district}, {location.city}
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400">
+                    [{location.lat.toFixed(2)}, {location.lon.toFixed(2)}]
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleDetectLocation}
+                    disabled={isLocating}
+                    className="px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <LocateFixed className={`w-3 h-3 ${isLocating ? 'animate-spin text-sky-500' : 'text-sky-500'}`} />
+                    <span>{isLocating ? 'Algılanıyor...' : 'Konumumu Bul'}</span>
+                  </button>
+                </div>
+
+                {consensus ? (
+                  <div className="flex items-baseline gap-3 mt-0.5">
+                    <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                      {consensus.temp}°C
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Hissedilen: <strong className="text-slate-700 dark:text-slate-200">{consensus.feelsLike}°C</strong>
+                    </span>
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      {getConditionLabelTr(consensus.condition)}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="text-sm text-slate-400 mt-1">Hava durumu konsensüsü yükleniyor...</div>
+                )}
+              </div>
             </div>
 
-            {/* Travel Intent Quick Switcher */}
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* Center: Quick Meteorological Metrics */}
+            {consensus && (
+              <div className="grid grid-cols-4 gap-3 sm:gap-5 px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/80 text-xs">
+                <div className="flex items-center gap-1.5">
+                  <Wind className="w-4 h-4 text-sky-500 shrink-0" />
+                  <div>
+                    <span className="block text-[10px] text-slate-400">Rüzgar</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{consensus.windSpeed} km/s</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <Droplets className="w-4 h-4 text-sky-500 shrink-0" />
+                  <div>
+                    <span className="block text-[10px] text-slate-400">Nem / Çiy</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">
+                      %{consensus.humidity} ({consensus.dewPoint}°C)
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <Sun className="w-4 h-4 text-amber-500 shrink-0" />
+                  <div>
+                    <span className="block text-[10px] text-slate-400">UV İndeksi</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{consensus.uvIndex}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <div>
+                    <span className="block text-[10px] text-slate-400">Güven</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400">%{consensus.confidenceScore}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Right: Travel Intent Mode Switcher */}
+            <div className="flex items-center gap-1.5 flex-wrap">
               <button
+                type="button"
                 onClick={() => setActiveMode('city')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeMode === 'city'
                     ? 'bg-sky-500 text-white shadow-xs'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
-                <MapPin className="w-4 h-4" />
-                Şehir İçi Kalacağım
+                <MapPin className="w-3.5 h-3.5" />
+                Şehir İçi
               </button>
               <button
+                type="button"
                 onClick={() => setActiveMode('route')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeMode === 'route'
                     ? 'bg-sky-500 text-white shadow-xs'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
-                <Compass className="w-4 h-4" />
-                Başka Şehre Gideceğim
+                <Compass className="w-3.5 h-3.5" />
+                Karayolu Rota
               </button>
               <button
+                type="button"
                 onClick={() => setActiveMode('globe')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeMode === 'globe'
                     ? 'bg-sky-500 text-white shadow-xs'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
-                <Plane className="w-4 h-4" />
-                Ülke Değiştireceğim
-              </button>
-            </div>
-          </div>
-
-          {/* Location Bar & Quick Action */}
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-              <MapPin className="w-4 h-4 text-sky-500 shrink-0" />
-              <span>Mevcut Odak: </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {location.district}, {location.city} ({location.country})
-              </span>
-              <span className="text-slate-400">
-                [{location.lat.toFixed(2)}, {location.lon.toFixed(2)}]
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleDetectLocation}
-                disabled={isLocating}
-                className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold transition-colors flex items-center gap-1.5"
-              >
-                <LocateFixed className={`w-3.5 h-3.5 ${isLocating ? 'animate-spin text-sky-500' : ''}`} />
-                <span>{isLocating ? 'Konum Çözümleniyor...' : 'Konumumu Algıla'}</span>
+                <Plane className="w-3.5 h-3.5" />
+                Ülke / Uçuş
               </button>
             </div>
           </div>
         </div>
 
-        {/* Current Weather Overview Strip */}
-        {consensus && (
-          <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80">
-                {getWeatherIcon(consensus.condition, 'w-8 h-8')}
-              </div>
-              <div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
-                    {consensus.temp}°C
-                  </span>
-                  <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                    Hissedilen: {consensus.feelsLike}°C
-                  </span>
-                </div>
-                <div className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-0.5 capitalize">
-                  {consensus.condition.replace('_', ' ')} &bull; {consensus.sources.length} Bağımsız Kaynak Ortalaması
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Metrics */}
-            <div className="flex items-center gap-4 sm:gap-6 text-xs text-slate-600 dark:text-slate-400 flex-wrap">
-              <div className="flex items-center gap-1.5">
-                <Wind className="w-4 h-4 text-sky-500" />
-                <div>
-                  <span className="block text-[10px] text-slate-400">Rüzgar</span>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">{consensus.windSpeed} km/s</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <Droplets className="w-4 h-4 text-sky-500" />
-                <div>
-                  <span className="block text-[10px] text-slate-400">Nem / Çiy</span>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">
-                    %{consensus.humidity} ({consensus.dewPoint}°C)
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <Sun className="w-4 h-4 text-amber-500" />
-                <div>
-                  <span className="block text-[10px] text-slate-400">UV İndeksi</span>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">{consensus.uvIndex}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                <div>
-                  <span className="block text-[10px] text-slate-400">Güven Puanı</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">%{consensus.confidenceScore}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Dynamic Mode Content */}
+        {/* Dynamic Mode Content: Side-by-Side Bento Grid on Desktop so Map & Outfit are visible together! */}
         {activeMode === 'city' && (
-          <div className="space-y-6 sm:space-y-8">
-            {/* 1. City & Districts Interactive Map */}
-            <RealCityMap
-              currentLocation={location}
-              onSelectDistrict={(dist) => setLocation(dist)}
-              tempSnapshot={consensus ? consensus.temp : 18}
-              theme={theme}
-            />
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+              {/* Left Column (5 cols): Interactive Map */}
+              <div className="xl:col-span-5">
+                <RealCityMap
+                  currentLocation={location}
+                  onSelectDistrict={handleSelectDistrict}
+                  tempSnapshot={consensus ? consensus.temp : 18}
+                  theme={theme}
+                />
+              </div>
 
-            {/* 2. Hourly Forecast & Multi-source comparison chart */}
+              {/* Right Column (7 cols): Immediate Outfit & Wardrobe Recommendation */}
+              <div className="xl:col-span-7">
+                {consensus && (
+                  <OutfitRecommendation
+                    weather={consensus}
+                    districtName={location.district}
+                    thermalProfile={thermalProfile}
+                    wardrobe={wardrobe}
+                    onOpenFeedback={() => setIsFeedbackModalOpen(true)}
+                    onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Bottom Row: 18-Hour Timeline & 3+ Model Consensus Breakdown */}
             {consensus && (
               <HourlyForecastChart
                 consensus={consensus}
                 districtName={location.district}
-              />
-            )}
-
-            {/* 3. Clothing & Wardrobe Recommender */}
-            {consensus && (
-              <OutfitRecommendation
-                weather={consensus}
-                districtName={location.district}
-                thermalProfile={thermalProfile}
-                wardrobe={wardrobe}
-                onOpenFeedback={() => setIsFeedbackModalOpen(true)}
-                onOpenWardrobe={() => setIsWardrobeModalOpen(true)}
               />
             )}
           </div>
@@ -412,12 +420,12 @@ export default function HomePage() {
       />
 
       {/* Footer & NOk Signature */}
-      <footer className="mt-12 border-t border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950 py-6 text-xs text-slate-500 dark:text-slate-400 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="mt-10 border-t border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950 py-5 text-xs text-slate-500 dark:text-slate-400 relative z-10">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-900 dark:text-white">Wear Weather</span>
             <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              v0.3.0
+              v0.3.1
             </span>
             <span>&bull;</span>
             <span>Developed by <strong className="text-slate-700 dark:text-slate-300">NOk</strong> Collective</span>

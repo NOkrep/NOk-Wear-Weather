@@ -1,2 +1,37 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
+
+/* Enable class-based dark mode switching (.dark on html) in Tailwind CSS v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Smooth custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.55);
+}
+
+/* Prevent Leaflet tile seams and improve GPU compositing */
+.leaflet-container {
+  font-family: inherit;
+  z-index: 1;
+  transform: translateZ(0);
+  will-change: transform;
+}
