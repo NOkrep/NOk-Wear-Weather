@@ -6,6 +6,7 @@ import {
   BudgetSegment,
   OutfitApproach,
   ClothingItem,
+  ThermalProfile,
 } from '@/lib/types';
 import {
   generateLayerTimeline,
@@ -23,27 +24,30 @@ import {
   CheckCircle2,
   AlertCircle,
   Pin,
-  ChevronRight,
-  ShieldCheck,
-  Flame,
-  Droplets,
-  Wind,
+  Sliders,
 } from 'lucide-react';
 
 interface OutfitRecommendationProps {
   weather: WeatherConsensus;
   districtName: string;
+  thermalProfile?: ThermalProfile;
+  onOpenFeedback?: () => void;
 }
 
-export function OutfitRecommendation({ weather, districtName }: OutfitRecommendationProps) {
+export function OutfitRecommendation({
+  weather,
+  districtName,
+  thermalProfile = { offsetC: 0, feedbackCount: 0, label: 'Standart Termal Profil' },
+  onOpenFeedback,
+}: OutfitRecommendationProps) {
   const [segment, setSegment] = useState<BudgetSegment>('essential');
   const [approach, setApproach] = useState<OutfitApproach | 'anchor'>('layering');
   const [selectedAnchor, setSelectedAnchor] = useState<ClothingItem>(ANCHOR_ITEMS[0]);
 
   const colorAdvice = getColorThermalAdvice(weather);
-  const layerTimeline = generateLayerTimeline(weather, segment);
-  const directOutfit = generateDirectOutfit(weather, segment);
-  const anchorMatch = matchAnchorItem(selectedAnchor, weather);
+  const layerTimeline = generateLayerTimeline(weather, segment, thermalProfile.offsetC);
+  const directOutfit = generateDirectOutfit(weather, segment, thermalProfile.offsetC);
+  const anchorMatch = matchAnchorItem(selectedAnchor, weather, thermalProfile.offsetC);
 
   return (
     <div className="space-y-6">
@@ -51,16 +55,29 @@ export function OutfitRecommendation({ weather, districtName }: OutfitRecommenda
       <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Shirt className="w-5 h-5 text-sky-500" />
-              {districtName} için Giysi & Stil Reçetesi
-            </h2>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Shirt className="w-5 h-5 text-sky-500" />
+                {districtName} için Giysi & Stil Reçetesi
+              </h2>
+              {thermalProfile.feedbackCount > 0 && (
+                <button
+                  type="button"
+                  onClick={onOpenFeedback}
+                  className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 flex items-center gap-1 hover:bg-emerald-500/20 transition-colors"
+                  title="Geri bildirimlerinize göre otomatik kalibre edildi"
+                >
+                  <Sliders className="w-3 h-3" />
+                  <span>{thermalProfile.label}</span>
+                </button>
+              )}
+            </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Sıcaklık: {weather.temp}°C &bull; Hissedilen: {weather.feelsLike}°C &bull; UV İndeksi: {weather.uvIndex}
+              Sıcaklık: {weather.temp}°C &bull; Hissedilen: {weather.feelsLike}°C &bull; Çiy Noktası: {weather.dewPoint}°C &bull; UV: {weather.uvIndex}
             </p>
           </div>
 
-          {/* Budget Segment Toggle (Anti-slop clean segmented button) */}
+          {/* Budget Segment Toggle */}
           <div className="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs font-medium self-start sm:self-auto">
             <button
               onClick={() => setSegment('essential')}
@@ -96,7 +113,7 @@ export function OutfitRecommendation({ weather, districtName }: OutfitRecommenda
             }`}
           >
             <Layers className="w-4 h-4" />
-            Modüler Katmanlama (Zaman Çizelgesi)
+            Modüler Katmanlama (Canlı Saatlik Çizelge)
           </button>
           <button
             onClick={() => setApproach('direct')}
@@ -175,7 +192,7 @@ export function OutfitRecommendation({ weather, districtName }: OutfitRecommenda
                       {step.timeRange}
                     </span>
                     <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                      ~{step.expectedTemp}°C
+                      {step.expectedTemp}°C (His: {step.feelsLikeTemp}°C)
                     </span>
                   </div>
 
@@ -234,7 +251,15 @@ export function OutfitRecommendation({ weather, districtName }: OutfitRecommenda
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                      {item.category === 'base' ? 'İç Katman' : item.category === 'mid' ? 'Orta Katman' : item.category === 'outer' ? 'Dış Katman' : item.category === 'bottom' ? 'Alt Giyim' : 'Ayakkabı'}
+                      {item.category === 'base'
+                        ? 'İç Katman'
+                        : item.category === 'mid'
+                        ? 'Orta Katman'
+                        : item.category === 'outer'
+                        ? 'Dış Katman'
+                        : item.category === 'bottom'
+                        ? 'Alt Giyim'
+                        : 'Ayakkabı'}
                     </span>
                     <span
                       className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-700"

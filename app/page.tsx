@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { RealCityMap } from '@/components/RealCityMap';
 import { HourlyForecastChart } from '@/components/HourlyForecastChart';
@@ -9,8 +9,8 @@ import { RoutePlanner } from '@/components/RoutePlanner';
 import { GlobeView } from '@/components/GlobeView';
 import { FeedbackModal } from '@/components/FeedbackModal';
 import { SourceSettingsModal } from '@/components/SourceSettingsModal';
-import { LocationInfo, WeatherConsensus, WeatherCondition } from '@/lib/types';
-import { fetchWeatherConsensus } from '@/lib/weather-service';
+import { LocationInfo, WeatherConsensus, WeatherCondition, ThermalProfile } from '@/lib/types';
+import { fetchWeatherConsensus, getPersonalThermalProfile } from '@/lib/weather-service';
 import {
   MapPin,
   Compass,
@@ -24,11 +24,7 @@ import {
   CloudRain,
   CloudLightning,
   CloudSnow,
-  RefreshCw,
   LocateFixed,
-  Layers,
-  ArrowRight,
-  Shirt,
 } from 'lucide-react';
 
 function getWeatherIcon(cond: WeatherCondition, className = 'w-6 h-6') {
@@ -62,7 +58,11 @@ export default function HomePage() {
   });
 
   const [consensus, setConsensus] = useState<WeatherConsensus | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [thermalProfile, setThermalProfile] = useState<ThermalProfile>({
+    offsetC: 0,
+    feedbackCount: 0,
+    label: 'Standart Termal Profil',
+  });
   const [isLocating, setIsLocating] = useState<boolean>(false);
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
@@ -77,28 +77,27 @@ export default function HomePage() {
     }
   }, [theme]);
 
-  // Fetch weather consensus when location changes
+  // Load personal thermal profile on mount
   useEffect(() => {
-    let isMounted = true;
+    setThermalProfile(getPersonalThermalProfile());
+  }, []);
 
-    fetchWeatherConsensus(location)
+  const loadWeather = useCallback((loc: LocationInfo) => {
+    fetchWeatherConsensus(loc)
       .then((data) => {
-        if (isMounted) {
-          setConsensus(data);
-          setIsLoading(false);
-        }
+        setConsensus(data);
       })
       .catch((err) => {
         console.error(err);
-        if (isMounted) setIsLoading(false);
       });
+  }, []);
 
-    return () => {
-      isMounted = false;
-    };
-  }, [location]);
+  // Fetch weather consensus when location changes
+  useEffect(() => {
+    loadWeather(location);
+  }, [location, loadWeather]);
 
-  // Privacy-first Geolocation Detection (Obfuscated to city/district level)
+  // Privacy-first Geolocation Detection (Obfuscated to ~1.1km grid + reverse geocoded district name)
   const handleDetectLocation = () => {
     if (!navigator.geolocation) {
       alert('Tarayıcınız konum servisini desteklemiyor.');
@@ -107,10 +106,27 @@ export default function HomePage() {
 
     setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        // Truncate lat/lon to 2 decimal places (~10-15km privacy radius)
+      async (pos) => {
         const lat = Math.round(pos.coords.latitude * 100) / 100;
         const lon = Math.round(pos.coords.longitude * 100) / 100;
+
+        try {
+          const res = await fetch(`/api/geocode?lat=${lat}&lon=${lon}`);
+          if (res.ok) {
+            const data = await res.json();
+            setLocation({
+              country: data.country || 'Türkiye',
+              city: data.city || 'Mevcut Şehir',
+              district: data.district || 'Bulunduğunuz İlçe',
+              lat,
+              lon,
+            });
+            setIsLocating(false);
+            return;
+          }
+        } catch (e) {
+          console.error(e);
+        }
 
         setLocation({
           country: 'Türkiye',
@@ -149,7 +165,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col justify-between`}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col justify-between">
       {/* Background Ambient Gradient */}
       <div
         className={`fixed inset-0 pointer-events-none bg-gradient-to-b ${getAmbientStyles()} transition-all duration-700`}
@@ -246,7 +262,7 @@ export default function HomePage() {
                 className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold transition-colors flex items-center gap-1.5"
               >
                 <LocateFixed className={`w-3.5 h-3.5 ${isLocating ? 'animate-spin text-sky-500' : ''}`} />
-                <span>{isLocating ? 'Konum Alınıyor...' : 'Konumumu Algıla'}</span>
+                <span>{isLocating ? 'Konum Çözümleniyor...' : 'Konumumu Algıla'}</span>
               </button>
             </div>
           </div>
@@ -269,13 +285,13 @@ export default function HomePage() {
                   </span>
                 </div>
                 <div className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-0.5 capitalize">
-                  {consensus.condition.replace('_', ' ')} &bull; 3 Bağımsız Kaynak Ortalaması
+                  {consensus.condition.replace('_', ' ')} &bull; {consensus.sources.length} Bağımsız Kaynak Ortalaması
                 </div>
               </div>
             </div>
 
             {/* Quick Metrics */}
-            <div className="flex items-center gap-4 sm:gap-6 text-xs text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-4 sm:gap-6 text-xs text-slate-600 dark:text-slate-400 flex-wrap">
               <div className="flex items-center gap-1.5">
                 <Wind className="w-4 h-4 text-sky-500" />
                 <div>
@@ -287,8 +303,10 @@ export default function HomePage() {
               <div className="flex items-center gap-1.5">
                 <Droplets className="w-4 h-4 text-sky-500" />
                 <div>
-                  <span className="block text-[10px] text-slate-400">Nem</span>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">%{consensus.humidity}</span>
+                  <span className="block text-[10px] text-slate-400">Nem / Çiy</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200">
+                    %{consensus.humidity} ({consensus.dewPoint}°C)
+                  </span>
                 </div>
               </div>
 
@@ -319,6 +337,7 @@ export default function HomePage() {
               currentLocation={location}
               onSelectDistrict={(dist) => setLocation(dist)}
               tempSnapshot={consensus ? consensus.temp : 18}
+              theme={theme}
             />
 
             {/* 2. Hourly Forecast & Multi-source comparison chart */}
@@ -334,17 +353,26 @@ export default function HomePage() {
               <OutfitRecommendation
                 weather={consensus}
                 districtName={location.district}
+                thermalProfile={thermalProfile}
+                onOpenFeedback={() => setIsFeedbackModalOpen(true)}
               />
             )}
           </div>
         )}
 
         {activeMode === 'route' && (
-          <RoutePlanner currentCity={location.city} />
+          <RoutePlanner
+            currentCity={location.city}
+            currentCoords={{ lat: location.lat, lon: location.lon }}
+            theme={theme}
+          />
         )}
 
         {activeMode === 'globe' && (
-          <GlobeView />
+          <GlobeView
+            theme={theme}
+            currentLocation={location}
+          />
         )}
       </main>
 
@@ -353,11 +381,13 @@ export default function HomePage() {
         isOpen={isFeedbackModalOpen}
         onClose={() => setIsFeedbackModalOpen(false)}
         currentLocationName={`${location.district}, ${location.city}`}
+        onFeedbackChanged={() => setThermalProfile(getPersonalThermalProfile())}
       />
 
       <SourceSettingsModal
         isOpen={isSourceModalOpen}
         onClose={() => setIsSourceModalOpen(false)}
+        onKeysSaved={() => loadWeather(location)}
       />
 
       {/* Footer & NOk Signature */}
@@ -366,7 +396,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-900 dark:text-white">Wear Weather</span>
             <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              v0.2.1
+              v0.2.2
             </span>
             <span>&bull;</span>
             <span>Developed by <strong className="text-slate-700 dark:text-slate-300">NOk</strong> Collective</span>

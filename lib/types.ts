@@ -21,6 +21,7 @@ export interface WeatherSourceReading {
   temp: number;
   feelsLike: number;
   humidity: number;
+  dewPoint?: number;
   windSpeed: number; // km/h
   precipitationProb: number; // %
   condition: WeatherCondition;
@@ -42,6 +43,7 @@ export interface WeatherConsensus {
   temp: number;
   feelsLike: number;
   humidity: number;
+  dewPoint: number;
   windSpeed: number;
   precipitationProb: number;
   uvIndex: number;
@@ -50,6 +52,7 @@ export interface WeatherConsensus {
   sources: WeatherSourceReading[];
   hourly: HourlyForecastPoint[];
   lastUpdated: string;
+  cached?: boolean;
 }
 
 export type BudgetSegment = 'essential' | 'premium';
@@ -73,9 +76,11 @@ export interface ClothingItem {
 }
 
 export interface LayerTimelineStep {
-  timeRange: string; // "07:00 - 10:00"
+  timeRange: string; // "07:30 - 10:30"
   phase: 'morning' | 'midday' | 'evening';
   expectedTemp: number;
+  feelsLikeTemp: number;
+  precipitationProb: number;
   actionTitle: string; // "3 Katman Aktif" | "Dış Katmanı Çıkar"
   actionDescription: string;
   activeItems: string[];
@@ -99,14 +104,31 @@ export interface FeedbackRecord {
   notes: string;
 }
 
+export interface ThermalProfile {
+  offsetC: number; // -4 to +4 (negative means user gets cold easily -> recommend warmer clothes)
+  feedbackCount: number;
+  label: string;
+}
+
+export interface CustomApiKeys {
+  weatherApiKey?: string;
+  openWeatherMapKey?: string;
+}
+
 export interface RouteStop {
   id: string;
   name: string;
   lat: number;
   lon: number;
-  estimatedArrival: string;
+  timeStr: string;
+  isOrigin: boolean;
+  isDest: boolean;
   temp: number;
+  feelsLike: number;
+  precipitationProb: number;
+  windSpeed: number;
   condition: WeatherCondition;
+  tempDeltaFromOrigin: number;
   clothingTip: string;
 }
 

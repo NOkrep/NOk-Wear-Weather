@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CloudSun, Sun, Moon, Database, MessageSquare, Compass, ShieldCheck } from 'lucide-react';
+import { CloudSun, Sun, Moon, Database, MessageSquare } from 'lucide-react';
 
 interface NavbarProps {
   theme: 'dark' | 'light';
@@ -36,7 +36,7 @@ export function Navbar({
                 Wear Weather
               </span>
               <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                v0.2.1
+                v0.2.2
               </span>
             </div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
@@ -78,7 +78,7 @@ export function Navbar({
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            3D Küre
+            3D Küre & Uçuş
           </button>
         </nav>
 

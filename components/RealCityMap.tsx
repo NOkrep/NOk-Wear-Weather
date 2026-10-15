@@ -1,15 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LocationInfo } from '@/lib/types';
-import { CARTO_VOYAGER_TILE_URL, MAP_ATTRIBUTION } from '@/lib/map-config';
+import { getCartoTileUrl, MAP_ATTRIBUTION } from '@/lib/map-config';
 import {
   MapPin,
   Search,
   ShieldCheck,
-  Navigation,
-  Globe2,
-  LocateFixed,
   Loader2,
 } from 'lucide-react';
 
@@ -17,38 +14,68 @@ interface RealCityMapProps {
   currentLocation: LocationInfo;
   onSelectDistrict: (district: LocationInfo) => void;
   tempSnapshot: number;
+  theme?: 'dark' | 'light';
+}
+
+function buildMarkerHtml(label: string, temp: number) {
+  return `
+    <div style="
+      background: #0284c7;
+      color: #ffffff;
+      border: 2px solid #38bdf8;
+      border-radius: 12px;
+      padding: 5px 10px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.45);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transform: translate(-50%, -50%);
+    ">
+      <span>📍 ${label}</span>
+      <span style="background: #ffffff; color: #0284c7; padding: 1px 5px; border-radius: 6px; font-weight: 800;">
+        ${temp}°C
+      </span>
+    </div>
+  `;
 }
 
 export function RealCityMap({
   currentLocation,
   onSelectDistrict,
   tempSnapshot,
+  theme = 'dark',
 }: RealCityMapProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<any>(null);
+  const tileLayerRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
+  const leafletRef = useRef<any>(null);
+  const onSelectRef = useRef(onSelectDistrict);
+
+  useEffect(() => {
+    onSelectRef.current = onSelectDistrict;
+  }, [onSelectDistrict]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isReverseGeocoding, setIsReverseGeocoding] = useState(false);
 
-  // Initialize Leaflet Map with CARTO Voyager Raster Basemap (Official Key)
+  // Initialize Leaflet Map ONCE on mount
   useEffect(() => {
     let isMounted = true;
 
     async function initMap() {
-      if (typeof window === 'undefined' || !mapContainerRef.current) return;
+      if (typeof window === 'undefined' || !mapContainerRef.current || mapInstanceRef.current) return;
 
       const L = (await import('leaflet')).default;
-
-      // Cleanup existing instance
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-
       if (!isMounted || !mapContainerRef.current) return;
+      leafletRef.current = L;
 
       const map = L.map(mapContainerRef.current, {
         center: [currentLocation.lat, currentLocation.lon],
@@ -57,48 +84,25 @@ export function RealCityMap({
         attributionControl: true,
       });
 
-      // CARTO Voyager High-Definition Basemap with official key (zero watermark)
-      L.tileLayer(CARTO_VOYAGER_TILE_URL, {
+      const tileLayer = L.tileLayer(getCartoTileUrl(theme), {
         attribution: MAP_ATTRIBUTION,
         maxZoom: 19,
         subdomains: 'abcd',
       }).addTo(map);
+      tileLayerRef.current = tileLayer;
 
-      // Current location marker
       const markerIcon = L.divIcon({
         className: 'current-location-marker',
-        html: `
-          <div style="
-            background: #0284c7;
-            color: #ffffff;
-            border: 2px solid #38bdf8;
-            border-radius: 12px;
-            padding: 5px 10px;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.4);
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            white-space: nowrap;
-            transform: translate(-50%, -50%);
-          ">
-            <span>📍 ${currentLocation.district || currentLocation.city}</span>
-            <span style="background: #ffffff; color: #0284c7; padding: 1px 5px; border-radius: 6px; font-weight: 800;">
-              ${tempSnapshot}°C
-            </span>
-          </div>
-        `,
-        iconSize: [120, 32],
-        iconAnchor: [60, 16],
+        html: buildMarkerHtml(currentLocation.district || currentLocation.city, tempSnapshot),
+        iconSize: [140, 32],
+        iconAnchor: [70, 16],
       });
 
-      const mainMarker = L.marker([currentLocation.lat, currentLocation.lon], { icon: markerIcon }).addTo(map);
+      const mainMarker = L.marker([currentLocation.lat, currentLocation.lon], {
+        icon: markerIcon,
+      }).addTo(map);
       markerRef.current = mainMarker;
 
-      // Real Map Interactive Click: Reverse Geocoding anywhere on the globe!
       map.on('click', async (e: any) => {
         const { lat, lng } = e.latlng;
         setIsReverseGeocoding(true);
@@ -107,7 +111,7 @@ export function RealCityMap({
           const res = await fetch(`/api/geocode?lat=${lat}&lon=${lng}`);
           if (res.ok) {
             const data = await res.json();
-            onSelectDistrict({
+            onSelectRef.current({
               country: data.country || 'Global',
               city: data.city || 'Bölge',
               district: data.district || 'Seçili Konum',
@@ -134,42 +138,63 @@ export function RealCityMap({
         mapInstanceRef.current = null;
       }
     };
-  }, [currentLocation.lat, currentLocation.lon, currentLocation.district, currentLocation.city, onSelectDistrict, tempSnapshot]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Fly to location when currentLocation changes
+  // Switch CARTO basemap dynamically when theme changes (Dark Matter vs Voyager)
   useEffect(() => {
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([currentLocation.lat, currentLocation.lon], 11, {
-        duration: 1.2,
-      });
-
-      if (markerRef.current) {
-        markerRef.current.setLatLng([currentLocation.lat, currentLocation.lon]);
-      }
+    if (tileLayerRef.current) {
+      tileLayerRef.current.setUrl(getCartoTileUrl(theme));
     }
-  }, [currentLocation.lat, currentLocation.lon, currentLocation.district, tempSnapshot]);
+  }, [theme]);
 
-  // Live Global Search Autocomplete
-  const handleSearchChange = async (val: string) => {
-    setSearchQuery(val);
-    if (!val || val.trim().length < 2) {
+  // Smoothly flyTo and update marker icon when location or temperature updates
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    const L = leafletRef.current;
+    if (!map || !L) return;
+
+    map.flyTo([currentLocation.lat, currentLocation.lon], Math.max(map.getZoom(), 11), {
+      duration: 1.1,
+    });
+
+    if (markerRef.current) {
+      markerRef.current.setLatLng([currentLocation.lat, currentLocation.lon]);
+      const updatedIcon = L.divIcon({
+        className: 'current-location-marker',
+        html: buildMarkerHtml(currentLocation.district || currentLocation.city, tempSnapshot),
+        iconSize: [140, 32],
+        iconAnchor: [70, 16],
+      });
+      markerRef.current.setIcon(updatedIcon);
+    }
+  }, [currentLocation.lat, currentLocation.lon, currentLocation.district, currentLocation.city, tempSnapshot]);
+
+  // Debounced Global Search Autocomplete (300ms)
+  useEffect(() => {
+    if (!searchQuery || searchQuery.trim().length < 2) {
       setSearchResults([]);
+      setIsSearching(false);
       return;
     }
 
-    setIsSearching(true);
-    try {
-      const res = await fetch(`/api/geocode?q=${encodeURIComponent(val.trim())}`);
-      if (res.ok) {
-        const data = await res.json();
-        setSearchResults(data.results || []);
+    const timer = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(searchQuery.trim())}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSearchResults(data.results || []);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsSearching(false);
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSearching(false);
-    }
-  };
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleSelectSearchResult = (item: any) => {
     onSelectDistrict({
@@ -188,10 +213,10 @@ export function RealCityMap({
       {/* Header & Status */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <MapPin className="w-5 h-5 text-sky-500" />
-              Canlı Harita & İlçe Keşfi (CARTO Voyager)
+              Canlı Harita & İlçe Keşfi ({theme === 'dark' ? 'CARTO Dark Matter' : 'CARTO Voyager'})
             </h3>
             <span className="text-xs px-2.5 py-0.5 rounded-md bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800 font-semibold">
               {currentLocation.district}, {currentLocation.city}
@@ -219,7 +244,7 @@ export function RealCityMap({
             type="text"
             placeholder="Dünya genelinde herhangi bir ilçe, şehir veya ülke arayın (Örn: Kadıköy, Kaş, Çankaya, Berlin, Paris, Tokyo)..."
             value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden"
           />
           {isSearching && <Loader2 className="w-3.5 h-3.5 animate-spin text-slate-400" />}
@@ -259,7 +284,7 @@ export function RealCityMap({
             💡 İpucu: Haritada herhangi bir yere tıklayarak istediğiniz ilçeyi/bölgeyi anında seçebilirsiniz.
           </span>
           <span className="hidden sm:inline font-mono text-[10px] text-slate-400">
-            CARTO Voyager Raster &bull; 5M Kotası
+            {theme === 'dark' ? 'CARTO Dark Matter' : 'CARTO Voyager'} &bull; 5M Kotası
           </span>
         </div>
       </div>

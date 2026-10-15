@@ -1,23 +1,88 @@
-import { LocationInfo, WeatherConsensus } from './types';
+import { LocationInfo, WeatherConsensus, FeedbackRecord, ThermalProfile, CustomApiKeys } from './types';
+
+export function getStoredCustomKeys(): CustomApiKeys {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = localStorage.getItem('wear_weather_custom_keys');
+    if (!raw) return {};
+    return JSON.parse(raw) as CustomApiKeys;
+  } catch {
+    return {};
+  }
+}
+
+export function getPersonalThermalProfile(): ThermalProfile {
+  if (typeof window === 'undefined') {
+    return { offsetC: 0, feedbackCount: 0, label: 'Standart Termal Profil' };
+  }
+  try {
+    const raw = localStorage.getItem('wear_weather_feedbacks');
+    if (!raw) {
+      return { offsetC: 0, feedbackCount: 0, label: 'Standart Termal Profil' };
+    }
+    const feedbacks: FeedbackRecord[] = JSON.parse(raw);
+    if (!Array.isArray(feedbacks) || feedbacks.length === 0) {
+      return { offsetC: 0, feedbackCount: 0, label: 'Standart Termal Profil' };
+    }
+
+    // Weight recent feedbacks (up to last 10)
+    const recent = feedbacks.slice(0, 10);
+    let rawOffset = 0;
+    for (const fb of recent) {
+      if (fb.clothingResult === 'froze') {
+        // User felt cold -> treat ambient temperature as colder (-1.5°C) so warmer clothes are suggested
+        rawOffset -= 1.5;
+      } else if (fb.clothingResult === 'sweated' || fb.clothingResult === 'color_hot') {
+        // User felt hot -> treat ambient temperature as warmer (+1.5°C) so lighter clothes are suggested
+        rawOffset += 1.5;
+      }
+    }
+
+    const clamped = Math.max(-4, Math.min(4, Math.round(rawOffset * 10) / 10));
+    let label = 'Dengeli Termal Profil (0°C)';
+    if (clamped <= -1) {
+      label = `Soğuğa Hassas Profil (${clamped}°C Kalibrasyon)`;
+    } else if (clamped >= 1) {
+      label = `Sıcağa Hassas Profil (+${clamped}°C Kalibrasyon)`;
+    }
+
+    return {
+      offsetC: clamped,
+      feedbackCount: feedbacks.length,
+      label,
+    };
+  } catch {
+    return { offsetC: 0, feedbackCount: 0, label: 'Standart Termal Profil' };
+  }
+}
 
 export async function fetchWeatherConsensus(location: LocationInfo): Promise<WeatherConsensus> {
   try {
+    const customKeys = getStoredCustomKeys();
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+    };
+    if (customKeys.weatherApiKey?.trim()) {
+      headers['x-weatherapi-key'] = customKeys.weatherApiKey.trim();
+    }
+    if (customKeys.openWeatherMapKey?.trim()) {
+      headers['x-owm-key'] = customKeys.openWeatherMapKey.trim();
+    }
+
     const res = await fetch(`/api/weather?lat=${location.lat}&lon=${location.lon}`, {
-      headers: {
-        'Accept': 'application/json',
-      },
+      headers,
     });
     if (!res.ok) {
       throw new Error(`API error: ${res.status}`);
     }
     return await res.json();
   } catch (err) {
-    console.error('Error fetching weather consensus, using fallback:', err);
-    // Offline / fallback response
+    console.error('Error fetching weather consensus, using offline fallback:', err);
     return {
       temp: 18.0,
       feelsLike: 17.2,
       humidity: 60,
+      dewPoint: 10.1,
       windSpeed: 12,
       precipitationProb: 20,
       uvIndex: 4,
@@ -25,34 +90,15 @@ export async function fetchWeatherConsensus(location: LocationInfo): Promise<Wea
       confidenceScore: 88,
       sources: [
         {
-          sourceName: 'Open-Meteo',
-          temp: 18.2,
-          feelsLike: 17.5,
-          humidity: 58,
+          sourceName: 'Open-Meteo (Çevrimdışı Önbellek)',
+          temp: 18.0,
+          feelsLike: 17.2,
+          humidity: 60,
+          dewPoint: 10.1,
           windSpeed: 12,
           precipitationProb: 20,
           condition: 'partly_cloudy',
-          isAvailable: true,
-        },
-        {
-          sourceName: 'MET Norway',
-          temp: 17.8,
-          feelsLike: 17.0,
-          humidity: 62,
-          windSpeed: 13,
-          precipitationProb: 15,
-          condition: 'partly_cloudy',
-          isAvailable: true,
-        },
-        {
-          sourceName: 'DWD Bright Sky',
-          temp: 18.0,
-          feelsLike: 17.1,
-          humidity: 60,
-          windSpeed: 11,
-          precipitationProb: 25,
-          condition: 'partly_cloudy',
-          isAvailable: true,
+          isAvailable: false,
         },
       ],
       hourly: [

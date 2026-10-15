@@ -1,28 +1,30 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FeedbackRecord } from '@/lib/types';
+import { getPersonalThermalProfile } from '@/lib/weather-service';
 import {
   X,
   Star,
   MessageSquare,
   CheckCircle2,
   Copy,
-  ThumbsUp,
-  Download,
-  AlertCircle,
+  RotateCcw,
+  Sliders,
 } from 'lucide-react';
 
 interface FeedbackModalProps {
   isOpen: boolean;
   onClose: () => void;
   currentLocationName: string;
+  onFeedbackChanged?: () => void;
 }
 
 export function FeedbackModal({
   isOpen,
   onClose,
   currentLocationName,
+  onFeedbackChanged,
 }: FeedbackModalProps) {
   const [rating, setRating] = useState<number>(5);
   const [bestSource, setBestSource] = useState('Open-Meteo');
@@ -46,6 +48,8 @@ export function FeedbackModal({
 
   if (!isOpen) return null;
 
+  const thermalProfile = getPersonalThermalProfile();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newRecord: FeedbackRecord = {
@@ -64,6 +68,16 @@ export function FeedbackModal({
       localStorage.setItem('wear_weather_feedbacks', JSON.stringify(updated));
     }
     setSubmitted(true);
+    onFeedbackChanged?.();
+  };
+
+  const handleResetProfile = () => {
+    setFeedbacks([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('wear_weather_feedbacks');
+    }
+    setSubmitted(false);
+    onFeedbackChanged?.();
   };
 
   const handleCopyJSON = () => {
@@ -80,7 +94,7 @@ export function FeedbackModal({
           <div className="flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-emerald-500" />
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Geri Bildirim & Doğruluk Değerlendirmesi
+              Geri Bildirim & Kişisel Termal Kalibrasyon
             </h3>
           </div>
           <button
@@ -89,6 +103,32 @@ export function FeedbackModal({
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Active Personal Thermal Calibration Banner */}
+        <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2">
+            <Sliders className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-bold text-slate-900 dark:text-white block">
+                Aktif Profil: {thermalProfile.label}
+              </span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                Toplam {feedbacks.length} geri bildirim kıyafet motorunu kişiselleştiriyor.
+              </span>
+            </div>
+          </div>
+          {feedbacks.length > 0 && (
+            <button
+              type="button"
+              onClick={handleResetProfile}
+              className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] font-semibold text-slate-600 dark:text-slate-300 hover:text-rose-500 flex items-center gap-1 shrink-0"
+              title="Kalibrasyonu Sıfırla"
+            >
+              <RotateCcw className="w-3 h-3" />
+              Sıfırla
+            </button>
+          )}
         </div>
 
         {!submitted ? (
@@ -138,7 +178,7 @@ export function FeedbackModal({
               >
                 <option value="Open-Meteo">Open-Meteo (ECMWF & GFS)</option>
                 <option value="MET Norway">MET Norway (Yr.no)</option>
-                <option value="Bright Sky">Bright Sky (DWD ICON Modeli)</option>
+                <option value="DWD ICON">DWD ICON Modeli</option>
                 <option value="Konsensüs Ortalaması">Konsensüs Ortalaması En İyisiydi</option>
               </select>
             </div>
@@ -146,13 +186,13 @@ export function FeedbackModal({
             {/* Clothing Accuracy */}
             <div className="space-y-1.5">
               <label className="font-semibold text-slate-700 dark:text-slate-300 block">
-                Kıyafet & Katman Tavsiyesinin İsabeti:
+                Kıyafet & Katman Tavsiyesinin İsabeti (Kombin Motorunu Kalibre Eder):
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {[
                   { key: 'perfect', label: 'Tam İsabet (Konforluydu)' },
-                  { key: 'froze', label: 'Üşüttü (Daha kalın gerekti)' },
-                  { key: 'sweated', label: 'Terletti (Daha hafif gerekti)' },
+                  { key: 'froze', label: 'Üşüttü (-1.5°C Daha Kalın Öner)' },
+                  { key: 'sweated', label: 'Terletti (+1.5°C Daha Hafif Öner)' },
                   { key: 'wet', label: 'Islattı (Su geçirmezlik yetersizdi)' },
                   { key: 'color_hot', label: 'Renk Güneşte Fazla Isındı' },
                 ].map((item) => (
@@ -190,7 +230,7 @@ export function FeedbackModal({
               type="submit"
               className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold transition-colors shadow-xs"
             >
-              Geri Bildirimi Kaydet
+              Geri Bildirimi Kaydet & Profili Kalibre Et
             </button>
           </form>
         ) : (
@@ -200,10 +240,10 @@ export function FeedbackModal({
             </div>
             <div>
               <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                Teşekkürler! Geri Bildiriminiz Kaydedildi.
+                Teşekkürler! Termal Profiliniz Güncellendi.
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
-                Bu bildirim yerel hafızaya işlendi ve global doğruluk kalibrasyonunda kullanılacaktır.
+                Yeni termal kalibrasyonunuz ({thermalProfile.label}) anında kıyafet motoruna uygulandı.
               </p>
             </div>
 

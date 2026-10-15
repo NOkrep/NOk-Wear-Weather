@@ -1,30 +1,48 @@
 'use client';
 
-import React, { useState } from 'react';
-import { X, Database, CheckCircle2, Key, Info, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { getStoredCustomKeys } from '@/lib/weather-service';
+import { X, Database, CheckCircle2, Key } from 'lucide-react';
 
 interface SourceSettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onKeysSaved?: () => void;
 }
 
-export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProps) {
+export function SourceSettingsModal({
+  isOpen,
+  onClose,
+  onKeysSaved,
+}: SourceSettingsModalProps) {
   const [weatherApiKey, setWeatherApiKey] = useState('');
   const [openWeatherMapKey, setOpenWeatherMapKey] = useState('');
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      const existing = getStoredCustomKeys();
+      setWeatherApiKey(existing.weatherApiKey || '');
+      setOpenWeatherMapKey(existing.openWeatherMapKey || '');
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (typeof window !== 'undefined') {
-      localStorage.setItem('wear_weather_custom_keys', JSON.stringify({ weatherApiKey, openWeatherMapKey }));
+      localStorage.setItem(
+        'wear_weather_custom_keys',
+        JSON.stringify({ weatherApiKey: weatherApiKey.trim(), openWeatherMapKey: openWeatherMapKey.trim() })
+      );
     }
     setSaved(true);
+    onKeysSaved?.();
     setTimeout(() => {
       setSaved(false);
       onClose();
-    }, 1200);
+    }, 900);
   };
 
   return (
@@ -35,7 +53,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
           <div className="flex items-center gap-2">
             <Database className="w-5 h-5 text-sky-500" />
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Hava Durumu Veri Kaynakları (3+ Model)
+              Hava Durumu Veri Kaynakları (3+ Paralel Model)
             </h3>
           </div>
           <button
@@ -56,7 +74,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 space-y-1">
             <div className="flex items-center justify-between">
               <span className="font-bold text-slate-900 dark:text-white">
-                1. Open-Meteo API
+                1. Open-Meteo API (ECMWF/IFS)
               </span>
               <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
@@ -64,7 +82,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
               </span>
             </div>
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-              ECMWF ve GFS modelleriyle saatlik sıcaklık, bağıl nem, rüzgar hamlesi, UV indeksi ve yağış olasılığı.
+              ECMWF ve GFS modelleriyle saatlik sıcaklık, bağıl nem, çiy noktası, rüzgar, UV indeksi ve yağış olasılığı.
             </p>
           </div>
 
@@ -84,7 +102,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
             </p>
           </div>
 
-          {/* 3. DWD Bright Sky */}
+          {/* 3. DWD Bright Sky / ICON */}
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 space-y-1">
             <div className="flex items-center justify-between">
               <span className="font-bold text-slate-900 dark:text-white">
@@ -96,7 +114,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
               </span>
             </div>
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-              Alman Meteoroloji Servisi açık verileri (Bright Sky proxy). Küresel ICON hava modeli.
+              Alman Meteoroloji Servisi açık verileri (Bright Sky + Küresel DWD ICON modeli).
             </p>
           </div>
         </div>
@@ -105,7 +123,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
         <form onSubmit={handleSave} className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
           <div className="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
             <Key className="w-4 h-4 text-amber-500" />
-            <span>İsteğe Bağlı Ek Kaynak Anahtarları Ekleme</span>
+            <span>İsteğe Bağlı Ek Kaynak Anahtarları (Konsensüse 4. ve 5. Model Olarak Katılır)</span>
           </div>
 
           <div className="space-y-1">
@@ -138,7 +156,7 @@ export function SourceSettingsModal({ isOpen, onClose }: SourceSettingsModalProp
             type="submit"
             className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold transition-colors shadow-xs"
           >
-            {saved ? 'Kaydedildi!' : 'Ayarları Kaydet'}
+            {saved ? 'Kaydedildi ve Konsensüs Güncelleniyor!' : 'Anahtarları Kaydet ve Uygula'}
           </button>
         </form>
       </div>
