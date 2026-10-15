@@ -6,15 +6,16 @@ import {
   AnchorMatchResult,
   HourlyForecastPoint,
 } from './types';
+import { getMarketProfileForCountry } from './clothing-catalog';
 
-// Anchor Items Catalogue that users can choose from
+// Anchor Items Catalogue
 export const ANCHOR_ITEMS: ClothingItem[] = [
   {
     id: 'anc-denim-jacket',
     name: 'Klasik Mavi Denim Ceket',
     category: 'outer',
     segment: 'essential',
-    material: 'Pamuklu Dayanıklı Kot Dokuma',
+    material: 'Pamuklu Dayanıklı Kot (12 oz)',
     warmth: 3,
     waterResistance: 'none',
     windResistance: 'medium',
@@ -28,7 +29,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     id: 'anc-beige-trench',
     name: 'Bej Klasik Trençkot',
     category: 'outer',
-    segment: 'essential',
+    segment: 'smart',
     material: 'Sıkı Dokuma Pamuklu Gabardin',
     warmth: 3,
     waterResistance: 'light',
@@ -44,7 +45,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     name: 'Gri Kapüşonlu Sweatshirt (Hoodie)',
     category: 'mid',
     segment: 'essential',
-    material: 'Şardonlu Pamuk-Polyester Karışım',
+    material: '3 İplik Şardonlu Pamuk (320 GSM)',
     warmth: 3,
     waterResistance: 'none',
     windResistance: 'low',
@@ -56,9 +57,9 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
   },
   {
     id: 'anc-black-leather',
-    name: 'Siyah Biker Deri / Faux Deri Ceket',
+    name: 'Siyah Biker Deri Ceket',
     category: 'outer',
-    segment: 'premium',
+    segment: 'smart',
     material: 'Yumuşak Doğal / Kaliteli Deri',
     warmth: 4,
     waterResistance: 'light',
@@ -66,15 +67,15 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     colorName: 'Kömür Siyahı',
     colorHex: '#18181b',
     colorType: 'dark',
-    description: 'Rüzgarı tamamen kesen, güneş ışığını emerek ısıtan iddialı parça.',
+    description: 'Rüzgarı tamamen kesen, akşam serinliğinde koruyan şehir parçası.',
     isAnchorCompatible: true,
   },
   {
     id: 'anc-white-linen',
-    name: 'Beyaz Keten Gömlek',
+    name: 'Beyaz Saf Keten Gömlek',
     category: 'mid',
-    segment: 'premium',
-    material: '%100 Saf Doğal Keten (Linen)',
+    segment: 'smart',
+    material: '%100 Saf Doğal Keten (145 GSM)',
     warmth: 1,
     waterResistance: 'none',
     windResistance: 'low',
@@ -88,7 +89,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     id: 'anc-wool-knit',
     name: 'Merinos Yünü Triko Kazak',
     category: 'mid',
-    segment: 'premium',
+    segment: 'luxury',
     material: '%100 Ekstra İnce Merinos Yünü',
     warmth: 4,
     waterResistance: 'none',
@@ -101,13 +102,13 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
   },
 ];
 
-// Color Thermal Advice Generator
+// Color Thermal Advice Generator (Section 3.C)
 export function getColorThermalAdvice(weather: WeatherConsensus): {
   recommendedPalette: string[];
   reason: string;
   caution: string;
 } {
-  const isHighUvOrHot = weather.temp >= 23 || weather.uvIndex >= 5;
+  const isHighUvOrHot = weather.temp >= 24 || weather.uvIndex >= 5;
   const isCold = weather.temp <= 10;
   const isRainy = weather.precipitationProb >= 50 || weather.condition === 'rainy';
   const isMuggy = (weather.dewPoint ?? 10) >= 16;
@@ -115,37 +116,36 @@ export function getColorThermalAdvice(weather: WeatherConsensus): {
   if (isHighUvOrHot) {
     return {
       recommendedPalette: ['#ffffff', '#fef08a', '#e0f2fe', '#f5f5f4'],
-      reason: `Güneş radyasyonunu ve UV ışınlarını (UV: ${weather.uvIndex}) yansıtan açık renkler (Beyaz, Bej, Açık Pastel) yüzey ısısının artmasını önler.`,
+      reason: `Güneş ışığını ve UV radyasyonunu (UV: ${weather.uvIndex}) yansıtan açık renkler (Beyaz, bej, açık pastel) vücut ısısını korur.`,
       caution: isMuggy
-        ? `Çiy noktası yüksek (${weather.dewPoint}°C - bunaltıcı nem); koyu renkli ve sentetik dokulardan kaçının.`
-        : 'Güneş altında koyu renkler (Siyah/Lacivert) ısıyı hızla hapsedeceğinden terlemeyi tetikleyebilir.',
+        ? `Çiy noktası yüksek (${weather.dewPoint}°C); koyu renkli ve sentetik dokulardan kaçının.`
+        : 'Güneş altında koyu renkler ısıyı hızla hapsedeceğinden terlemeyi tetikler.',
     };
   }
 
   if (isCold) {
     return {
       recommendedPalette: ['#18181b', '#1e293b', '#374151', '#450a0a'],
-      reason: 'Koyu renkler (Siyah, Antrasit, Lacivert, Bordo) kış güneşinin termal enerjisini emerek vücut sıcaklığının korunmasına destek olur.',
-      caution: 'Hava erken kararacağından akşam yürüyüşlerinde açık tonlu veya reflektörlü küçük aksesuarlar bulundurmanız önerilir.',
+      reason: 'Isıyı soğuran ve muhafaza eden koyu tonlar (Siyah, antrasit, lacivert) kış güneşinin termal enerjisini değerlendirir.',
+      caution: 'Akşam saatlerinde fark edilirlik için açık tonlu küçük bir aksesuar bulundurun.',
     };
   }
 
   if (isRainy) {
     return {
       recommendedPalette: ['#334155', '#475569', '#1e1b4b', '#0f172a'],
-      reason: 'Yağışlı ve ıslak havalarda su damlaları veya zemin sıçramalarının leke bırakmaması için orta ve koyu tonlu alt giyimler tercih edilmelidir.',
+      reason: 'Yağışlı ve çamurlu havalarda leke ve su sıçramalarına karşı koyu renk alt giyim tercih edilmelidir.',
       caution: 'Açık renk kanvas veya süet ayakkabılardan kaçınınız.',
     };
   }
 
   return {
     recommendedPalette: ['#64748b', '#cbd5e1', '#3b82f6', '#f8fafc'],
-    reason: 'Ilıman ve dengeli havada kontrast yaratacak nötr tonlar (Gri, Denim Mavisi, Kırık Beyaz) ideal konfor sağlar.',
-    caution: 'Sabah ve akşam saatlerindeki sıcaklık farkına göre üst katmanda kolay kombinlenen renkleri seçiniz.',
+    reason: 'Ilıman havada kontrast yaratacak nötr tonlar (Gri, Denim Mavisi, Kırık Beyaz) dengeli konfor sağlar.',
+    caution: 'Sabah ve akşam sıcaklık farkına göre kolay kombinlenen ara tonlar seçin.',
   };
 }
 
-// Helper: Extract phase metrics from real hourly forecast array
 function extractPhaseMetrics(
   weather: WeatherConsensus,
   targetHours: number[],
@@ -176,37 +176,54 @@ function buildPhaseStep(
   metrics: { temp: number; feelsLike: number; precipProb: number; windSpeed: number },
   segment: BudgetSegment,
   thermalOffsetC: number,
-  dewPoint: number
+  dewPoint: number,
+  country: string
 ): LayerTimelineStep {
-  // Effective temperature incorporates wind/humidity feelsLike + personal thermal offset
   const effectiveTemp = Math.round((metrics.feelsLike + thermalOffsetC) * 10) / 10;
   const isRainy = metrics.precipProb >= 40;
   const isWindy = metrics.windSpeed >= 22;
-  const isHumid = dewPoint >= 16;
+  const market = getMarketProfileForCountry(country);
+  const tierKey = segment === 'premium' || segment === 'luxury' ? 'luxury' : segment === 'smart' ? 'smart' : 'essential';
+  const brands = market.tiers[tierKey].referenceBrands.slice(0, 2).join('/');
 
-  const phaseLabel =
-    phase === 'morning' ? 'Sabah' : phase === 'midday' ? 'Öğle' : 'Akşam';
+  const phaseLabel = phase === 'morning' ? 'Sabah' : phase === 'midday' ? 'Öğle' : 'Akşam';
 
-  // 1. Cold Regime (Effective <= 10°C)
+  // Cold Regime (<= 10°C)
   if (effectiveTemp <= 10) {
-    if (segment === 'essential') {
+    if (tierKey === 'essential') {
       return {
         timeRange,
         phase,
         expectedTemp: metrics.temp,
         feelsLikeTemp: metrics.feelsLike,
         precipitationProb: metrics.precipProb,
-        actionTitle: `${phaseLabel}: 3 Tam Kış Katmanı Aktif`,
-        actionDescription: isRainy
-          ? 'Termal içlik/tişört + kalın polar + su itici kaban kapalı tutulmalı.'
-          : 'Uzun kollu pamuklu içlik + polar sweatshirt + şişme mont/kaban.',
+        actionTitle: `${phaseLabel}: 3 Kış Katmanı Aktif`,
+        actionDescription: `Termal içlik + polar/sweatshirt + dolgulu mont (${brands}).`,
         activeItems: [
-          'Pamuklu Uzun Kollu İç Katman',
-          'Kalın Polar / Triko Kazak',
-          isRainy ? 'Kapüşonlu Su İtici Parka' : 'Şişme Kaban / Kalın Mont',
-          'Kalın Kot Pantolon & Bot',
+          'Termal Uzun Kollu İçlik',
+          '3 İplik Polar Sweatshirt / Triko',
+          isRainy ? 'Su İtici Kapüşonlu Parka' : 'Şişme Mont (Puffer)',
+          'Kalın Kot & Su İtici Bot',
         ],
-        thermalTip: `Hissedilen ${metrics.feelsLike}°C${thermalOffsetC !== 0 ? ` (kişisel kalibrasyonla ${effectiveTemp}°C)` : ''} soğukta ısı kaybını önlemek için boyun ve bilekleri koruyun.`,
+        thermalTip: `${metrics.feelsLike}°C hissedilen soğukta dış katmanı kapalı tutun.`,
+      };
+    }
+    if (tierKey === 'smart') {
+      return {
+        timeRange,
+        phase,
+        expectedTemp: metrics.temp,
+        feelsLikeTemp: metrics.feelsLike,
+        precipitationProb: metrics.precipProb,
+        actionTitle: `${phaseLabel}: Merinos & Yün Kaban`,
+        actionDescription: `İnce merinos kazak + yün kaban veya kaz tüyü mont (${brands}).`,
+        activeItems: [
+          'Pamuk/Termal Taban',
+          'İnce Merinos Yünü Triko Kazak',
+          isRainy ? 'Su Geçirmez Kapüşonlu Kaban' : 'Yün Kaşe Kaban / Kaz Tüyü Mont',
+          'Deri Chelsea Bot',
+        ],
+        thermalTip: `${metrics.feelsLike}°C soğukta merinos yünü ağırlık yapmadan ısıtır.`,
       };
     }
     return {
@@ -215,21 +232,21 @@ function buildPhaseStep(
       expectedTemp: metrics.temp,
       feelsLikeTemp: metrics.feelsLike,
       precipitationProb: metrics.precipProb,
-      actionTitle: `${phaseLabel}: Teknik Yalıtım + Membran Kabuk`,
-      actionDescription: 'Merinos taban + kaşmir/yün orta katman + rüzgar ve su geçirmez hardshell.',
+      actionTitle: `${phaseLabel}: Kaşmir + Gore-Tex Kabuk`,
+      actionDescription: `Merinos içlik + saf kaşmir + Gore-Tex 3L kabuk (${brands}).`,
       activeItems: [
-        '200g Merinos Yünü Termal İçlik',
-        'Saf Kaşmir / Merinos Triko',
+        '200g Merinos Termal Taban',
+        '%100 Saf Kaşmir Triko',
         'Gore-Tex Hardshell Yalıtımlı Kaban',
         'Vibram Tabanlı Deri Bot',
       ],
-      thermalTip: `${metrics.feelsLike}°C hissedilen soğukta merinos yünü teri hapseden pamuğun aksine kuru ısı yalıtımı sağlar.`,
+      thermalTip: `${metrics.feelsLike}°C koşulda nefes alan membran teri dışarı atar.`,
     };
   }
 
-  // 2. Cool / Transition Regime (11°C - 17°C)
+  // Cool / Transition Regime (11°C - 17°C)
   if (effectiveTemp <= 17) {
-    if (segment === 'essential') {
+    if (tierKey === 'essential') {
       return {
         timeRange,
         phase,
@@ -237,20 +254,33 @@ function buildPhaseStep(
         feelsLikeTemp: metrics.feelsLike,
         precipitationProb: metrics.precipProb,
         actionTitle:
-          phase === 'midday'
-            ? `${phaseLabel}: Dış Katman Önü Açık / Esnek Mod`
-            : `${phaseLabel}: Koruyucu Ara Katman + Ceket`,
-        actionDescription:
-          phase === 'midday'
-            ? 'Yürüyüş temposunda ceketin önünü açarak aşırı ısınmayı dengeleyin.'
-            : 'Tişört + gömlek/hırka üzerine rüzgar kesen trençkot veya denim ceket giyin.',
+          phase === 'midday' ? `${phaseLabel}: Ceket Önü Açık / Esnek` : `${phaseLabel}: Ara Katman + Ceket`,
+        actionDescription: `Pamuklu tişört + gömlek/hoodie + rüzgarlık/kot ceket (${brands}).`,
         activeItems: [
-          'Basic Pamuklu Tişört',
-          'Flanel Gömlek / İnce Triko Hırka',
-          isRainy ? 'Su İtici Trençkot + Şemsiye' : isWindy ? 'Rüzgarlık / Trençkot' : 'Denim Ceket / Bomber Ceket',
-          'Chino veya Kanvas Pantolon',
+          'Basic %100 Pamuklu Tişört',
+          'Flanel Gömlek / 3 İplik Hoodie',
+          isRainy ? 'Su Geçirmez Yağmurluk' : isWindy ? 'Rüzgarlık / Trençkot' : 'Denim Ceket',
+          'Kot veya Chino Pantolon',
         ],
-        thermalTip: `${metrics.temp}°C (Rüzgar: ${metrics.windSpeed} km/s) geçiş havasında katmanları fermuar/düğme ile kolayca ayarlayın.`,
+        thermalTip: `${metrics.temp}°C geçiş havasında fermuar/düğmeli katman seçin.`,
+      };
+    }
+    if (tierKey === 'smart') {
+      return {
+        timeRange,
+        phase,
+        expectedTemp: metrics.temp,
+        feelsLikeTemp: metrics.feelsLike,
+        precipitationProb: metrics.precipProb,
+        actionTitle: `${phaseLabel}: Gabardin Trençkot & Triko`,
+        actionDescription: `Oxford gömlek veya ince triko üzerine su itici trençkot (${brands}).`,
+        activeItems: [
+          'Supima Pamuk Tişört',
+          'Oxford Gömlek / İnce Merinos Triko',
+          'Su İtici Klasik Gabardin Trençkot',
+          'Gabardin Chino & Deri Sneaker',
+        ],
+        thermalTip: `Rüzgar (${metrics.windSpeed} km/s) etkisini gabardin doku dengeler.`,
       };
     }
     return {
@@ -259,41 +289,19 @@ function buildPhaseStep(
       expectedTemp: metrics.temp,
       feelsLikeTemp: metrics.feelsLike,
       precipitationProb: metrics.precipProb,
-      actionTitle: `${phaseLabel}: Modüler Merinos & DWR Kabuk`,
-      actionDescription: 'İnce merinos triko üzerine DWR su/rüzgar itici hafif trençkot.',
+      actionTitle: `${phaseLabel}: Teknik DWR Trençkot`,
+      actionDescription: `19.5 mikron merinos polo + DWR rüzgar/su itici kabuk (${brands}).`,
       activeItems: [
-        'İnce Merinos Yünü Polo Triko',
-        isRainy || isWindy ? 'DWR Kaplamalı Teknik Trençkot' : 'Yumuşak Deri / Süet Ceket',
+        'Merinos Yünü Polo Triko',
+        'DWR Kaplamalı Teknik Trençkot / Süet Ceket',
         'Elastan Katkılı Teknik Yün Pantolon',
       ],
-      thermalTip: `Çiy noktası ${dewPoint}°C seviyesindeyken mikro gözenekli doğal lifler vücut ısısını sabit tutar.`,
+      thermalTip: `Çiy noktası ${dewPoint}°C iken doğal lifler terlemeyi önler.`,
     };
   }
 
-  // 3. Mild / Pleasant Regime (18°C - 24°C)
+  // Mild Regime (18°C - 24°C)
   if (effectiveTemp <= 24) {
-    if (segment === 'essential') {
-      return {
-        timeRange,
-        phase,
-        expectedTemp: metrics.temp,
-        feelsLikeTemp: metrics.feelsLike,
-        precipitationProb: metrics.precipProb,
-        actionTitle:
-          phase === 'midday'
-            ? `${phaseLabel}: Ceketi Çıkar / Tek Katman Konforu`
-            : `${phaseLabel}: Hafif Gömlek / İnce Üst Katman`,
-        actionDescription:
-          phase === 'midday'
-            ? 'Dış katmanı çantaya veya omza alın; tişört veya kolları kıvrık gömlekle devam edin.'
-            : 'Nefes alan pamuklu tişört üzerine önü açık ince gömlek tercih edin.',
-        activeItems:
-          phase === 'midday'
-            ? ['Hafif Pamuklu Tişört', 'Gömlek (Kollar Kıvrık / Opsiyonel)', 'Nefes Alan Kanvas Sneaker']
-            : ['Basic Pamuklu Tişört', 'Oxford / Poplin İnce Gömlek', isRainy ? 'Hafif Katlanır Şemsiye' : 'İnce Chino Pantolon'],
-        thermalTip: `${metrics.temp}°C ılıman havada ağır dış katmanlar terletebilir; kolay taşınabilir ince parçalar seçin.`,
-      };
-    }
     return {
       timeRange,
       phase,
@@ -301,64 +309,42 @@ function buildPhaseStep(
       feelsLikeTemp: metrics.feelsLike,
       precipitationProb: metrics.precipProb,
       actionTitle:
-        phase === 'midday'
-          ? `${phaseLabel}: Tek Katman Doğal Lif Ferahlığı`
-          : `${phaseLabel}: Keten-Merinos Hafif Geçiş`,
+        phase === 'midday' ? `${phaseLabel}: Ceketi Çıkar / Tek Katman` : `${phaseLabel}: Hafif Gömlek / İnce Üst`,
       actionDescription:
         phase === 'midday'
-          ? 'Üst katmanı çıkarıp nefes alan keten/pamuk tabanla devam edin.'
-          : 'İnce keten gömlek veya hafif ipek-pamuk triko ile dengeli konfor.',
-      activeItems: [
-        'İtalyan Keten / Supima Pamuk Gömlek',
-        phase === 'midday' ? 'UV400 Polarize Güneş Gözlüğü' : 'İnce Triko (Omuzda / Hazır)',
-        'Hafif Gabardin Pantolon & Deri Loafer',
-      ],
-      thermalTip: `${metrics.temp}°C'de ${isHumid ? 'yüksek nem nedeniyle keten lifleri' : 'supima pamuk dokusu'} terlemeyi sıfıra indirir.`,
+          ? `Dış katmanı çantaya/omza alın; nefes alan tek katmanla devam edin (${brands}).`
+          : `Pamuklu tişört üzerine önü açık gömlek veya ince hırka (${brands}).`,
+      activeItems:
+        phase === 'midday'
+          ? ['%100 Pamuk / Keten Üst', 'İnce Chino Pantolon', 'Nefes Alan Sneaker']
+          : ['Basic Pamuklu Tişört', 'Uzun Kollu Oxford / Keten Gömlek', isRainy ? 'Katlanır Şemsiye' : 'Chino Pantolon'],
+      thermalTip: `${metrics.temp}°C ılıman havada kolay taşınabilir ince katman kullanın.`,
     };
   }
 
-  // 4. Hot Summer Regime (>= 25°C)
-  if (segment === 'essential') {
-    return {
-      timeRange,
-      phase,
-      expectedTemp: metrics.temp,
-      feelsLikeTemp: metrics.feelsLike,
-      precipitationProb: metrics.precipProb,
-      actionTitle: `${phaseLabel}: Maksimum Nefes Alabilirlik (Sıcak Mod)`,
-      actionDescription: 'Ceket veya katman kullanmayın; açık renkli, bol kesim tek katman giyin.',
-      activeItems: [
-        'Açık Renk İnce Pamuk / Keten Karışımlı Tişört',
-        'İnce Keten-Pamuk Şort veya Bol Chino',
-        'Hava Alan Bez / File Spor Ayakkabı',
-        'Güneş Gözlüğü & Şapka',
-      ],
-      thermalTip: `${metrics.temp}°C (Hissedilen ${metrics.feelsLike}°C) sıcakta açık renkler güneş radyasyonunu yansıtarak serin tutar.`,
-    };
-  }
+  // Hot Regime (>= 25°C)
   return {
     timeRange,
     phase,
     expectedTemp: metrics.temp,
     feelsLikeTemp: metrics.feelsLike,
     precipitationProb: metrics.precipProb,
-    actionTitle: `${phaseLabel}: Saf Keten & UV Koruma Modu`,
-    actionDescription: '%100 saf keten dokuma ile hava sirkülasyonunu maksimumda tutun.',
+    actionTitle: `${phaseLabel}: Maksimum Nefes Alabilirlik`,
+    actionDescription: `Açık renkli saf keten veya ince pamuklu tek katman (${brands}).`,
     activeItems: [
-      '%100 Saf Fransız/İtalyan Keten Gömlek (Açık Ton)',
-      'Keten-İpek Karışımlı Hafif Pantolon / Şort',
-      'El Yapımı Hava Alan Süet Espadril / Loafer',
-      'UV Korumalı Polarize Gözlük',
+      tierKey === 'essential' ? 'Açık Renk %100 Pamuk Tişört (160 GSM)' : '%100 Saf Keten Gömlek / AIRism Tişört',
+      'İnce Keten-Pamuk Şort veya Bol Chino',
+      'Hava Alan Bez Sneaker / Loafer & UV Gözlük',
     ],
-    thermalTip: `${metrics.temp}°C sıcaklık ve ${dewPoint}°C çiy noktasında saf keten, nemi ciltten saniyeler içinde uzaklaştırır.`,
+    thermalTip: `${metrics.temp}°C sıcakta açık renkler güneş radyasyonunu yansıtır.`,
   };
 }
 
-// Generate Modular Layering Timeline driven by real hourly forecast & personal thermal offset
 export function generateLayerTimeline(
   weather: WeatherConsensus,
   segment: BudgetSegment,
-  thermalOffsetC: number = 0
+  thermalOffsetC: number = 0,
+  country: string = 'Türkiye'
 ): LayerTimelineStep[] {
   const morningMetrics = extractPhaseMetrics(weather, [7, 8, 9, 10], -3);
   const middayMetrics = extractPhaseMetrics(weather, [12, 13, 14, 15, 16], 2);
@@ -366,70 +352,95 @@ export function generateLayerTimeline(
   const dewPoint = weather.dewPoint ?? 10;
 
   return [
-    buildPhaseStep('morning', '07:30 - 10:30', morningMetrics, segment, thermalOffsetC, dewPoint),
-    buildPhaseStep('midday', '12:00 - 16:00', middayMetrics, segment, thermalOffsetC, dewPoint),
-    buildPhaseStep('evening', '18:30 - 22:30', eveningMetrics, segment, thermalOffsetC, dewPoint),
+    buildPhaseStep('morning', '07:30 - 10:30', morningMetrics, segment, thermalOffsetC, dewPoint, country),
+    buildPhaseStep('midday', '12:00 - 16:00', middayMetrics, segment, thermalOffsetC, dewPoint, country),
+    buildPhaseStep('evening', '18:30 - 22:30', eveningMetrics, segment, thermalOffsetC, dewPoint, country),
   ];
 }
 
-// Generate Direct Outfit (Stand-alone single outfit calibrated with personal thermal offset)
 export function generateDirectOutfit(
   weather: WeatherConsensus,
   segment: BudgetSegment,
-  thermalOffsetC: number = 0
+  thermalOffsetC: number = 0,
+  country: string = 'Türkiye'
 ): ClothingItem[] {
   const effectiveTemp = weather.feelsLike + thermalOffsetC;
   const isCold = effectiveTemp <= 12;
   const isHot = effectiveTemp >= 23;
   const isRain = weather.precipitationProb >= 40 || weather.condition === 'rainy';
+  const market = getMarketProfileForCountry(country);
+  const tierKey = segment === 'premium' || segment === 'luxury' ? 'luxury' : segment === 'smart' ? 'smart' : 'essential';
+  const brandHint = market.tiers[tierKey].referenceBrands.slice(0, 3).join(' / ');
 
-  if (segment === 'essential') {
+  if (tierKey === 'essential') {
     if (isCold) {
       return [
-        { id: 'e-1', name: 'Polar Sweatshirt / Kalın Triko', category: 'mid', segment: 'essential', material: 'Şardonlu Polar', warmth: 4, waterResistance: 'none', windResistance: 'low', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Tek parça yüksek ısı koruması.' },
-        { id: 'e-2', name: isRain ? 'Su İtici Kapüşonlu Parka' : 'Standart Şişme Kaban / Mont', category: 'outer', segment: 'essential', material: 'Sentetik Elyaf Dolgulu Naylon', warmth: 5, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'high', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Soğuk ve rüzgardan tam koruma.' },
-        { id: 'e-3', name: 'Kalın Denim Pantolon', category: 'bottom', segment: 'essential', material: '%100 Pamuklu Kalın Kot', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Koyu Mavi', colorHex: '#1e293b', colorType: 'dark', description: 'Rüzgara dayanıklı klasik parça.' },
-        { id: 'e-4', name: 'Suya Dayanıklı Tabanlı Bot', category: 'footwear', segment: 'essential', material: 'Suni Deri / Kauçuk Taban', warmth: 4, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Zemin soğuğunu keser.' },
-      ];
-    } else if (isHot) {
-      return [
-        { id: 'e-5', name: 'Hafif Pamuklu Basic Tişört', category: 'base', segment: 'essential', material: 'Taranmış İnce Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Beyaz', colorHex: '#ffffff', colorType: 'light', description: 'Sıcağı yansıtır ve terletmez.' },
-        { id: 'e-6', name: 'İnce Keten-Pamuk Şort / Chino', category: 'bottom', segment: 'essential', material: 'Pamuklu İnce Gabardin', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taş Rengi', colorHex: '#e7e5e4', colorType: 'light', description: 'Maksimum ferahlık ve nefes alabilirlik.' },
-        { id: 'e-7', name: 'Nefes Alan Kanvas Spor Ayakkabı', category: 'footwear', segment: 'essential', material: 'Bez / Kumaş Saya', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Gri', colorHex: '#cbd5e1', colorType: 'light', description: 'Hafif ve terletmeyen günlük yürüyüş.' },
-      ];
-    } else {
-      return [
-        { id: 'e-8', name: 'Klasik Pamuklu Oxford Gömlek', category: 'mid', segment: 'essential', material: '%100 Pamuk Oxford Dokuma', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Mavi', colorHex: '#93c5fd', colorType: 'light', description: 'Dengeli havalar için tek başına şık ve konforlu.' },
-        { id: 'e-9', name: isRain ? 'Su İtici Klasik Trençkot' : 'Hafif Trençkot veya Bomber Ceket', category: 'outer', segment: 'essential', material: 'Pamuk-Polyester Karışım', warmth: 3, waterResistance: 'light', windResistance: 'medium', colorName: 'Haki Yeşili', colorHex: '#4d7c0f', colorType: 'neutral', description: 'Ilık hava esintisini ve çisenti yağışı keser.' },
-        { id: 'e-10', name: 'Rahat Kesim Chino Pantolon', category: 'bottom', segment: 'essential', material: 'Esnek Pamuklu Twill', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Bej', colorHex: '#d6d3d1', colorType: 'light', description: 'Tüm gün konfor sağlar.' },
+        { id: 'e-1', name: '3 İplik Polar Sweatshirt', category: 'mid', segment: 'essential', material: 'Şardonlu Pamuk/Polar (320 GSM)', warmth: 4, waterResistance: 'none', windResistance: 'low', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Yüksek ısı koruması.', brandHint },
+        { id: 'e-2', name: isRain ? 'Su İtici Kapüşonlu Parka' : 'Şişme Mont (Puffer)', category: 'outer', segment: 'essential', material: 'Mikrofiber & Elyaf Dolgu', warmth: 5, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'high', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Soğuk ve rüzgardan tam koruma.', brandHint },
+        { id: 'e-3', name: 'Kalın Denim (Kot) Pantolon', category: 'bottom', segment: 'essential', material: '%100 Pamuklu 12.5 oz Kot', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Koyu İndigo', colorHex: '#1e293b', colorType: 'dark', description: 'Rüzgara dayanıklı klasik parça.', brandHint },
+        { id: 'e-4', name: 'Suya Dayanıklı Tabanlı Bot', category: 'footwear', segment: 'essential', material: 'Su İtici Saya / Kauçuk Taban', warmth: 4, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Zemin soğuğunu keser.', brandHint },
       ];
     }
-  } else {
-    // Premium Segment
-    if (isCold) {
+    if (isHot) {
       return [
-        { id: 'p-1', name: '%100 Kaşmir Balıkçı Yaka Kazak', category: 'mid', segment: 'premium', material: 'Moğolistan Saf Kaşmiri', warmth: 5, waterResistance: 'none', windResistance: 'medium', colorName: 'Gece Mavisi', colorHex: '#0f172a', colorType: 'dark', description: 'Ultra hafiflikte en yüksek termal yalıtım.' },
-        { id: 'p-2', name: 'Gore-Tex Hardshell Yalıtımlı Kaban', category: 'outer', segment: 'premium', material: '3 Katmanlı Nefes Alabilir Membran', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Kömür Grisi', colorHex: '#1f2937', colorType: 'dark', description: 'Su ve rüzgarı sıfıra indiren ileri teknoloji.' },
-        { id: 'p-3', name: 'Yün Karışımlı Özel Dikim Pantolon', category: 'bottom', segment: 'premium', material: 'İtalyan Yün Flaneli', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Füme', colorHex: '#374151', colorType: 'dark', description: 'Hem resmi hem sıcak tutan zarif dokuma.' },
-        { id: 'p-4', name: 'Vibram Tabanlı Su Geçirmez Deri Bot', category: 'footwear', segment: 'premium', material: 'Tam Yağlı Dana Derisi + Membran', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Koyu Kahve', colorHex: '#451a03', colorType: 'dark', description: 'Kaymaz zemin tutuşu ve tam yalıtım.' },
-      ];
-    } else if (isHot) {
-      return [
-        { id: 'p-5', name: 'İtalyan Keten Saf Gömlek', category: 'mid', segment: 'premium', material: '%100 Fransız/İtalyan Keten Lifleri', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kırık Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Doğal lif yapısıyla nemi anında buharlaştırır.' },
-        { id: 'p-6', name: 'Hafif Keten-İpek Karışım Pantolon', category: 'bottom', segment: 'premium', material: 'Keten & İpek Karışımlı Kumaş', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Kum', colorHex: '#f5f5f4', colorType: 'light', description: 'Tenle temas ettiğinde serinlik hissi verir.' },
-        { id: 'p-7', name: 'El Yapımı Deri Loafer / Süet Espadril', category: 'footwear', segment: 'premium', material: 'Hava Alan Yumuşak Nubuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taba', colorHex: '#78350f', colorType: 'neutral', description: 'Zarif yaz konforu.' },
-      ];
-    } else {
-      return [
-        { id: 'p-8', name: 'Merinos Yünü Polo Yaka Triko', category: 'mid', segment: 'premium', material: '19.5 Mikron Merinos Yünü', warmth: 3, waterResistance: 'none', windResistance: 'low', colorName: 'Adaçayı Yeşili', colorHex: '#84cc16', colorType: 'neutral', description: 'Koku yapmaz, sıcaklık dalgalanmalarına adapte olur.' },
-        { id: 'p-9', name: 'Teknik DWR Kaplamalı Trençkot', category: 'outer', segment: 'premium', material: 'İsviçre Schoeller Rüzgar Kumaşı', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgarlık ve yağmur koruyucu.' },
-        { id: 'p-10', name: 'Teknik Yün Jogger / Pantolon', category: 'bottom', segment: 'premium', material: 'Elastan Katkılı Merinos Yünü', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Üstün hareket özgürlüğü.' },
+        { id: 'e-5', name: 'Basic %100 Pamuk Tişört', category: 'base', segment: 'essential', material: '160 GSM Taranmış Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Optik Beyaz', colorHex: '#ffffff', colorType: 'light', description: 'Sıcağı yansıtır ve terletmez.', brandHint },
+        { id: 'e-6', name: 'İnce Pamuk-Keten Şort / Chino', category: 'bottom', segment: 'essential', material: 'İnce Dokuma Gabardin', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taş Beji', colorHex: '#e7e5e4', colorType: 'light', description: 'Maksimum ferahlık.', brandHint },
+        { id: 'e-7', name: 'Nefes Alan Kanvas Sneaker', category: 'footwear', segment: 'essential', material: 'Hava Alan Kumaş Saya', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Gri', colorHex: '#cbd5e1', colorType: 'light', description: 'Hafif günlük yürüyüş.', brandHint },
       ];
     }
+    return [
+      { id: 'e-8', name: 'Klasik Pamuklu Oxford Gömlek', category: 'mid', segment: 'essential', material: '%100 Pamuk Oxford (185 GSM)', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Mavi', colorHex: '#93c5fd', colorType: 'light', description: 'Dengeli havalar için konforlu.', brandHint },
+      { id: 'e-9', name: isRain ? 'Su Geçirmez Yağmurluk' : 'Denim Ceket / İnce Rüzgarlık', category: 'outer', segment: 'essential', material: 'Pamuk Denim / Ripstop', warmth: 3, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'medium', colorName: 'Haki / Mavi', colorHex: '#4d7c0f', colorType: 'neutral', description: 'Esintiyi ve çisentiyi keser.', brandHint },
+      { id: 'e-10', name: 'Rahat Kesim Chino Pantolon', category: 'bottom', segment: 'essential', material: '%98 Pamuk %2 Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Bej', colorHex: '#d6d3d1', colorType: 'light', description: 'Tüm gün konfor sağlar.', brandHint },
+    ];
   }
+
+  if (tierKey === 'smart') {
+    if (isCold) {
+      return [
+        { id: 's-1', name: 'İnce Merinos Yünü Triko Kazak', category: 'mid', segment: 'smart', material: '%100 Merinos Yünü', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Zümrüt Yeşili', colorHex: '#166534', colorType: 'dark', description: 'Doğal yün ısı regülasyonu.', brandHint },
+        { id: 's-2', name: 'Yün Kaşe Kaban / Su İtici Parka', category: 'outer', segment: 'smart', material: 'Yün Karışım / Membran', warmth: 5, waterResistance: 'light', windResistance: 'high', colorName: 'Antrasit', colorHex: '#1f2937', colorType: 'dark', description: 'Şehir şıklığı ve rüzgar koruması.', brandHint },
+        { id: 's-3', name: 'Tok Gabardin / Yün Karışım Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Yün Flanel', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Füme', colorHex: '#374151', colorType: 'dark', description: 'Soğuk geçirmez tok dokuma.', brandHint },
+        { id: 's-4', name: 'Su Geçirmez Deri Chelsea Bot', category: 'footwear', segment: 'smart', material: 'Doğal Deri & Kauçuk Taban', warmth: 4, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Siyah', colorHex: '#09090b', colorType: 'dark', description: 'Yağışlı zeminde kuru konfor.', brandHint },
+      ];
+    }
+    if (isHot) {
+      return [
+        { id: 's-5', name: '%100 Saf Keten Gömlek', category: 'mid', segment: 'smart', material: '145 GSM Doğal Keten', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kırık Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Nemi anında buharlaştırır.', brandHint },
+        { id: 's-6', name: 'Keten-Pamuk Hafif Pantolon / Şort', category: 'bottom', segment: 'smart', material: '%55 Keten %45 Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kum Beji', colorHex: '#f5f5f4', colorType: 'light', description: 'Serinlik hissi verir.', brandHint },
+        { id: 's-7', name: 'Süet Loafer / Deri Sneaker', category: 'footwear', segment: 'smart', material: 'Nefes Alan Yumuşak Nubuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taba', colorHex: '#78350f', colorType: 'neutral', description: 'Zarif yaz adımı.', brandHint },
+      ];
+    }
+    return [
+      { id: 's-8', name: 'Supima Pamuk / Merinos Polo Triko', category: 'mid', segment: 'smart', material: 'Supima Pamuk & Merinos', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Terletmeyen doğal doku.', brandHint },
+      { id: 's-9', name: 'Su İtici Klasik Gabardin Trençkot', category: 'outer', segment: 'smart', material: '290 GSM Pamuk Gabardin', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Klasik Bej', colorHex: '#d4b996', colorType: 'light', description: 'Rüzgar ve çisenti kalkanı.', brandHint },
+      { id: 's-10', name: 'Esnek Gabardin Chino Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Taş Rengi', colorHex: '#e7e5e4', colorType: 'light', description: 'Şehir içi esnek konfor.', brandHint },
+    ];
+  }
+
+  // Luxury / Technical Tier
+  if (isCold) {
+    return [
+      { id: 'p-1', name: '%100 Saf Kaşmir Balıkçı Yaka Kazak', category: 'mid', segment: 'luxury', material: 'Moğolistan Saf Kaşmiri', warmth: 5, waterResistance: 'none', windResistance: 'medium', colorName: 'Gece Mavisi', colorHex: '#0f172a', colorType: 'dark', description: 'Ultra hafiflikte maksimum yalıtım.', brandHint },
+      { id: 'p-2', name: 'Gore-Tex 3L Yalıtımlı Hardshell Kaban', category: 'outer', segment: 'luxury', material: 'GORE-TEX® ePE Membran', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Kömür Siyahı', colorHex: '#1f2937', colorType: 'dark', description: 'Fırtına ve sağanakta sıfır geçirgenlik.', brandHint },
+      { id: 'p-3', name: 'İtalyan Yün Flanel Pantolon', category: 'bottom', segment: 'luxury', material: '100% Virgin Wool Flanel', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Zarif ve sıcak tutan dokuma.', brandHint },
+      { id: 'p-4', name: 'Vibram Tabanlı Su Geçirmez Deri Bot', category: 'footwear', segment: 'luxury', material: 'Tam Yağlı Deri + Gore-Tex', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Koyu Kahve', colorHex: '#451a03', colorType: 'dark', description: 'Kaymaz zemin tutuşu.', brandHint },
+    ];
+  }
+  if (isHot) {
+    return [
+      { id: 'p-5', name: 'İtalyan Saf Keten Gömlek', category: 'mid', segment: 'luxury', material: '%100 Albini Keten Lifleri', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Optik Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Maksimum hava geçirgenliği.', brandHint },
+      { id: 'p-6', name: 'Keten-İpek Karışım Hafif Pantolon', category: 'bottom', segment: 'luxury', material: 'Keten & İpek Dokuma', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Kum', colorHex: '#f5f5f4', colorType: 'light', description: 'Doğal serinlik hissi.', brandHint },
+      { id: 'p-7', name: 'El Yapımı Süet Espadril / Loafer', category: 'footwear', segment: 'luxury', material: 'Hava Alan İtalyan Süet', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taba', colorHex: '#78350f', colorType: 'neutral', description: 'Üst düzey yaz konforu.', brandHint },
+    ];
+  }
+  return [
+    { id: 'p-8', name: '19.5 Mikron Merinos Polo Triko', category: 'mid', segment: 'luxury', material: '%100 Ekstra İnce Merinos', warmth: 3, waterResistance: 'none', windResistance: 'low', colorName: 'Adaçayı Yeşili', colorHex: '#84cc16', colorType: 'neutral', description: 'Sıcaklık dalgalanmalarına adapte olur.', brandHint },
+    { id: 'p-9', name: 'Schoeller DWR Teknik Trençkot', category: 'outer', segment: 'luxury', material: 'İsviçre Schoeller Membran', warmth: 3, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgar ve yağmur kalkanı.', brandHint },
+    { id: 'p-10', name: 'Teknik Merinos Yün Pantolon', category: 'bottom', segment: 'luxury', material: 'Elastan Katkılı Merinos', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Üstün hareket özgürlüğü.', brandHint },
+  ];
 }
 
-// "Bu Parçayla Kombinle" Engine (Matches selected anchor item + thermal offset)
 export function matchAnchorItem(
   anchor: ClothingItem,
   weather: WeatherConsensus,
@@ -445,79 +456,28 @@ export function matchAnchorItem(
 
   if (anchor.id === 'anc-denim-jacket') {
     complements = [
-      {
-        id: 'c-1',
-        name: isCold ? 'Kalın Oduncu Gömleği / Sweatshirt' : 'Optik Beyaz Basic Tişört',
-        category: 'base',
-        segment: 'essential',
-        material: isCold ? 'Şardonlu Pamuk Flanel' : 'Pamuk',
-        warmth: isCold ? 3 : 1,
-        waterResistance: 'none',
-        windResistance: 'low',
-        colorName: isCold ? 'Ekose Gri/Beyaz' : 'Beyaz',
-        colorHex: '#ffffff',
-        colorType: 'light',
-        description: isCold ? 'Denim ceketin altında ısı yalıtımını destekler.' : 'Mavi denim ile en temiz ve zamansız kontrast.',
-      },
-      {
-        id: 'c-2',
-        name: isCold ? 'Antrasit Kargo / Kalın Denim Pantolon' : 'Bej Chino Pantolon',
-        category: 'bottom',
-        segment: 'essential',
-        material: 'Pamuklu Twill',
-        warmth: isCold ? 3 : 2,
-        waterResistance: 'none',
-        windResistance: 'medium',
-        colorName: isCold ? 'Antrasit' : 'Bej',
-        colorHex: isCold ? '#374151' : '#e7e5e4',
-        colorType: 'neutral',
-        description: 'Ceketin maviliğini dengeler.',
-      },
-      {
-        id: 'c-3',
-        name: 'Beyaz Deri / Kanvas Sneaker',
-        category: 'footwear',
-        segment: 'essential',
-        material: 'Deri Saya',
-        warmth: 2,
-        waterResistance: 'light',
-        windResistance: 'medium',
-        colorName: 'Beyaz',
-        colorHex: '#ffffff',
-        colorType: 'light',
-        description: 'Genç ve dinamik bitiriş.',
-      },
+      { id: 'c-1', name: isCold ? 'Oduncu Flanel Gömlek / Hoodie' : 'Optik Beyaz Basic Tişört', category: 'base', segment: 'essential', material: isCold ? 'Pamuk Flanel' : '%100 Pamuk', warmth: isCold ? 3 : 1, waterResistance: 'none', windResistance: 'low', colorName: 'Beyaz', colorHex: '#ffffff', colorType: 'light', description: 'Mavi denim ile temiz kontrast.' },
+      { id: 'c-2', name: isCold ? 'Antrasit Kalın Kot Pantolon' : 'Bej Chino Pantolon', category: 'bottom', segment: 'essential', material: 'Pamuklu Twill', warmth: isCold ? 3 : 2, waterResistance: 'none', windResistance: 'medium', colorName: isCold ? 'Antrasit' : 'Bej', colorHex: isCold ? '#374151' : '#e7e5e4', colorType: 'neutral', description: 'Ceketin maviliğini dengeler.' },
+      { id: 'c-3', name: 'Beyaz Deri Sneaker', category: 'footwear', segment: 'essential', material: 'Deri Saya', warmth: 2, waterResistance: 'light', windResistance: 'medium', colorName: 'Beyaz', colorHex: '#ffffff', colorType: 'light', description: 'Dinamik bitiriş.' },
     ];
-    colorHarmony = 'Mavi kot ceket, beyaz iç katman ve bej/antrasit alt giyimle kusursuz bir renk dengesi kurar.';
-    weatherFit = isHot
-      ? `Hava ${weather.temp}°C olduğu için denim ceketi gündüz omzunuzda taşıyıp akşam serinliğinde giymeniz önerilir.`
-      : `Bugünkü ${weather.temp}°C (hissedilen ${weather.feelsLike}°C) sıcaklıkta ceketiniz öğlen açılabilir, akşam esintisinde iliklenebilir.`;
+    colorHarmony = 'Mavi kot ceket, beyaz iç katman ve bej/antrasit alt giyimle zamansız denge kurar.';
+    weatherFit = `${weather.temp}°C sıcaklıkta öğlen önü açılabilir, akşam serinliğinde iliklenebilir.`;
   } else if (anchor.id === 'anc-beige-trench') {
     complements = [
-      { id: 'c-4', name: isCold ? 'Siyah Boğazlı Merinos Triko' : 'Lacivert İnce Poplin Gömlek', category: 'mid', segment: 'essential', material: 'İnce Pamuk-Yün', warmth: isCold ? 3 : 2, waterResistance: 'none', windResistance: 'low', colorName: 'Siyah / Lacivert', colorHex: '#0f172a', colorType: 'dark', description: 'Bej rengin parlaklığını dengeleyen derin kontrast.' },
-      { id: 'c-5', name: 'Koyu Gri Düz Kesim Pantolon', category: 'bottom', segment: 'essential', material: 'Pamuklu Gabardin', warmth: 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Koyu Gri', colorHex: '#4b5563', colorType: 'dark', description: 'Profesyonel ve şehirli görünüm.' },
-      { id: 'c-6', name: 'Siyah Deri Chelsea Bot / Loafer', category: 'footwear', segment: 'essential', material: 'Deri', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Su sıçramalarına karşı dayanıklı.' },
+      { id: 'c-4', name: isCold ? 'Siyah Merinos Triko' : 'Lacivert Poplin Gömlek', category: 'mid', segment: 'smart', material: 'Pamuk/Merinos', warmth: isCold ? 3 : 2, waterResistance: 'none', windResistance: 'low', colorName: 'Lacivert', colorHex: '#0f172a', colorType: 'dark', description: 'Bej rengin parlaklığını dengeler.' },
+      { id: 'c-5', name: 'Koyu Gri Gabardin Pantolon', category: 'bottom', segment: 'smart', material: 'Gabardin', warmth: 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Koyu Gri', colorHex: '#4b5563', colorType: 'dark', description: 'Şehirli görünüm.' },
+      { id: 'c-6', name: 'Siyah Deri Chelsea Bot', category: 'footwear', segment: 'smart', material: 'Deri', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Su sıçramalarına dayanıklı.' },
     ];
-    colorHarmony = 'Bej tonları, içerideki siyah veya lacivert derin renklerle birleştiğinde yüksek kontrast ve asalet sağlar.';
-    weatherFit = `Havadaki %${weather.precipitationProb} yağış ihtimali ve ${weather.windSpeed} km/s rüzgara karşı trençkotun gabardin dokusu gövdenizi korur.`;
-  } else if (anchor.id === 'anc-black-leather') {
-    complements = [
-      { id: 'c-7', name: isCold ? 'Antrasit Kapüşonlu Hoodie' : 'Gri Melanj Pamuklu Tişört', category: 'base', segment: 'premium', material: 'Pamuk', warmth: isCold ? 3 : 2, waterResistance: 'none', windResistance: 'low', colorName: 'Melanj Gri', colorHex: '#9ca3af', colorType: 'neutral', description: 'Siyah derinin sertliğini kıran yumuşak geçiş.' },
-      { id: 'c-8', name: 'Siyah / Koyu Füme Slim Pantolon', category: 'bottom', segment: 'premium', material: 'Esnek Denim', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Füme', colorHex: '#1f2937', colorType: 'dark', description: 'Monokromatik ve modern siluet.' },
-      { id: 'c-9', name: 'Siyah Deri Biker Bot', category: 'footwear', segment: 'premium', material: 'Hakiki Deri', warmth: 4, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Rüzgarı tamamen kesen alt koruma.' },
-    ];
-    colorHarmony = 'Monokromatik gri ve siyah geçişi sokak stiliyle tam uyumludur.';
-    weatherFit = isHot
-      ? `Dikkat: ${weather.temp}°C sıcaklıkta siyah deri güneş ısısını hızla çeker; yalnızca akşam saatlerinde tercih edin.`
-      : `Siyah deri ${weather.windSpeed} km/s rüzgarı tamamen bloke eder ve serin havada vücut ısısını korur.`;
+    colorHarmony = 'Bej tonları, içerideki siyah veya lacivert derin renklerle yüksek kontrast sağlar.';
+    weatherFit = `%${weather.precipitationProb} yağış ihtimali ve ${weather.windSpeed} km/s rüzgara karşı gabardin dokusu koruma sağlar.`;
   } else {
     complements = [
-      { id: 'c-10', name: isCold ? 'Termal Uzun Kollu İçlik' : 'Nötr Renkli Pamuklu Tişört', category: 'base', segment: anchor.segment, material: 'Pamuk', warmth: isCold ? 3 : 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kırık Beyaz', colorHex: '#f5f5f4', colorType: 'light', description: 'Dengeli zemin.' },
-      { id: 'c-11', name: isHot ? 'İnce Keten Karışımlı Pantolon' : 'Rahat Kesim Gabardin Pantolon', category: 'bottom', segment: anchor.segment, material: 'Pamuklu Dokuma', warmth: isHot ? 1 : 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Tamamlayıcı alt katman.' },
-      { id: 'c-12', name: 'Şehir Sneaker / Loafer', category: 'footwear', segment: anchor.segment, material: 'Deri / Kanvas', warmth: 2, waterResistance: 'light', windResistance: 'medium', colorName: 'Koyu Kahve', colorHex: '#3b2f2f', colorType: 'dark', description: 'Rahat adım.' },
+      { id: 'c-10', name: isCold ? 'Termal Uzun Kollu İçlik' : 'Nötr Pamuklu Tişört', category: 'base', segment: anchor.segment, material: '%100 Pamuk', warmth: isCold ? 3 : 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kırık Beyaz', colorHex: '#f5f5f4', colorType: 'light', description: 'Nefes alan taban.' },
+      { id: 'c-11', name: isHot ? 'İnce Keten Pantolon' : 'Gabardin Chino Pantolon', category: 'bottom', segment: anchor.segment, material: 'Pamuk/Keten', warmth: isHot ? 1 : 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Tamamlayıcı alt katman.' },
+      { id: 'c-12', name: 'Şehir Sneaker / Loafer', category: 'footwear', segment: anchor.segment, material: 'Deri', warmth: 2, waterResistance: 'light', windResistance: 'medium', colorName: 'Koyu Kahve', colorHex: '#3b2f2f', colorType: 'dark', description: 'Gün boyu konfor.' },
     ];
-    colorHarmony = `${anchor.name} rengi ile uyumlu nötr ve dengeli renk paleti seçilmiştir.`;
-    weatherFit = `${weather.temp}°C (hissedilen ${weather.feelsLike}°C) koşulunda ana parçanız merkezde tutularak termal denge sağlanmıştır.`;
+    colorHarmony = `${anchor.name} ile uyumlu nötr renk paleti seçilmiştir.`;
+    weatherFit = `${weather.temp}°C (His: ${weather.feelsLike}°C) koşulunda ana parçanız merkezde tutularak denge sağlandı.`;
   }
 
   return {

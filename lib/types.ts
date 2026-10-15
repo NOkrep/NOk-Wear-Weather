@@ -36,7 +36,7 @@ export interface HourlyForecastPoint {
   precipitationProb: number;
   windSpeed: number;
   condition: WeatherCondition;
-  suggestedAction: string; // "Ceketi giy", "Ceketi çıkar", vb.
+  suggestedAction: string;
 }
 
 export interface WeatherConsensus {
@@ -55,7 +55,8 @@ export interface WeatherConsensus {
   cached?: boolean;
 }
 
-export type BudgetSegment = 'essential' | 'premium';
+export type PurchasingPowerTier = 'essential' | 'smart' | 'luxury';
+export type BudgetSegment = 'essential' | 'smart' | 'luxury' | 'premium';
 export type OutfitApproach = 'layering' | 'direct' | 'anchor' | 'wardrobe';
 export type GenderPreference = 'unisex' | 'men' | 'women';
 
@@ -65,24 +66,25 @@ export interface ClothingItem {
   category: 'base' | 'mid' | 'outer' | 'bottom' | 'footwear' | 'accessory';
   segment: BudgetSegment;
   material: string;
-  warmth: 1 | 2 | 3 | 4 | 5; // 1 = ince, 5 = kışlık polar/kaban
+  warmth: 1 | 2 | 3 | 4 | 5;
   waterResistance: 'none' | 'light' | 'waterproof';
   windResistance: 'low' | 'medium' | 'high';
   colorName: string;
   colorHex: string;
   colorType: 'light' | 'dark' | 'neutral';
   description: string;
+  brandHint?: string;
   isAnchorCompatible?: boolean;
   isUserOwned?: boolean;
 }
 
 export interface LayerTimelineStep {
-  timeRange: string; // "07:30 - 10:30"
+  timeRange: string;
   phase: 'morning' | 'midday' | 'evening';
   expectedTemp: number;
   feelsLikeTemp: number;
   precipitationProb: number;
-  actionTitle: string; // "3 Katman Aktif" | "Dış Katmanı Çıkar"
+  actionTitle: string;
   actionDescription: string;
   activeItems: string[];
   thermalTip: string;
@@ -98,7 +100,7 @@ export interface AnchorMatchResult {
 export interface WardrobeOutfitMatch {
   selectedItems: ClothingItem[];
   missingCategories: string[];
-  coverageScore: number; // 0 - 100
+  coverageScore: number;
   summaryNote: string;
 }
 
@@ -116,14 +118,14 @@ export interface FeedbackRecord {
   id: string;
   timestamp: string;
   location: string;
-  rating: number; // 1 to 5
+  rating: number;
   bestSource: string;
   clothingResult: 'froze' | 'sweated' | 'wet' | 'color_hot' | 'perfect';
   notes: string;
 }
 
 export interface ThermalProfile {
-  offsetC: number; // -4 to +4 (negative means user gets cold easily -> recommend warmer clothes)
+  offsetC: number;
   feedbackCount: number;
   label: string;
 }
@@ -132,6 +134,18 @@ export interface CustomApiKeys {
   weatherApiKey?: string;
   openWeatherMapKey?: string;
   geminiApiKey?: string;
+}
+
+// Multi-stop user itinerary item (City, Domestic, or International)
+export interface ItineraryStop {
+  id: string;
+  location: LocationInfo;
+  preferredTime?: string; // e.g., "08:30", "14:00", or "" for live/now
+  weather?: WeatherConsensus;
+  effectiveHourTemp?: number;
+  effectiveHourFeels?: number;
+  effectiveHourPrecip?: number;
+  effectiveHourCondition?: WeatherCondition;
 }
 
 export interface RouteStop {
@@ -149,13 +163,4 @@ export interface RouteStop {
   condition: WeatherCondition;
   tempDeltaFromOrigin: number;
   clothingTip: string;
-}
-
-export interface TravelPlan {
-  mode: 'city' | 'domestic_route' | 'international_flight';
-  origin: LocationInfo;
-  destination?: LocationInfo;
-  transportType: 'car' | 'bus' | 'train' | 'plane';
-  departureTime: string;
-  stops: RouteStop[];
 }

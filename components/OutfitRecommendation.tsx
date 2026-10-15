@@ -16,6 +16,7 @@ import {
   ANCHOR_ITEMS,
   matchAnchorItem,
 } from '@/lib/clothing-engine';
+import { getMarketProfileForCountry } from '@/lib/clothing-catalog';
 import { matchFromUserWardrobe } from '@/lib/wardrobe-storage';
 import { getStoredCustomKeys } from '@/lib/weather-service';
 import {
@@ -25,157 +26,21 @@ import {
   Palette,
   Clock,
   CheckCircle2,
-  AlertCircle,
   Pin,
   Sliders,
   Briefcase,
   Loader2,
   Plus,
+  ChevronDown,
+  ChevronUp,
+  Search,
 } from 'lucide-react';
-
-interface AiStylistBarProps {
-  weather: WeatherConsensus;
-  districtName: string;
-  wardrobe: ClothingItem[];
-  thermalProfile: ThermalProfile;
-}
-
-// Isolated Memoized Subcomponent so typing in the input box never re-renders the outfit grids!
-const AiStylistBar = memo(function AiStylistBar({
-  weather,
-  districtName,
-  wardrobe,
-  thermalProfile,
-}: AiStylistBarProps) {
-  const [userActivity, setUserActivity] = useState('');
-  const [aiAdvice, setAiAdvice] = useState<AiStylistResponse | null>(null);
-  const [isAiLoading, setIsAiLoading] = useState(false);
-
-  const handleAskGeminiStylist = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsAiLoading(true);
-    try {
-      const customKeys = getStoredCustomKeys();
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      if (customKeys.geminiApiKey?.trim()) {
-        headers['x-gemini-key'] = customKeys.geminiApiKey.trim();
-      }
-
-      const res = await fetch('/api/ai-stylist', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          mode: 'stylist_advice',
-          weather,
-          districtName,
-          wardrobe,
-          thermalProfile,
-          userActivity: userActivity.trim() || 'Günlük şehir içi tempo ve yürüyüş',
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setAiAdvice(data);
-      }
-    } catch (err) {
-      console.error('Gemini stylist error:', err);
-    } finally {
-      setIsAiLoading(false);
-    }
-  };
-
-  return (
-    <form
-      onSubmit={handleAskGeminiStylist}
-      className="p-3.5 rounded-2xl bg-gradient-to-r from-sky-500/10 via-indigo-500/5 to-transparent border border-sky-500/20 space-y-2.5"
-    >
-      <div className="flex items-center gap-2 text-xs font-bold text-sky-700 dark:text-sky-300">
-        <Sparkles className="w-4 h-4 text-sky-500 shrink-0" />
-        <span>Gemini AI Stil & Mikroklima Danışmanı (Gardırobunuz + Canlı Hava)</span>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-2">
-        <input
-          type="text"
-          value={userActivity}
-          onChange={(e) => setUserActivity(e.target.value)}
-          placeholder="Bugünkü planınız nedir? (Örn: Sabah vapurla işe gidip akşam Kadıköy'de yürüyüş)..."
-          className="flex-1 text-xs px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
-        />
-        <button
-          type="submit"
-          disabled={isAiLoading}
-          className="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shrink-0 shadow-xs cursor-pointer"
-        >
-          {isAiLoading ? (
-            <>
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              <span>Sentezleniyor...</span>
-            </>
-          ) : (
-            <>
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>AI Reçete Üret</span>
-            </>
-          )}
-        </button>
-      </div>
-
-      {aiAdvice && (
-        <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-sky-500/30 space-y-2.5 text-xs">
-          <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-            <h4 className="font-bold text-slate-900 dark:text-white">
-              {aiAdvice.headline}
-            </h4>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 shrink-0">
-              {aiAdvice.modelUsed}
-            </span>
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {aiAdvice.outfitAdvice}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800">
-              <span className="font-semibold text-slate-900 dark:text-white block mb-0.5">
-                Kumaş & Çiy Noktası Analizi:
-              </span>
-              <span className="text-slate-600 dark:text-slate-400">
-                {aiAdvice.fabricAndColorTip}
-              </span>
-            </div>
-            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800">
-              <span className="font-semibold text-slate-900 dark:text-white block mb-0.5">
-                Aktivite & Saatlik Geçiş Uyarısı:
-              </span>
-              <span className="text-slate-600 dark:text-slate-400">
-                {aiAdvice.travelOrActivityTip}
-              </span>
-            </div>
-          </div>
-          {aiAdvice.recommendedItemNames.length > 0 && (
-            <div className="flex items-center gap-1.5 flex-wrap pt-1">
-              <span className="text-[11px] font-semibold text-slate-500">Önerilen Parçalar:</span>
-              {aiAdvice.recommendedItemNames.map((name, i) => (
-                <span
-                  key={i}
-                  className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20"
-                >
-                  {name}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </form>
-  );
-});
 
 interface OutfitRecommendationProps {
   weather: WeatherConsensus;
   districtName: string;
+  countryName?: string;
+  stopCount?: number;
   thermalProfile?: ThermalProfile;
   wardrobe?: ClothingItem[];
   onOpenFeedback?: () => void;
@@ -185,7 +50,9 @@ interface OutfitRecommendationProps {
 export const OutfitRecommendation = memo(function OutfitRecommendation({
   weather,
   districtName,
-  thermalProfile = { offsetC: 0, feedbackCount: 0, label: 'Standart Termal Profil' },
+  countryName = 'Türkiye',
+  stopCount = 1,
+  thermalProfile = { offsetC: 0, feedbackCount: 0, label: 'Standart Profil' },
   wardrobe = [],
   onOpenFeedback,
   onOpenWardrobe,
@@ -193,16 +60,23 @@ export const OutfitRecommendation = memo(function OutfitRecommendation({
   const [segment, setSegment] = useState<BudgetSegment>('essential');
   const [approach, setApproach] = useState<OutfitApproach>('layering');
   const [selectedAnchor, setSelectedAnchor] = useState<ClothingItem>(ANCHOR_ITEMS[0]);
+  const [showColorDrawer, setShowColorDrawer] = useState(false);
+  const [showAiDrawer, setShowAiDrawer] = useState(false);
 
-  // Memoize all clothing engine computations to avoid unnecessary CPU work on re-render
+  // AI Stylist state (only rendered when AI drawer is opened)
+  const [userActivity, setUserActivity] = useState('');
+  const [aiAdvice, setAiAdvice] = useState<AiStylistResponse | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const market = useMemo(() => getMarketProfileForCountry(countryName), [countryName]);
   const colorAdvice = useMemo(() => getColorThermalAdvice(weather), [weather]);
   const layerTimeline = useMemo(
-    () => generateLayerTimeline(weather, segment, thermalProfile.offsetC),
-    [weather, segment, thermalProfile.offsetC]
+    () => generateLayerTimeline(weather, segment, thermalProfile.offsetC, countryName),
+    [weather, segment, thermalProfile.offsetC, countryName]
   );
   const directOutfit = useMemo(
-    () => generateDirectOutfit(weather, segment, thermalProfile.offsetC),
-    [weather, segment, thermalProfile.offsetC]
+    () => generateDirectOutfit(weather, segment, thermalProfile.offsetC, countryName),
+    [weather, segment, thermalProfile.offsetC, countryName]
   );
   const anchorMatch = useMemo(
     () => matchAnchorItem(selectedAnchor, weather, thermalProfile.offsetC),
@@ -213,288 +87,289 @@ export const OutfitRecommendation = memo(function OutfitRecommendation({
     [wardrobe, weather, thermalProfile.offsetC]
   );
 
-  return (
-    <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-5">
-      {/* Segment & Mode Controls Header */}
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0">
-                <Shirt className="w-4 h-4" />
-              </div>
-              <div>
-                <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight">
-                  {districtName} Giysi & Katman Reçetesi
-                </h2>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                  Sıcaklık: {weather.temp}°C &bull; His: {weather.feelsLike}°C &bull; Çiy: {weather.dewPoint}°C
-                </p>
-              </div>
-              {thermalProfile.feedbackCount > 0 && (
-                <button
-                  type="button"
-                  onClick={onOpenFeedback}
-                  className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 flex items-center gap-1 hover:bg-emerald-500/20 transition-colors"
-                  title="Geri bildirimlerinize göre otomatik kalibre edildi"
-                >
-                  <Sliders className="w-3 h-3" />
-                  <span>{thermalProfile.label}</span>
-                </button>
-              )}
-            </div>
-          </div>
+  const activeTierKey =
+    segment === 'luxury' || segment === 'premium'
+      ? 'luxury'
+      : segment === 'smart'
+      ? 'smart'
+      : 'essential';
+  const activeTierInfo = market.tiers[activeTierKey];
 
-          {/* Budget Segment Toggle */}
-          <div className="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium self-start sm:self-auto">
+  const handleAskGeminiStylist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsAiLoading(true);
+    try {
+      const customKeys = getStoredCustomKeys();
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (customKeys.geminiApiKey?.trim()) {
+        headers['x-gemini-key'] = customKeys.geminiApiKey.trim();
+      }
+      const res = await fetch('/api/ai-stylist', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          mode: 'stylist_advice',
+          weather,
+          districtName,
+          wardrobe,
+          thermalProfile,
+          userActivity: userActivity.trim() || 'Günlük şehir temposu',
+        }),
+      });
+      if (res.ok) {
+        setAiAdvice(await res.json());
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3.5">
+      {/* Compact Header + 3-Tier Country Purchasing Power Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Shirt className="w-4 h-4 text-sky-500 shrink-0" />
+          <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+            {stopCount > 1 ? `${stopCount} Duraklı Günlük Kombin` : `${districtName} Giysi Reçetesi`}
+          </h2>
+          {thermalProfile.feedbackCount > 0 && (
             <button
               type="button"
-              onClick={() => setSegment('essential')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                segment === 'essential'
-                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
+              onClick={onOpenFeedback}
+              className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1 cursor-pointer"
             >
-              Temel & Bütçe Dostu
+              <Sliders className="w-2.5 h-2.5" />
+              <span>{thermalProfile.label}</span>
             </button>
-            <button
-              type="button"
-              onClick={() => setSegment('premium')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                segment === 'premium'
-                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              Premium & İleri Kumaş
-            </button>
-          </div>
+          )}
         </div>
 
-        {/* Approach Selector (4 Pill Tabs) */}
-        <div className="flex items-center gap-1.5 border-b border-slate-200 dark:border-slate-800 pb-2.5 overflow-x-auto text-xs font-medium">
+        {/* 3-Tier Country Purchasing Power Selector */}
+        <div className="flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] font-semibold">
           <button
             type="button"
-            onClick={() => setApproach('layering')}
-            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors whitespace-nowrap cursor-pointer ${
-              approach === 'layering'
-                ? 'bg-sky-500 text-white font-bold shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800/70 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            onClick={() => setSegment('essential')}
+            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+              segment === 'essential'
+                ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-bold'
+                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
             }`}
+            title={`${market.countryName}: ${market.tiers.essential.referenceBrands.join(', ')}`}
           >
-            <Layers className="w-3.5 h-3.5" />
-            Saatlik Katmanlama
+            Standart
           </button>
           <button
             type="button"
-            onClick={() => setApproach('wardrobe')}
-            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors whitespace-nowrap cursor-pointer ${
-              approach === 'wardrobe'
-                ? 'bg-sky-500 text-white font-bold shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800/70 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            onClick={() => setSegment('smart')}
+            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+              segment === 'smart'
+                ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-bold'
+                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
             }`}
+            title={`${market.countryName}: ${market.tiers.smart.referenceBrands.join(', ')}`}
           >
-            <Briefcase className="w-3.5 h-3.5" />
-            Gardırobumdan ({wardrobe.length})
+            Orta-Üst
           </button>
           <button
             type="button"
-            onClick={() => setApproach('direct')}
-            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors whitespace-nowrap cursor-pointer ${
-              approach === 'direct'
-                ? 'bg-sky-500 text-white font-bold shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800/70 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            onClick={() => setSegment('luxury')}
+            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+              segment === 'luxury' || segment === 'premium'
+                ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-bold'
+                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
             }`}
+            title={`${market.countryName}: ${market.tiers.luxury.referenceBrands.join(', ')}`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            Tekli Kombin
-          </button>
-          <button
-            type="button"
-            onClick={() => setApproach('anchor')}
-            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors whitespace-nowrap cursor-pointer ${
-              approach === 'anchor'
-                ? 'bg-sky-500 text-white font-bold shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800/70 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <Pin className="w-3.5 h-3.5" />
-            Parçayla Eşleştir
+            Lüks & Teknik
           </button>
         </div>
       </div>
 
-      {/* Main Mode Content FIRST so user immediately sees their outfit */}
+      {/* Country Market Reference Strip (1-line compact info) */}
+      <div className="px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/80 flex items-center justify-between gap-2 text-[11px]">
+        <span className="text-slate-600 dark:text-slate-300 truncate">
+          <strong>{market.countryName} ({activeTierInfo.priceBand}):</strong>{' '}
+          {activeTierInfo.referenceBrands.join(' • ')}
+        </span>
+        <button
+          type="button"
+          onClick={onOpenWardrobe}
+          className="text-sky-600 dark:text-sky-400 font-bold hover:underline flex items-center gap-1 shrink-0 cursor-pointer"
+        >
+          <Search className="w-3 h-3" />
+          <span>Katalogdan Ara/Ekle</span>
+        </button>
+      </div>
+
+      {/* 4 Compact Mode Pills */}
+      <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-semibold pb-1">
+        <button
+          type="button"
+          onClick={() => setApproach('layering')}
+          className={`px-2.5 py-1.5 rounded-xl flex items-center gap-1 whitespace-nowrap cursor-pointer ${
+            approach === 'layering'
+              ? 'bg-sky-500 text-white'
+              : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          <Layers className="w-3.5 h-3.5" />
+          Saatlik Katman
+        </button>
+        <button
+          type="button"
+          onClick={() => setApproach('wardrobe')}
+          className={`px-2.5 py-1.5 rounded-xl flex items-center gap-1 whitespace-nowrap cursor-pointer ${
+            approach === 'wardrobe'
+              ? 'bg-sky-500 text-white'
+              : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          <Briefcase className="w-3.5 h-3.5" />
+          Dolabımdan ({wardrobe.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setApproach('direct')}
+          className={`px-2.5 py-1.5 rounded-xl flex items-center gap-1 whitespace-nowrap cursor-pointer ${
+            approach === 'direct'
+              ? 'bg-sky-500 text-white'
+              : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          Tekli Kombin
+        </button>
+        <button
+          type="button"
+          onClick={() => setApproach('anchor')}
+          className={`px-2.5 py-1.5 rounded-xl flex items-center gap-1 whitespace-nowrap cursor-pointer ${
+            approach === 'anchor'
+              ? 'bg-sky-500 text-white'
+              : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          <Pin className="w-3.5 h-3.5" />
+          Parça Eşle
+        </button>
+      </div>
+
+      {/* MODE 1: LAYERING TIMELINE (Compact 3-Col Grid) */}
       {approach === 'layering' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
           {layerTimeline.map((step, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/90 flex flex-col justify-between space-y-3"
+              className="p-3 rounded-xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/90 flex flex-col justify-between space-y-2"
             >
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase flex items-center gap-1">
+                  <span className="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase flex items-center gap-1">
                     <Clock className="w-3 h-3" />
                     {step.timeRange}
                   </span>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 text-slate-800 dark:text-slate-200">
+                  <span className="text-[11px] font-extrabold px-1.5 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
                     {step.expectedTemp}°C
                   </span>
                 </div>
-
-                <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-snug">
                   {step.actionTitle}
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {step.actionDescription}
-                </p>
               </div>
 
-              <div className="space-y-2 pt-2 border-t border-slate-200/70 dark:border-slate-800/80">
-                <ul className="space-y-1">
-                  {step.activeItems.map((item, itemIdx) => (
-                    <li
-                      key={itemIdx}
-                      className="text-xs font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1.5"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900/70 p-2 rounded-xl border border-slate-200/50 dark:border-slate-800/60">
-                  {step.thermalTip}
-                </div>
-              </div>
+              <ul className="space-y-1 pt-1.5 border-t border-slate-200/60 dark:border-slate-800/70">
+                {step.activeItems.map((item, itemIdx) => (
+                  <li
+                    key={itemIdx}
+                    className="text-[11px] font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1.5"
+                  >
+                    <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
+                    <span className="truncate">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
       )}
 
-      {/* v0.3.0 My Wardrobe Matching Tab */}
+      {/* MODE 2: USER WARDROBE MATCH */}
       {approach === 'wardrobe' && (
-        <div className="space-y-3.5">
-          <div className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold text-slate-900 dark:text-white">
-                  Kendi Gardırobunuzdan Eşleşen Kombin
-                </span>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
-                  Dolap Uyumu: %{wardrobeMatch.coverageScore}
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                {wardrobeMatch.summaryNote}
-              </p>
-            </div>
-
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs">
+            <span className="font-semibold text-emerald-800 dark:text-emerald-300 truncate">
+              Dolap Uyum Skoru: <strong>%{wardrobeMatch.coverageScore}</strong> ({wardrobeMatch.selectedItems.length} Parça)
+            </span>
             <button
               type="button"
               onClick={onOpenWardrobe}
-              className="px-3 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold flex items-center gap-1.5 shrink-0 self-start sm:self-auto transition-colors cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-sky-500 text-white text-[11px] font-bold flex items-center gap-1 shrink-0 cursor-pointer"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Dolabımı Yönet</span>
+              <Plus className="w-3 h-3" />
+              Katalogdan Ekle
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {wardrobeMatch.selectedItems.map((item) => (
               <div
                 key={item.id}
-                className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2 flex flex-col justify-between"
+                className="p-3 rounded-xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2"
               >
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400">
-                      {item.category === 'base'
-                        ? 'İç Katman'
-                        : item.category === 'mid'
-                        ? 'Orta Katman'
-                        : item.category === 'outer'
-                        ? 'Dış Katman'
-                        : item.category === 'bottom'
-                        ? 'Alt Giyim'
-                        : item.category === 'footwear'
-                        ? 'Ayakkabı'
-                        : 'Aksesuar'}
-                    </span>
-                    <span
-                      className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-700"
-                      style={{ backgroundColor: item.colorHex }}
-                      title={item.colorName}
-                    />
-                  </div>
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                <div className="min-w-0">
+                  <span className="text-[10px] font-bold uppercase text-sky-500 block">
+                    {item.category.toUpperCase()} &bull; {item.material}
+                  </span>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">
                     {item.name}
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
-                    {item.description}
-                  </p>
                 </div>
-
-                <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                  <span className="truncate max-w-[140px]">{item.material}</span>
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">
-                    Isı: {item.warmth}/5
-                  </span>
-                </div>
+                <span
+                  className="w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 shrink-0"
+                  style={{ backgroundColor: item.colorHex }}
+                  title={item.colorName}
+                />
               </div>
             ))}
           </div>
         </div>
       )}
 
+      {/* MODE 3: DIRECT OUTFIT */}
       {approach === 'direct' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {directOutfit.map((item) => (
             <div
               key={item.id}
-              className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2 flex flex-col justify-between"
+              className="p-3 rounded-xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2"
             >
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {item.category === 'base'
-                      ? 'İç Katman'
-                      : item.category === 'mid'
-                      ? 'Orta Katman'
-                      : item.category === 'outer'
-                      ? 'Dış Katman'
-                      : item.category === 'bottom'
-                      ? 'Alt Giyim'
-                      : 'Ayakkabı'}
-                  </span>
-                  <span
-                    className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-700"
-                    style={{ backgroundColor: item.colorHex }}
-                    title={item.colorName}
-                  />
-                </div>
-                <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold text-sky-600 dark:text-sky-400 block truncate">
+                  {item.material} {item.brandHint ? `• ${item.brandHint}` : ''}
+                </span>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">
                   {item.name}
                 </h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
                   {item.description}
                 </p>
               </div>
-
-              <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                <span className="truncate max-w-[150px]">{item.material}</span>
-                <span className="font-semibold text-slate-700 dark:text-slate-300">{item.colorName}</span>
-              </div>
+              <span
+                className="w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 shrink-0"
+                style={{ backgroundColor: item.colorHex }}
+                title={item.colorName}
+              />
             </div>
           ))}
         </div>
       )}
 
+      {/* MODE 4: ANCHOR ITEM MATCHING */}
       {approach === 'anchor' && (
-        <div className="space-y-3.5">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <div className="space-y-2.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
             {ANCHOR_ITEMS.map((item) => {
               const isSelected = selectedAnchor.id === item.id;
               return (
@@ -502,95 +377,105 @@ export const OutfitRecommendation = memo(function OutfitRecommendation({
                   type="button"
                   key={item.id}
                   onClick={() => setSelectedAnchor(item)}
-                  className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between space-y-1.5 cursor-pointer ${
+                  className={`px-2.5 py-1.5 rounded-xl text-xs font-semibold border whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
                     isSelected
-                      ? 'bg-sky-50 dark:bg-sky-950/50 border-sky-500 ring-1 ring-sky-500/30'
-                      : 'bg-slate-50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 hover:border-slate-300'
+                      ? 'bg-sky-500/10 border-sky-500 text-sky-600 dark:text-sky-400'
+                      : 'bg-slate-50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-700"
-                      style={{ backgroundColor: item.colorHex }}
-                    />
-                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-sky-500" />}
-                  </div>
-                  <div>
-                    <span className="text-xs font-bold text-slate-900 dark:text-white block line-clamp-1">
-                      {item.name}
-                    </span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block truncate">
-                      {item.material}
-                    </span>
-                  </div>
+                  <span
+                    className="w-3 h-3 rounded-full border border-slate-400"
+                    style={{ backgroundColor: item.colorHex }}
+                  />
+                  <span>{item.name}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-3">
-            <div className="text-xs">
-              <span className="font-bold text-slate-900 dark:text-white">
-                {anchorMatch.anchorItem.name}:{' '}
-              </span>
-              <span className="text-slate-600 dark:text-slate-300">{anchorMatch.colorHarmonyNotes}</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {anchorMatch.complementaryItems.map((comp) => (
-                <div
-                  key={comp.id}
-                  className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-1"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-sky-500 uppercase">Tamamlayıcı</span>
-                    <span
-                      className="w-3 h-3 rounded-full border border-slate-300 dark:border-slate-700"
-                      style={{ backgroundColor: comp.colorHex }}
-                    />
-                  </div>
-                  <h5 className="text-xs font-bold text-slate-900 dark:text-white">{comp.name}</h5>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">{comp.description}</p>
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            {anchorMatch.complementaryItems.map((comp) => (
+              <div
+                key={comp.id}
+                className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 text-xs"
+              >
+                <span className="text-[10px] text-sky-500 font-bold block">{comp.material}</span>
+                <span className="font-bold text-slate-900 dark:text-white">{comp.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {/* Color Dynamics & Thermal Reflection Box */}
-      <div className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-            <Palette className="w-4 h-4 text-amber-500" />
-            Termal & Optik Renk Bilimi Rehberi
-          </span>
-          <div className="flex items-center gap-1.5">
-            {colorAdvice.recommendedPalette.map((col, idx) => (
-              <span
-                key={idx}
-                className="w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 shadow-2xs"
-                style={{ backgroundColor: col }}
-                title={col}
-              />
-            ))}
-          </div>
-        </div>
-        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          {colorAdvice.reason}
-        </p>
-        <div className="text-[11px] text-amber-700 dark:text-amber-300/90 flex items-center gap-1 pt-0.5">
-          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-          <span>{colorAdvice.caution}</span>
+      {/* Compact Collapsible Drawers for Color Science & AI Stylist (Eliminates Visual Clutter!) */}
+      <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowColorDrawer(!showColorDrawer)}
+            className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1.5 cursor-pointer"
+          >
+            <Palette className="w-3.5 h-3.5 text-amber-500" />
+            <span>Termal Renk Rehberi</span>
+            <span className="flex items-center gap-0.5">
+              {colorAdvice.recommendedPalette.slice(0, 3).map((c, i) => (
+                <span
+                  key={i}
+                  className="w-2.5 h-2.5 rounded-full border border-slate-400"
+                  style={{ backgroundColor: c }}
+                />
+              ))}
+            </span>
+            {showColorDrawer ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowAiDrawer(!showAiDrawer)}
+            className="px-2.5 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-500/20 font-semibold flex items-center gap-1.5 cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>AI Stil & Aktivite Danışmanı</span>
+            {showAiDrawer ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+          </button>
         </div>
       </div>
 
-      {/* Isolated Gemini AI Stylist Synthesis Bar */}
-      <AiStylistBar
-        weather={weather}
-        districtName={districtName}
-        wardrobe={wardrobe}
-        thermalProfile={thermalProfile}
-      />
+      {showColorDrawer && (
+        <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-xs space-y-1">
+          <p className="text-slate-700 dark:text-slate-300">{colorAdvice.reason}</p>
+          <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">{colorAdvice.caution}</p>
+        </div>
+      )}
+
+      {showAiDrawer && (
+        <form onSubmit={handleAskGeminiStylist} className="p-3 rounded-xl bg-sky-500/5 border border-sky-500/20 space-y-2 text-xs">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={userActivity}
+              onChange={(e) => setUserActivity(e.target.value)}
+              placeholder="Bugünkü planınız? (Örn: Vapurla işe gidip akşam açık havada oturacağım)..."
+              className="flex-1 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
+            />
+            <button
+              type="submit"
+              disabled={isAiLoading}
+              className="px-3 py-1.5 rounded-lg bg-sky-500 text-white font-bold flex items-center gap-1 shrink-0 cursor-pointer"
+            >
+              {isAiLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+              <span>Sentezle</span>
+            </button>
+          </div>
+          {aiAdvice && (
+            <div className="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
+              <div className="font-bold text-slate-900 dark:text-white">{aiAdvice.headline}</div>
+              <p className="text-slate-600 dark:text-slate-300">{aiAdvice.outfitAdvice}</p>
+              <p className="text-[11px] text-emerald-600 dark:text-emerald-400">{aiAdvice.fabricAndColorTip}</p>
+            </div>
+          )}
+        </form>
+      )}
     </div>
   );
 });

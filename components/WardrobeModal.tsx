@@ -1,25 +1,29 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ClothingItem, BudgetSegment } from '@/lib/types';
 import {
   addWardrobeItem,
   removeWardrobeItem,
   resetWardrobeToDefaults,
 } from '@/lib/wardrobe-storage';
+import {
+  CatalogGarmentTemplate,
+  getMarketProfileForCountry,
+} from '@/lib/clothing-catalog';
 import { getStoredCustomKeys } from '@/lib/weather-service';
 import {
   X,
   Shirt,
   Sparkles,
-  Upload,
+  Search,
   Plus,
   Trash2,
   RotateCcw,
-  Copy,
   CheckCircle2,
   Loader2,
-  SlidersHorizontal,
+  ShoppingBag,
+  Upload,
 } from 'lucide-react';
 
 interface WardrobeModalProps {
@@ -27,6 +31,7 @@ interface WardrobeModalProps {
   onClose: () => void;
   wardrobe: ClothingItem[];
   onWardrobeChange: (updated: ClothingItem[]) => void;
+  currentCountry?: string;
 }
 
 const CATEGORY_LABELS: Record<ClothingItem['category'], string> = {
@@ -43,34 +48,78 @@ export function WardrobeModal({
   onClose,
   wardrobe,
   onWardrobeChange,
+  currentCountry = 'Türkiye',
 }: WardrobeModalProps) {
-  const [selectedCategory, setSelectedCategory] = useState<'all' | ClothingItem['category']>('all');
+  const [activeTab, setActiveTab] = useState<'catalog' | 'my_closet' | 'custom_ai'>('catalog');
+  const [catalogQuery, setCatalogQuery] = useState('');
+  const [catalogCategory, setCatalogCategory] = useState<string>('all');
+  const [catalogTier, setCatalogTier] = useState<string>('all');
+  const [catalogResults, setCatalogResults] = useState<CatalogGarmentTemplate[]>([]);
+  const [isSearchingCatalog, setIsSearchingCatalog] = useState(false);
+  const [justAddedId, setJustAddedId] = useState<string | null>(null);
+
+  // Custom / AI states
   const [aiDescription, setAiDescription] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageMimeType, setImageMimeType] = useState<string>('image/jpeg');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [showManualForm, setShowManualForm] = useState(false);
-  const [copiedJson, setCopiedJson] = useState(false);
-
-  // Manual form states
-  const [manualName, setManualName] = useState('');
-  const [manualCategory, setManualCategory] = useState<ClothingItem['category']>('mid');
-  const [manualMaterial, setManualMaterial] = useState('Pamuklu Dokuma');
-  const [manualWarmth, setManualWarmth] = useState<1 | 2 | 3 | 4 | 5>(3);
-  const [manualWater, setManualWater] = useState<ClothingItem['waterResistance']>('none');
-  const [manualWind, setManualWind] = useState<ClothingItem['windResistance']>('medium');
-  const [manualColorName, setManualColorName] = useState('Lacivert');
-  const [manualColorHex, setManualColorHex] = useState('#1e3a8a');
-  const [manualSegment, setManualSegment] = useState<BudgetSegment>('essential');
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const market = getMarketProfileForCountry(currentCountry);
+
+  // Fetch verified catalog items whenever query/filters change
+  useEffect(() => {
+    if (!isOpen) return;
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      setIsSearchingCatalog(true);
+      try {
+        const url = `/api/catalog?q=${encodeURIComponent(catalogQuery)}&category=${catalogCategory}&tier=${catalogTier}&country=${encodeURIComponent(currentCountry)}`;
+        const res = await fetch(url, { signal: controller.signal });
+        if (res.ok) {
+          const data = await res.json();
+          setCatalogResults(data.results || []);
+        }
+      } catch (err: any) {
+        if (err?.name !== 'AbortError') console.error(err);
+      } finally {
+        setIsSearchingCatalog(false);
+      }
+    }, 180);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [isOpen, catalogQuery, catalogCategory, catalogTier, currentCountry]);
 
   if (!isOpen) return null;
 
-  const filteredItems =
-    selectedCategory === 'all'
-      ? wardrobe
-      : wardrobe.filter((item) => item.category === selectedCategory);
+  const handleAddFromCatalog = (tpl: CatalogGarmentTemplate) => {
+    const newItem: ClothingItem = {
+      id: `w-cat-${tpl.id}-${Date.now()}`,
+      name: tpl.name,
+      category: tpl.category,
+      segment: tpl.segment,
+      material: tpl.material,
+      warmth: tpl.warmth,
+      waterResistance: tpl.waterResistance,
+      windResistance: tpl.windResistance,
+      colorName: tpl.colorName,
+      colorHex: tpl.colorHex,
+      colorType: tpl.colorType,
+      description: tpl.description,
+      brandHint:
+        currentCountry.toLowerCase().includes('türkiye')
+          ? tpl.brandExamplesTr
+          : tpl.brandExamplesGlobal,
+      isUserOwned: true,
+    };
+    const updated = addWardrobeItem(newItem);
+    onWardrobeChange(updated);
+    setJustAddedId(tpl.id);
+    setTimeout(() => setJustAddedId(null), 1400);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -115,42 +164,14 @@ export function WardrobeModal({
           onWardrobeChange(updated);
           setAiDescription('');
           setImagePreview(null);
+          setActiveTab('my_closet');
         }
       }
     } catch (err) {
-      console.error('Error adding garment via AI:', err);
+      console.error('Error adding garment:', err);
     } finally {
       setIsAnalyzing(false);
     }
-  };
-
-  const handleManualAdd = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!manualName.trim()) return;
-
-    const newItem: ClothingItem = {
-      id: `w-man-${Date.now()}`,
-      name: manualName.trim(),
-      category: manualCategory,
-      segment: manualSegment,
-      material: manualMaterial.trim() || 'Pamuk Karışım',
-      warmth: manualWarmth,
-      waterResistance: manualWater,
-      windResistance: manualWind,
-      colorName: manualColorName.trim() || 'Nötr',
-      colorHex: manualColorHex,
-      colorType:
-        manualColorHex.toLowerCase() === '#ffffff' || manualColorHex.toLowerCase() === '#f8fafc'
-          ? 'light'
-          : 'neutral',
-      description: 'Kullanıcı tarafından manuel olarak gardıroba eklendi.',
-      isUserOwned: true,
-    };
-
-    const updated = addWardrobeItem(newItem);
-    onWardrobeChange(updated);
-    setManualName('');
-    setShowManualForm(false);
   };
 
   const handleDelete = (id: string) => {
@@ -163,16 +184,10 @@ export function WardrobeModal({
     onWardrobeChange(updated);
   };
 
-  const handleCopyJson = () => {
-    navigator.clipboard.writeText(JSON.stringify(wardrobe, null, 2));
-    setCopiedJson(true);
-    setTimeout(() => setCopiedJson(false), 2000);
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
-      <div className="w-full max-w-4xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-5 sm:p-6 space-y-5 max-h-[90vh] overflow-y-auto">
-        {/* Top Header */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-xs">
+      <div className="w-full max-w-4xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-4 sm:p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+        {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-sky-500/10 text-sky-500">
@@ -180,59 +195,255 @@ export function WardrobeModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                  Dijital Gardırobum (My Wardrobe)
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                  Kıyafet Kataloğu & Dijital Gardırobum
                 </h3>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                  v0.3.0 &bull; {wardrobe.length} Parça
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                  {market.countryName} Alım Gücü Endeksli
                 </span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Kendi kıyafetlerinizi fotoğraf veya kısa açıklamayla ekleyin; kombinler doğrudan sizin dolabınızdan üretilsin.
+                Fotoğraf yüklemeye gerek kalmadan mağaza/kumaş kataloğundan aratarak kıyafetlerinizi tek tıkla dolabınıza ekleyin.
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* AI Multimodal Garment Adder Box */}
-        <form
-          onSubmit={handleAiAdd}
-          className="p-4 rounded-2xl bg-gradient-to-r from-sky-500/10 via-indigo-500/5 to-transparent border border-sky-500/25 space-y-3"
-        >
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-sky-700 dark:text-sky-300">
-              <Sparkles className="w-4 h-4 text-sky-500" />
-              <span>Gemini AI ile Hızlı Giysi Tanıma (Fotoğraf veya Metin)</span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowManualForm(!showManualForm)}
-              className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:text-sky-500 flex items-center gap-1"
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>{showManualForm ? 'Manuel Formu Gizle' : 'Manuel Özellik Seçerek Ekle'}</span>
-            </button>
-          </div>
+        {/* Navigation Tabs */}
+        <div className="flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2 text-xs font-bold">
+          <button
+            type="button"
+            onClick={() => setActiveTab('catalog')}
+            className={`px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer ${
+              activeTab === 'catalog'
+                ? 'bg-sky-500 text-white'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+            }`}
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            <span>Katalogdan Aratarak Ekle (Fotoğrafsız & Doğrulanmış Kumaş)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('my_closet')}
+            className={`px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer ${
+              activeTab === 'my_closet'
+                ? 'bg-sky-500 text-white'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+            }`}
+          >
+            <Shirt className="w-3.5 h-3.5" />
+            <span>Dolabımdaki Parçalar ({wardrobe.length})</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('custom_ai')}
+            className={`px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer ${
+              activeTab === 'custom_ai'
+                ? 'bg-sky-500 text-white'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Özel Metin / Fotoğrafla Ekle</span>
+          </button>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
-            <div className="sm:col-span-7">
+        {/* TAB 1: VERIFIED GARMENT & STORE CATALOG SEARCH */}
+        {activeTab === 'catalog' && (
+          <div className="space-y-3.5">
+            {/* Search & Purchasing Power Filters */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+              <div className="sm:col-span-6 flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs">
+                <Search className="w-4 h-4 text-slate-400 shrink-0" />
+                <input
+                  type="text"
+                  value={catalogQuery}
+                  onChange={(e) => setCatalogQuery(e.target.value)}
+                  placeholder="Kıyafet, kumaş veya marka ara (Örn: trençkot, keten gömlek, polar, mavi, zara, gore-tex)..."
+                  className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden"
+                />
+                {isSearchingCatalog && <Loader2 className="w-3.5 h-3.5 animate-spin text-sky-500 shrink-0" />}
+              </div>
+
+              <div className="sm:col-span-3">
+                <select
+                  value={catalogTier}
+                  onChange={(e) => setCatalogTier(e.target.value)}
+                  className="w-full text-xs font-semibold px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200"
+                >
+                  <option value="all">Tüm Alım Gücü Segmentleri</option>
+                  <option value="essential">Standart ({market.tiers.essential.priceBand})</option>
+                  <option value="smart">Orta-Üst ({market.tiers.smart.priceBand})</option>
+                  <option value="luxury">Lüks & Teknik ({market.tiers.luxury.priceBand})</option>
+                </select>
+              </div>
+
+              <div className="sm:col-span-3">
+                <select
+                  value={catalogCategory}
+                  onChange={(e) => setCatalogCategory(e.target.value)}
+                  className="w-full text-xs font-semibold px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200"
+                >
+                  <option value="all">Tüm Kategoriler</option>
+                  <option value="base">İç Katman (Tişört/İçlik)</option>
+                  <option value="mid">Orta Katman (Gömlek/Kazak/Polar)</option>
+                  <option value="outer">Dış Katman (Ceket/Trençkot/Mont)</option>
+                  <option value="bottom">Alt Giyim (Kot/Chino/Şort)</option>
+                  <option value="footwear">Ayakkabı & Bot</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Catalog Results Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[380px] overflow-y-auto pr-1">
+              {catalogResults.map((tpl) => {
+                const isAdded = justAddedId === tpl.id;
+                const tierLabel =
+                  tpl.segment === 'luxury'
+                    ? 'Lüks & Teknik'
+                    : tpl.segment === 'smart'
+                    ? 'Orta-Üst Şehir'
+                    : 'Standart / Bütçe Dostu';
+                return (
+                  <div
+                    key={tpl.id}
+                    className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-2.5"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                          {CATEGORY_LABELS[tpl.category]}
+                        </span>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                          {tierLabel}
+                        </span>
+                      </div>
+
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white pt-0.5">
+                        {tpl.name}
+                      </h4>
+                      <p className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                        Kumaş: {tpl.material}
+                      </p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
+                        {tpl.description}
+                      </p>
+                    </div>
+
+                    <div className="space-y-2 pt-2 border-t border-slate-200/60 dark:border-slate-800/80">
+                      <div className="flex items-center justify-between text-[10px] text-slate-400">
+                        <span className="truncate max-w-[165px]">
+                          Örn: {currentCountry.toLowerCase().includes('türkiye') ? tpl.brandExamplesTr : tpl.brandExamplesGlobal}
+                        </span>
+                        <span>Isı: {tpl.warmth}/5</span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleAddFromCatalog(tpl)}
+                        className={`w-full py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                          isAdded
+                            ? 'bg-emerald-500 text-white'
+                            : 'bg-sky-500 hover:bg-sky-600 text-white'
+                        }`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span>Dolabınıza Eklendi!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Dolabıma Ekle</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: MY CLOSET */}
+        {activeTab === 'my_closet' && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-bold text-slate-700 dark:text-slate-300">
+                Kayıtlı Kıyafetleriniz ({wardrobe.length} Parça)
+              </span>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 text-[11px] font-semibold flex items-center gap-1 cursor-pointer"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Varsayılan Dolaba Sıfırla</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[380px] overflow-y-auto pr-1">
+              {wardrobe.map((item) => (
+                <div
+                  key={item.id}
+                  className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-2"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                        {CATEGORY_LABELS[item.category]}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item.id)}
+                        className="p-1 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                        title="Dolaptan Sil"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">{item.name}</h4>
+                    <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                      {item.material}
+                    </p>
+                  </div>
+                  <div className="text-[10px] text-slate-400 pt-1.5 border-t border-slate-200/60 dark:border-slate-800 flex justify-between">
+                    <span>Isı: {item.warmth}/5</span>
+                    <span>Su: {item.waterResistance === 'waterproof' ? 'Tam' : item.waterResistance === 'light' ? 'Su İtici' : 'Standart'}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: CUSTOM TEXT / OPTIONAL PHOTO */}
+        {activeTab === 'custom_ai' && (
+          <form onSubmit={handleAiAdd} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3 text-xs">
+            <div className="font-bold text-slate-900 dark:text-white">
+              Katalogda Bulamadığınız Özel Bir Parçayı Yazarak Ekleyin
+            </div>
+            <p className="text-slate-500 dark:text-slate-400">
+              Kıyafetin adını ve etiketindeki kumaş bilgisini yazmanız yeterlidir (Örn: &quot;Lacivert %80 yün %20 kaşmir kaban&quot;).
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 value={aiDescription}
                 onChange={(e) => setAiDescription(e.target.value)}
-                placeholder="Örn: Zümrüt yeşili merinos yünü kazak, Siyah su geçirmez Gore-Tex mont..."
-                className="w-full text-xs font-medium px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
+                placeholder="Örn: Haki yeşili su geçirmez kapüşonlu rüzgarlık..."
+                className="flex-1 px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
               />
-            </div>
-
-            <div className="sm:col-span-2">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -243,263 +454,22 @@ export function WardrobeModal({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className={`w-full px-3 py-2.5 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1.5 transition-colors ${
-                  imagePreview
-                    ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-600 dark:text-emerald-400'
-                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                }`}
+                className="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-1.5 cursor-pointer"
               >
                 <Upload className="w-3.5 h-3.5" />
-                <span>{imagePreview ? 'Fotoğraf Hazır' : 'Fotoğraf Seç'}</span>
+                <span>{imagePreview ? 'Fotoğraf Seçildi' : 'Fotoğraf (Opsiyonel)'}</span>
               </button>
-            </div>
-
-            <div className="sm:col-span-3">
               <button
                 type="submit"
                 disabled={isAnalyzing || (!aiDescription.trim() && !imagePreview)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white font-bold flex items-center gap-1.5 cursor-pointer"
               >
-                {isAnalyzing ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    <span>Analiz Ediliyor...</span>
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-4 h-4" />
-                    <span>Dolaba Ekle</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {imagePreview && (
-            <div className="flex items-center gap-3 pt-1">
-              <img
-                src={imagePreview}
-                alt="Yüklenen kıyafet önizlemesi"
-                className="w-12 h-12 rounded-lg object-cover border border-slate-300 dark:border-slate-700"
-              />
-              <div className="text-[11px] text-slate-600 dark:text-slate-300">
-                <span className="font-semibold block">Görsel analize hazır</span>
-                <button
-                  type="button"
-                  onClick={() => setImagePreview(null)}
-                  className="text-rose-500 hover:underline"
-                >
-                  Görseli Kaldır
-                </button>
-              </div>
-            </div>
-          )}
-        </form>
-
-        {/* Optional Manual Form */}
-        {showManualForm && (
-          <form
-            onSubmit={handleManualAdd}
-            className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3 text-xs"
-          >
-            <div className="font-bold text-slate-800 dark:text-slate-200">
-              Manuel Kıyafet Parametreleri
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="block text-[11px] text-slate-500 mb-1">Parça Adı:</label>
-                <input
-                  type="text"
-                  required
-                  value={manualName}
-                  onChange={(e) => setManualName(e.target.value)}
-                  placeholder="Örn: Keten Bej Gömlek"
-                  className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-slate-500 mb-1">Kategori:</label>
-                <select
-                  value={manualCategory}
-                  onChange={(e) => setManualCategory(e.target.value as any)}
-                  className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
-                >
-                  <option value="base">İç Katman (Tişört/İçlik)</option>
-                  <option value="mid">Orta Katman (Gömlek/Kazak/Hırka)</option>
-                  <option value="outer">Dış Katman (Ceket/Mont/Trençkot)</option>
-                  <option value="bottom">Alt Giyim (Pantolon/Şort)</option>
-                  <option value="footwear">Ayakkabı / Bot</option>
-                  <option value="accessory">Aksesuar (Şemsiye/Şapka/Atkı)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-slate-500 mb-1">Kumaş / Materyal:</label>
-                <input
-                  type="text"
-                  value={manualMaterial}
-                  onChange={(e) => setManualMaterial(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-slate-500 mb-1">
-                  Isı Yalıtımı (1=Çok İnce, 5=Kışlık):
-                </label>
-                <select
-                  value={manualWarmth}
-                  onChange={(e) => setManualWarmth(Number(e.target.value) as any)}
-                  className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
-                >
-                  <option value={1}>1 - Çok İnce (Yazlık)</option>
-                  <option value={2}>2 - Hafif (Ilıman)</option>
-                  <option value={3}>3 - Orta (Geçiş Mevsimi)</option>
-                  <option value={4}>4 - Sıcak Tutan (Soğuk Hava)</option>
-                  <option value={5}>5 - Tam Kışlık (Ağır Yalıtım)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-slate-500 mb-1">Su Direnci:</label>
-                <select
-                  value={manualWater}
-                  onChange={(e) => setManualWater(e.target.value as any)}
-                  className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
-                >
-                  <option value="none">Standart (Su Geçirir)</option>
-                  <option value="light">Su İtici (Hafif Yağmur)</option>
-                  <option value="waterproof">Tam Su Geçirmez (Membran)</option>
-                </select>
-              </div>
-
-              <div className="flex items-end gap-2">
-                <div className="flex-1">
-                  <label className="block text-[11px] text-slate-500 mb-1">Renk Adı & Kodu:</label>
-                  <input
-                    type="text"
-                    value={manualColorName}
-                    onChange={(e) => setManualColorName(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
-                  />
-                </div>
-                <input
-                  type="color"
-                  value={manualColorHex}
-                  onChange={(e) => setManualColorHex(e.target.value)}
-                  className="w-10 h-9 rounded-lg border border-slate-300 dark:border-slate-700 cursor-pointer"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold"
-              >
-                Manuel Olarak Kaydet
+                {isAnalyzing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-4 h-4" />}
+                <span>Ekle</span>
               </button>
             </div>
           </form>
         )}
-
-        {/* Category Filter Tabs & Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5 text-xs">
-          <div className="flex items-center gap-1.5 overflow-x-auto">
-            <button
-              onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1.5 rounded-lg font-semibold transition-colors ${
-                selectedCategory === 'all'
-                  ? 'bg-sky-500 text-white'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
-              }`}
-            >
-              Tümü ({wardrobe.length})
-            </button>
-            {(['base', 'mid', 'outer', 'bottom', 'footwear', 'accessory'] as const).map((cat) => {
-              const count = wardrobe.filter((i) => i.category === cat).length;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-2.5 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors ${
-                    selectedCategory === cat
-                      ? 'bg-sky-500 text-white font-semibold'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
-                  }`}
-                >
-                  {CATEGORY_LABELS[cat]} ({count})
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleCopyJson}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 text-[11px] font-semibold flex items-center gap-1"
-            >
-              {copiedJson ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copiedJson ? 'JSON Kopyalandı' : 'Dolabı JSON Kopyala'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 text-[11px] font-semibold flex items-center gap-1"
-              title="Varsayılan Başlangıç Gardırobuna Dön"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Varsayılana Dön</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Wardrobe Items Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[360px] overflow-y-auto pr-1">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-2.5"
-            >
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 border border-slate-200 dark:border-slate-700">
-                    {CATEGORY_LABELS[item.category]}
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-600"
-                      style={{ backgroundColor: item.colorHex }}
-                      title={item.colorName}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(item.id)}
-                      className="p-1 text-slate-400 hover:text-rose-500 transition-colors"
-                      title="Dolaptan Sil"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                  {item.name}
-                </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">
-                  {item.description}
-                </p>
-              </div>
-
-              <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                <span className="truncate max-w-[120px]">{item.material}</span>
-                <span>Isı: {item.warmth}/5 &bull; Su: {item.waterResistance === 'waterproof' ? 'Tam' : item.waterResistance === 'light' ? 'Hafif' : 'Yok'}</span>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

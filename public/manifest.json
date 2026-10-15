@@ -1,0 +1,20 @@
+{
+  "name": "Wear Weather (by NOk) — Akıllı Giysi & Rota Asistanı",
+  "short_name": "Wear Weather",
+  "description": "Gizlilik odaklı, çok kaynaklı hava durumu konsensüsü, çok duraklı rota planlayıcı ve ülke alım gücüne duyarlı akıllı giyim asistanı.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#020617",
+  "theme_color": "#0284c7",
+  "lang": "tr",
+  "categories": ["weather", "lifestyle", "travel", "navigation"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
