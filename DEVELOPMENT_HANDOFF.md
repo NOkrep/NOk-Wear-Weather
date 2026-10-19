@@ -510,3 +510,42 @@ Yayın öncesi yedek: `.data/backups/catalog-2026-10-18T14-11-28-650Z-08dfcc6f.d
 - TR/EN metinleri ve telefonda üç görünüm sekmesi, kartlar, filtreler ve editör. Gerçek 3D model/katman konusu ayrı kontrol listesinde açık kalır.
 
 Tur sonunda bu çalışma için oluşturulan iki geçici PostgreSQL test konteyneri ve test volume'ları kaldırıldı; kalıcı `weathrobe-local-db-1` ve yedekler korundu. QA tarayıcı sekmesi kapatıldı, kullanıcının mevcut önizleme sekmesi açık bırakıldı. `git diff --check` normal depo satır sonu ayarlarıyla başarılıdır.
+
+## 19. Oracle arkadaş önizlemesi için yayın paketi — 19 Ekim 2026
+
+### Yetki ve sunucu durumu
+
+Kullanıcı Oracle hesabını açtı; yalnız Always Free ile, hesap yükseltmeden ve ücretli AI/alan adı alımı olmadan ilk paylaşımı istiyor. Sunucu adım adım kullanıcı tarafından oluşturuldu: Frankfurt Home Region, A1 Flex 2 OCPU/12 GB, Ubuntu 24.04 Minimal aarch64; AD-3 kapasite hatası sonrası AD-2 başarılı. Ayrı `nok-network` VCN, regional `nok-public-subnet`, Internet Gateway ve varsayılan rota oluşturuldu. TCP 22 kullanıcının çıkış IP'si /32, web için 80 ve 443. Private key Windows ACL'sinden Users çıkarılınca SSH girişi başarılı; SYSTEM, Administrators ve kullanıcı izinleri korundu. Özel anahtar, gerçek IP ve parolalar bu belgeye eklenmedi.
+
+Kullanıcı terminalinde ARM64 `hello-world` ve Docker Compose v5.6.0 başarılı. Kullanıcı önceki kaynakları GitHub'a yüklediğini belirtti. Bu tur güncel çalışma kopyası paketlenecek; yeni değişikliklerin ayrıca GitHub'a gönderildiği varsayılmaz. Dosya kapsamı uygulama bildirimiyle açıkça onaylandı; canlı sunucu komutlarını kullanıcı çalıştıracak.
+
+### Uygulanan dosyalar ve korumalar
+
+- `package.json` / kilit: Next.js 15.5.28 korunarak Next altındaki eski PostCSS 8.4.31 yerine override ile 8.5.30; kök PostCSS kilidi 8.5.31. Çalışan yerel `node_modules` yeniden kurulmadı; yeni kilit üretim Docker imajında temiz `npm ci` ile doğrulandı.
+- `scripts/deploy/package-release.mjs`: açık üst dizin/dosya listesiyle güncel kaynakları paketler. `.env`/özel ortam dosyaları, `.data`, `.git`, bağımlılıklar, anahtar/yedek uzantıları ve gizli dizinler dışarıda kalır. Sembolik bağlantı ve PEM özel anahtar içeriği reddedilir. Arşiv yeniden listelenir; SHA-256 yazılır; aynı çıktı üzerine yazılmaz. Genel amaçlı bütün sır biçimlerini tanıyan bir tarayıcı değildir.
+- `scripts/deploy/configure-preview.mjs`: yeni sunucu `.env` dosyası, iki ayrı 64 karakter hex parola ve public HTTPS adı üretir; sır basmaz. Yeniden çalıştırma parolaları korur. Başka ortam dosyası, DB bağlantısı, ücretli AI anahtarı, tekrarlanan yönetilen ayar veya farklı site adı durumunda mevcut dosya korunur. Linux izinleri 0600, yazım atomiktir.
+- `scripts/catalog/import-reviewed.ts`: onay listesinin tamamına DB'den önce tarih/yol/sayım/şema ve çapraz ürün-varyant kimliği doğrulaması. `--check` salt doğrulama, `--reviewed` açık yayın. Mevcut digest ve transaction mekanizmasıyla tekrar çalıştırma güvenlidir; kısmi DB hatasında tamamlanmış gruplar korunur, kalanlar tekrar denenebilir. Kaynak sayfalarını yeniden araştırmaz, adayları glob ile toplamaz, yeni ürün uydurmaz.
+- `scripts/catalog/cli.ts`: eski sabit 32 tür mesajı yerine güncel taksonomi uzunluğu kullanılır.
+- `tests/deployment.test.cjs`, `.gitignore`, `deploy/ORACLE_PREVIEW.md` ve bu belgelere ekler. Şema, kaynaklı ürün JSON'ları, avatar/katman kodu ve kişisel veriler değiştirilmedi.
+
+### Doğrulama ve sınırlar
+
+- Windows Node: 11 ilişkili CJS dosyasında **61 test; 58 başarılı, 3 DB koşullu atlama, 0 hata**. Paket gizlilik/anahtar içerik kontrolü, mevcut dosya ve parola koruma, hatalı son grubun DB erişiminden önce reddi kapsanır. Korumalı sandbox temp dizininde rename/realpath erişimi engellendi; aynı testler normal kullanıcı erişimiyle geçti.
+- TypeScript `--noEmit --incremental false` başarılı. Yeni MJS/TS yardımcıları ve değişen CLI için hedefli ESLint başarılı.
+- Üretim bağımlılığı denetimi **0 bulgu**. Tam denetimde geliştirme/lint `braces → micromatch → fast-glob → @next/eslint-plugin-next → eslint-config-next` zincirinde **5 yüksek önem uyarısı** kalır. Bunları gidermek için önerilen zorlayıcı/eski ana sürüme geçiş uygulanmadı; ayrı geliştirme aracı bakımı gerekir. Üretim denetimi genel güvenlik garantisi değildir.
+- Ayrı `weathrobe-oracle-preview:20261019` Docker runner derlemesi başarılı; Next 15.5.28, 9 route, ilk JS yaklaşık 188 kB. Docker Desktop başlangıçta kapalıydı; motor başlatıldı. Yerel geliştirme `.next` klasörü derleme için kullanılmadı.
+- `weathrobe-oracle-tools:20261019` ile Linux üzerinde **9/9 yayın testi, atlama yok**. Ayrı boş `weathrobe_deployment_test` DB'sinde ilk aktarım 146 yeni ürün, ikinci aktarım 0; 20 yayın kimliği/digest'i aynı kaldı. 36 tür/23 eski profil korundu. Reader hesabı SELECT yapabilir; DELETE ve import payload SELECT 42501 ile reddedilir.
+- Aynı geçici DB'ye salt okuma hesabıyla bağlanan üretim runner ana sayfada HTTP **200**; katalog API'si **postgresql / available / 146 ürün / 36 tür / 23 profil** döndürdü.
+- Test DB'si tmpfs üzerinde, ayrı etiketli ağ/konteynerlerdeydi; uygulama yalnız rastgele localhost portunda açıldı. Bu test kaynakları sonunda kaldırıldı; kalıcı yerel katalog ve yedekler korunur. Docker imajları sonraki kontroller için kalır.
+- Bu Docker kanıtı yerel Linux platformuna aittir. Oracle ARM üretim derlemesi, public DNS/HTTPS, gerçek telefon ve dışarıdan tarayıcı testi kullanıcıyla sonraki aşamadır. İlk yayın paketi `artifacts/releases/weathrobe-preview-2026-10-19.tar.gz` ve yanında `.sha256` üretilecek; canlı yayının tamamlandığı iddia edilmez.
+
+### Sonraki kullanıcı adımları
+
+1. Windows PowerShell'den arşiv ve checksum'u SCP ile sunucunun home dizinine yüklemek; private key bilgisayarda kalır.
+2. SSH oturumunda `sha256sum --check`; yeni dizine açmak.
+3. Gerçek Oracle public IP'sinden `weathrobe-IP-TİRELERLE.sslip.io` adı seçmek; konteyner içindeki configure-preview komutuyla taze sunucu sırları oluşturmak. Yerel `.env` yüklenmez.
+4. Rehberdeki Compose proje adı `weathrobe-preview` korunarak ARM build → db → migration → kontrol → onaylı 146 ürün → coverage → Caddy/app başlatma.
+5. HTTPS, gerçek katalog ve mobil/konum/rota akışı doğrulandıktan sonra bağlantıyı arkadaşlara kullanıcı paylaşır. Merkezi genel uygulama geri bildirim kutusu bu tur eklenmedi; termal geri bildirim ayrı işlevdir.
+6. Sunucu dışı yedek ve ayrı DB'de geri yükleme testi. Doctus için ortak Caddy/ayrı uygulama ağı ve volume'lar sonra onaylanacak; ikinci Caddy ile 80/443 çakıştırılmaz.
+
+Oracle konsolunun 4/24 uyarısı ile o gün kontrol edilen resmî belgenin 2/12 açıklaması uyuşmuyordu; kurulan 2/12 korunur. Hesabın ücretsiz statüsü ve toplam kaynak tüketimi kontrol edilmeden genişletme yapılmaz. Eski Markdown bölümleri korunmuştur.

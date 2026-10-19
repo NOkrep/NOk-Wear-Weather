@@ -5,13 +5,14 @@ import { validateCatalogImport } from '../../lib/catalog/validation';
 import { publishCatalogImport, rejectCatalogImport, stageCatalogImport } from '../../lib/catalog/imports';
 import { publishedCoverage } from '../../lib/catalog/repository';
 import { migrateCatalog } from './migrate';
+import { GARMENT_TYPES } from '../../lib/catalog/taxonomy';
 
 if (existsSync('.env')) process.loadEnvFile('.env');
 
 async function main() {
   const [command,argument,confirmation] = process.argv.slice(2);
   if (command === 'migrate') {
-    await migrateCatalog(); console.log('Catalogue schema ready: 32 types; legacy profiles preserved.');
+    await migrateCatalog(); console.log(`Catalogue schema ready: ${GARMENT_TYPES.length} types; legacy profiles preserved.`);
   } else if (command === 'validate' || command === 'stage') {
     if (!argument) throw new Error('JSON file path required');
     if ((await stat(argument)).size > 5 * 1024 * 1024) throw new Error('Import exceeds 5 MiB');

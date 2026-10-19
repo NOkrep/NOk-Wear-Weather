@@ -86,3 +86,15 @@ Güncel katalog **146 farklı gerçek model / 146 kaynak / 20 incelenmiş grup /
 Dolabım → Katalog → **Tasarım örnekleri**: 36 türün her biri için 5, toplam **180 özgün SVG çizimi**. Yaka/kol/kesim yanında cepler, kapanış, silüet ve boy farklılaşır. Dolabımdaki parçanın **Görünümü düzenle** ekranından silüet seçip kişisel renk/desenle kaydedebilirsiniz. Kaydet/Vazgeç akışı korunur; bunlar gerçek ürün veya üretici kumaş/performans verisi sayılmaz. Yeni tasarımlar 2D içindir; 3D katman sorunu açık kalır.
 
 [Gerçek model ilerlemesi](db/sources/catalog-progress.md), [72 model ve kaynak kararları](db/sources/catalog-expansion.2026-10-18.md), [güncel devir/kontrol listesi](DEVELOPMENT_HANDOFF.md). İlerleme raporunu yenilemek için `node node_modules/tsx/dist/cli.mjs scripts/catalog/progress.ts --write`; mevcut `npm run catalog:local` yalnız açık onay listesini tekrarları çoğaltmadan yükler. Eski Markdown bölümleri ve yayınlanmış JSON grupları korunmuştur.
+
+## Oracle arkadaş önizlemesi — 19 Ekim 2026
+
+[Adım adım yayın rehberi](deploy/ORACLE_PREVIEW.md): kullanıcının Frankfurt Ubuntu ARM sunucusuna güncel çalışma dosyaları, PostgreSQL ve 146 incelenmiş ürün aktarılır. Sunucu Docker/Compose ve SSH bağlantısı kullanıcı tarafından doğrulandı; uygulamanın Oracle üzerindeki canlı yayını ve ARM üretim derlemesi henüz tamamlanmış sayılmaz.
+
+- `node scripts/deploy/package-release.mjs --name weathrobe-preview-2026-10-19`: yerel sırlar, kişisel veriler ve bağımlılık/derleme klasörleri hariç kaynak arşivi ve SHA-256 üretir. Çıktı `artifacts/releases/` altındadır; Git'e eklenmez, mevcut paket üzerine yazılmaz.
+- `node scripts/deploy/configure-preview.mjs --domain PUBLIC_HOSTNAME`: sunucuda iki ayrı yeni DB parolası üretir, AI anahtarlarını boş bırakır; mevcut yerel DB/AI anahtarı veya çakışan ayarlarda durur. Komut sunucuda Node 24 konteynerinde çalıştırılabilir.
+- Araç konteynerinde `node --import tsx scripts/catalog/import-reviewed.ts --check` tüm onay listesini DB'ye dokunmadan doğrular; `--reviewed` mevcut digest/yayın işlemleriyle aktarır ve tekrar çalıştırmada çoğaltmaz. `catalog:local` bilgisayardaki yerel ortam içindir.
+- Next.js **15.5.28** korundu; iç PostCSS **8.5.30** sürümüne yönlendirildi. Doğrudan PostCSS kilidi **8.5.31**. Üretim bağımlılığı `npm audit --omit=dev`: **0 bulgu**. Tüm bağımlılıklar denetiminde lint araçlarının `braces` zincirinden **5 yüksek önem uyarısı** sürüyor; bu tur zorlayıcı ana sürüm değişikliği yapılmadı.
+- Yerel Docker Linux üretim imajı derlendi; boş test DB'sinde Linux yayın testleri **9/9** başarılı. İkinci aktarım 0 yeni ürün, salt okuma hesabı yazmayı/taslak payload okumayı reddediyor. Üretim imajı HTTP 200 ve DB üzerinden 146 ürün/36 tür/23 eski profil ile doğrulandı. Bu kanıt yerel Docker ortamına aittir; Oracle/HTTPS/gerçek mobil cihaz kontrolü sonraki adımdır.
+
+İlk paylaşım adresi için alan adı satın almadan `sslip.io` ve Caddy kullanılabilir; DNS/sertifika hizmetlerinin kullanılabilirliğine bağlıdır. Genel uygulama geri bildirim kutusu ve gerçek 3D katman düzeltmesi bu tur eklenmedi. Mevcut Markdown bölümleri ve kişisel yerel veriler korundu.
