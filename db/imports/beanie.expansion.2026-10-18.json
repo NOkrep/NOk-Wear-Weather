@@ -1,0 +1,336 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stau297-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Fielder STAU297 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/fielder-stau297",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stau296-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Fisherman Beanie 2.0 STAU296 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/fisherman-beanie-2-0-stau296",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stau295-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Rib Beanie 2.0 STAU295 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/rib-beanie-2-0-stau295",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stau771-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Fisherman Beanie STAU771 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/fisherman-beanie-stau771",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stau772-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Rib Beanie STAU772 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/rib-beanie-stau772",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stau297",
+      "garmentTypeId": "beanie",
+      "brand": "Stanley/Stella",
+      "model": "Fielder STAU297",
+      "name": {
+        "tr": "Fielder bere",
+        "en": "Fielder"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/fielder-stau297",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stau297-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stau297-20261018",
+          "basis": "manufacturer",
+          "note": "Jersey dış örgü %100 pamuk olarak açıklandı. Kenardaki polar astarın lif yüzdesi verilmediğinden astar bileşimi bilinmiyor; dış kumaş oranı astara uygulanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stau297-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stau296",
+      "garmentTypeId": "beanie",
+      "brand": "Stanley/Stella",
+      "model": "Fisherman Beanie 2.0 STAU296",
+      "name": {
+        "tr": "Fisherman Beanie 2.0 bere",
+        "en": "Fisherman Beanie 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/fisherman-beanie-2-0-stau296",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 93
+              },
+              {
+                "name": "Elastane",
+                "percent": 1
+              },
+              {
+                "name": "Polyamide",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stau296-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stau296-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stau296-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stau295",
+      "garmentTypeId": "beanie",
+      "brand": "Stanley/Stella",
+      "model": "Rib Beanie 2.0 STAU295",
+      "name": {
+        "tr": "Rib Beanie 2.0 bere",
+        "en": "Rib Beanie 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/rib-beanie-2-0-stau295",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 90
+              },
+              {
+                "name": "Elastane",
+                "percent": 1
+              },
+              {
+                "name": "Polyamide",
+                "percent": 9
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stau295-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stau295-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stau295-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stau771",
+      "garmentTypeId": "beanie",
+      "brand": "Stanley/Stella",
+      "model": "Fisherman Beanie STAU771",
+      "name": {
+        "tr": "Fisherman Beanie bere",
+        "en": "Fisherman Beanie"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/fisherman-beanie-stau771",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 95
+              },
+              {
+                "name": "Elastane",
+                "percent": 5
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stau771-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stau771-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stau771-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stau772",
+      "garmentTypeId": "beanie",
+      "brand": "Stanley/Stella",
+      "model": "Rib Beanie STAU772",
+      "name": {
+        "tr": "Rib Beanie bere",
+        "en": "Rib Beanie"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/rib-beanie-stau772",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 80
+              },
+              {
+                "name": "Polyester",
+                "percent": 20
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stau772-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stau772-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stau772-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

@@ -62,6 +62,7 @@ export function wipeAllLocalUserData(): void {
     localStorage.removeItem('wear_weather_feedbacks');
     localStorage.removeItem('wear_weather_itinerary_v1');
     localStorage.removeItem('wear_weather_avatar_v1');
+    localStorage.removeItem('wear_weather_avatar_v2');
     localStorage.removeItem('wear_weather_community_consent_v1');
     localStorage.removeItem('wear_weather_locale_v1');
     window.dispatchEvent(new Event('weathrobe-data-wiped'));

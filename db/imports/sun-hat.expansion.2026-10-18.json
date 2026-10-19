@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stau893-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Bucket Hat STAU893 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/bucket-hat-stau893",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stau893",
+      "garmentTypeId": "sun-hat",
+      "brand": "Stanley/Stella",
+      "model": "Bucket Hat STAU893",
+      "name": {
+        "tr": "Bucket Hat şapka",
+        "en": "Bucket Hat"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/bucket-hat-stau893",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 80
+              },
+              {
+                "name": "Polyester",
+                "percent": 20
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 300,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stau893-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stau893-20261018",
+          "basis": "manufacturer",
+          "note": "Dış kanvas %80 pamuk/%20 polyester; ayrı belirtilen astar %100 pamuk. Ürün rengi/bedeni ve barkodu eşleştirilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stau893-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 300 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stau893-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-sttu199-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Creator 2.0 Long Sleeve STTU199 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/creator-2-0-long-sleeve-sttu199",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-sttu199",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Creator 2.0 Long Sleeve STTU199",
+      "name": {
+        "tr": "Creator 2.0 Long Sleeve uzun kollu tişört",
+        "en": "Creator 2.0 Long Sleeve"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/creator-2-0-long-sleeve-sttu199",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu199-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu199-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu199-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 180 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu199-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

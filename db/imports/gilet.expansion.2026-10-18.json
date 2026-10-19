@@ -1,0 +1,605 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stju293-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Puffer Gilet 2.0 STJU293 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/puffer-gilet-2-0-stju293",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjm189-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Climber 2.0 STJM189 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-climber-2-0-stjm189",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjw190-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Climber 2.0 STJW190 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-climber-2-0-stjw190",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjw241-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Quester STJW241 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-quester-stjw241",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjm240-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Quester STJM240 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-quester-stjm240",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjm235-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Trail Blazer STJM235 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-trail-blazer-stjm235",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjw236-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Trail Blazer STJW236 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-trail-blazer-stjw236",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stju250-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Puffer Gilet STJU250 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/puffer-gilet-stju250",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stju293",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Puffer Gilet 2.0 STJU293",
+      "name": {
+        "tr": "Puffer Gilet 2.0 yelek",
+        "en": "Puffer Gilet 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/puffer-gilet-2-0-stju293",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Nylon",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 38,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stju293-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stju293-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stju293-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 38 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stju293-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stju293-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjm189",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Climber 2.0 STJM189",
+      "name": {
+        "tr": "Stanley Climber 2.0 yelek",
+        "en": "Stanley Climber 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-climber-2-0-stjm189",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Nylon",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 38,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjm189-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjm189-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjm189-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 38 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stjm189-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjm189-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjw190",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Stella Climber 2.0 STJW190",
+      "name": {
+        "tr": "Stella Climber 2.0 yelek",
+        "en": "Stella Climber 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-climber-2-0-stjw190",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Nylon",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 38,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjw190-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjw190-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjw190-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 38 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stjw190-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjw190-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjw241",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Stella Quester STJW241",
+      "name": {
+        "tr": "Stella Quester yelek",
+        "en": "Stella Quester"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-quester-stjw241",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 300,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjw241-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjw241-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjw241-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 300 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjw241-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjm240",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Quester STJM240",
+      "name": {
+        "tr": "Stanley Quester yelek",
+        "en": "Stanley Quester"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-quester-stjm240",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 300,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjm240-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjm240-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjm240-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 300 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjm240-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjm235",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Trail Blazer STJM235",
+      "name": {
+        "tr": "Stanley Trail Blazer yelek",
+        "en": "Stanley Trail Blazer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-trail-blazer-stjm235",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 94
+              },
+              {
+                "name": "Elastane",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": 315,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjm235-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjm235-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjm235-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 315 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stjm235-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjm235-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjw236",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Stella Trail Blazer STJW236",
+      "name": {
+        "tr": "Stella Trail Blazer yelek",
+        "en": "Stella Trail Blazer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-trail-blazer-stjw236",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 94
+              },
+              {
+                "name": "Elastane",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": 315,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjw236-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjw236-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjw236-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 315 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stjw236-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjw236-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stju250",
+      "garmentTypeId": "gilet",
+      "brand": "Stanley/Stella",
+      "model": "Puffer Gilet STJU250",
+      "name": {
+        "tr": "Puffer Gilet yelek",
+        "en": "Puffer Gilet"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/puffer-gilet-stju250",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "fill",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 75,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stju250-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stju250-20261018",
+          "basis": "manufacturer",
+          "note": "Ayrı belirtilen dış kumaş, tafta astar ve dolgu bileşenlerinin her biri %100 polyester olarak kaydedildi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stju250-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 75 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stju250-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stju250-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

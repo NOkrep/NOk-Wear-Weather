@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stbu276-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Barreler STBU276 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/barreler-stbu276",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stbu274-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Needer STBU274 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/needer-stbu274",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stbu185-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Mover 2.0 STBU185 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/mover-2-0-stbu185",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stbu576-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Mover Vintage STBU576 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/mover-vintage-stbu576",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stbu157-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Jammer Dry STBU157 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/jammer-dry-stbu157",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stbu276",
+      "garmentTypeId": "joggers",
+      "brand": "Stanley/Stella",
+      "model": "Barreler STBU276",
+      "name": {
+        "tr": "Barreler eşofman altı",
+        "en": "Barreler"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/barreler-stbu276",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 400,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu276-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu276-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu276-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 400 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu276-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stbu274",
+      "garmentTypeId": "joggers",
+      "brand": "Stanley/Stella",
+      "model": "Needer STBU274",
+      "name": {
+        "tr": "Needer eşofman altı",
+        "en": "Needer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/needer-stbu274",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 85
+              },
+              {
+                "name": "Polyester",
+                "percent": 15
+              }
+            ]
+          }
+        ],
+        "gsm": 280,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu274-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu274-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu274-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 280 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu274-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stbu185",
+      "garmentTypeId": "joggers",
+      "brand": "Stanley/Stella",
+      "model": "Mover 2.0 STBU185",
+      "name": {
+        "tr": "Mover 2.0 eşofman altı",
+        "en": "Mover 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/mover-2-0-stbu185",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 350,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu185-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu185-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu185-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 350 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu185-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stbu576",
+      "garmentTypeId": "joggers",
+      "brand": "Stanley/Stella",
+      "model": "Mover Vintage STBU576",
+      "name": {
+        "tr": "Mover Vintage eşofman altı",
+        "en": "Mover Vintage"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/mover-vintage-stbu576",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 300,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu576-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu576-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu576-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 300 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu576-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stbu157",
+      "garmentTypeId": "joggers",
+      "brand": "Stanley/Stella",
+      "model": "Jammer Dry STBU157",
+      "name": {
+        "tr": "Jammer Dry eşofman altı",
+        "en": "Jammer Dry"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/jammer-dry-stbu157",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 400,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu157-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu157-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu157-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 400 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu157-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI, Type } from '@google/genai';
 import { ClothingItem, WeatherConsensus, ThermalProfile, AiStylistResponse } from '@/lib/types';
+import { canRankForWeather, getItemWarmth } from '@/lib/catalog-wardrobe';
 
 export async function POST(req: NextRequest) {
   try {
@@ -193,12 +194,13 @@ Kurallar:
       try {
         const ai = new GoogleGenAI({ apiKey });
         const wardrobeSummary = wardrobe
+          .filter(item => canRankForWeather(item, weather))
           .slice(0, 20)
-          .map((i) => `- ${i.name} (${i.category}, ${i.material}, Sıcaklık:${i.warmth}/5, Su:${i.waterResistance}, Renk:${i.colorName})`)
+          .map((i) => `- ${i.name} (${i.category}, ${i.material}, Isı:${getItemWarmth(i)}/5${i.personalWarmth ? ' kişisel tahmin' : ''}, Su:${i.waterResistance??'bilinmiyor'}, Renk:${i.colorName})`)
           .join('\n');
 
         const prompt = `Sen Weathrobe (Wear Weather) uygulamasının Baş Meteorolojik Stil ve Tekstil Mühendisisin.
-Aşağıdaki canlı meteorolojik konsensüs, kullanıcının kişisel termal toleransı ve kendi gardırobundaki kıyafetlere göre Türkçe, bilimsel (çiy noktası, rüzgar soğuğu, optik renk yansıması) ve doğrudan uygulanabilir bir kombin reçetesi oluştur.
+Aşağıdaki canlı meteorolojik konsensüs, kullanıcının kişisel termal toleransı ve kendi gardırobundaki kıyafetlere göre Türkçe bir kombin önerisi oluştur. Kişisel ısı tahmini ölçüm veya üretici beyanı değildir. Bilinmeyen su/rüzgâr korumasını doğrulanmış gibi sunma; kumaş içeriğinden teknik koruma değeri türetme.
 
 Konum: ${districtName}
 Canlı Hava Konsensüsü:
@@ -265,9 +267,11 @@ Lütfen kullanıcının kendi gardırobundaki parçalara öncelik vererek JSON �
     const effTemp = (weather?.feelsLike ?? 18) + (thermalProfile?.offsetC ?? 0);
     const pickNames = wardrobe
       .filter((i) => {
-        if (effTemp <= 12) return i.warmth >= 3;
-        if (effTemp >= 23) return i.warmth <= 2;
-        return i.warmth >= 1 && i.warmth <= 3;
+        const warmth = getItemWarmth(i);
+        if (warmth === null || !canRankForWeather(i, weather)) return false;
+        if (effTemp <= 12) return warmth >= 3;
+        if (effTemp >= 23) return warmth <= 2;
+        return warmth >= 1 && warmth <= 3;
       })
       .slice(0, 4)
       .map((i) => i.name);

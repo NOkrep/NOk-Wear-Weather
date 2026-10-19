@@ -20,3 +20,16 @@ npx cap sync
 
 * **Android Studio'da Açmak İçin:** `npx cap open android`
 * **Xcode'da Açmak İçin (Mac):** `npx cap open ios`
+
+
+---
+
+## 3. Güncel doğrulama ve sınırlar — 16 Ekim 2026
+
+Önceki kurulum adımları korunmuştur; bunlar tamamlanmış native dağıtım kanıtı değildir. Güncel durum için **[DEVELOPMENT_HANDOFF.md](DEVELOPMENT_HANDOFF.md)** dosyasını okuyun.
+
+- Arayüzdeki canlı **App Preview** 390 px uygulama çerçevesi ve mobil gezinme sunar; APK/IPA veya fiziksel cihaz testi yerine geçmez.
+- Manifest ve servis çalışanı dosyaları vardır. Mevcut servis çalışanında API yanıtları için önbellek akışı bulunur; tüm uygulama parçalarıyla güvenilir çevrimdışı kullanım henüz doğrulanmadı.
+- `next.config.ts` sunucu için `output: 'standalone'` kullanırken `capacitor.config.json` `webDir: 'out'` bekliyor. Standalone derleme bu statik dizini üretmez; mobil paketleme mimarisi netleştirilmeli.
+- Capacitor paketleri mevcut `package.json` içinde kurulu değildir. Önceki komut listesini çalıştırmak tek başına çalışan APK/IPA garantisi sağlamaz. Next.js API uçlarının nerede barınacağı ve uygulamanın bu sunucuya nasıl bağlanacağı belirlenmelidir.
+- İlk 3D avatar/editör sürümü uygulandı: dinamik istemci yüklemesi, ihtiyaç halinde render, WebGL hata sınırı/sabit önizleme ve mobil düzen bulunuyor. Gerçek telefonlarda kare hızı ve bellek ölçümleri henüz yapılmadı.

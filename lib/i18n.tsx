@@ -10,7 +10,8 @@ export function translate<T>(value: T, locale: Locale): T {
   if (locale !== 'en' || typeof value !== 'string') return value;
   return (english[value.trim()] ?? translateEnglish(value)) as T;
 }
-type Context = { locale: Locale; setLocale: (locale: Locale) => void; t: typeof identity; garment: (item: Pick<ClothingItem, 'name' | 'dataSource' | 'isUserOwned'>) => string };
+type GarmentLabel = Pick<ClothingItem, 'name' | 'nameEn' | 'dataSource' | 'isUserOwned'>;
+type Context = { locale: Locale; setLocale: (locale: Locale) => void; t: typeof identity; garment: (item: GarmentLabel) => string };
 const identity = <T,>(value: T): T => value;
 const LanguageContext = createContext<Context>({ locale: 'tr', setLocale: () => {}, t: identity, garment: item => item.name });
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -27,7 +28,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem(LOCALE_KEY, next); } catch {}
   }, []);
   const t = useCallback(<T,>(value: T) => translate(value, locale), [locale]);
-  const garment = useCallback((item: Pick<ClothingItem, 'name' | 'dataSource' | 'isUserOwned'>) => item.dataSource === 'user' || item.dataSource === 'barcode' ? item.name : translate(item.name, locale), [locale]);
+  const garment = useCallback((item: GarmentLabel) => item.dataSource === 'catalog' ? locale === 'en' ? item.nameEn ?? item.name : item.name : item.dataSource === 'user' || item.dataSource === 'barcode' ? item.name : translate(item.name, locale), [locale]);
   const context = useMemo(() => ({ locale, setLocale, t, garment }), [locale, setLocale, t, garment]);
   return <LanguageContext.Provider value={context}>{children}</LanguageContext.Provider>;
 }

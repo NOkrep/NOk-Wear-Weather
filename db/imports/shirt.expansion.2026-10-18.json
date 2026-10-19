@@ -1,0 +1,543 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stwm968-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Oxford Shirt STWM968 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-oxford-shirt-stwm968",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stww973-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Styler Shirt STWW973 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-styler-shirt-stww973",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stwm969-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Styler Shirt STWM969 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-styler-shirt-stwm969",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stww971-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Oxford Shirt STWW971 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-oxford-shirt-stww971",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stww970-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Denim Shirt STWW970 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-denim-shirt-stww970",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stwu975-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Worker STWU975 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/worker-stwu975",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stwm967-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Denim Shirt STWM967 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-denim-shirt-stwm967",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stww270-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Harper STWW270 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-harper-stww270",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stwm968",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Oxford Shirt STWM968",
+      "name": {
+        "tr": "Stanley Oxford Shirt gömlek",
+        "en": "Stanley Oxford Shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-oxford-shirt-stwm968",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 190,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stwm968-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stwm968-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stwm968-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 190 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stwm968-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stww973",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stella Styler Shirt STWW973",
+      "name": {
+        "tr": "Stella Styler Shirt gömlek",
+        "en": "Stella Styler Shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-styler-shirt-stww973",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 130,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stww973-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stww973-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stww973-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 130 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stww973-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stwm969",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Styler Shirt STWM969",
+      "name": {
+        "tr": "Stanley Styler Shirt gömlek",
+        "en": "Stanley Styler Shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-styler-shirt-stwm969",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 130,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stwm969-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stwm969-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stwm969-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 130 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stwm969-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stww971",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stella Oxford Shirt STWW971",
+      "name": {
+        "tr": "Stella Oxford Shirt gömlek",
+        "en": "Stella Oxford Shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-oxford-shirt-stww971",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 190,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stww971-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stww971-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stww971-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 190 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stww971-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stww970",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stella Denim Shirt STWW970",
+      "name": {
+        "tr": "Stella Denim Shirt gömlek",
+        "en": "Stella Denim Shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-denim-shirt-stww970",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 235,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stww970-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stww970-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stww970-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 235 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stww970-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stwu975",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Worker STWU975",
+      "name": {
+        "tr": "Worker gömlek",
+        "en": "Worker"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/worker-stwu975",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 285,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stwu975-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stwu975-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stwu975-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 285 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stwu975-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stwm967",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Denim Shirt STWM967",
+      "name": {
+        "tr": "Stanley Denim Shirt gömlek",
+        "en": "Stanley Denim Shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-denim-shirt-stwm967",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 235,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stwm967-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stwm967-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stwm967-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 235 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stwm967-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stww270",
+      "garmentTypeId": "shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stella Harper STWW270",
+      "name": {
+        "tr": "Stella Harper gömlek",
+        "en": "Stella Harper"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-harper-stww270",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 130,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stww270-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stww270-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stww270-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 130 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stww270-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

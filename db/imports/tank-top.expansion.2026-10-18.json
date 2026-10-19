@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-sttw963-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Ava STTW963 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-ava-sttw963",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw962-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Mia STTW962 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-mia-sttw962",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttm961-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Stancer STTM961 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-stancer-sttm961",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-sttw963",
+      "garmentTypeId": "tank-top",
+      "brand": "Stanley/Stella",
+      "model": "Stella Ava STTW963",
+      "name": {
+        "tr": "Stella Ava atlet",
+        "en": "Stella Ava"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-ava-sttw963",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw963-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw963-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw963-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 180 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw963-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw962",
+      "garmentTypeId": "tank-top",
+      "brand": "Stanley/Stella",
+      "model": "Stella Mia STTW962",
+      "name": {
+        "tr": "Stella Mia atlet",
+        "en": "Stella Mia"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-mia-sttw962",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw962-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw962-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw962-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw962-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttm961",
+      "garmentTypeId": "tank-top",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Stancer STTM961",
+      "name": {
+        "tr": "Stanley Stancer atlet",
+        "en": "Stanley Stancer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-stancer-sttm961",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttm961-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttm961-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttm961-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 180 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttm961-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

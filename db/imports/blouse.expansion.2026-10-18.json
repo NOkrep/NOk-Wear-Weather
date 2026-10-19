@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-koton-5sak60077ew-20261018",
+      "kind": "manufacturer",
+      "title": "Koton Viskon kumaş nakış detaylı uzun kollu V yaka bluz 5SAK60077EW — ürün beyanı",
+      "url": "https://www.koton.com/viskon-kumas-nakis-detayli-uzun-kollu-v-yaka-bluz-ekru-4053129/",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    },
+    {
+      "id": "src-koton-2yak66445iw-20261018",
+      "kind": "manufacturer",
+      "title": "Koton Balon kollu pamuklu bluz 2YAK66445IW — ürün beyanı",
+      "url": "https://www.koton.com/balon-kollu-pamuklu-bluz-siyah-1216501/",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "koton-5sak60077ew",
+      "garmentTypeId": "blouse",
+      "brand": "Koton",
+      "model": "5SAK60077EW",
+      "name": {
+        "tr": "Viskon kumaş nakış detaylı uzun kollu V yaka bluz",
+        "en": "Embroidered viscose V neck blouse"
+      },
+      "productUrl": "https://www.koton.com/viskon-kumas-nakis-detayli-uzun-kollu-v-yaka-bluz-ekru-4053129/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Viscose",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-koton-5sak60077ew-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-koton-5sak60077ew-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin ANA KUMAŞ ve Dış alanlarında aynı lif oranı doğrulandı. Kaynak gözlemi stok veya bütün renk/beden varyantlarının doğrulanması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "koton-5sak60077ew-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "koton-2yak66445iw",
+      "garmentTypeId": "blouse",
+      "brand": "Koton",
+      "model": "2YAK66445IW",
+      "name": {
+        "tr": "Balon kollu pamuklu bluz",
+        "en": "Cotton puff sleeve blouse"
+      },
+      "productUrl": "https://www.koton.com/balon-kollu-pamuklu-bluz-siyah-1216501/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-koton-2yak66445iw-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-koton-2yak66445iw-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin ANA KUMAŞ ve Dış alanlarında aynı lif oranı doğrulandı. Kaynak gözlemi stok veya bütün renk/beden varyantlarının doğrulanması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "koton-2yak66445iw-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

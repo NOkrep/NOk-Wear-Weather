@@ -1,12 +1,83 @@
 services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: weathrobe
+      POSTGRES_USER: weathrobe_owner
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U weathrobe_owner -d weathrobe"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  catalog-migrate:
+    build:
+      context: .
+      target: tools
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://weathrobe_owner:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@db:5432/weathrobe
+      CATALOG_READER_PASSWORD: ${CATALOG_READER_PASSWORD:?Set CATALOG_READER_PASSWORD in .env}
+    command: ["npm", "run", "db:migrate"]
+
   wear-weather:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: wear-weather-app
-    restart: always
+      target: runner
+    restart: unless-stopped
+    depends_on:
+      catalog-migrate:
+        condition: service_completed_successfully
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     environment:
-      - NODE_ENV=production
-      - PORT=3000
+      DATABASE_URL: postgresql://catalog_reader:${CATALOG_READER_PASSWORD:?Set CATALOG_READER_PASSWORD}@db:5432/weathrobe
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      WEAR_WEATHER_COMMUNITY_DIR: /app/.data/community
+    volumes:
+      - community_data:/app/.data/community
+
+  catalog-tools:
+    profiles: ["tools"]
+    build:
+      context: .
+      target: tools
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://weathrobe_owner:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@db:5432/weathrobe
+    volumes:
+      - ./.data/catalog-imports:/imports:ro
+    entrypoint: ["npm", "run", "catalog", "--"]
+    command: ["coverage"]
+
+  caddy:
+    profiles: ["edge"]
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - wear-weather
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:-localhost}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  postgres_data:
+  community_data:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,1690 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-sttu272-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Reeser STTU272 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/reeser-sttu272",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu277-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Hazener STTU277 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/hazener-sttu277",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu280-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Freestyler Super Vintage STTU280 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/freestyler-super-vintage-sttu280",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw283-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Nova Vintage STTW283 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-nova-vintage-sttw283",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu170-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Crafter STTU170 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/crafter-sttu170",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu976-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Crafter Vintage STTU976 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/crafter-vintage-sttu976",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu171-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Sparker 2.0 STTU171 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/sparker-2-0-sttu171",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu959-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Blaster 2.0 STTU959 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/blaster-2-0-sttu959",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu964-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Breezer STTU964 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/breezer-sttu964",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu078-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Asher STTU078 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/asher-sttu078",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu788-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Freestyler STTU788 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/freestyler-sttu788",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu258-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Hypster STTU258 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/hypster-sttu258",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu263-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Blaker STTU263 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/blaker-sttu263",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu073-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Freestyler Vintage STTU073 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/freestyler-vintage-sttu073",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu787-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella RE-Creator STTU787 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/re-creator-sttu787",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttu758-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Rocker STTU758 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/rocker-sttu758",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw172-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Muser STTW172 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-muser-sttw172",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw079-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Expresser 2.0 STTW079 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-expresser-2-0-sttw079",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw173-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Serena STTW173 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-serena-sttw173",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw259-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Raya STTW259 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-raya-sttw259",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw264-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Etta STTW264 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-etta-sttw264",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw175-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Nova STTW175 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-nova-sttw175",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw174-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Ella STTW174 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-ella-sttw174",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttw089-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Collider STTW089 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-collider-sttw089",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-sttm562-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Presenter STTM562 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-presenter-sttm562",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-sttu272",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Reeser STTU272",
+      "name": {
+        "tr": "Reeser kısa kollu tişört",
+        "en": "Reeser"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/reeser-sttu272",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 220,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu272-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu272-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu272-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 220 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu272-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu277",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Hazener STTU277",
+      "name": {
+        "tr": "Hazener kısa kollu tişört",
+        "en": "Hazener"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/hazener-sttu277",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 370,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu277-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu277-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu277-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 370 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu277-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu280",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Freestyler Super Vintage STTU280",
+      "name": {
+        "tr": "Freestyler Super Vintage kısa kollu tişört",
+        "en": "Freestyler Super Vintage"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/freestyler-super-vintage-sttu280",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu280-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu280-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu280-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 240 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu280-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw283",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Nova Vintage STTW283",
+      "name": {
+        "tr": "Stella Nova Vintage kısa kollu tişört",
+        "en": "Stella Nova Vintage"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-nova-vintage-sttw283",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw283-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw283-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw283-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw283-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu170",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Crafter STTU170",
+      "name": {
+        "tr": "Crafter kısa kollu tişört",
+        "en": "Crafter"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/crafter-sttu170",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu170-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu170-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu170-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu170-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu976",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Crafter Vintage STTU976",
+      "name": {
+        "tr": "Crafter Vintage kısa kollu tişört",
+        "en": "Crafter Vintage"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/crafter-vintage-sttu976",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu976-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu976-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu976-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu976-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu171",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Sparker 2.0 STTU171",
+      "name": {
+        "tr": "Sparker 2.0 kısa kollu tişört",
+        "en": "Sparker 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/sparker-2-0-sttu171",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 215,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu171-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu171-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu171-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 215 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu171-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu959",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Blaster 2.0 STTU959",
+      "name": {
+        "tr": "Blaster 2.0 kısa kollu tişört",
+        "en": "Blaster 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/blaster-2-0-sttu959",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 200,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu959-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu959-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu959-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 200 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu959-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu964",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Breezer STTU964",
+      "name": {
+        "tr": "Breezer kısa kollu tişört",
+        "en": "Breezer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/breezer-sttu964",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu964-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu964-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu964-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu964-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu078",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Asher STTU078",
+      "name": {
+        "tr": "Asher kısa kollu tişört",
+        "en": "Asher"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/asher-sttu078",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 280,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu078-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu078-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu078-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 280 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu078-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu788",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Freestyler STTU788",
+      "name": {
+        "tr": "Freestyler kısa kollu tişört",
+        "en": "Freestyler"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/freestyler-sttu788",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu788-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu788-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu788-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 240 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu788-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu258",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Hypster STTU258",
+      "name": {
+        "tr": "Hypster kısa kollu tişört",
+        "en": "Hypster"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/hypster-sttu258",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 200,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu258-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu258-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu258-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 200 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu258-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu263",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Blaker STTU263",
+      "name": {
+        "tr": "Blaker kısa kollu tişört",
+        "en": "Blaker"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/blaker-sttu263",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 60
+              },
+              {
+                "name": "Modal",
+                "percent": 40
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu263-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu263-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu263-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu263-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu073",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Freestyler Vintage STTU073",
+      "name": {
+        "tr": "Freestyler Vintage kısa kollu tişört",
+        "en": "Freestyler Vintage"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/freestyler-vintage-sttu073",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu073-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu073-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu073-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 240 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu073-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu787",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "RE-Creator STTU787",
+      "name": {
+        "tr": "RE-Creator kısa kollu tişört",
+        "en": "RE-Creator"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/re-creator-sttu787",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu787-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu787-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu787-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 180 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu787-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu758",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Rocker STTU758",
+      "name": {
+        "tr": "Rocker kısa kollu tişört",
+        "en": "Rocker"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/rocker-sttu758",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 150,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu758-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu758-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu758-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 150 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu758-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw172",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Muser STTW172",
+      "name": {
+        "tr": "Stella Muser kısa kollu tişört",
+        "en": "Stella Muser"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-muser-sttw172",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw172-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw172-20261018",
+          "basis": "manufacturer",
+          "note": "Ana beyan %100 pamuk; Heather Haze organik/geri dönüştürülmüş pamuk oranları farklı fakat toplam lif yine %100 pamuk. Organik sertifika veya bütün renklere sertifika çıkarılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw172-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 180 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw172-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw079",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Expresser 2.0 STTW079",
+      "name": {
+        "tr": "Stella Expresser 2.0 kısa kollu tişört",
+        "en": "Stella Expresser 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-expresser-2-0-sttw079",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw079-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw079-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw079-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw079-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw173",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Serena STTW173",
+      "name": {
+        "tr": "Stella Serena kısa kollu tişört",
+        "en": "Stella Serena"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-serena-sttw173",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw173-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw173-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw173-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw173-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw259",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Raya STTW259",
+      "name": {
+        "tr": "Stella Raya kısa kollu tişört",
+        "en": "Stella Raya"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-raya-sttw259",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 200,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw259-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw259-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw259-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 200 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw259-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw264",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Etta STTW264",
+      "name": {
+        "tr": "Stella Etta kısa kollu tişört",
+        "en": "Stella Etta"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-etta-sttw264",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 60
+              },
+              {
+                "name": "Modal",
+                "percent": 40
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw264-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw264-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw264-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw264-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw175",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Nova STTW175",
+      "name": {
+        "tr": "Stella Nova kısa kollu tişört",
+        "en": "Stella Nova"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-nova-sttw175",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw175-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw175-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw175-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw175-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw174",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Ella STTW174",
+      "name": {
+        "tr": "Stella Ella kısa kollu tişört",
+        "en": "Stella Ella"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-ella-sttw174",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw174-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw174-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw174-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 180 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw174-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw089",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stella Collider STTW089",
+      "name": {
+        "tr": "Stella Collider kısa kollu tişört",
+        "en": "Stella Collider"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-collider-sttw089",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw089-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw089-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw089-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw089-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttm562",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Presenter STTM562",
+      "name": {
+        "tr": "Stanley Presenter kısa kollu tişört",
+        "en": "Stanley Presenter"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-presenter-sttm562",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 155,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttm562-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttm562-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttm562-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 155 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttm562-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

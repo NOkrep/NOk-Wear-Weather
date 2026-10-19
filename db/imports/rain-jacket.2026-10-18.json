@@ -1,0 +1,723 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-quechua-350837-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA Raincut men 350837 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-yagmurluk-siyah-raincut/_/R-p-350837",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-346817-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN Run 100 men 346817 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-yagmurluk-siyah-run-100/_/R-p-346817",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-334354-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA NH500 men 334354 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-yagmurluk-siyah-nh500/_/R-p-334354",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-357657-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH500 men 357657 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-yagmurluk-siyah-mh500/_/R-p-357657",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-352547-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA NH500 women 352547 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-outdoor-yagmurluk-siyah-nh500/_/R-p-352547",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-333925-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Sailing 500 women 333925 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-yelkenli-yagmurlugu-lacivert-sailing-500/_/R-p-333925",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-351385-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH100 women 351385 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-outdoor-yagmurluk-mavi-mh100/_/R-p-351385",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-351367-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN Run 100 Rain women 351367 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-kosu-yagmurlugu-beyaz-kiprun-run-100-rain/_/R-p-351367",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-134585-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA Raincut women 134585 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-outdoor-yagmurluk-beyaz-raincut/_/R-p-134585",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-357467-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN Run Flow women 357467 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-kosu-arazi-kosusu-yagmurlugu-menekse-moru-kiprun-run-flow/_/R-p-357467",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "quechua-350837",
+      "garmentTypeId": "rain-jacket",
+      "brand": "QUECHUA",
+      "model": "Raincut men 350837",
+      "name": {
+        "tr": "Raincut erkek yağmurluk",
+        "en": "Raincut men 350837 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-yagmurluk-siyah-raincut/_/R-p-350837",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-350837-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-350837-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-350837-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 5000 mm kaplama ve su sızdırmaz ana dikişler bildiriyor; çiseleyen yağmurda 1 saat kullanım kapsamı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-350837-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-346817",
+      "garmentTypeId": "rain-jacket",
+      "brand": "KIPRUN",
+      "model": "Run 100 men 346817",
+      "name": {
+        "tr": "Run 100 erkek koşu yağmurluğu",
+        "en": "Run 100 men 346817 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-yagmurluk-siyah-run-100/_/R-p-346817",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-346817-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-346817-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester, astar %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-kiprun-346817-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 5000 Schmerber su geçirmez bileşen bildiriyor. Bağımsız laboratuvar doğrulaması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-346817-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-334354",
+      "garmentTypeId": "rain-jacket",
+      "brand": "QUECHUA",
+      "model": "NH500 men 334354",
+      "name": {
+        "tr": "NH500 erkek yağmurluk",
+        "en": "NH500 men 334354 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-yagmurluk-siyah-nh500/_/R-p-334354",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-334354-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-334354-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester, astar %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-334354-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 5000 mm kaplama ve su sızdırmaz dikişler bildiriyor. Kalıcı veya sınırsız yağmur koruması iddiası değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-334354-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-357657",
+      "garmentTypeId": "rain-jacket",
+      "brand": "QUECHUA",
+      "model": "MH500 men 357657",
+      "name": {
+        "tr": "MH500 erkek membranlı yağmurluk",
+        "en": "MH500 men 357657 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-yagmurluk-siyah-mh500/_/R-p-357657",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-357657-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-357657-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-357657-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 20000 mm, üç katmanlı membran, su geçirmez dikiş ve fermuar bildiriyor."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-357657-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-352547",
+      "garmentTypeId": "rain-jacket",
+      "brand": "QUECHUA",
+      "model": "NH500 women 352547",
+      "name": {
+        "tr": "NH500 kadın yağmurluk",
+        "en": "NH500 women 352547 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-outdoor-yagmurluk-siyah-nh500/_/R-p-352547",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-352547-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-352547-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester, astar %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-352547-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 5000 mm kumaş ve sızdırmaz dikiş bildiriyor. Sayfadaki yağış hızı birimleri tutarsız; sayısal yağış süresi/debisi aktarılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-352547-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-333925",
+      "garmentTypeId": "rain-jacket",
+      "brand": "DECATHLON",
+      "model": "Sailing 500 women 333925",
+      "name": {
+        "tr": "Sailing 500 kadın uzun yağmurluk",
+        "en": "Sailing 500 women 333925 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-yelkenli-yagmurlugu-lacivert-sailing-500/_/R-p-333925",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-333925-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-333925-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester, astar %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-decathlon-333925-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 15000 mm iki katmanlı membran ve su sızdırmaz dikişler bildiriyor."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-333925-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-351385",
+      "garmentTypeId": "rain-jacket",
+      "brand": "QUECHUA",
+      "model": "MH100 women 351385",
+      "name": {
+        "tr": "MH100 kadın membranlı yağmurluk",
+        "en": "MH100 women 351385 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-outdoor-yagmurluk-mavi-mh100/_/R-p-351385",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-351385-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-351385-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-351385-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 15000 mm iki katmanlı membran bildiriyor. Açıklamadaki 15 mm dönüşümü tutarsız; bu dönüşüm alınmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-351385-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-351367",
+      "garmentTypeId": "rain-jacket",
+      "brand": "KIPRUN",
+      "model": "Run 100 Rain women 351367",
+      "name": {
+        "tr": "Run 100 Rain kadın koşu yağmurluğu",
+        "en": "Run 100 Rain women 351367 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-kosu-yagmurlugu-beyaz-kiprun-run-100-rain/_/R-p-351367",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-351367-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-351367-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester, astar %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-kiprun-351367-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 5000 Schmerber su geçirmezlik bildiriyor. Bağımsız laboratuvar doğrulaması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-351367-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-134585",
+      "garmentTypeId": "rain-jacket",
+      "brand": "QUECHUA",
+      "model": "Raincut women 134585",
+      "name": {
+        "tr": "Raincut kadın yağmurluk",
+        "en": "Raincut women 134585 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-outdoor-yagmurluk-beyaz-raincut/_/R-p-134585",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-134585-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-134585-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-134585-20261018",
+          "basis": "manufacturer",
+          "note": "Sayfa hem su tutmaz hem su geçirmez diyor; 5000 mm kaplama, yalnız bazı/ana dikişler sızdırmaz. İhtiyatlı olarak su tutmaz kaydedildi; tam ürün su geçirmezliği genellenmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-134585-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-357467",
+      "garmentTypeId": "rain-jacket",
+      "brand": "KIPRUN",
+      "model": "Run Flow women 357467",
+      "name": {
+        "tr": "Run Flow kadın arazi koşusu yağmurluğu",
+        "en": "Run Flow women 357467 rain jacket"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-kosu-arazi-kosusu-yagmurlugu-menekse-moru-kiprun-run-flow/_/R-p-357467",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-357467-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-357467-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 polyester. Poliüretan kaplama/membran ana kumaşa veya dolguya eklenmedi; manşet ve cep kumaşları birleştirilmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-kiprun-357467-20261018",
+          "basis": "manufacturer",
+          "note": "Üretici 10000 Schmerber membran ve su geçirmez dikiş/fermuar bildiriyor. RET ve buhar iletim değerleri ısı puanına veya GSM değerine çevrilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-357467-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}
+

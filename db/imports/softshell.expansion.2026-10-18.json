@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stjm158-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Discoverer STJM158 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-discoverer-stjm158",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stjw159-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Discoverer STJW159 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-discoverer-stjw159",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stjm158",
+      "garmentTypeId": "softshell",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Discoverer STJM158",
+      "name": {
+        "tr": "Stanley Discoverer softshell ceket",
+        "en": "Stanley Discoverer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-discoverer-stjm158",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 94
+              },
+              {
+                "name": "Elastane",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": 342,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjm158-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjm158-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjm158-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 342 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stjm158-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjm158-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stjw159",
+      "garmentTypeId": "softshell",
+      "brand": "Stanley/Stella",
+      "model": "Stella Discoverer STJW159",
+      "name": {
+        "tr": "Stella Discoverer softshell ceket",
+        "en": "Stella Discoverer"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-discoverer-stjw159",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 94
+              },
+              {
+                "name": "Elastane",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": 342,
+        "warmth": null,
+        "waterResistance": "repellent",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stjw159-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stjw159-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stjw159-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 342 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-stanley-stjw159-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin DWR / su iticilik beyanı. Su geçirmezlik, laboratuvar doğrulaması veya sıcak tutma puanı olarak yorumlanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stjw159-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

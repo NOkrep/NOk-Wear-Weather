@@ -117,3 +117,16 @@ Proje sadece bir web sitesi değil, aynı zamanda tam teşekküllü bir **mobil 
 | **v0.4.x - v0.5.x** | **Tek Harita Çoklu Durak, Ülke Alım Gücü Kataloğu, HMI Görsel Giysi & Mobil App** | 3D kürenin ve ayrı haritaların kaldırılıp tek haritada birleştirilmesi, fotoğrafsız mağaza/kumaş kataloğu, metinsiz görsel giysi kartları, dinamik hava renkleri ve mobil App Preview. |
 | **v0.6.0** | **Referans Tasarım Dilinin Birebir Uygulanması & E-Ticaret Veri Çekimi** | Kullanıcının belirleyeceği referans site tasarımına göre HMI arayüzünün son haline getirilmesi ve canlı ürün/kumaş verisi entegrasyonu. |
 | **v1.0.0** | **Topluluk Geri Bildirim Isı Haritası & Mağaza Yayını** | Global kullanıcı geri bildirimlerinin harita üzerinde ısı haritası (heat-map) olarak gösterilmesi ve iOS/Android yayını. |
+
+
+---
+
+## 9. Geliştirme devri ve avatar kararı eki — 16 Ekim 2026
+
+Bu şartnamedeki özgün kapsam korunmuştur. Şartname hedefleri ile gerçekten uygulanmış davranışların ayrımı, ilgili dosyalar ve test kaydı **[DEVELOPMENT_HANDOFF.md](DEVELOPMENT_HANDOFF.md)** dosyasındadır.
+
+**Kullanıcının son yönlendirmesi:** Meta VR/Horizon'da görülen, kullanıcı hesabıyla ilişkili kişisel karakter oluşturma deneyimi beğeniliyor. Amaç; vücut, yüz, saç/sakal seçenekleriyle insanların oluştururken eğleneceği kişisel avatar/maskot. Önceki beyaz SVG manken kullanıcı tarafından yetersiz bulundu. Bu istek yalnız birkaç SVG seçeneği eklemeye indirgenmemeli.
+
+**Kullanıcı onayıyla ilk sürümü uygulandı:** NOk'a ait görsel kişiselleştirme ekranı, gerçek stilize 3D karakter ve lisansı uygun model/saç varlıkları. Meta hesabından doğrudan avatar aktarımı doğrulanmış bir entegrasyon değildir. Fotoğraf veya dış hesap zorunluluğu getirmeyen yerel profil kullanılır. Ücretsiz paket ve CC0 lisansı incelendi, kod dosyası kapsamı onaylandı. Gerçek uygulama iki temel gövde, beş saç ve sakal içeriyor; bağımsız yüz morph hedefleri ve gerçek ürünlerin 3D kalıpları sonraki aşama. Güncel devir belgesinin 8. bölümü uygulama sonucunu kaydeder.
+
+**Belge bakımı:** Kullanıcı, proje içerik/yapı Markdown belgelerinin gerektiğinde geliştirmelerle birlikte güncellenmesini istedi. Mevcut bölümleri silmeden veya kısaltmadan; uygulananlar, bekleyenler, yeni kararlar ve test sonuçları tarihli biçimde eklenmelidir.

@@ -1,0 +1,669 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-solognac-326668-20261018",
+      "kind": "manufacturer",
+      "title": "SOLOGNAC 500 326668 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-polar-hirka-avcilik-ve-doga-gozlemi-kamuflaj-desenli-kahverengi-500/_/R-p-326668",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-solognac-350567-20261018",
+      "kind": "manufacturer",
+      "title": "SOLOGNAC 100 350567 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-ses-cikarmayan-polar-hirka-yesil-avcilik-ve-doga-gozlemi-100/_/R-p-350567",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-solognac-328812-20261018",
+      "kind": "manufacturer",
+      "title": "SOLOGNAC 900 328812 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-ses-cikarmayan-polar-hirka-yesil-avcilik-ve-doga-gozlemi-900/_/R-p-328812",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-375770-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH500 375770 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-siyah-mh500/_/R-p-375770",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-341167-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH500 341167 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-mavi-mh-500/_/R-p-341167",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-138705-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA Forclaz 20 138705 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/forclaz-20-dagda-yuruyus-polari-erkek-kirmizi/_/R-p-138705",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-169760-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Sailing 500 169760 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-sicak-tutan-polar-mont-lacivert-sailing-500/_/R-p-169760",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-312360-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH100 312360 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-kahverengi-mh100/_/R-p-312360",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-333908-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH100 333908 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-mavi-mh100/_/R-p-333908",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-332494-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Sailing 100 332494 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-sicak-tutan-yelkenli-polari-alacali-gri-sailing-100/_/R-p-332494",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "solognac-326668",
+      "garmentTypeId": "fleece",
+      "brand": "SOLOGNAC",
+      "model": "500 326668",
+      "name": {
+        "tr": "500 erkek fermuarlı polar",
+        "en": "500 326668 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-polar-hirka-avcilik-ve-doga-gozlemi-kamuflaj-desenli-kahverengi-500/_/R-p-326668",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-solognac-326668-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-solognac-326668-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester, astar %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "solognac-326668-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "solognac-350567",
+      "garmentTypeId": "fleece",
+      "brand": "SOLOGNAC",
+      "model": "100 350567",
+      "name": {
+        "tr": "100 erkek yüksek yaka polar",
+        "en": "100 350567 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-ses-cikarmayan-polar-hirka-yesil-avcilik-ve-doga-gozlemi-100/_/R-p-350567",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 200,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-solognac-350567-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-solognac-350567-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester, astar %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-solognac-350567-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 200 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "solognac-350567-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "solognac-328812",
+      "garmentTypeId": "fleece",
+      "brand": "SOLOGNAC",
+      "model": "900 328812",
+      "name": {
+        "tr": "900 erkek kapüşonlu polar",
+        "en": "900 328812 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-ses-cikarmayan-polar-hirka-yesil-avcilik-ve-doga-gozlemi-900/_/R-p-328812",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-solognac-328812-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-solognac-328812-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester, astar %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "solognac-328812-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-375770",
+      "garmentTypeId": "fleece",
+      "brand": "QUECHUA",
+      "model": "MH500 375770",
+      "name": {
+        "tr": "MH500 erkek kalın polar",
+        "en": "MH500 375770 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-siyah-mh500/_/R-p-375770",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 300,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-375770-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-375770-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-quechua-375770-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 300 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-375770-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-341167",
+      "garmentTypeId": "fleece",
+      "brand": "QUECHUA",
+      "model": "MH500 341167",
+      "name": {
+        "tr": "MH500 erkek outdoor polar",
+        "en": "MH500 341167 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-mavi-mh-500/_/R-p-341167",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-341167-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-341167-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-341167-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-138705",
+      "garmentTypeId": "fleece",
+      "brand": "QUECHUA",
+      "model": "Forclaz 20 138705",
+      "name": {
+        "tr": "Forclaz 20 erkek yuvarlak yaka polar",
+        "en": "Forclaz 20 138705 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/forclaz-20-dagda-yuruyus-polari-erkek-kirmizi/_/R-p-138705",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 140,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-138705-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-138705-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-quechua-138705-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 140 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-138705-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-169760",
+      "garmentTypeId": "fleece",
+      "brand": "DECATHLON",
+      "model": "Sailing 500 169760",
+      "name": {
+        "tr": "Sailing 500 erkek polar",
+        "en": "Sailing 500 169760 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-sicak-tutan-polar-mont-lacivert-sailing-500/_/R-p-169760",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-169760-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-169760-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-169760-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-312360",
+      "garmentTypeId": "fleece",
+      "brand": "QUECHUA",
+      "model": "MH100 312360",
+      "name": {
+        "tr": "MH100 erkek outdoor polar 312360",
+        "en": "MH100 312360 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-kahverengi-mh100/_/R-p-312360",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-312360-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-312360-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-312360-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-333908",
+      "garmentTypeId": "fleece",
+      "brand": "QUECHUA",
+      "model": "MH100 333908",
+      "name": {
+        "tr": "MH100 erkek fermuarlı polar 333908",
+        "en": "MH100 333908 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-polar-mavi-mh100/_/R-p-333908",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-333908-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-333908-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-333908-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-332494",
+      "garmentTypeId": "fleece",
+      "brand": "DECATHLON",
+      "model": "Sailing 100 332494",
+      "name": {
+        "tr": "Sailing 100 erkek yüksek yaka polar",
+        "en": "Sailing 100 332494 men's fleece"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-sicak-tutan-yelkenli-polari-alacali-gri-sailing-100/_/R-p-332494",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-332494-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-332494-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi: ana kumaş %100 polyester. Cep, manşet ve ek kumaşlar ana kumaşla birleştirilmedi; ürünün gram cinsinden toplam ağırlığı GSM sayılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-decathlon-332494-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 240 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-332494-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}
+

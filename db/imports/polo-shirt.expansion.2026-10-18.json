@@ -1,0 +1,342 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stpu222-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Prepster 2.0 STPU222 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/prepster-2-0-stpu222",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stpu223-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Prepster 2.0 Long Sleeve STPU223 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/prepster-2-0-long-sleeve-stpu223",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stpw977-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stella Coaster STPW977 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-coaster-stpw977",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stpm224-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Stanley Coaster STPM224 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/stanley-coaster-stpm224",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stpu252-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Coaster Vintage STPU252 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/coaster-vintage-stpu252",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stpu222",
+      "garmentTypeId": "polo-shirt",
+      "brand": "Stanley/Stella",
+      "model": "Prepster 2.0 STPU222",
+      "name": {
+        "tr": "Prepster 2.0 polo",
+        "en": "Prepster 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/prepster-2-0-stpu222",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stpu222-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stpu222-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stpu222-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 240 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stpu222-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stpu223",
+      "garmentTypeId": "polo-shirt",
+      "brand": "Stanley/Stella",
+      "model": "Prepster 2.0 Long Sleeve STPU223",
+      "name": {
+        "tr": "Prepster 2.0 Long Sleeve polo",
+        "en": "Prepster 2.0 Long Sleeve"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/prepster-2-0-long-sleeve-stpu223",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stpu223-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stpu223-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stpu223-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 240 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stpu223-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stpw977",
+      "garmentTypeId": "polo-shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stella Coaster STPW977",
+      "name": {
+        "tr": "Stella Coaster polo",
+        "en": "Stella Coaster"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-coaster-stpw977",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 185,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stpw977-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stpw977-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stpw977-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 185 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stpw977-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stpm224",
+      "garmentTypeId": "polo-shirt",
+      "brand": "Stanley/Stella",
+      "model": "Stanley Coaster STPM224",
+      "name": {
+        "tr": "Stanley Coaster polo",
+        "en": "Stanley Coaster"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stanley-coaster-stpm224",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 185,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stpm224-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stpm224-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stpm224-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 185 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stpm224-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stpu252",
+      "garmentTypeId": "polo-shirt",
+      "brand": "Stanley/Stella",
+      "model": "Coaster Vintage STPU252",
+      "name": {
+        "tr": "Coaster Vintage polo",
+        "en": "Coaster Vintage"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/coaster-vintage-stpu252",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 185,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stpu252-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stpu252-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stpu252-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 185 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stpu252-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

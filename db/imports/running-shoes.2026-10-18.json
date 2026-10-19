@@ -1,0 +1,764 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-kiprun-352928-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN Kipride men 352928 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-acik-gri-kiprun-kipride/_/R-p-352928",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-312120-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN TR2 men 312120 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-arazi-kosusu-ayakkabisi-koyu-gri-kiprun-tr2/_/R-p-312120",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-337693-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Jogflow 100.1 men 337693 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-gri-turuncu-jogflow-100-1/_/R-p-337693",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-348850-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON JF 190 Grip men 348850 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-arazi-kosusu-ayakkabisi-mavi-kiprun-jf-190-grip/_/R-p-348850",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-9713-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Run 100 9713 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-spor-ayakkabi-gri-ekiden-one/_/R-p-9713",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-341192-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN MT3 men 341192 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-arazi-kosusu-ayakkabisi-siyah-beyaz-kiprun-mt3/_/R-p-341192",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-337743-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Jogflow 100.1 women 337743 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-kosu-ayakkabisi-siyah-jogflow-100-1/_/R-p-337743",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-353287-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN Kipcore women 353287 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-kosu-ayakkabisi-kiprun-kipcore/_/R-p-353287",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-339940-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Jogflow 190.1 339940 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-mavi-yesil-jogflow-190-1/_/R-p-339940",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-kiprun-353286-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN Kipcore men 353286 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-siyah-beyaz-kiprun-kipcore/_/R-p-353286",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "kiprun-352928",
+      "garmentTypeId": "running-shoes",
+      "brand": "KIPRUN",
+      "model": "Kipride men 352928",
+      "name": {
+        "tr": "Kipride erkek yol koşusu ayakkabısı",
+        "en": "Kipride men 352928 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-acik-gri-kiprun-kipride/_/R-p-352928",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Thermoplastic polyurethane",
+                "percent": 32
+              },
+              {
+                "name": "Polyester",
+                "percent": 68
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-352928-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-352928-20261018",
+          "basis": "manufacturer",
+          "note": "Üst taraf: %32 termoplastik poliüretan, iki ayrı polyester girdisi %35 + %33 = %68. Aynı polimer girdileri toplandı; geri dönüşüm oranı tahmin edilmedi. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-352928-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-312120",
+      "garmentTypeId": "running-shoes",
+      "brand": "KIPRUN",
+      "model": "TR2 men 312120",
+      "name": {
+        "tr": "TR2 erkek arazi koşusu ayakkabısı",
+        "en": "TR2 men 312120 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-arazi-kosusu-ayakkabisi-koyu-gri-kiprun-tr2/_/R-p-312120",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyurethane",
+                "percent": 40
+              },
+              {
+                "name": "Polyester",
+                "percent": 60
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-312120-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-312120-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-312120-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-337693",
+      "garmentTypeId": "running-shoes",
+      "brand": "DECATHLON",
+      "model": "Jogflow 100.1 men 337693",
+      "name": {
+        "tr": "Jogflow 100.1 erkek koşu ayakkabısı",
+        "en": "Jogflow 100.1 men 337693 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-gri-turuncu-jogflow-100-1/_/R-p-337693",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyurethane",
+                "percent": 20
+              },
+              {
+                "name": "Polyester",
+                "percent": 80
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-337693-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-337693-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-337693-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-348850",
+      "garmentTypeId": "running-shoes",
+      "brand": "DECATHLON",
+      "model": "JF 190 Grip men 348850",
+      "name": {
+        "tr": "JF 190 Grip erkek arazi koşusu ayakkabısı",
+        "en": "JF 190 Grip men 348850 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-arazi-kosusu-ayakkabisi-mavi-kiprun-jf-190-grip/_/R-p-348850",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyurethane",
+                "percent": 20
+              },
+              {
+                "name": "Polyester",
+                "percent": 50
+              },
+              {
+                "name": "Thermoplastic polyurethane",
+                "percent": 30
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-348850-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-348850-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-348850-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-9713",
+      "garmentTypeId": "running-shoes",
+      "brand": "DECATHLON",
+      "model": "Run 100 9713",
+      "name": {
+        "tr": "Run 100 erkek spor koşu ayakkabısı",
+        "en": "Run 100 9713 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-spor-ayakkabi-gri-ekiden-one/_/R-p-9713",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyurethane",
+                "percent": 30
+              },
+              {
+                "name": "Polyester",
+                "percent": 70
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-9713-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-9713-20261018",
+          "basis": "manufacturer",
+          "note": "Aynı R-p-9713 sayfası Ekiden One ve Run 100 isimlerini birlikte gösteriyor; tek model kaydedildi. Üst taraf ve astar oranları kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-9713-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-341192",
+      "garmentTypeId": "running-shoes",
+      "brand": "KIPRUN",
+      "model": "MT3 men 341192",
+      "name": {
+        "tr": "MT3 erkek arazi koşusu ayakkabısı",
+        "en": "MT3 men 341192 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-arazi-kosusu-ayakkabisi-siyah-beyaz-kiprun-mt3/_/R-p-341192",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyamide",
+                "percent": 10
+              },
+              {
+                "name": "Synthetic rubber",
+                "percent": 10
+              },
+              {
+                "name": "Thermoplastic polyurethane",
+                "percent": 20
+              },
+              {
+                "name": "Polyester",
+                "percent": 50
+              },
+              {
+                "name": "Thermoplastic polyethylene",
+                "percent": 10
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-341192-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-341192-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-341192-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-337743",
+      "garmentTypeId": "running-shoes",
+      "brand": "DECATHLON",
+      "model": "Jogflow 100.1 women 337743",
+      "name": {
+        "tr": "Jogflow 100.1 kadın koşu ayakkabısı",
+        "en": "Jogflow 100.1 women 337743 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-kosu-ayakkabisi-siyah-jogflow-100-1/_/R-p-337743",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyurethane",
+                "percent": 20
+              },
+              {
+                "name": "Polyester",
+                "percent": 80
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-337743-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-337743-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-337743-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-353287",
+      "garmentTypeId": "running-shoes",
+      "brand": "KIPRUN",
+      "model": "Kipcore women 353287",
+      "name": {
+        "tr": "Kipcore kadın yol koşusu ayakkabısı",
+        "en": "Kipcore women 353287 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-kosu-ayakkabisi-kiprun-kipcore/_/R-p-353287",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Thermoplastic polyurethane",
+                "percent": 20
+              },
+              {
+                "name": "Polyester",
+                "percent": 80
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-353287-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-353287-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-353287-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-339940",
+      "garmentTypeId": "running-shoes",
+      "brand": "DECATHLON",
+      "model": "Jogflow 190.1 339940",
+      "name": {
+        "tr": "Jogflow 190.1 koşu ayakkabısı",
+        "en": "Jogflow 190.1 339940 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-mavi-yesil-jogflow-190-1/_/R-p-339940",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyurethane",
+                "percent": 30
+              },
+              {
+                "name": "Polyester",
+                "percent": 70
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-339940-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-339940-20261018",
+          "basis": "manufacturer",
+          "note": "Sayfa kadın/erkek etiketli renkler de gösteriyor; aynı R-p-339940 tek model sayıldı. Üst taraf ve astar oranları kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-339940-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-353286",
+      "garmentTypeId": "running-shoes",
+      "brand": "KIPRUN",
+      "model": "Kipcore men 353286",
+      "name": {
+        "tr": "Kipcore erkek yol koşusu ayakkabısı",
+        "en": "Kipcore men 353286 running shoes"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-siyah-beyaz-kiprun-kipcore/_/R-p-353286",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Thermoplastic polyurethane",
+                "percent": 20
+              },
+              {
+                "name": "Polyester",
+                "percent": 80
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-353286-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-353286-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki Üst taraf ve Astar ve iç kat yüzdeleri kullanıldı. Shell yalnız ayakkabı üst yüzeyini, lining astarı temsil eder; dış taban bu oranlara veya fill alanına katılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-353286-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}
+

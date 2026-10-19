@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-18T00:03:01Z",
+  "source": "printful",
+  "httpStatus": 200,
+  "authentication": "none",
+  "productListObservedCount": 571,
+  "publication": "research-only",
+  "reason": "Variant composition differs; catalogue use scope and media rights remain unconfirmed. No Turkey availability, retail price, GTIN or thermal claims.",
+  "imagesDownloaded": false,
+  "products": [
+    {
+      "apiProductId": 356,
+      "brand": "Bella + Canvas",
+      "model": "3501",
+      "variantCount": 95,
+      "endpoint": "https://api.printful.com/products/356",
+      "hasImageReference": true,
+      "selectedVariantObservations": [
+        {
+          "id": 10092,
+          "size": "2XL",
+          "color": "Athletic Heather",
+          "material": [
+            {
+              "name": "Cotton",
+              "percentage": 90.0
+            },
+            {
+              "name": "Polyester",
+              "percentage": 10.0
+            }
+          ]
+        },
+        {
+          "id": 10146,
+          "size": "2XL",
+          "color": "White",
+          "material": [
+            {
+              "name": "Cotton",
+              "percentage": 100.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "apiProductId": 57,
+      "brand": "Gildan",
+      "model": "2400",
+      "variantCount": 97,
+      "endpoint": "https://api.printful.com/products/57",
+      "hasImageReference": true,
+      "selectedVariantObservations": [
+        {
+          "id": 3604,
+          "size": "2XL",
+          "color": "Sport Grey",
+          "material": [
+            {
+              "name": "Cotton",
+              "percentage": 90.0
+            },
+            {
+              "name": "Polyester",
+              "percentage": 10.0
+            }
+          ]
+        },
+        {
+          "id": 3452,
+          "size": "2XL",
+          "color": "White",
+          "material": [
+            {
+              "name": "Cotton",
+              "percentage": 100.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

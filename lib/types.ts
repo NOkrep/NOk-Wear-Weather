@@ -1,3 +1,7 @@
+import type { GarmentTypeId } from './catalog/taxonomy';
+import type { CatalogFacts, CatalogSource, FieldEvidence } from './catalog/model';
+import type { GarmentAppearance } from './garment-appearance';
+
 export type WeatherCondition =
   | 'sunny'
   | 'clear_night'
@@ -64,23 +68,38 @@ export interface ClothingItem {
   id: string;
   name: string;
   category: 'base' | 'mid' | 'outer' | 'bottom' | 'footwear' | 'accessory';
-  segment: BudgetSegment;
+  segment: BudgetSegment | null;
   material: string;
-  warmth: 1 | 2 | 3 | 4 | 5;
-  waterResistance: 'none' | 'light' | 'waterproof';
-  windResistance: 'low' | 'medium' | 'high';
+  warmth: 1 | 2 | 3 | 4 | 5 | null;
+  waterResistance: 'none' | 'light' | 'waterproof' | null;
+  windResistance: 'low' | 'medium' | 'high' | null;
   colorName: string;
   colorHex: string;
-  colorType: 'light' | 'dark' | 'neutral';
+  colorType: 'light' | 'dark' | 'neutral' | 'unknown';
   description: string;
   brandHint?: string;
+  brand?: string;
+  model?: string;
   isAnchorCompatible?: boolean;
   isUserOwned?: boolean;
   catalogId?: string;
+  /** Optional additive references: old local wardrobe records remain valid. */
+  garmentTypeId?: GarmentTypeId;
+  productId?: string;
+  variantId?: string;
   barcode?: string;
   productUrl?: string;
-  dataSource?: 'template' | 'barcode' | 'user';
+  dataSource?: 'template' | 'barcode' | 'user' | 'catalog';
   materialConfirmed?: boolean;
+  nameEn?: string;
+  materialEn?: string;
+  /** Personal opinion stays separate from source facts and is never published to the catalogue. */
+  personalWarmth?: 1 | 2 | 3 | 4 | 5 | null;
+  /** Local representative styling, kept separate from product/source facts. */
+  personalAppearance?: GarmentAppearance;
+  catalogFacts?: CatalogFacts;
+  catalogEvidence?: FieldEvidence[];
+  catalogSources?: CatalogSource[];
 }
 
 export interface LayerTimelineStep {

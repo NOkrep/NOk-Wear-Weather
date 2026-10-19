@@ -11,7 +11,7 @@ import { getMarketProfileForCountry } from './clothing-catalog';
 // Anchor Items Catalogue
 export const ANCHOR_ITEMS: ClothingItem[] = [
   {
-    id: 'anc-denim-jacket',
+    id: 'anc-denim-jacket', garmentTypeId: 'light-jacket',
     name: 'Klasik Mavi Denim Ceket',
     category: 'outer',
     segment: 'essential',
@@ -26,7 +26,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     isAnchorCompatible: true,
   },
   {
-    id: 'anc-beige-trench',
+    id: 'anc-beige-trench', garmentTypeId: 'coat-parka',
     name: 'Bej Klasik Trençkot',
     category: 'outer',
     segment: 'smart',
@@ -41,7 +41,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     isAnchorCompatible: true,
   },
   {
-    id: 'anc-grey-hoodie',
+    id: 'anc-grey-hoodie', garmentTypeId: 'sweatshirt',
     name: 'Gri Kapüşonlu Sweatshirt (Hoodie)',
     category: 'mid',
     segment: 'essential',
@@ -56,7 +56,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     isAnchorCompatible: true,
   },
   {
-    id: 'anc-black-leather',
+    id: 'anc-black-leather', garmentTypeId: 'light-jacket',
     name: 'Siyah Biker Deri Ceket',
     category: 'outer',
     segment: 'smart',
@@ -71,7 +71,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     isAnchorCompatible: true,
   },
   {
-    id: 'anc-white-linen',
+    id: 'anc-white-linen', garmentTypeId: 'shirt',
     name: 'Beyaz Saf Keten Gömlek',
     category: 'mid',
     segment: 'smart',
@@ -86,7 +86,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     isAnchorCompatible: true,
   },
   {
-    id: 'anc-wool-knit',
+    id: 'anc-wool-knit', garmentTypeId: 'sweater',
     name: 'Merinos Yünü Triko Kazak',
     category: 'mid',
     segment: 'luxury',
@@ -375,69 +375,69 @@ export function generateDirectOutfit(
   if (tierKey === 'essential') {
     if (isCold) {
       return [
-        { id: 'e-1', name: '3 İplik Polar Sweatshirt', category: 'mid', segment: 'essential', material: 'Şardonlu Pamuk/Polar (320 GSM)', warmth: 4, waterResistance: 'none', windResistance: 'low', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Yüksek ısı koruması.', brandHint },
-        { id: 'e-2', name: isRain ? 'Su İtici Kapüşonlu Parka' : 'Şişme Mont (Puffer)', category: 'outer', segment: 'essential', material: 'Mikrofiber & Elyaf Dolgu', warmth: 5, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'high', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Soğuk ve rüzgardan tam koruma.', brandHint },
-        { id: 'e-3', name: 'Kalın Denim (Kot) Pantolon', category: 'bottom', segment: 'essential', material: '%100 Pamuklu 12.5 oz Kot', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Koyu İndigo', colorHex: '#1e293b', colorType: 'dark', description: 'Rüzgara dayanıklı klasik parça.', brandHint },
-        { id: 'e-4', name: 'Suya Dayanıklı Tabanlı Bot', category: 'footwear', segment: 'essential', material: 'Su İtici Saya / Kauçuk Taban', warmth: 4, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Zemin soğuğunu keser.', brandHint },
+        { id: 'e-1', garmentTypeId: 'sweatshirt', name: '3 İplik Polar Sweatshirt', category: 'mid', segment: 'essential', material: 'Şardonlu Pamuk/Polar (320 GSM)', warmth: 4, waterResistance: 'none', windResistance: 'low', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Yüksek ısı koruması.', brandHint },
+        { id: 'e-2', garmentTypeId: isRain ? 'coat-parka' : 'puffer', name: isRain ? 'Su İtici Kapüşonlu Parka' : 'Şişme Mont (Puffer)', category: 'outer', segment: 'essential', material: 'Mikrofiber & Elyaf Dolgu', warmth: 5, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'high', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Soğuk ve rüzgardan tam koruma.', brandHint },
+        { id: 'e-3', garmentTypeId: 'jeans', name: 'Kalın Denim (Kot) Pantolon', category: 'bottom', segment: 'essential', material: '%100 Pamuklu 12.5 oz Kot', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Koyu İndigo', colorHex: '#1e293b', colorType: 'dark', description: 'Rüzgara dayanıklı klasik parça.', brandHint },
+        { id: 'e-4', garmentTypeId: 'winter-boots', name: 'Suya Dayanıklı Tabanlı Bot', category: 'footwear', segment: 'essential', material: 'Su İtici Saya / Kauçuk Taban', warmth: 4, waterResistance: 'light', windResistance: 'high', colorName: 'Siyah', colorHex: '#000000', colorType: 'dark', description: 'Zemin soğuğunu keser.', brandHint },
       ];
     }
     if (isHot) {
       return [
-        { id: 'e-5', name: 'Basic %100 Pamuk Tişört', category: 'base', segment: 'essential', material: '160 GSM Taranmış Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Optik Beyaz', colorHex: '#ffffff', colorType: 'light', description: 'Sıcağı yansıtır ve terletmez.', brandHint },
-        { id: 'e-6', name: 'İnce Pamuk-Keten Şort / Chino', category: 'bottom', segment: 'essential', material: 'İnce Dokuma Gabardin', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taş Beji', colorHex: '#e7e5e4', colorType: 'light', description: 'Maksimum ferahlık.', brandHint },
-        { id: 'e-7', name: 'Nefes Alan Kanvas Sneaker', category: 'footwear', segment: 'essential', material: 'Hava Alan Kumaş Saya', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Gri', colorHex: '#cbd5e1', colorType: 'light', description: 'Hafif günlük yürüyüş.', brandHint },
+        { id: 'e-5', garmentTypeId: 'short-sleeve-tee', name: 'Basic %100 Pamuk Tişört', category: 'base', segment: 'essential', material: '160 GSM Taranmış Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Optik Beyaz', colorHex: '#ffffff', colorType: 'light', description: 'Sıcağı yansıtır ve terletmez.', brandHint },
+        { id: 'e-6', garmentTypeId: 'shorts', name: 'İnce Pamuk-Keten Şort / Chino', category: 'bottom', segment: 'essential', material: 'İnce Dokuma Gabardin', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taş Beji', colorHex: '#e7e5e4', colorType: 'light', description: 'Maksimum ferahlık.', brandHint },
+        { id: 'e-7', garmentTypeId: 'sneakers', name: 'Nefes Alan Kanvas Sneaker', category: 'footwear', segment: 'essential', material: 'Hava Alan Kumaş Saya', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Gri', colorHex: '#cbd5e1', colorType: 'light', description: 'Hafif günlük yürüyüş.', brandHint },
       ];
     }
     return [
-      { id: 'e-8', name: 'Klasik Pamuklu Oxford Gömlek', category: 'mid', segment: 'essential', material: '%100 Pamuk Oxford (185 GSM)', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Mavi', colorHex: '#93c5fd', colorType: 'light', description: 'Dengeli havalar için konforlu.', brandHint },
-      { id: 'e-9', name: isRain ? 'Su Geçirmez Yağmurluk' : 'Denim Ceket / İnce Rüzgarlık', category: 'outer', segment: 'essential', material: 'Pamuk Denim / Ripstop', warmth: 3, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'medium', colorName: 'Haki / Mavi', colorHex: '#4d7c0f', colorType: 'neutral', description: 'Esintiyi ve çisentiyi keser.', brandHint },
-      { id: 'e-10', name: 'Rahat Kesim Chino Pantolon', category: 'bottom', segment: 'essential', material: '%98 Pamuk %2 Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Bej', colorHex: '#d6d3d1', colorType: 'light', description: 'Tüm gün konfor sağlar.', brandHint },
+      { id: 'e-8', garmentTypeId: 'shirt', name: 'Klasik Pamuklu Oxford Gömlek', category: 'mid', segment: 'essential', material: '%100 Pamuk Oxford (185 GSM)', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Mavi', colorHex: '#93c5fd', colorType: 'light', description: 'Dengeli havalar için konforlu.', brandHint },
+      { id: 'e-9', garmentTypeId: isRain ? 'rain-jacket' : 'light-jacket', name: isRain ? 'Su Geçirmez Yağmurluk' : 'Denim Ceket / İnce Rüzgarlık', category: 'outer', segment: 'essential', material: 'Pamuk Denim / Ripstop', warmth: 3, waterResistance: isRain ? 'waterproof' : 'light', windResistance: 'medium', colorName: 'Haki / Mavi', colorHex: '#4d7c0f', colorType: 'neutral', description: 'Esintiyi ve çisentiyi keser.', brandHint },
+      { id: 'e-10', garmentTypeId: 'woven-trousers', name: 'Rahat Kesim Chino Pantolon', category: 'bottom', segment: 'essential', material: '%98 Pamuk %2 Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Bej', colorHex: '#d6d3d1', colorType: 'light', description: 'Tüm gün konfor sağlar.', brandHint },
     ];
   }
 
   if (tierKey === 'smart') {
     if (isCold) {
       return [
-        { id: 's-1', name: 'İnce Merinos Yünü Triko Kazak', category: 'mid', segment: 'smart', material: '%100 Merinos Yünü', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Zümrüt Yeşili', colorHex: '#166534', colorType: 'dark', description: 'Doğal yün ısı regülasyonu.', brandHint },
-        { id: 's-2', name: 'Yün Kaşe Kaban / Su İtici Parka', category: 'outer', segment: 'smart', material: 'Yün Karışım / Membran', warmth: 5, waterResistance: 'light', windResistance: 'high', colorName: 'Antrasit', colorHex: '#1f2937', colorType: 'dark', description: 'Şehir şıklığı ve rüzgar koruması.', brandHint },
-        { id: 's-3', name: 'Tok Gabardin / Yün Karışım Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Yün Flanel', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Füme', colorHex: '#374151', colorType: 'dark', description: 'Soğuk geçirmez tok dokuma.', brandHint },
-        { id: 's-4', name: 'Su Geçirmez Deri Chelsea Bot', category: 'footwear', segment: 'smart', material: 'Doğal Deri & Kauçuk Taban', warmth: 4, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Siyah', colorHex: '#09090b', colorType: 'dark', description: 'Yağışlı zeminde kuru konfor.', brandHint },
+        { id: 's-1', garmentTypeId: 'sweater', name: 'İnce Merinos Yünü Triko Kazak', category: 'mid', segment: 'smart', material: '%100 Merinos Yünü', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Zümrüt Yeşili', colorHex: '#166534', colorType: 'dark', description: 'Doğal yün ısı regülasyonu.', brandHint },
+        { id: 's-2', garmentTypeId: 'coat-parka', name: 'Yün Kaşe Kaban / Su İtici Parka', category: 'outer', segment: 'smart', material: 'Yün Karışım / Membran', warmth: 5, waterResistance: 'light', windResistance: 'high', colorName: 'Antrasit', colorHex: '#1f2937', colorType: 'dark', description: 'Şehir şıklığı ve rüzgar koruması.', brandHint },
+        { id: 's-3', garmentTypeId: 'woven-trousers', name: 'Tok Gabardin / Yün Karışım Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Yün Flanel', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Füme', colorHex: '#374151', colorType: 'dark', description: 'Soğuk geçirmez tok dokuma.', brandHint },
+        { id: 's-4', garmentTypeId: 'winter-boots', name: 'Su Geçirmez Deri Chelsea Bot', category: 'footwear', segment: 'smart', material: 'Doğal Deri & Kauçuk Taban', warmth: 4, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Siyah', colorHex: '#09090b', colorType: 'dark', description: 'Yağışlı zeminde kuru konfor.', brandHint },
       ];
     }
     if (isHot) {
       return [
-        { id: 's-5', name: '%100 Saf Keten Gömlek', category: 'mid', segment: 'smart', material: '145 GSM Doğal Keten', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kırık Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Nemi anında buharlaştırır.', brandHint },
-        { id: 's-6', name: 'Keten-Pamuk Hafif Pantolon / Şort', category: 'bottom', segment: 'smart', material: '%55 Keten %45 Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kum Beji', colorHex: '#f5f5f4', colorType: 'light', description: 'Serinlik hissi verir.', brandHint },
-        { id: 's-7', name: 'Süet Loafer / Deri Sneaker', category: 'footwear', segment: 'smart', material: 'Nefes Alan Yumuşak Nubuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taba', colorHex: '#78350f', colorType: 'neutral', description: 'Zarif yaz adımı.', brandHint },
+        { id: 's-5', garmentTypeId: 'shirt', name: '%100 Saf Keten Gömlek', category: 'mid', segment: 'smart', material: '145 GSM Doğal Keten', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kırık Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Nemi anında buharlaştırır.', brandHint },
+        { id: 's-6', garmentTypeId: 'woven-trousers', name: 'Keten-Pamuk Hafif Pantolon / Şort', category: 'bottom', segment: 'smart', material: '%55 Keten %45 Pamuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Kum Beji', colorHex: '#f5f5f4', colorType: 'light', description: 'Serinlik hissi verir.', brandHint },
+        { id: 's-7', garmentTypeId: 'sneakers', name: 'Süet Loafer / Deri Sneaker', category: 'footwear', segment: 'smart', material: 'Nefes Alan Yumuşak Nubuk', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taba', colorHex: '#78350f', colorType: 'neutral', description: 'Zarif yaz adımı.', brandHint },
       ];
     }
     return [
-      { id: 's-8', name: 'Supima Pamuk / Merinos Polo Triko', category: 'mid', segment: 'smart', material: 'Supima Pamuk & Merinos', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Terletmeyen doğal doku.', brandHint },
-      { id: 's-9', name: 'Su İtici Klasik Gabardin Trençkot', category: 'outer', segment: 'smart', material: '290 GSM Pamuk Gabardin', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Klasik Bej', colorHex: '#d4b996', colorType: 'light', description: 'Rüzgar ve çisenti kalkanı.', brandHint },
-      { id: 's-10', name: 'Esnek Gabardin Chino Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Taş Rengi', colorHex: '#e7e5e4', colorType: 'light', description: 'Şehir içi esnek konfor.', brandHint },
+      { id: 's-8', garmentTypeId: 'sweater', name: 'Supima Pamuk / Merinos Polo Triko', category: 'mid', segment: 'smart', material: 'Supima Pamuk & Merinos', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Terletmeyen doğal doku.', brandHint },
+      { id: 's-9', garmentTypeId: 'coat-parka', name: 'Su İtici Klasik Gabardin Trençkot', category: 'outer', segment: 'smart', material: '290 GSM Pamuk Gabardin', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Klasik Bej', colorHex: '#d4b996', colorType: 'light', description: 'Rüzgar ve çisenti kalkanı.', brandHint },
+      { id: 's-10', garmentTypeId: 'woven-trousers', name: 'Esnek Gabardin Chino Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Taş Rengi', colorHex: '#e7e5e4', colorType: 'light', description: 'Şehir içi esnek konfor.', brandHint },
     ];
   }
 
   // Luxury / Technical Tier
   if (isCold) {
     return [
-      { id: 'p-1', name: '%100 Saf Kaşmir Balıkçı Yaka Kazak', category: 'mid', segment: 'luxury', material: 'Moğolistan Saf Kaşmiri', warmth: 5, waterResistance: 'none', windResistance: 'medium', colorName: 'Gece Mavisi', colorHex: '#0f172a', colorType: 'dark', description: 'Ultra hafiflikte maksimum yalıtım.', brandHint },
-      { id: 'p-2', name: 'Gore-Tex 3L Yalıtımlı Hardshell Kaban', category: 'outer', segment: 'luxury', material: 'GORE-TEX® ePE Membran', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Kömür Siyahı', colorHex: '#1f2937', colorType: 'dark', description: 'Fırtına ve sağanakta sıfır geçirgenlik.', brandHint },
-      { id: 'p-3', name: 'İtalyan Yün Flanel Pantolon', category: 'bottom', segment: 'luxury', material: '100% Virgin Wool Flanel', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Zarif ve sıcak tutan dokuma.', brandHint },
-      { id: 'p-4', name: 'Vibram Tabanlı Su Geçirmez Deri Bot', category: 'footwear', segment: 'luxury', material: 'Tam Yağlı Deri + Gore-Tex', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Koyu Kahve', colorHex: '#451a03', colorType: 'dark', description: 'Kaymaz zemin tutuşu.', brandHint },
+      { id: 'p-1', garmentTypeId: 'sweater', name: '%100 Saf Kaşmir Balıkçı Yaka Kazak', category: 'mid', segment: 'luxury', material: 'Moğolistan Saf Kaşmiri', warmth: 5, waterResistance: 'none', windResistance: 'medium', colorName: 'Gece Mavisi', colorHex: '#0f172a', colorType: 'dark', description: 'Ultra hafiflikte maksimum yalıtım.', brandHint },
+      { id: 'p-2', garmentTypeId: 'rain-jacket', name: 'Gore-Tex 3L Yalıtımlı Hardshell Kaban', category: 'outer', segment: 'luxury', material: 'GORE-TEX® ePE Membran', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Kömür Siyahı', colorHex: '#1f2937', colorType: 'dark', description: 'Fırtına ve sağanakta sıfır geçirgenlik.', brandHint },
+      { id: 'p-3', garmentTypeId: 'woven-trousers', name: 'İtalyan Yün Flanel Pantolon', category: 'bottom', segment: 'luxury', material: '100% Virgin Wool Flanel', warmth: 4, waterResistance: 'none', windResistance: 'medium', colorName: 'Antrasit', colorHex: '#374151', colorType: 'dark', description: 'Zarif ve sıcak tutan dokuma.', brandHint },
+      { id: 'p-4', garmentTypeId: 'winter-boots', name: 'Vibram Tabanlı Su Geçirmez Deri Bot', category: 'footwear', segment: 'luxury', material: 'Tam Yağlı Deri + Gore-Tex', warmth: 5, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Koyu Kahve', colorHex: '#451a03', colorType: 'dark', description: 'Kaymaz zemin tutuşu.', brandHint },
     ];
   }
   if (isHot) {
     return [
-      { id: 'p-5', name: 'İtalyan Saf Keten Gömlek', category: 'mid', segment: 'luxury', material: '%100 Albini Keten Lifleri', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Optik Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Maksimum hava geçirgenliği.', brandHint },
-      { id: 'p-6', name: 'Keten-İpek Karışım Hafif Pantolon', category: 'bottom', segment: 'luxury', material: 'Keten & İpek Dokuma', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Kum', colorHex: '#f5f5f4', colorType: 'light', description: 'Doğal serinlik hissi.', brandHint },
+      { id: 'p-5', garmentTypeId: 'shirt', name: 'İtalyan Saf Keten Gömlek', category: 'mid', segment: 'luxury', material: '%100 Albini Keten Lifleri', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Optik Beyaz', colorHex: '#fafaf9', colorType: 'light', description: 'Maksimum hava geçirgenliği.', brandHint },
+      { id: 'p-6', garmentTypeId: 'woven-trousers', name: 'Keten-İpek Karışım Hafif Pantolon', category: 'bottom', segment: 'luxury', material: 'Keten & İpek Dokuma', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Açık Kum', colorHex: '#f5f5f4', colorType: 'light', description: 'Doğal serinlik hissi.', brandHint },
       { id: 'p-7', name: 'El Yapımı Süet Espadril / Loafer', category: 'footwear', segment: 'luxury', material: 'Hava Alan İtalyan Süet', warmth: 1, waterResistance: 'none', windResistance: 'low', colorName: 'Taba', colorHex: '#78350f', colorType: 'neutral', description: 'Üst düzey yaz konforu.', brandHint },
     ];
   }
   return [
-    { id: 'p-8', name: '19.5 Mikron Merinos Polo Triko', category: 'mid', segment: 'luxury', material: '%100 Ekstra İnce Merinos', warmth: 3, waterResistance: 'none', windResistance: 'low', colorName: 'Adaçayı Yeşili', colorHex: '#84cc16', colorType: 'neutral', description: 'Sıcaklık dalgalanmalarına adapte olur.', brandHint },
-    { id: 'p-9', name: 'Schoeller DWR Teknik Trençkot', category: 'outer', segment: 'luxury', material: 'İsviçre Schoeller Membran', warmth: 3, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgar ve yağmur kalkanı.', brandHint },
-    { id: 'p-10', name: 'Teknik Merinos Yün Pantolon', category: 'bottom', segment: 'luxury', material: 'Elastan Katkılı Merinos', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Üstün hareket özgürlüğü.', brandHint },
+    { id: 'p-8', garmentTypeId: 'sweater', name: '19.5 Mikron Merinos Polo Triko', category: 'mid', segment: 'luxury', material: '%100 Ekstra İnce Merinos', warmth: 3, waterResistance: 'none', windResistance: 'low', colorName: 'Adaçayı Yeşili', colorHex: '#84cc16', colorType: 'neutral', description: 'Sıcaklık dalgalanmalarına adapte olur.', brandHint },
+    { id: 'p-9', garmentTypeId: 'coat-parka', name: 'Schoeller DWR Teknik Trençkot', category: 'outer', segment: 'luxury', material: 'İsviçre Schoeller Membran', warmth: 3, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgar ve yağmur kalkanı.', brandHint },
+    { id: 'p-10', garmentTypeId: 'woven-trousers', name: 'Teknik Merinos Yün Pantolon', category: 'bottom', segment: 'luxury', material: 'Elastan Katkılı Merinos', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Üstün hareket özgürlüğü.', brandHint },
   ];
 }
 

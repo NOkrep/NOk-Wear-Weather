@@ -1,5 +1,32 @@
 /** Local dictionaries: changing language never sends wardrobe or personal text to a service. */
 export const english: Record<string, string> = {
+  'Dolabında': 'In your wardrobe', 'Kaynaklı ürün': 'Sourced product', 'Isı bilgisi yok': 'Warmth unknown',
+  'Su koruması bilinmiyor': 'Water protection unknown', 'Kişisel ısı tahminim': 'My warmth estimate',
+  'Belirtilmedi': 'Not specified', 'Çok hafif': 'Very light', 'Hafif': 'Light', 'Sıcak': 'Warm', 'Çok sıcak': 'Very warm',
+  'Kişisel tahmin · üretici verisini değiştirmez.': 'Personal estimate · manufacturer facts stay unchanged.',
+  'Isı bilgisi olmadan otomatik seçilmez. Eşleştir’de kendin seçebilirsin.': 'Not selected automatically without warmth information. You can select it in Match.',
+  'Dolap kaydedilemedi. Tarayıcı depolama iznini ve boş alanı kontrol et.': 'Your wardrobe could not be saved. Check browser storage permission and free space.',
+  'Tek parça giyim desteği hazırlanıyor.': 'One-piece garment support is being prepared.',
+  'Renk bilinmiyor · temsili çizim': 'Colour unknown · illustration',
+  'Kaynaklı katalog ürünü · bilinmeyen teknik bilgiler korunur.': 'Sourced catalogue product · unknown technical details stay unknown.',
+  'ürün eksik teknik bilgi nedeniyle otomatik seçilmedi. Dolabında kişisel ısı tahmini ekleyebilir veya Eşleştir’de kendin seçebilirsin.': 'product(s) were not selected automatically because technical information is missing. Add a personal warmth estimate in your wardrobe or select them in Match.',
+  'Seçtiğin ürün korunuyor; eksik teknik bilgiler nedeniyle hava uygunluğu doğrulanmadı.': 'Your selected product is kept; its weather suitability has not been established because technical information is missing.',
+  'Kaynaklı ürün seçiminde kişisel ısı tahminin kullanılıyor; bu bir ölçüm değildir.': 'Your personal warmth estimate is used to select sourced products; it is not a measurement.',
+  'Kullanıcı seçimi · hava uygunluğu eksik': 'Your selection · weather suitability incomplete', 'Marka / model': 'Brand / model',
+  'Gerçek ürünleri keşfet veya kendi parçanı etiket bilgisiyle ekle.': 'Explore real products or add your own piece using its label.',
+  'Katalog görünümü': 'Catalogue view', 'Gerçek ürünler': 'Real products', 'Örnek profiller': 'Example profiles',
+  'Kıyafet türü': 'Garment type', 'Tüm türler': 'All types', 'Tek parça': 'One piece',
+  'Ürünler yükleniyor…': 'Loading products…', 'kaynaklı ürün': 'sourced products',
+  'Ürün kataloğuna ulaşılamadı.': 'The product catalogue is unavailable.',
+  'Bilinmeyen teknik bilgiler tahmin edilmez.': 'Unknown technical details stay unknown.',
+  'Bu aramada ürün bulunamadı.': 'No products match this search.',
+  'İlk ürün grubu kısa kollu tişörtlerden oluşuyor.': 'The first collection contains short sleeve T-shirts.',
+  'Yeniden dene': 'Try again', 'Örnek profillere geç': 'Browse example profiles', 'Önceki': 'Previous', 'Sonraki': 'Next',
+  'Temsili çizim': 'Illustration', 'Kaynaklı kumaş bilgisi': 'Sourced fabric details', 'Gramaj bilinmiyor': 'GSM unknown',
+  'Kaynak ve ayrıntılar': 'Source & details', 'Üretici / satıcı beyanı · bağımsız ölçüm değildir.': 'Manufacturer / seller claim · not an independent measurement.',
+  'Isı seviyesi': 'Warmth', 'Bilinmiyor': 'Unknown', 'Su koruması': 'Water protection', 'Beden / barkod': 'Size / barcode',
+  'Henüz eşleştirilmedi': 'Not matched yet', 'Kaynak kontrolü': 'Source checked', 'Ana kumaş': 'Main fabric', 'Ürün sayfası': 'Product page',
+  'Renk ve kesim çizimi temsilidir. Fiyat ve stok bilgisi henüz eklenmedi.': 'Colour and cut are illustrative. Price and stock have not been added yet.',
   'İçeriğe geç': 'Skip to content', 'Weathrobe ana ekran': 'Weathrobe home', 'Ana menü': 'Main navigation',
   'Bugün': 'Today', 'Dolabım': 'My wardrobe', 'Masaüstü': 'Desktop', 'Kaynaklar ve gizlilik': 'Sources & privacy',
   'Geri bildirim': 'Feedback', 'Açık temaya geç': 'Switch to light mode', 'Koyu temaya geç': 'Switch to dark mode',
@@ -226,3 +253,49 @@ Object.assign(english, {
  'Seçim yokken günün havasına göre öneri gösterilir.':'With no selections, suggestions follow today’s weather.'
 });
 
+Object.assign(english, {
+ 'Karakterim':'My character','Kendin gibi.':'Make it you.','Senin karakterin':'Your character','Karakter açısı':'Character angle','Ön':'Front','Yan':'Side','Arka':'Back','Karakter özellikleri':'Character features','Çevirmek için sürükle':'Drag to rotate','Ten':'Skin',
+ 'Temel karakter':'Base character','Karakter A':'Character A','Karakter B':'Character B','Vücut yapısı':'Build','Yüz, seçtiğin temel karaktere bağlıdır.':'The face belongs to your chosen base character.',
+ 'Ten tonu':'Skin tone','Porselen manken':'Porcelain mannequin','Saç modeli':'Hairstyle','Saçsız':'Bald','Kısa kesim':'Short crop','Pixie':'Pixie','Yana ayrık':'Side part','Topuz':'Buns','Sakal seçimi':'Facial hair','Kısa sakal':'Short beard','Sakalsız':'Clean-shaven','Saç rengi':'Hair colour',
+ 'Başlangıç görünümü':'Default look','Bu cihazda saklanır. Fotoğraf gerekmez.':'Stored on this device. No photo needed.','Kaydet':'Save','Vazgeç':'Cancel',
+ 'Karakterin sabit önizlemesi':'Static character preview','Bu cihazda 3D açılamadı. Parçalarını incelemeye devam edebilirsin.':'3D is unavailable on this device. You can still explore your pieces.',
+ 'Döndürülebilen kişisel 3D karakter':'Your rotatable 3D character','Karakter hazırlanıyor…':'Preparing your character…','Giysi renk önizlemesi · kalıp simülasyonu değildir':'Garment colour preview · not a fit simulation',
+ 'Görünüm bu oturumda uygulandı. Tarayıcıya kaydedilemedi.':'Your look is applied for this session. It could not be saved in this browser.'
+});
+
+Object.assign(english, {
+ 'Görünümü düzenle':'Edit appearance','Kişisel görünüm':'Personal appearance','Temsili görünüm':'Representative appearance',
+ 'Kişisel önizleme · ürün bilgisini değiştirmez.':'Personal preview · product facts stay unchanged.',
+ 'Kayıtlı tür / temsili çizim':'Recorded type / representative drawing','Temsili':'Representative',
+ 'Yaka':'Neckline','Kol':'Sleeves','Kesim':'Fit','Boy':'Length','Desen':'Pattern',
+ 'Bisiklet yaka':'Crew neck','V yaka':'V neck','Gömlek yaka':'Shirt collar','Polo yaka':'Polo collar','Balıkçı yaka':'Turtleneck','Kapüşon':'Hood',
+ 'Kolsuz':'Sleeveless','Kısa kol':'Short sleeve','Truvakar kol':'Three-quarter sleeve','Uzun kol':'Long sleeve',
+ 'Dar kesim':'Slim fit','Düz kesim':'Regular fit','Rahat kesim':'Relaxed fit','Bol kesim':'Oversized',
+ 'Kısa boy':'Cropped','Standart boy':'Regular length','Uzun boy':'Long length',
+ 'Düz renk':'Solid','Çizgili':'Striped','Ekose':'Checked','Puantiyeli':'Polka dots','Renk bloklu':'Colour block',
+ 'Ana renk':'Main colour','Özel renk':'Custom colour','Özel ana renk':'Custom main colour','Desen rengi':'Pattern colour',
+ 'Renk, desen ve kesim seçimin yalnızca sana ait temsili görünümdür. Bilinmeyen ürün özellikleri bilinmiyor olarak kalır.':'Your colour, pattern and cut choices are a personal illustration. Unknown product properties remain unknown.',
+ 'Görünümü sıfırla':'Reset appearance','Renk, desen ve kesim bilinmiyor.':'Colour, pattern and cut unknown.',
+ 'Renk / desen / kesim':'Colour / pattern / cut','Rüzgâr koruması':'Wind protection','Nefes alabilirlik':'Breathability','Yüksek':'High','Düşük':'Low'
+});
+
+Object.assign(english, {
+ 'Kombinin aksesuarları':'Outfit accessories','Temsili 3D kombin · ürün kalıbı değildir':'Representative 3D outfit · not the actual product cut',
+ 'Bazı parçalar şimdilik yalnızca kartlarda gösterilir.':'Some pieces are currently shown on cards only.',
+ 'Tür belirtilmedi':'Type not specified'
+});
+
+Object.assign(english, {
+  "Tasarım örnekleri": "Design samples",
+  "Çizim atölyesi": "Illustration studio",
+  "Aynı tür, farklı silüetler.": "One type, different silhouettes.",
+  "Tasarım türü": "Design type",
+  "Özgün temsili çizimler · mağaza ürünü veya kumaş bilgisi değildir.": "Original representative illustrations · not store products or fabric facts.",
+  "tasarım": "designs",
+  "tür": "types",
+  "Silüet tasarımı": "Silhouette design",
+  "Dolabındaki parçanın görünüm düzenleyicisinden bir silüet seçip renk ve desenini değiştirebilirsin.": "Choose a silhouette in your wardrobe appearance editor, then customise its colour and pattern.",
+  "Tür başına hedef": "Target per type",
+  "Kaynaklı ürün hedefi": "Sourced product target",
+  "Bu tür için kaynak doğrulaması sürüyor. Diğer türleri inceleyebilir veya kendi parçanı ekleyebilirsin.": "Source verification for this type is ongoing. Explore other types or add your own piece."
+});

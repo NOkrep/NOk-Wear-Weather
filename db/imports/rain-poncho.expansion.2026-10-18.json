@@ -1,0 +1,342 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-simond-324443-20261018",
+      "kind": "manufacturer",
+      "title": "SIMOND MT500 60 L outdoor panço yağmurluk 324443 — ürün beyanı",
+      "url": "https://www.decathlon.com.tr/p/outdoor-panco-yagmurluk-60l-siyah-mt500/_/R-p-324443?c=S",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    },
+    {
+      "id": "src-quechua-339021-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MT50 10 L outdoor panço 339021 — ürün beyanı",
+      "url": "https://www.decathlon.com.tr/p/outdoor-panco-10l-gri-mt-50/_/R-p-339021?c=MAV%C4%B0&mc=8737843",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    },
+    {
+      "id": "src-forclaz-307368-20261018",
+      "kind": "manufacturer",
+      "title": "FORCLAZ MT100 30 L outdoor panço yağmurluk 307368 — ürün beyanı",
+      "url": "https://www.decathlon.com.tr/p/outdoor-panco-yagmurluk-30-l-mavi-mt-100/_/R-p-307368?c=MAV%C4%B0&mc=8544274",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    },
+    {
+      "id": "src-btwin-340456-20261018",
+      "kind": "manufacturer",
+      "title": "BTWIN 100 şehir bisikleti pançosu 340456 — ürün beyanı",
+      "url": "https://www.decathlon.com.tr/p/100-sehir-bisikleti-pancosu-siyah/_/R-p-340456?c=S%C4%B0YAH&mc=8759248",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    },
+    {
+      "id": "src-btwin-343195-20261018",
+      "kind": "manufacturer",
+      "title": "BTWIN 540 bisiklet panço yağmurluk 343195 — ürün beyanı",
+      "url": "https://www.decathlon.com.tr/p/540-bisiklet-panco-yagmurluk-gri/_/R-p-343195?c=GR%C4%B0&mc=8958852",
+      "accessedAt": "2026-10-18T14:20:41Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "simond-324443",
+      "garmentTypeId": "rain-poncho",
+      "brand": "SIMOND",
+      "model": "MT500 60 L 324443",
+      "name": {
+        "tr": "MT500 60 L outdoor panço yağmurluk",
+        "en": "MT500 60 L hiking rain poncho"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/outdoor-panco-yagmurluk-60l-siyah-mt500/_/R-p-324443?c=S",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-simond-324443-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-simond-324443-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %100 polyester; ayrı belirtilen poliüretan kaplama astar veya dolgu değildir, ana lif yüzdesine eklenmedi. Kaplama beyanı bu kanıt notunda korunur."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-simond-324443-20261018",
+          "basis": "manufacturer",
+          "note": "2000 mm kaplama ve su sızdırmaz dikişler; üretici beyanı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "simond-324443-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-339021",
+      "garmentTypeId": "rain-poncho",
+      "brand": "QUECHUA",
+      "model": "MT50 10 L 339021",
+      "name": {
+        "tr": "MT50 10 L outdoor panço",
+        "en": "MT50 10 L hiking poncho"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/outdoor-panco-10l-gri-mt-50/_/R-p-339021?c=MAV%C4%B0&mc=8737843",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Ethylene vinyl acetate",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-339021-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-339021-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %100 etilen vinil asetat (EVA). Bu, polyester modele dönüştürülmedi."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-quechua-339021-20261018",
+          "basis": "manufacturer",
+          "note": "Su geçirmez EVA kumaş ve su sızdırmaz dikişler; üretici beyanı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-339021-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "forclaz-307368",
+      "garmentTypeId": "rain-poncho",
+      "brand": "FORCLAZ",
+      "model": "MT100 30 L 307368",
+      "name": {
+        "tr": "MT100 30 L outdoor panço yağmurluk",
+        "en": "MT100 30 L hiking rain poncho"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/outdoor-panco-yagmurluk-30-l-mavi-mt-100/_/R-p-307368?c=MAV%C4%B0&mc=8544274",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-forclaz-307368-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-forclaz-307368-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %100 polyester; ayrı belirtilen poliüretan kaplama astar veya dolgu değildir, ana lif yüzdesine eklenmedi. Kaplama beyanı bu kanıt notunda korunur."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-forclaz-307368-20261018",
+          "basis": "manufacturer",
+          "note": "2000 Schmerber kaplama ve su sızdırmaz dikişler; üretici beyanı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "forclaz-307368-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "btwin-340456",
+      "garmentTypeId": "rain-poncho",
+      "brand": "BTWIN",
+      "model": "100 City 340456",
+      "name": {
+        "tr": "100 şehir bisikleti pançosu",
+        "en": "100 city cycling rain poncho"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/100-sehir-bisikleti-pancosu-siyah/_/R-p-340456?c=S%C4%B0YAH&mc=8759248",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-btwin-340456-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-btwin-340456-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %100 polyester; ayrı belirtilen poliüretan kaplama astar veya dolgu değildir, ana lif yüzdesine eklenmedi. Kaplama beyanı bu kanıt notunda korunur."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-btwin-340456-20261018",
+          "basis": "manufacturer",
+          "note": "5000 mm kaplama ve su sızdırmaz dikişler; üreticinin duş testi açıklaması. Bağımsız laboratuvar doğrulaması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "btwin-340456-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "btwin-343195",
+      "garmentTypeId": "rain-poncho",
+      "brand": "BTWIN",
+      "model": "540 Cycling 343195",
+      "name": {
+        "tr": "540 bisiklet panço yağmurluk",
+        "en": "540 cycling rain poncho"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/540-bisiklet-panco-yagmurluk-gri/_/R-p-343195?c=GR%C4%B0&mc=8958852",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": "waterproof",
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-btwin-343195-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün başlığı ve model kodu doğrulandı. Güncel fiyat/stock çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-btwin-343195-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %100 polyester; ayrı belirtilen poliüretan kaplama astar veya dolgu değildir, ana lif yüzdesine eklenmedi. Kaplama beyanı bu kanıt notunda korunur."
+        },
+        {
+          "field": "waterResistance",
+          "sourceId": "src-btwin-343195-20261018",
+          "basis": "manufacturer",
+          "note": "5000 mm kaplama ve su sızdırmaz dikişler; üreticinin duş testi açıklaması. Bağımsız laboratuvar doğrulaması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "btwin-343195-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { ClothingItem, PurchasingPowerTier } from './types';
+import { LEGACY_TYPE_MAP, normalizeCatalogText } from './catalog/taxonomy';
 
 export interface CountryMarketProfile {
   countryCode: string;
@@ -99,8 +100,8 @@ export interface CatalogGarmentTemplate extends ClothingItem {
   breathability: 'low' | 'medium' | 'high';
 }
 
-// Comprehensive Verified Fabric & Garment Catalog (Searchable without uploading photos)
-export const VERIFIED_GARMENT_CATALOG: CatalogGarmentTemplate[] = [
+// Historical recommendation examples; not verified individual store products.
+export const LEGACY_GARMENT_CATALOG: CatalogGarmentTemplate[] = [
   // BASE LAYERS
   {
     id: 'cat-base-1',
@@ -546,23 +547,27 @@ export const VERIFIED_GARMENT_CATALOG: CatalogGarmentTemplate[] = [
   },
 ];
 
+/** @deprecated Kept for saved IDs and existing UI imports; these profiles are unverified. */
+export const VERIFIED_GARMENT_CATALOG = LEGACY_GARMENT_CATALOG;
+for (const profile of LEGACY_GARMENT_CATALOG) profile.garmentTypeId = LEGACY_TYPE_MAP[profile.id];
+
 export function searchGarmentCatalog(
   query: string,
   categoryFilter: string = 'all',
   tierFilter: string = 'all'
 ): CatalogGarmentTemplate[] {
-  const q = query.trim().toLowerCase();
-  return VERIFIED_GARMENT_CATALOG.filter((item) => {
+  const q = normalizeCatalogText(query);
+  return LEGACY_GARMENT_CATALOG.filter((item) => {
     if (categoryFilter !== 'all' && item.category !== categoryFilter) return false;
     if (tierFilter !== 'all' && item.segment !== tierFilter) return false;
     if (!q) return true;
     return (
-      item.name.toLowerCase().includes(q) ||
-      item.material.toLowerCase().includes(q) ||
-      item.description.toLowerCase().includes(q) ||
-      item.brandExamplesTr.toLowerCase().includes(q) ||
-      item.brandExamplesGlobal.toLowerCase().includes(q) ||
-      item.tags.some((t) => t.toLowerCase().includes(q))
+      normalizeCatalogText(item.name).includes(q) ||
+      normalizeCatalogText(item.material).includes(q) ||
+      normalizeCatalogText(item.description).includes(q) ||
+      normalizeCatalogText(item.brandExamplesTr).includes(q) ||
+      normalizeCatalogText(item.brandExamplesGlobal).includes(q) ||
+      item.tags.some((t) => normalizeCatalogText(t).includes(q))
     );
   });
 }

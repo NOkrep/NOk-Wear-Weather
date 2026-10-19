@@ -1,6 +1,8 @@
 import type { BudgetSegment, ClothingItem, FeedbackRecord, WeatherConsensus } from './types';
 import { generateDirectOutfit, matchAnchorItem } from './clothing-engine';
 import { itemComfortAdjustment, itemIdentity, personalizeOutfit } from './comfort';
+import { canRankForWeather, getItemWarmth } from './catalog-wardrobe';
+import { outfitSlot, selectOutfitLayers } from './outfit-layers';
 
 const categoryOrder: ClothingItem['category'][] = ['base', 'mid', 'outer', 'bottom', 'footwear', 'accessory'];
 
@@ -47,7 +49,7 @@ export interface MultiAnchorMatch {
   rainWarning: boolean;
 }
 
-/** Last selected piece per category is worn; other choices remain selected alternatives. */
+/** Last selected piece per slot is worn; independent accessories remain together. */
 export function matchSelectedItems(
   selected: ClothingItem[],
   weather: WeatherConsensus,
@@ -56,9 +58,7 @@ export function matchSelectedItems(
   const { segment = 'essential', country = 'Türkiye', thermalOffsetC = 0, wardrobe = [], feedbacks = [] } = options;
   const direct = generateDirectOutfit(weather, segment, thermalOffsetC, country);
   const choices = uniqueAnchorChoices(selected);
-  const active = new Map<ClothingItem['category'], ClothingItem>();
-  for (const item of choices) active.set(item.category, item);
-  const lockedItems = categoryOrder.flatMap(category => active.has(category) ? [active.get(category)!] : []);
+  const { active: lockedItems, slots: active } = selectOutfitLayers(choices);
   const activeKeys = new Set(lockedItems.map(itemIdentity));
   const alternatives = choices.filter(item => !activeKeys.has(itemIdentity(item)));
   const rainy = weather.precipitationProb >= 40 || ['rainy', 'stormy'].includes(weather.condition);
@@ -69,7 +69,7 @@ export function matchSelectedItems(
 
   const complements = lockedItems.flatMap(item => matchAnchorItem(item, weather, thermalOffsetC).complementaryItems);
   const candidates = uniqueAnchorChoices([...direct, ...complements, ...wardrobe]);
-  const required = new Set<ClothingItem['category']>([...direct.map(item => item.category), ...active.keys(), 'footwear']);
+  const required = new Set<ClothingItem['category']>([...direct.map(item => item.category), ...lockedItems.map(item => item.category), 'footwear']);
   // A user-selected shirt replaces an optional hot-weather tee; explicitly selected base layers always stay.
   if (active.has('mid') && !active.has('base')) required.delete('base');
   if (active.has('base') && !active.has('mid') && weather.feelsLike + thermalOffsetC >= 23) required.delete('mid');
@@ -79,15 +79,16 @@ export function matchSelectedItems(
     const desired = direct.find(item => item.category === category)?.warmth ?? (weather.feelsLike + thermalOffsetC <= 12 ? 4 : weather.feelsLike + thermalOffsetC >= 23 ? 1 : 2);
     const score = (item: ClothingItem) => {
       const protection = rainy && ['outer', 'footwear'].includes(category) ? item.waterResistance === 'waterproof' ? 18 : item.waterResistance === 'light' ? 4 : -14 : 0;
-      return -7 * Math.abs(item.warmth - desired) + protection + colourCompatibility(item.colorHex, lockedItems) + itemComfortAdjustment(item, weather, feedbacks);
+      const warmth = getItemWarmth(item);
+      const colour = item.colorType === 'unknown' ? 0 : colourCompatibility(item.colorHex, lockedItems.filter(other => other.colorType !== 'unknown'));
+      return warmth === null ? -Infinity : -7 * Math.abs(warmth - desired) + protection + colour + itemComfortAdjustment(item, weather, feedbacks);
     };
-    const eligible = candidates.filter(item => item.category === category && !activeKeys.has(itemIdentity(item)));
+    const eligible = candidates.filter(item => canRankForWeather(item, weather) && item.category === category && !active.has(outfitSlot(item)) && !activeKeys.has(itemIdentity(item)));
     const best = eligible.reduce<ClothingItem | undefined>((winner, item) => !winner || score(item) > score(winner) ? item : winner, undefined);
     if (best) suggestedItems.push(best);
   }
-  const byCategory = new Map([...lockedItems, ...suggestedItems].map(item => [item.category, item]));
   return {
-    items: categoryOrder.flatMap(category => byCategory.has(category) ? [byCategory.get(category)!] : []),
+    items: selectOutfitLayers([...lockedItems, ...suggestedItems]).active,
     lockedItems, alternatives, suggestedItems,
     rainWarning: rainy && lockedItems.some(item => item.category === 'outer' && item.waterResistance !== 'waterproof'),
   };

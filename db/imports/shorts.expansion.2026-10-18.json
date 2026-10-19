@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stbu186-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Trainer 2.0 STBU186 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/trainer-2-0-stbu186",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    },
+    {
+      "id": "src-stanley-stbu944-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Boarder Dry STBU944 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/boarder-dry-stbu944",
+      "accessedAt": "2026-10-18T14:14:58Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stbu186",
+      "garmentTypeId": "shorts",
+      "brand": "Stanley/Stella",
+      "model": "Trainer 2.0 STBU186",
+      "name": {
+        "tr": "Trainer 2.0 şort",
+        "en": "Trainer 2.0"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/trainer-2-0-stbu186",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 85
+              },
+              {
+                "name": "Polyester",
+                "percent": 15
+              }
+            ]
+          }
+        ],
+        "gsm": 300,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu186-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu186-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu186-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 300 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu186-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stbu944",
+      "garmentTypeId": "shorts",
+      "brand": "Stanley/Stella",
+      "model": "Boarder Dry STBU944",
+      "name": {
+        "tr": "Boarder Dry şort",
+        "en": "Boarder Dry"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/boarder-dry-stbu944",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 400,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stbu944-20261018",
+          "basis": "manufacturer",
+          "note": "Model başlığı ve üretici kodu doğrudan resmî ürün sayfasında doğrulandı. Türkiye satışı, fiyat veya güncel stok çıkarılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stbu944-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasının ana kumaş bileşen beyanı kaydedildi; renk/beden varyantı eşleştirilmedi. Organik ve geri dönüştürülmüş aynı lifin payları toplam lif yüzdesinde birleştirildi; sertifika iddiası türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stbu944-20261018",
+          "basis": "manufacturer",
+          "note": "Üreticinin Weight alanında 400 g/m². Kumaş yüzey yoğunluğudur; bitmiş giysinin toplam ağırlığı veya ısıl yalıtım puanı değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stbu944-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

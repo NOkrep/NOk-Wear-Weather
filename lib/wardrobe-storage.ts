@@ -1,5 +1,7 @@
 import { itemComfortAdjustment, readFeedback } from './comfort';
 import { ClothingItem, WeatherConsensus, WardrobeOutfitMatch } from './types';
+import { canRankForWeather, getItemWarmth } from './catalog-wardrobe';
+import { accessoryRelevant, outfitSlot } from './outfit-layers';
 
 const WARDROBE_STORAGE_KEY = 'wear_weather_user_wardrobe_v1';
 
@@ -183,6 +185,7 @@ export function saveWardrobeList(items: ClothingItem[]): ClothingItem[] {
 
 export function addWardrobeItem(item: ClothingItem): ClothingItem[] {
   const current = getStoredWardrobe();
+  if (item.productId && current.some(existing => existing.productId === item.productId && existing.variantId === item.variantId)) return current;
   const updated = [{ ...item, isUserOwned: true }, ...current];
   return saveWardrobeList(updated);
 }
@@ -219,7 +222,9 @@ export function matchFromUserWardrobe(
 
   const comfortRecords = readFeedback();
   const scoreItem = (item: ClothingItem): number => {
-    let score = 100 - Math.abs(item.warmth - targetWarmth) * 22;
+    const warmth = getItemWarmth(item);
+    if (warmth === null) return -Infinity;
+    let score = 100 - Math.abs(warmth - targetWarmth) * 22;
 
     // Color thermal science bonus
     if (isHot && item.colorType === 'light') score += 12;
@@ -243,7 +248,7 @@ export function matchFromUserWardrobe(
   };
 
   const pickBest = (category: ClothingItem['category']): ClothingItem | null => {
-    const candidates = wardrobe.filter((i) => i.category === category);
+    const candidates = wardrobe.filter((i) => i.category === category && canRankForWeather(i, weather));
     if (candidates.length === 0) return null;
     const sorted = [...candidates].sort((a, b) => scoreItem(b) - scoreItem(a));
     return sorted[0];
@@ -269,7 +274,7 @@ export function matchFromUserWardrobe(
     const outerItem = pickBest('outer');
     if (outerItem) {
       selectedItems.push(outerItem);
-      if (isRainy && outerItem.waterResistance === 'none') {
+      if (isRainy && (outerItem.waterResistance === 'none' || outerItem.waterResistance === null)) {
         missingCategories.push('Su Geçirmez Yağmurluk / Kabuk Ceket');
       }
     } else {
@@ -288,10 +293,12 @@ export function matchFromUserWardrobe(
   else missingCategories.push('Ayakkabı / Bot');
 
   // 6. Optional Accessory if available and relevant
-  const accItem = pickBest('accessory');
-  if (accItem && (isRainy || isCold || weather.uvIndex >= 5)) {
-    selectedItems.push(accItem);
+  const accessories = new Map<string, ClothingItem>();
+  for (const item of wardrobe.filter(item => item.category === 'accessory' && canRankForWeather(item, weather) && accessoryRelevant(item, weather))) {
+    const slot = outfitSlot(item), current = accessories.get(slot);
+    if (!current || scoreItem(item) > scoreItem(current)) accessories.set(slot, item);
   }
+  selectedItems.push(...accessories.values());
 
   const coverageScore = Math.max(
     25,

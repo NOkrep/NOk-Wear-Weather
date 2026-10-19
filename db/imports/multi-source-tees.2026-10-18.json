@@ -1,0 +1,884 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-defacto-e3431ax-20261018",
+      "kind": "manufacturer",
+      "title": "DeFacto E3431AX — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.defacto.com.tr/regular-fit-bisiklet-yaka-tisort-3208424",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-koton-4sam10546hk-20261018",
+      "kind": "manufacturer",
+      "title": "Koton 4SAM10546HK — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.koton.com/dar-kesim-pamuklu-kisa-kollu-bisiklet-yaka-basic-tisort-lacivert-3887369/",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-mavi-0610277-20261018",
+      "kind": "manufacturer",
+      "title": "Mavi 0610277 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.mavi.com/dokulu-siyah-basic-tisort/p/0610277-900",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-stanley-sttu169-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella STTU169 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://stanleystella.com/en-eu/creator-2-0-sttu169?deal=1",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-defacto-i8183ax-20261018",
+      "kind": "manufacturer",
+      "title": "DeFacto I8183AX — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.defacto.com.tr/100-pamuk-dikis-detayli-slim-fit-bisiklet-yaka-uzun-kollu-basic-tisort-3529939",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-koton-6sam10386mk-20261018",
+      "kind": "manufacturer",
+      "title": "Koton 6SAM10386MK — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.koton.com/regular-fit-pamuklu-uzun-kollu-bisiklet-yaka-tisort-antrasit-4148103/",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-koton-5wak50233ek-20261018",
+      "kind": "manufacturer",
+      "title": "Koton 5WAK50233EK — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.koton.com/uzun-kollu-yari-transparan-ajurlu-dik-yaka-tisort-ekru-3976768/",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-koton-1kam15012lk-20261018",
+      "kind": "manufacturer",
+      "title": "Koton 1KAM15012LK — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.koton.com/pamuklu-dugmeli-yaka-uzun-kollu-slim-tisort-bordo-sarap-1077167-1/",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-mavi-064622-20261018",
+      "kind": "manufacturer",
+      "title": "Mavi 064622 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.mavi.com/uzun-kollu-dokulu-beyaz-tisort/p/064622-20454",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-mavi-065755-20261018",
+      "kind": "manufacturer",
+      "title": "Mavi 065755 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.mavi.com/uzun-kollu-siyah-basic-tisort/p/065755-900",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-mavi-1613323-20261018",
+      "kind": "manufacturer",
+      "title": "Mavi 1613323 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.mavi.com/uzun-kollu-siyah-basic-tisort/p/1613323-900",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-stanley-sttu200-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella STTU200 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://stanleystella.com/en-eu/freestyler-long-sleeve-sttu200",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-stanley-sttm558-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella STTM558 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://stanleystella.com/en-eu/shifts-dry-sttm558",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    },
+    {
+      "id": "src-stanley-sttw219-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella STTW219 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://stanleystella.com/en-eu/stella-muser-long-sleeve-sttw219",
+      "accessedAt": "2026-10-18T00:00:48Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "defacto-e3431ax",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "DeFacto",
+      "model": "E3431AX",
+      "name": {
+        "tr": "Erkek baskılı kısa kollu pamuklu tişört",
+        "en": "Men's printed cotton short sleeve T-shirt"
+      },
+      "productUrl": "https://www.defacto.com.tr/regular-fit-bisiklet-yaka-tisort-3208424",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-defacto-e3431ax-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-defacto-e3431ax-20261018",
+          "basis": "manufacturer",
+          "note": "Lacivert sayfasında E3431AXNV135 kodu ve ana kumaş %100 pamuk. Model E3431AX olarak tutulur; renk kodu ayrı model sayılmaz. Kumaş, yalnız incelenen sayfanın beyanıdır."
+        }
+      ],
+      "variants": [
+        {
+          "id": "defacto-e3431ax-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "koton-4sam10546hk",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Koton",
+      "model": "4SAM10546HK",
+      "name": {
+        "tr": "Erkek dar kesim pamuklu kısa kollu basic tişört",
+        "en": "Men's slim cotton short sleeve basic T-shirt"
+      },
+      "productUrl": "https://www.koton.com/dar-kesim-pamuklu-kisa-kollu-bisiklet-yaka-basic-tisort-lacivert-3887369/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-koton-4sam10546hk-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-koton-4sam10546hk-20261018",
+          "basis": "manufacturer",
+          "note": "Lacivert ürün sayfasındaki Dış: %100 PAMUK alanı. Sayfa telemetrisindeki beden/barkod/fiyat stok doğrulaması sayılmadı; model kodu renk/beden eklerinden ayrıldı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "koton-4sam10546hk-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "mavi-0610277",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Mavi",
+      "model": "0610277",
+      "name": {
+        "tr": "Erkek dokulu pamuk karışımlı kısa kollu tişört",
+        "en": "Men's textured cotton blend short sleeve T-shirt"
+      },
+      "productUrl": "https://www.mavi.com/dokulu-siyah-basic-tisort/p/0610277-900",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 56
+              },
+              {
+                "name": "Cotton",
+                "percent": 41
+              },
+              {
+                "name": "Elastane",
+                "percent": 3
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-mavi-0610277-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-mavi-0610277-20261018",
+          "basis": "manufacturer",
+          "note": "Siyah 0610277-900 sayfasındaki Kumaş Bilgileri yüzdeleri kaydedildi. Orta ağırlık ifadesi GSM değildir. Renk eki ayrı model veya doğrulanmış varyant olarak alınmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "mavi-0610277-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu169",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "STTU169",
+      "name": {
+        "tr": "Creator 2.0 kısa kollu pamuklu tişört",
+        "en": "Creator 2.0 cotton short sleeve T-shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/creator-2-0-sttu169?deal=1",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu169-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu169-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş Single Jersey, %100 Cotton; organik/geri dönüştürülmüş pamuk aynı lif altında normalize edildi. Heather Haze 70/30 organik/geri dönüştürülmüş pamuk ayrımı varyant notudur. EU kataloğu Türkiye stok/fiyat garantisi değildir."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu169-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî katalogda açık g/m²/GSM beyanıdır; bitmiş ürün ağırlığından hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu169-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "defacto-i8183ax",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "DeFacto",
+      "model": "I8183AX",
+      "name": {
+        "tr": "Kadın dikiş detaylı pamuklu uzun kollu tişört",
+        "en": "Women's seamed cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://www.defacto.com.tr/100-pamuk-dikis-detayli-slim-fit-bisiklet-yaka-uzun-kollu-basic-tisort-3529939",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-defacto-i8183ax-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-defacto-i8183ax-20261018",
+          "basis": "manufacturer",
+          "note": "Kahve sayfasında I8183AXBN267 ve ana kumaş %100 pamuk beyanı; model I8183AX. Uzun kol ve slim fit ürün bilgisi tutarlı. Bedene özel stok/barkod alınmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "defacto-i8183ax-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "koton-6sam10386mk",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Koton",
+      "model": "6SAM10386MK",
+      "name": {
+        "tr": "Erkek bisiklet yaka pamuklu uzun kollu tişört",
+        "en": "Men's crew neck cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://www.koton.com/regular-fit-pamuklu-uzun-kollu-bisiklet-yaka-tisort-antrasit-4148103/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-koton-6sam10386mk-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-koton-6sam10386mk-20261018",
+          "basis": "manufacturer",
+          "note": "ANA KUMAŞ ve Dış alanlarında %100 PAMUK. Başlık siyah, URL/ürün alanı antrasit olduğundan renk doğrulanmadı. Telemetri GTIN/fiyat/stok, güncel varyant kanıtı kabul edilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "koton-6sam10386mk-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "koton-5wak50233ek",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Koton",
+      "model": "5WAK50233EK",
+      "name": {
+        "tr": "Kadın ajurlu dik yaka uzun kollu tişört",
+        "en": "Women's openwork high neck long sleeve T-shirt"
+      },
+      "productUrl": "https://www.koton.com/uzun-kollu-yari-transparan-ajurlu-dik-yaka-tisort-ekru-3976768/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 97
+              },
+              {
+                "name": "Elastane",
+                "percent": 3
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-koton-5wak50233ek-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-koton-5wak50233ek-20261018",
+          "basis": "manufacturer",
+          "note": "Ekru sayfasında Dış: %97 PAMUK, %3 ELASTAN. Ajurlu/yarı transparan yapı ısı veya koruma puanına dönüştürülmedi. Bu ana kumaş beyanı, bütün renklerin doğrulaması değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "koton-5wak50233ek-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "koton-1kam15012lk",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Koton",
+      "model": "1KAM15012LK",
+      "name": {
+        "tr": "Erkek düğmeli yaka pamuklu uzun kollu tişört",
+        "en": "Men's henley cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://www.koton.com/pamuklu-dugmeli-yaka-uzun-kollu-slim-tisort-bordo-sarap-1077167-1/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-koton-1kam15012lk-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-koton-1kam15012lk-20261018",
+          "basis": "manufacturer",
+          "note": "Bordo Şarap sayfasında Dış: %100 PAMUK. Eski model katalog kaydıdır; satışta/stoğa hazır olduğu iddia edilmez. Sayfa içindeki fiyat ve telemetri varyantı aktarılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "koton-1kam15012lk-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "mavi-064622",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Mavi",
+      "model": "064622",
+      "name": {
+        "tr": "Erkek dokulu pamuklu uzun kollu tişört",
+        "en": "Men's textured cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://www.mavi.com/uzun-kollu-dokulu-beyaz-tisort/p/064622-20454",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-mavi-064622-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-mavi-064622-20261018",
+          "basis": "manufacturer",
+          "note": "Beyaz 064622-20454 sayfasında Kumaş Bilgileri %100 pamuk; siyah aynı model ayrıca sayılmadı. Orta ağırlık ifadesi gramaj ölçümü değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "mavi-064622-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "mavi-065755",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Mavi",
+      "model": "065755",
+      "name": {
+        "tr": "Erkek pamuklu uzun kollu basic tişört",
+        "en": "Men's cotton long sleeve basic T-shirt"
+      },
+      "productUrl": "https://www.mavi.com/uzun-kollu-siyah-basic-tisort/p/065755-900",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-mavi-065755-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-mavi-065755-20261018",
+          "basis": "manufacturer",
+          "note": "Yalnız siyah 065755-900 sayfasındaki %100 Pamuk beyanı. Antrasit 065755-29758 açıklamasında %100 pamuk, yüzdelerde 50/50 pamuk/polyester çelişkisi var; o renk bu kaydın beyanına dahil edilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "mavi-065755-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "mavi-1613323",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Mavi",
+      "model": "1613323",
+      "name": {
+        "tr": "Kadın pamuklu uzun kollu basic tişört",
+        "en": "Women's cotton long sleeve basic T-shirt"
+      },
+      "productUrl": "https://www.mavi.com/uzun-kollu-siyah-basic-tisort/p/1613323-900",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-mavi-1613323-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-mavi-1613323-20261018",
+          "basis": "manufacturer",
+          "note": "Siyah 1613323-900 sayfasında Kumaş Bilgileri %100 Pamuk. Outlet kaydı güncel stok veya fiyat iddiası oluşturmaz; bileşimden termal puan türetilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "mavi-1613323-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttu200",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "STTU200",
+      "name": {
+        "tr": "Freestyler pamuklu uzun kollu tişört",
+        "en": "Freestyler cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/freestyler-long-sleeve-sttu200",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 240,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttu200-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttu200-20261018",
+          "basis": "manufacturer",
+          "note": "EU model STTU200, ana kumaş Single Jersey %100 Cotton. ABD SATU023 aynı aileden diye ikinci model sayılmadı. Pamuk işleme/sertifika veya dry handfeel ifadesi performans ölçümü değildir."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttu200-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî katalogda açık g/m²/GSM beyanıdır; bitmiş ürün ağırlığından hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttu200-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttm558",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "STTM558",
+      "name": {
+        "tr": "Shifts Dry pamuklu uzun kollu tişört",
+        "en": "Shifts Dry cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/shifts-dry-sttm558",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 200,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttm558-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttm558-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş Single Jersey %100 Cotton beyanı. Sayfada Colour None / 0 colours görülüyor; arşiv/model verisidir, satış veya stok varlığı iddiası değildir. Isı puanı türetilmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttm558-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî katalogda açık g/m²/GSM beyanıdır; bitmiş ürün ağırlığından hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttm558-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sttw219",
+      "garmentTypeId": "long-sleeve-tee",
+      "brand": "Stanley/Stella",
+      "model": "STTW219",
+      "name": {
+        "tr": "Stella Muser kadın pamuklu uzun kollu tişört",
+        "en": "Stella Muser women's cotton long sleeve T-shirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/stella-muser-long-sleeve-sttw219",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 180,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sttw219-20261018",
+          "basis": "manufacturer"
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sttw219-20261018",
+          "basis": "manufacturer",
+          "note": "STTW219 ana kumaş Single Jersey %100 Cotton beyanı. Kadın kalıbı ayrı modeldir; aynı ailedeki Creator uzun kollu sayfa erişimi tutarlı alınamadığından o model bu gruba katılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sttw219-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî katalogda açık g/m²/GSM beyanıdır; bitmiş ürün ağırlığından hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sttw219-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}
+

@@ -1,0 +1,680 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-18T13:52:15Z",
+  "scope": "Local factual catalogue research; no general content/image licence or continuous API sync is claimed.",
+  "sources": [
+    {
+      "id": "decathlon-tr",
+      "name": "Decathlon Türkiye",
+      "domains": [
+        "www.decathlon.com.tr"
+      ],
+      "catalogProductIds": [
+        "domyos-332540",
+        "domyos-338648",
+        "quechua-349961",
+        "kiprun-355949",
+        "kiprun-340992",
+        "norfolk-ragnar",
+        "solognac-326668",
+        "solognac-350567",
+        "solognac-328812",
+        "quechua-375770",
+        "quechua-341167",
+        "quechua-138705",
+        "decathlon-169760",
+        "quechua-312360",
+        "quechua-333908",
+        "decathlon-332494",
+        "solognac-144110",
+        "solognac-306447",
+        "forclaz-306560",
+        "solognac-334073",
+        "decathlon-360866",
+        "forclaz-306949",
+        "quechua-327102",
+        "quechua-347183",
+        "quechua-346726",
+        "quechua-338483",
+        "quechua-350837",
+        "kiprun-346817",
+        "quechua-334354",
+        "quechua-357657",
+        "quechua-352547",
+        "decathlon-333925",
+        "quechua-351385",
+        "kiprun-351367",
+        "quechua-134585",
+        "kiprun-357467",
+        "kiprun-352928",
+        "kiprun-312120",
+        "decathlon-337693",
+        "decathlon-348850",
+        "decathlon-9713",
+        "kiprun-341192",
+        "decathlon-337743",
+        "kiprun-353287",
+        "decathlon-339940",
+        "kiprun-353286",
+        "simond-324443",
+        "quechua-339021",
+        "forclaz-307368",
+        "btwin-340456",
+        "btwin-343195"
+      ],
+      "scope": "TR ürün sayfaları; NORFOLK pazaryeri satıcı beyanı",
+      "status": "curated",
+      "checkedAt": "2026-10-18T14:20:41Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.decathlon.com.tr/Web-Sitesi-Uyelik-Sozlesmesi_lp-NYUPQA",
+        "https://www.decathlon.com.tr/p/outdoor-panco-yagmurluk-60l-siyah-mt500/_/R-p-324443?c=S",
+        "https://www.decathlon.com.tr/p/outdoor-panco-10l-gri-mt-50/_/R-p-339021?c=MAV%C4%B0&mc=8737843",
+        "https://www.decathlon.com.tr/p/outdoor-panco-yagmurluk-30-l-mavi-mt-100/_/R-p-307368?c=MAV%C4%B0&mc=8544274",
+        "https://www.decathlon.com.tr/p/100-sehir-bisikleti-pancosu-siyah/_/R-p-340456?c=S%C4%B0YAH&mc=8759248",
+        "https://www.decathlon.com.tr/p/540-bisiklet-panco-yagmurluk-gri/_/R-p-343195?c=GR%C4%B0&mc=8958852"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "lcw-tr",
+      "name": "LCW Türkiye",
+      "domains": [
+        "www.lcw.com"
+      ],
+      "catalogProductIds": [
+        "lcw-0s2159z8"
+      ],
+      "scope": "TR ürün sayfası",
+      "status": "curated",
+      "checkedAt": "2026-10-18T00:03:02Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.lcw.com/statik/kullanimkosullari"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "ms-tr",
+      "name": "Marks & Spencer Türkiye",
+      "domains": [
+        "www.marksandspencer.com.tr"
+      ],
+      "catalogProductIds": [
+        "ms-t41002101c",
+        "ms-t28004960a",
+        "ms-t41007738"
+      ],
+      "scope": "TR ürün sayfaları",
+      "status": "curated",
+      "checkedAt": "2026-10-18T00:03:02Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.marksandspencer.com.tr/"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "defacto-tr",
+      "name": "DeFacto",
+      "domains": [
+        "www.defacto.com.tr"
+      ],
+      "scope": "TR ürün sayfaları",
+      "catalogProductIds": [
+        "defacto-e3431ax",
+        "defacto-i8183ax"
+      ],
+      "status": "curated",
+      "checkedAt": "2026-10-18T00:03:02Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.defacto.com.tr/regular-fit-bisiklet-yaka-tisort-3208424",
+        "https://www.defacto.com.tr/100-pamuk-dikis-detayli-slim-fit-bisiklet-yaka-uzun-kollu-basic-tisort-3529939"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "koton-tr",
+      "name": "Koton",
+      "domains": [
+        "www.koton.com"
+      ],
+      "scope": "TR ürün sayfaları",
+      "catalogProductIds": [
+        "koton-4sam10546hk",
+        "koton-6sam10386mk",
+        "koton-5wak50233ek",
+        "koton-1kam15012lk",
+        "koton-5sak60077ew",
+        "koton-2yak66445iw"
+      ],
+      "status": "curated",
+      "checkedAt": "2026-10-18T14:20:41Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.koton.com/dar-kesim-pamuklu-kisa-kollu-bisiklet-yaka-basic-tisort-lacivert-3887369/",
+        "https://www.koton.com/regular-fit-pamuklu-uzun-kollu-bisiklet-yaka-tisort-antrasit-4148103/",
+        "https://www.koton.com/uzun-kollu-yari-transparan-ajurlu-dik-yaka-tisort-ekru-3976768/",
+        "https://www.koton.com/pamuklu-dugmeli-yaka-uzun-kollu-slim-tisort-bordo-sarap-1077167-1/",
+        "https://www.koton.com/viskon-kumas-nakis-detayli-uzun-kollu-v-yaka-bluz-ekru-4053129/",
+        "https://www.koton.com/balon-kollu-pamuklu-bluz-siyah-1216501/"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "mavi-tr",
+      "name": "Mavi",
+      "domains": [
+        "www.mavi.com"
+      ],
+      "scope": "TR ürün sayfaları",
+      "catalogProductIds": [
+        "mavi-0610277",
+        "mavi-064622",
+        "mavi-065755",
+        "mavi-1613323"
+      ],
+      "status": "curated",
+      "checkedAt": "2026-10-18T00:03:02Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.mavi.com/dokulu-siyah-basic-tisort/p/0610277-900",
+        "https://www.mavi.com/uzun-kollu-dokulu-beyaz-tisort/p/064622-20454",
+        "https://www.mavi.com/uzun-kollu-siyah-basic-tisort/p/065755-900",
+        "https://www.mavi.com/uzun-kollu-siyah-basic-tisort/p/1613323-900"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "stanley-stella-eu",
+      "name": "Stanley/Stella",
+      "domains": [
+        "stanleystella.com",
+        "www.stanleystella.com"
+      ],
+      "scope": "EU ve açıkça ABD kodlu model sayfaları; Türkiye satışı/fiyatı çıkarılmaz",
+      "catalogProductIds": [
+        "stanley-sttu169",
+        "stanley-sttu200",
+        "stanley-sttm558",
+        "stanley-sttw219",
+        "stanley-stsu953",
+        "stanley-sasu024",
+        "stanley-sasu028",
+        "stanley-sasu038",
+        "stanley-stsu229",
+        "stanley-stsu867",
+        "stanley-stsu868",
+        "stanley-stsu205",
+        "stanley-stsu866",
+        "stanley-stsu177",
+        "stanley-stwm968",
+        "stanley-stww973",
+        "stanley-stwm969",
+        "stanley-stww971",
+        "stanley-stww970",
+        "stanley-stwu975",
+        "stanley-stwm967",
+        "stanley-stww270",
+        "stanley-stpu222",
+        "stanley-stpu223",
+        "stanley-stpw977",
+        "stanley-stpm224",
+        "stanley-stpu252",
+        "stanley-stju293",
+        "stanley-stjm189",
+        "stanley-stjw190",
+        "stanley-stjw241",
+        "stanley-stjm240",
+        "stanley-stjm235",
+        "stanley-stjw236",
+        "stanley-stju250",
+        "stanley-stjm158",
+        "stanley-stjw159",
+        "stanley-stbu276",
+        "stanley-stbu274",
+        "stanley-stbu185",
+        "stanley-stbu576",
+        "stanley-stbu157",
+        "stanley-stbu186",
+        "stanley-stbu944",
+        "stanley-stau297",
+        "stanley-stau296",
+        "stanley-stau295",
+        "stanley-stau771",
+        "stanley-stau772",
+        "stanley-stau893",
+        "stanley-sttu272",
+        "stanley-sttu277",
+        "stanley-sttu280",
+        "stanley-sttw283",
+        "stanley-sttu170",
+        "stanley-sttu976",
+        "stanley-sttu171",
+        "stanley-sttu959",
+        "stanley-sttu964",
+        "stanley-sttu078",
+        "stanley-sttu788",
+        "stanley-sttu258",
+        "stanley-sttu263",
+        "stanley-sttu073",
+        "stanley-sttu787",
+        "stanley-sttu758",
+        "stanley-sttw172",
+        "stanley-sttw079",
+        "stanley-sttw173",
+        "stanley-sttw259",
+        "stanley-sttw264",
+        "stanley-sttw175",
+        "stanley-sttw174",
+        "stanley-sttw089",
+        "stanley-sttm562",
+        "stanley-sttu199",
+        "stanley-sttw963",
+        "stanley-sttw962",
+        "stanley-sttm961"
+      ],
+      "status": "curated",
+      "checkedAt": "2026-10-18T14:14:58Z",
+      "dataAccess": "official-page-observation",
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://stanleystella.com/en-eu/creator-2-0-sttu169?deal=1",
+        "https://stanleystella.com/en-eu/freestyler-long-sleeve-sttu200",
+        "https://stanleystella.com/en-eu/shifts-dry-sttm558",
+        "https://stanleystella.com/en-eu/stella-muser-long-sleeve-sttw219",
+        "https://stanleystella.com/en-eu/stanley-oxford-shirt-stwm968",
+        "https://stanleystella.com/en-eu/stella-styler-shirt-stww973",
+        "https://stanleystella.com/en-eu/stanley-styler-shirt-stwm969",
+        "https://stanleystella.com/en-eu/stella-oxford-shirt-stww971",
+        "https://stanleystella.com/en-eu/stella-denim-shirt-stww970",
+        "https://stanleystella.com/en-eu/worker-stwu975",
+        "https://stanleystella.com/en-eu/stanley-denim-shirt-stwm967",
+        "https://stanleystella.com/en-eu/stella-harper-stww270",
+        "https://stanleystella.com/en-eu/prepster-2-0-stpu222",
+        "https://stanleystella.com/en-eu/prepster-2-0-long-sleeve-stpu223",
+        "https://stanleystella.com/en-eu/stella-coaster-stpw977",
+        "https://stanleystella.com/en-eu/stanley-coaster-stpm224",
+        "https://stanleystella.com/en-eu/coaster-vintage-stpu252",
+        "https://stanleystella.com/en-eu/puffer-gilet-2-0-stju293",
+        "https://stanleystella.com/en-eu/stanley-climber-2-0-stjm189",
+        "https://stanleystella.com/en-eu/stella-climber-2-0-stjw190",
+        "https://stanleystella.com/en-eu/stella-quester-stjw241",
+        "https://stanleystella.com/en-eu/stanley-quester-stjm240",
+        "https://stanleystella.com/en-eu/stanley-trail-blazer-stjm235",
+        "https://stanleystella.com/en-eu/stella-trail-blazer-stjw236",
+        "https://stanleystella.com/en-eu/puffer-gilet-stju250",
+        "https://stanleystella.com/en-eu/stanley-discoverer-stjm158",
+        "https://stanleystella.com/en-eu/stella-discoverer-stjw159",
+        "https://stanleystella.com/en-eu/barreler-stbu276",
+        "https://stanleystella.com/en-eu/needer-stbu274",
+        "https://stanleystella.com/en-eu/mover-2-0-stbu185",
+        "https://stanleystella.com/en-eu/mover-vintage-stbu576",
+        "https://stanleystella.com/en-eu/jammer-dry-stbu157",
+        "https://stanleystella.com/en-eu/trainer-2-0-stbu186",
+        "https://stanleystella.com/en-eu/boarder-dry-stbu944",
+        "https://stanleystella.com/en-eu/fielder-stau297",
+        "https://stanleystella.com/en-eu/fisherman-beanie-2-0-stau296",
+        "https://stanleystella.com/en-eu/rib-beanie-2-0-stau295",
+        "https://stanleystella.com/en-eu/fisherman-beanie-stau771",
+        "https://stanleystella.com/en-eu/rib-beanie-stau772",
+        "https://stanleystella.com/en-eu/bucket-hat-stau893",
+        "https://stanleystella.com/en-eu/reeser-sttu272",
+        "https://stanleystella.com/en-eu/hazener-sttu277",
+        "https://stanleystella.com/en-eu/freestyler-super-vintage-sttu280",
+        "https://stanleystella.com/en-eu/stella-nova-vintage-sttw283",
+        "https://stanleystella.com/en-eu/crafter-sttu170",
+        "https://stanleystella.com/en-eu/crafter-vintage-sttu976",
+        "https://stanleystella.com/en-eu/sparker-2-0-sttu171",
+        "https://stanleystella.com/en-eu/blaster-2-0-sttu959",
+        "https://stanleystella.com/en-eu/breezer-sttu964",
+        "https://stanleystella.com/en-eu/asher-sttu078",
+        "https://stanleystella.com/en-eu/freestyler-sttu788",
+        "https://stanleystella.com/en-eu/hypster-sttu258",
+        "https://stanleystella.com/en-eu/blaker-sttu263",
+        "https://stanleystella.com/en-eu/freestyler-vintage-sttu073",
+        "https://stanleystella.com/en-eu/re-creator-sttu787",
+        "https://stanleystella.com/en-eu/rocker-sttu758",
+        "https://stanleystella.com/en-eu/stella-muser-sttw172",
+        "https://stanleystella.com/en-eu/stella-expresser-2-0-sttw079",
+        "https://stanleystella.com/en-eu/stella-serena-sttw173",
+        "https://stanleystella.com/en-eu/stella-raya-sttw259",
+        "https://stanleystella.com/en-eu/stella-etta-sttw264",
+        "https://stanleystella.com/en-eu/stella-nova-sttw175",
+        "https://stanleystella.com/en-eu/stella-ella-sttw174",
+        "https://stanleystella.com/en-eu/stella-collider-sttw089",
+        "https://stanleystella.com/en-eu/stanley-presenter-sttm562",
+        "https://stanleystella.com/en-eu/creator-2-0-long-sleeve-sttu199",
+        "https://stanleystella.com/en-eu/stella-ava-sttw963",
+        "https://stanleystella.com/en-eu/stella-mia-sttw962",
+        "https://stanleystella.com/en-eu/stanley-stancer-sttm961"
+      ],
+      "nextSteps": [
+        "Yeni türlerden model eklemeden önce ana kumaş ve model kimliğini yeniden doğrula.",
+        "Fiyat, stok, varyant ve teknik koruma alanlarını yalnız ayrı kanıt varsa doldur."
+      ]
+    },
+    {
+      "id": "adidas-tr",
+      "name": "adidas Türkiye",
+      "domains": [
+        "www.adidas.com.tr"
+      ],
+      "status": "needs-product-detail-recheck",
+      "scope": "TR",
+      "dataAccess": "partial-page-and-index-observations",
+      "catalogProductIds": [],
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://www.adidas.com.tr/tr/trefoil-monogram-tisort/II3180.html"
+      ],
+      "nextSteps": [
+        "II3180 sayfasının güncel açık metninde kumaş ayrıntısı bulunmadı; indekslenmiş beyanı tek başına yeni yayın için kullanma.",
+        "Ürün ayrıntısı ve model kodu birlikte yeniden alınırsa kontrollü bir gruba ekle."
+      ],
+      "checkedAt": "2026-10-18T00:03:02Z"
+    },
+    {
+      "id": "printful",
+      "name": "Printful",
+      "domains": [
+        "api.printful.com",
+        "www.printful.com"
+      ],
+      "status": "api-probed-not-published",
+      "scope": "Global API; Türkiye stok/fiyat/kullanım kapsamı doğrulanmış değil",
+      "dataAccess": "anonymous-readonly-api",
+      "catalogProductIds": [],
+      "liveSync": false,
+      "probeFile": "printful-probe.2026-10-18.json",
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://developers.printful.com/docs/",
+        "https://api.printful.com/products",
+        "https://www.printful.com/policies/api",
+        "https://help.printful.com/hc/en-us/articles/50264186389393-What-are-mockup-images"
+      ],
+      "nextSteps": [
+        "Hesapsız GET /products ve 356/57 detayları başarılı: 571 toplam kayıt giyim dışı ürünleri de içeriyor.",
+        "Model düzeyi ana kumaşı varyant bileşiminden ayır; Bella+Canvas 3501 renkleri 100/0, 90/10 ve 52/48 oranlarını değiştirebilir.",
+        "API/medya şartlarının bu uygulamadaki katalog kullanımını kapsadığını doğrula; policies/api metni araçta tam alınamadı.",
+        "Yetkili kapsam doğrulanınca sınırlı salt okuma bağdaştırıcısı kur; görsel izinleri, varyant eşleşmesi ve bölgesel bulunurluğu ayrı tut."
+      ],
+      "checkedAt": "2026-10-18T00:03:02Z"
+    },
+    {
+      "id": "awin",
+      "name": "Awin",
+      "domains": [
+        "www.awin.com",
+        "help.awin.com",
+        "success.awin.com"
+      ],
+      "status": "requires-partnership",
+      "scope": "Marka/program ve ülkeye göre",
+      "dataAccess": "publisher-and-advertiser-approval-required",
+      "catalogProductIds": [],
+      "liveSync": false,
+      "media": {
+        "status": "requires-program-approval",
+        "downloaded": false,
+        "nextStep": "Yayıncı hesabı ve ilgili markanın kabulünden sonra yalnız programın sunduğu izinli materyali kullan."
+      },
+      "references": [
+        "https://help.awin.com/developers/docs/product-feed-publisher-guide-intro",
+        "https://success.awin.com/s/article/Can-I-use-any-images-from-the-advertiser-s-website?language=en_US"
+      ],
+      "nextSteps": [
+        "NOk/Weathrobe için yayıncı başvuru koşullarını incele ve kullanıcıyla hesap adımını tamamla.",
+        "Türkiye'de hedeflenen markaların gerçekten ağda olduğunu ve programın uygulama/görsel/önbellek kullanımına izin verdiğini doğrula.",
+        "Belirli bir Türk markasının Awin ortağı olduğu bu araştırmada doğrulanmadı."
+      ],
+      "checkedAt": "2026-10-18T00:03:02Z"
+    },
+    {
+      "id": "gs1",
+      "name": "Verified by GS1",
+      "domains": [
+        "www.gs1.org",
+        "support.gs1.org"
+      ],
+      "status": "membership-api-pending",
+      "scope": "GTIN/şirket/temel ürün kimliği",
+      "dataAccess": "limited-public-lookup-membership-for-api",
+      "catalogProductIds": [],
+      "liveSync": false,
+      "media": {
+        "status": "not-established-as-photo-source",
+        "downloaded": false,
+        "nextStep": "Barkod kimlik kaynağı olarak değerlendir; fotoğraf veya kumaş alanı var sayma."
+      },
+      "references": [
+        "https://support.gs1.org/support/solutions/articles/43000734077-what-is-verified-by-gs1-",
+        "https://www.gs1.org/docs/verified-by-gs1/public-verified-by-gs1-tou.pdf"
+      ],
+      "nextSteps": [
+        "Kamu sorgu sınırı resmî belgede 24 saatte 30 tekil sorgu; otomatik toplu tarama kurma.",
+        "GS1 Türkiye üzerinden üyelik/API ve yeniden kullanım koşullarını netleştir; ücret ücretsiz varsayılmadı.",
+        "Bu tur gerçek kullanıcı barkodu gönderilmedi ve GS1 sorgusu yapılmadı."
+      ],
+      "checkedAt": "2026-10-18T00:03:02Z"
+    },
+    {
+      "id": "trendyol",
+      "name": "Trendyol",
+      "domains": [
+        "developers.trendyol.com",
+        "www.trendyol.com"
+      ],
+      "status": "merchant-api-not-general-catalogue",
+      "scope": "TR ürün sayfası araştırması; sürekli API akışı için satıcı/partner yetkisi",
+      "dataAccess": "merchant-credentials-or-partnership-required",
+      "researchFile": "trendyol-research.2026-10-18.md",
+      "catalogProductIds": [],
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://developers.trendyol.com/docs/%C3%BCr%C3%BCn-filtreleme-onayl%C4%B1-%C3%BCr%C3%BCn-v2",
+        "https://developers.trendyol.com/docs/%C3%BCr%C3%BCn-aktarma-v2createproducts",
+        "https://developers.trendyol.com/v2.0/docs/authorization",
+        "https://www.trendyol.com/s/trendyol-affiliate-programi",
+        "https://www.trendyol.com/koton/regular-fit-uzun-kollu-dugmeli-klasik-yaka-gomlek-p-1085945134",
+        "https://www.trendyol.com/tudors/slim-fit-uzun-kollu-koton-saten-premium-seri-erkek-gri-gomlek-p-659663384",
+        "https://www.trendyol.com/koton/bisiklet-yaka-kisa-kollu-pamuk-karisimli-tok-kumas-cizgili-oversize-tisort-p-884118110",
+        "https://www.trendyol.com/mango/cepli-kargo-jean-pantolon-p-820285004"
+      ],
+      "nextSteps": [
+        "Satıcı API'sini tüm mağazanın açık katalog/barkod API'si gibi kullanma.",
+        "Uygun satıcı/markayla izinli akış veya ayrı partner anlaşması varsa kapsamı incele; hesap/anahtar kullanılmadı.",
+        "Dört ürün sayfasında kumaş ve görünüm alanları incelendi; başlık-özellik çelişkilerini alan bazında ayır. Bu gözlemler henüz katalog ürünü değildir.",
+        "Marka modelini, satıcı teklifini ve renk/beden varyantını ayır; API barcode alanını doğrudan doğrulanmış GTIN yapma.",
+        "Affiliate dokümanı sosyal medya linkleri içindir; Weathrobe uygulaması için feed/API ve kullanım kapsamı ayrıca doğrulanmalı.",
+        "Sonraki pilotta gömlek, jean/pantolon ve kazak/hırka adaylarını üreticinin model koduyla çapraz doğrula."
+      ],
+      "checkedAt": "2026-10-18T13:52:15Z"
+    },
+    {
+      "id": "hepsiburada",
+      "name": "Hepsiburada",
+      "domains": [
+        "developers.hepsiburada.com"
+      ],
+      "status": "merchant-api-not-general-catalogue",
+      "scope": "Merchant/entegratör yetkisi",
+      "dataAccess": "merchant-credentials-or-partnership-required",
+      "catalogProductIds": [],
+      "liveSync": false,
+      "media": {
+        "status": "permission-unconfirmed",
+        "downloaded": false,
+        "nextStep": "Yazılı görsel izni veya kapsamı uygun onaylı ürün akışı sağlanınca yeniden incele."
+      },
+      "references": [
+        "https://developers.hepsiburada.com/tr/companies/hepsiburada"
+      ],
+      "nextSteps": [
+        "Resmî portal merchant/entegratör odaklıdır; genel amaçlı açık ürün veritabanı olarak varsayma.",
+        "İzinli partner/satıcı veri akışı için koşul ve maliyet netleşirse yeniden incele."
+      ],
+      "checkedAt": "2026-10-18T00:03:02Z"
+    }
+  ],
+  "excludedCandidates": [
+    {
+      "id": "mavi-065755-anthracite",
+      "url": "https://www.mavi.com/uzun-kollu-antrasit-basic-tisort/p/065755-29758",
+      "reason": "Açıklama %100 pamuk, Kumaş Bilgileri %50 pamuk/%50 polyester. Siyah aynı model gözlemiyle birleştirilmedi.",
+      "revisitWhen": "Üretici renk/etiket bazında çelişkiyi açıklayınca."
+    },
+    {
+      "id": "mavi-1613048",
+      "url": "https://www.mavi.com/modal-karisimli-uzun-kollu-siyah-tisort/p/1613048-900",
+      "reason": "Kumaş 1 %100 viskoz ve Kumaş 2 %77 modal/%23 polyamid; ana/astar/detay eşleştirmesi açık değil. Tek ana kumaşa zorlanmadı.",
+      "revisitWhen": "Parça bazlı kumaş kapsamı doğrulanınca."
+    },
+    {
+      "id": "stanley-sttu199",
+      "url": "https://stanleystella.com/en-gb/creator-2-0-long-sleeve-sttu199",
+      "reason": "İndekslenmiş üretici metni var, güncel sayfa erişimi yönlendirmede başarısız oldu; yeni gruba alınmadı.",
+      "revisitWhen": "Doğrudan ürün ayrıntısı yeniden erişilebilir olduğunda.",
+      "resolution": "2026-10-18: en-eu doğrudan sayfası yeniden açıldı; STTU199 kimliği, %100 pamuk ve 180 g/m² doğrulandı. Eski en-gb erişim kaydı geçmiş gözlem olarak korunur; yeni en-eu kaynaklı kayıt yayın listesine alındı."
+    },
+    {
+      "id": "koton-5wal10542ik",
+      "url": "https://www.koton.com/uzun-kollu-biyeli-bisiklet-yaka-crop-tisort-ekru-3956030/",
+      "reason": "Açıklamada ikili ürün ifadesi var; hangi parça/ana kumaşa ait olduğu tekil model için netleşmedi.",
+      "revisitWhen": "Paket/parça kapsamı doğrulanınca."
+    },
+    {
+      "url": "https://www.decathlon.com.tr/p/kadin-kosu-ayakkabisi-hafif-tempolu-kosu-run-comfort/_/R-p-308100",
+      "reason": "Ürün bağlantısı kategoriye yönleniyor; eski arama önbelleğindeki kumaş bilgisi güncel ürün sayfasında doğrulanamadı.",
+      "revisitWhen": "Ürün kodunu koruyan resmî ürün sayfası veya üretici veri föyü erişilebilir olunca."
+    },
+    {
+      "url": "https://www.decathlon.com.tr/p/erkek-kosu-ayakkabisi-mavi-sari-kiprun-ks900-2/_/R-p-341832",
+      "reason": "Ürün bağlantısı kategoriye yönleniyor; eski önbellek kayıtlarından model yayımlanmadı.",
+      "revisitWhen": "Doğrudan resmî ürün sayfası veya kimliği doğrulanan ürün föyü erişilebilir olunca."
+    },
+    {
+      "url": "https://www.decathlon.com.tr/p/kadin-yagmurluk-avcilik-ve-doga-gzlemi-kahverengi-500/_/R-p-180532",
+      "reason": "Arama sonucu var fakat tam resmî ürün sayfası bu oturumda açılamadı; yayımlanmadı.",
+      "revisitWhen": "Resmî sayfada model ve bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "koton-7yak63778ew",
+      "url": "https://www.koton.com/omuz-detayli-bluz-ekru-2712358-5/",
+      "reason": "Arama metni mevcut, doğrudan ürün ayrıntısı bu tur açılamadı.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "koton-6yak62123ow",
+      "url": "https://www.koton.com/rahat-kesim-bluz-saks-mavi-2503751-2/",
+      "reason": "Arama metni mevcut, doğrudan ürün ayrıntısı bu tur açılamadı.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "koton-5sak60432pw",
+      "url": "https://www.koton.com/aerobin-kumas-kolsuz-degaje-yaka-kemer-detayli-bluz-ekru-4085486/",
+      "reason": "Doğrudan bileşen ayrıntısı erişimi bu tur başarısız.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "koton-3sak60024pw",
+      "url": "https://www.koton.com/relax-bluz-balon-kollu-keten-karisimli-ekru-3738063-3/",
+      "reason": "İndekslenmiş bileşen beyanı var; doğrudan ürün sayfası açılamadı.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "koton-7yak68579pw",
+      "url": "https://www.koton.com/rahat-kesim-bluz-lacivert-2650887-2/",
+      "reason": "Kumaş İçeriği POLYESTER başlığı ve %100 viskoz oran alanları çelişiyor.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "koton-7yak34278fk",
+      "url": "https://www.koton.com/omzu-acik-bluz-siyah-2680383/",
+      "reason": "Bluz başlığı ile örgü TANKTOPS sınıfı arasında tür kapsamı net değil; ince tür hedefini doldurmak için zorlanmadı.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    },
+    {
+      "id": "stanley-sttw176",
+      "url": "https://stanleystella.com/en-eu/collection/t-shirts",
+      "reason": "Koleksiyonda Stella Isla STTW176 adayı görüldü; tekil ürün bağlantısı açılamadı.",
+      "revisitWhen": "Güncel doğrudan üretici sayfası, model kodu ve çelişkisiz tür/bileşen bilgisi birlikte doğrulanınca."
+    }
+  ]
+}
+

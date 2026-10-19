@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "batches": [
+    {
+      "file": "short-sleeve-tees.tr.2026-10-18.json",
+      "reviewedAt": "2026-10-18T00:03:02Z",
+      "products": 10
+    },
+    {
+      "file": "multi-source-tees.2026-10-18.json",
+      "reviewedAt": "2026-10-18T00:03:02Z",
+      "products": 14
+    },
+    {
+      "file": "sweatshirt.2026-10-18.json",
+      "reviewedAt": "2026-10-18T13:33:43Z",
+      "products": 10
+    },
+    {
+      "file": "fleece.2026-10-18.json",
+      "reviewedAt": "2026-10-18T13:33:43Z",
+      "products": 10
+    },
+    {
+      "file": "woven-trousers.2026-10-18.json",
+      "reviewedAt": "2026-10-18T13:33:43Z",
+      "products": 10
+    },
+    {
+      "file": "rain-jacket.2026-10-18.json",
+      "reviewedAt": "2026-10-18T13:33:43Z",
+      "products": 10
+    },
+    {
+      "file": "running-shoes.2026-10-18.json",
+      "reviewedAt": "2026-10-18T13:33:43Z",
+      "products": 10
+    },
+    {
+      "file": "shirt.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 8
+    },
+    {
+      "file": "polo-shirt.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 5
+    },
+    {
+      "file": "gilet.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 8
+    },
+    {
+      "file": "softshell.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 2
+    },
+    {
+      "file": "joggers.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 5
+    },
+    {
+      "file": "shorts.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 2
+    },
+    {
+      "file": "beanie.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 5
+    },
+    {
+      "file": "sun-hat.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 1
+    },
+    {
+      "file": "short-sleeve-tee.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 25
+    },
+    {
+      "file": "long-sleeve-tee.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 1
+    },
+    {
+      "file": "tank-top.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:14:58Z",
+      "products": 3
+    },
+    {
+      "file": "blouse.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:20:41Z",
+      "products": 2
+    },
+    {
+      "file": "rain-poncho.expansion.2026-10-18.json",
+      "reviewedAt": "2026-10-18T14:20:41Z",
+      "products": 5
+    }
+  ]
+}
+

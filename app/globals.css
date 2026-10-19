@@ -370,6 +370,31 @@
 .studio-search { display: flex; align-items: center; gap: 9px; border: 1px solid var(--ww-line); border-radius: 7px; padding: 0 11px; color: var(--ww-muted); }.studio-search input { border: 0; background: transparent; width: 100%; padding-inline: 0; outline-offset: 0; }
 .catalog-disclaimer { font-size: 10px; color: var(--ww-muted); padding: 12px 0 16px; }
 .studio-catalog-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+.catalog-view-switch { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--ww-line); border-radius: 9px; margin-bottom: 14px; }
+.catalog-view-switch button { padding: 8px 12px; border-radius: 6px; color: var(--ww-muted); font-size: 12px; }
+.catalog-view-switch button[aria-pressed="true"] { background: var(--ww-accent); color: var(--ww-accent-ink); }
+.catalog-product-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; margin: 12px 0 16px; color: var(--ww-muted); font-size: 12px; }
+.catalog-product-status small { font-size: 10px; }
+.real-product-card { min-width: 0; }
+.catalog-add-product { width: 100%; margin-top: 12px; justify-content: center; }
+.catalog-add-product:disabled { cursor: default; opacity: .65; }
+.catalog-personal-warmth { display: grid; gap: 7px; margin-top: 14px; font-size: 11px; color: var(--ww-muted); }
+.catalog-personal-warmth select { width: 100%; min-width: 0; min-height: 36px; padding: 7px; border: 1px solid var(--ww-line); border-radius: 7px; background: var(--ww-surface); color: var(--ww-ink); }
+.catalog-estimate-note { display: block; margin-top: 8px; font-size: 10px; line-height: 1.5; color: var(--ww-muted); }
+.catalog-selection-note, .catalog-detail-source { padding: 10px 12px; margin: 12px 0; border: 1px solid var(--ww-line); border-radius: 8px; color: var(--ww-muted); font-size: 11px; line-height: 1.6; }
+.catalog-detail-source p { margin-block: 6px; }
+.real-product-card .catalog-tier { overflow-wrap: anywhere; }
+.product-illustration-label { position: absolute; bottom: 10px; right: 12px; color: var(--ww-muted); font-size: 8px; }
+.catalog-piece-info > .product-composition { min-height: 0; line-height: 1.6; }
+.product-fact-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.product-fact-chips > span { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; padding: 4px 6px; border-radius: 5px; background: var(--ww-wash); color: var(--ww-muted); }
+.product-evidence summary { cursor: pointer; padding-block: 5px; color: var(--ww-ink); }
+.product-evidence dl { margin-top: 10px; }
+.product-evidence dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; margin-block: 6px; }
+.product-evidence dd { color: var(--ww-ink); }
+.catalog-piece-bottom a { display: inline-flex; align-items: center; gap: 3px; }
+.catalog-recovery-actions, .catalog-pagination { display: flex; justify-content: center; flex-wrap: wrap; align-items: center; gap: 16px; }
+.catalog-pagination { margin-top: 20px; font-size: 12px; color: var(--ww-muted); }
 .catalog-piece { border: 1px solid var(--ww-line); border-radius: 10px; overflow: hidden; background: var(--ww-surface); }
 .catalog-piece-art { position: relative; display: flex; align-items: center; justify-content: center; height: 170px; background: radial-gradient(ellipse at 50% 20%, var(--ww-surface), var(--ww-stage)); border-bottom: 1px solid var(--ww-line); }.catalog-piece-art .garment-visual { width: 140px; height: 150px; padding-top: 12px; }.catalog-category { position: absolute; left: 12px; top: 12px; color: var(--ww-muted); font-size: 9px; }.catalog-piece-art > i { position: absolute; right: 12px; bottom: 12px; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #8888; }
 .catalog-piece-info { padding: 14px; }.catalog-tier { font-size: 9px; letter-spacing: .8px; text-transform: uppercase; color: var(--ww-muted); }.catalog-piece h3 { font-size: 13px; font-weight: 600; line-height: 1.4; margin: 5px 0 7px; }.catalog-piece-info > p { font-size: 11px; color: var(--ww-muted); min-height: 32px; }.catalog-piece details { font-size: 11px; color: var(--ww-muted); margin-top: 8px; }.catalog-piece details p { margin: 8px 0; }.catalog-piece details small { font-size: 10px; }.catalog-piece-bottom { border-top: 1px solid var(--ww-line); padding-top: 10px; margin-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--ww-muted); }.catalog-piece-bottom > span { display: flex; align-items: center; gap: 5px; }.catalog-piece-bottom .text-button { font-size: 11px; color: var(--ww-accent); }.catalog-delete { position: absolute; top: 3px; right: 3px; width: 34px; height: 34px; }
@@ -432,3 +457,154 @@
 .anchor-alternatives-note { font-size: 10px; line-height: 1.6; color: var(--ww-muted); margin: 9px 0; }.anchor-weather-note { display: flex; align-items: center; gap: 7px; font-size: 11px; padding: 10px; background: var(--ww-wash); color: var(--ww-ink); border-radius: 6px; margin-top: 10px; }.anchor-weather-note svg { flex-shrink: 0; }
 @container app-view (max-width:700px) { .anchor-selection-heading { gap: 7px; }.anchor-selection-heading > div { gap: 8px; }.anchor-selection-heading > span { font-size: 10px; }.anchor-selection-heading .text-button { font-size: 9px; }.anchor-selection-heading .secondary-button { font-size: 9px; padding-inline: 8px; }.multi-anchor-picker { padding: 9px; }.anchor-picker-filters > span { flex-basis: 100%; margin-left: 0; }.anchor-choice { flex-basis: 106px; }.anchor-selected-chips button > span { max-width: 140px; } }
 
+
+/* Personal character studio: one on-demand 3D canvas, visual local choices. */
+.avatar-canvas { position: relative; width: 100%; height: 100%; min-height: 220px; isolation: isolate; }
+.avatar-canvas canvas { display: block; outline: none; }
+.avatar-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ww-muted); font-size: 11px; z-index: 2; pointer-events: none; }
+.avatar-render-fallback { width: 100%; height: 100%; display: grid; place-content: center; text-align: center; color: var(--ww-muted); font-size: 11px; padding: 12px; }
+.avatar-render-fallback img { width: 100%; max-height: 320px; object-fit: contain; }.avatar-render-fallback p { max-width: 240px; margin: 8px auto; }
+.board-3d .board-scene { height: 525px; }.avatar-board-stage { position: absolute; inset: 0 13%; background: radial-gradient(ellipse at 50% 70%,var(--ww-wash),transparent 65%); }
+.board-3d .board-pieces { pointer-events: none; }.board-3d .board-piece { pointer-events: auto; }
+.avatar-board-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 10px 15px; }.avatar-board-bottom > span { font-size: 8px; color: var(--ww-muted); text-align: center; }
+.avatar-views { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--ww-line); border-radius: 999px; background: var(--ww-surface); position: relative; z-index: 2; }
+.avatar-views button { border: 0; background: transparent; color: var(--ww-muted); padding: 6px 13px; border-radius: 999px; font-size: 10px; cursor: pointer; }.avatar-views button[aria-pressed="true"] { background: var(--ww-accent); color: var(--ww-accent-ink); }
+.route-focus .board-3d .board-scene { height: 360px; }.route-focus .board-3d .avatar-board-stage { inset-inline: 0; }.route-focus .avatar-board-bottom .avatar-views { display: none; }
+.character-studio { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(280px,.85fr); min-height: 535px; gap: 24px; }
+.character-stage { position: relative; min-height: 535px; border: 1px solid var(--ww-line); border-radius: 14px; overflow: hidden; background: radial-gradient(ellipse at 50% 35%,var(--ww-wash),var(--ww-canvas)); }
+.character-stage .avatar-canvas { position: absolute; inset: 0 0 50px; height: calc(100% - 50px); }
+.character-stage::after { content: ''; position: absolute; left: 25%; right: 25%; bottom: 85px; height: 12px; background: #17312b25; filter: blur(9px); border-radius: 50%; pointer-events: none; }
+.character-stage-tag { position: absolute; display: inline-flex; align-items: center; gap: 5px; left: 16px; top: 15px; font-size: 9px; color: var(--ww-muted); z-index: 2; }
+.character-stage > .avatar-views { position: absolute; bottom: 27px; left: 50%; transform: translateX(-50%); white-space: nowrap; }.character-stage-hint { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 8px; color: var(--ww-muted); }
+.character-controls { display: flex; flex-direction: column; min-width: 0; }.character-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--ww-line); padding-bottom: 12px; }.character-tabs button { display: flex; flex: 1; align-items: center; justify-content: center; flex-direction: column; gap: 6px; font-size: 10px; color: var(--ww-muted); border: 0; background: transparent; padding: 10px 5px; border-radius: 8px; cursor: pointer; }.character-tabs button[aria-pressed="true"] { background: var(--ww-accent); color: var(--ww-accent-ink); }
+.character-options { padding: 16px 0; }.character-options h3 { font-size: 23px; font-weight: 500; letter-spacing: -.7px; margin: 0 0 16px; }
+.avatar-model-options, .avatar-hair-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }.avatar-hair-options { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.avatar-model-options button, .avatar-hair-options button { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; padding: 7px 6px 10px; border: 1px solid var(--ww-line); background: var(--ww-soft); color: var(--ww-ink); border-radius: 10px; cursor: pointer; gap: 5px; font-size: 10px; }
+.avatar-model-options button[aria-pressed="true"], .avatar-hair-options button[aria-pressed="true"] { border: 2px solid var(--ww-accent); padding: 6px 5px 9px; background: var(--ww-wash); }.avatar-model-options button > svg, .avatar-hair-options button > svg { position: absolute; right: 7px; top: 7px; color: var(--ww-accent); }
+.avatar-option-art { position: relative; display: grid; place-items: center; width: 100%; height: 100px; overflow: hidden; border-radius: 5px; }.avatar-hair-options .avatar-option-art { height: 84px; }.avatar-option-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }.avatar-option-art > svg { color: var(--ww-muted); }
+.avatar-control-label { display: block; color: var(--ww-muted); font-size: 10px; margin: 19px 0 9px; }.avatar-build-options { display: flex; gap: 7px; }.avatar-build-options button { display: flex; flex: 1; align-items: center; gap: 7px; flex-direction: column; border: 1px solid var(--ww-line); border-radius: 8px; padding: 10px 4px; background: transparent; color: var(--ww-muted); font-size: 10px; cursor: pointer; }.avatar-build-options button[aria-pressed="true"] { border-color: var(--ww-accent); color: var(--ww-ink); background: var(--ww-wash); }
+.avatar-feature-note { font-size: 9px; color: var(--ww-muted); margin-top: 12px; }
+.avatar-skin-options { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }.avatar-skin-options button { height: 75px; border: 2px solid transparent; border-radius: 12px; color: #fff; cursor: pointer; text-shadow: 0 1px 3px #000; display: grid; place-items: center; }.avatar-skin-options button[aria-pressed="true"] { outline: 2px solid var(--ww-accent); outline-offset: 3px; }.avatar-skin-options button > svg { background: #1a2a24bb; border-radius: 50%; padding: 2px; }
+.avatar-porcelain-option { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--ww-line); color: var(--ww-ink); background: transparent; border-radius: 9px; margin-top: 18px; font-size: 11px; cursor: pointer; width: 100%; }.avatar-porcelain-option > span { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(90deg,#c4cdc8,#fff,#c4cdc8); border: 1px solid #acb6af; }.avatar-porcelain-option[aria-pressed="true"] { border-color: var(--ww-accent); background: var(--ww-wash); }
+.avatar-colour-options { display: flex; flex-wrap: wrap; gap: 11px; padding: 3px; }.avatar-colour-options button { width: 31px; height: 31px; display: grid; place-items: center; color: #fff; border: 1px solid #6d756c; border-radius: 50%; cursor: pointer; }.avatar-colour-options button[aria-pressed="true"] { outline: 2px solid var(--ww-accent); outline-offset: 3px; }.avatar-colour-options svg { background: #15271b8a; border-radius: 50%; }
+.character-editor-bottom { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--ww-line); }.character-editor-bottom > p { display: flex; gap: 6px; align-items: center; font-size: 9px; color: var(--ww-muted); margin: 10px 0 15px; }.character-save-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }.character-save-actions > button { justify-content: center; }.avatar-save-warning { font-size: 10px; padding: 0 12px 12px; color: var(--ww-muted); }
+@media(max-width:700px) { .character-studio { grid-template-columns: 1fr; gap: 14px; }.character-stage { min-height: 355px; }.character-controls { min-height: 370px; }.character-options h3 { font-size: 20px; }.character-tabs { position: sticky; top: 0; background: var(--ww-surface); z-index: 3; }.avatar-model-options .avatar-option-art { height: 80px; }.avatar-hair-options .avatar-option-art { height: 75px; }.character-save-actions > button { min-height: 42px; }.character-editor-bottom { padding-top: 12px; } }
+@container app-view (max-width:700px) { .board-3d .board-scene, .route-focus .board-3d .board-scene { height: 430px; }.avatar-board-stage { inset-inline: 5%; }.avatar-board-bottom { padding-bottom: 12px; }.avatar-board-bottom > span { font-size: 8px; } }
+@media(max-width:700px) {
+ .studio-dialog[open]:has(.character-studio) { display: flex; flex-direction: column; height: 94svh; max-height: 94svh; overflow: hidden; }
+ .studio-dialog:has(.character-studio) .studio-modal-head { flex-shrink: 0; padding: 13px 15px; }
+ .studio-dialog:has(.character-studio) .studio-modal-head h2 { font-size: 24px; margin-top: 4px; }
+ .studio-dialog:has(.character-studio) .studio-modal-head .eyebrow { font-size: 7px; }
+ .studio-dialog:has(.character-studio) .studio-modal-body { flex: 1; min-height: 0; padding: 10px 12px; }
+ .character-studio { display: flex; flex-direction: column; height: 100%; min-height: 0; gap: 10px; }
+ .character-stage { min-height: 0; flex: 0 0 clamp(185px,30svh,270px); }
+ .character-controls { flex: 1; min-height: 0; }
+ .character-tabs { position: static; flex-shrink: 0; padding-bottom: 7px; }
+ .character-tabs button { padding: 6px 3px; gap: 4px; }
+ .character-options { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 10px 2px; }
+ .character-options h3 { margin-bottom: 10px; }
+ .avatar-hair-options .avatar-option-art { height: 58px; }
+ .avatar-model-options .avatar-option-art { height: 68px; }
+ .character-editor-bottom { flex-shrink: 0; margin-top: 0; padding-top: 7px; }
+ .character-editor-bottom > p { margin: 6px 0 8px; font-size: 8px; }
+ .character-editor-bottom > .text-button { font-size: 9px; }
+ .character-save-actions > button { min-height: 38px; padding: 9px; font-size: 11px; }
+}
+
+/* Personal garment illustrations: small controls, explicit provenance, no product-photo dependency. */
+.appearance-editor { margin-top: 12px; border-top: 1px solid var(--ww-line); padding-top: 10px; }
+.appearance-toggle { display: flex; align-items: center; gap: 6px; width: 100%; font-size: 11px; color: var(--ww-ink); flex-wrap: wrap; text-align: left; }
+.appearance-toggle small { font-size: 9px; color: var(--ww-muted); margin-left: auto; }
+.appearance-fields { margin: 12px 0 0; padding: 0; border: 0; min-width: 0; }
+.appearance-preview { border-radius: 8px; background: var(--ww-stage); display: flex; flex-direction: column; align-items: center; padding: 10px; margin-bottom: 12px; }
+.appearance-preview .garment-visual { height: 158px; max-width: 140px; }
+.appearance-preview > span { color: var(--ww-muted); font-size: 9px; text-align: center; line-height: 1.5; }
+.appearance-select-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px 8px; margin-top: 10px; }
+.appearance-fields label { min-width: 0; color: var(--ww-muted); font-size: 10px; display: flex; flex-direction: column; gap: 5px; }
+.appearance-fields select { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 36px; background: var(--ww-surface); color: var(--ww-ink); border: 1px solid var(--ww-line); border-radius: 6px; padding: 6px; font-size: 11px; text-overflow: ellipsis; }
+.appearance-colour-heading, .appearance-fields .appearance-colour-heading { display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 8px; margin: 12px 0 8px; color: var(--ww-muted); font-size: 10px; }
+.appearance-fields .appearance-colour-input { flex-direction: row; align-items: center; gap: 6px; }
+.appearance-fields input[type=color] { width: 33px; height: 30px; border: 1px solid var(--ww-line); padding: 2px; background: var(--ww-surface); border-radius: 5px; cursor: pointer; }
+.appearance-swatches { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 7px; }
+.appearance-swatches button { min-height: 32px; border: 1px solid #737b7a70; border-radius: 5px; display: grid; place-items: center; cursor: pointer; }
+.appearance-swatches button[aria-pressed=true] { outline: 2px solid var(--ww-accent); outline-offset: 2px; }
+.appearance-swatches svg { color: #172820; background: #ffffffde; border-radius: 50%; }
+.appearance-fields .appearance-disclaimer { font-size: 10px; line-height: 1.6; color: var(--ww-muted); margin-top: 12px; }
+.appearance-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.appearance-actions .text-button { font-size: 10px; display: inline-flex; align-items: center; gap: 4px; }
+.appearance-actions .secondary-button { font-size: 11px; min-height: 34px; padding: 7px 10px; margin-left: auto; }
+.catalog-piece-info > .product-appearance-unknown { min-height: 0; margin-top: 8px; font-size: 10px; line-height: 1.5; }
+.catalog-piece-info > .wardrobe-brand { min-height: 0; font-size: 10px; margin: 0 0 7px; }
+.appearance-fields :focus-visible, .appearance-toggle:focus-visible { outline: 2px solid var(--ww-accent); outline-offset: 3px; }
+@media(max-width:500px) {
+ .appearance-select-grid { grid-template-columns: minmax(0,1fr); }
+ .appearance-toggle small { margin-left: 20px; }
+ .appearance-preview .garment-visual { height: 130px; }
+ .appearance-colour-heading { flex-wrap: wrap; }
+}
+/* The editor opens above the wardrobe, keeping catalogue rows compact. */
+.studio-dialog:has(> .studio-modal-body > .appearance-fields) { width: min(760px,calc(100% - 32px)); }
+.studio-modal-body > .appearance-fields { display: grid; grid-template-columns: 180px minmax(0,1fr); gap: 12px 24px; margin: 0; }
+.studio-modal-body > .appearance-fields > * { grid-column: 2; margin: 0; }
+.studio-modal-body > .appearance-fields > .appearance-preview { grid-column: 1; grid-row: 1 / span 6; justify-content: center; align-self: start; padding: 22px 12px; min-height: 290px; }
+.studio-modal-body > .appearance-fields > .appearance-actions { grid-column: 1 / -1; border-top: 1px solid var(--ww-line); padding-top: 14px; }
+.studio-modal-body > .appearance-fields .appearance-preview .garment-visual { height: 210px; max-width: 165px; }
+.studio-catalog-grid { align-items: start; }
+@media(max-width:600px) {
+ .studio-modal-body > .appearance-fields { grid-template-columns: minmax(0,1fr); gap: 12px; }
+ .studio-modal-body > .appearance-fields > * { grid-column: 1; }
+ .studio-modal-body > .appearance-fields > .appearance-preview { grid-column: 1; grid-row: auto; min-height: 0; padding: 12px; }
+ .studio-modal-body > .appearance-fields .appearance-preview .garment-visual { height: 135px; }
+ .studio-modal-body > .appearance-fields .appearance-select-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .studio-modal-body > .appearance-fields > .appearance-actions { grid-column: 1; }
+}
+
+.outfit-accessory-strip { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 14px 14px; }
+.outfit-accessory-strip button { display: flex; align-items: center; gap: 6px; flex: 1 1 120px; min-width: 0; max-width: 100%; padding: 6px 9px; background: var(--ww-stage); color: var(--ww-ink); border: 1px solid var(--ww-line); border-radius: 8px; cursor: pointer; text-align: left; }
+.outfit-accessory-strip .garment-visual { height: 40px; width: 32px; flex-shrink: 0; }
+.outfit-accessory-strip span { font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+.outfit-accessory-strip button > svg:last-child { flex-shrink: 0; margin-left: auto; }
+.avatar-unsupported-note { color: var(--ww-muted); font-size: 10px; text-align: center; padding: 0 14px 12px; }
+.outfit-accessory-strip button:focus-visible { outline: 2px solid var(--ww-accent); outline-offset: 3px; }
+
+/* Original 2D design library; its counts are separate from sourced products. */
+.design-gallery { margin-top: 20px; }
+.design-gallery-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.design-gallery-heading h3 { font-size: clamp(22px,3vw,30px); font-weight: 500; letter-spacing: -.8px; margin: 5px 0; }
+.design-gallery-heading select { width: 210px; max-width: 100%; min-height: 40px; padding: 8px; border: 1px solid var(--ww-line); border-radius: 8px; color: var(--ww-ink); background: var(--ww-surface); font-size: 11px; }
+.design-gallery-note { font-size: 11px; line-height: 1.6; color: var(--ww-muted); margin: 12px 0; }
+.design-gallery-count { font-size: 10px; color: var(--ww-muted); margin: 14px 0; }
+.design-gallery-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.design-sample { min-width: 0; border: 1px solid var(--ww-line); border-radius: 12px; overflow: hidden; background: var(--ww-surface); }
+.design-sample-art { position: relative; display: grid; place-items: center; height: 210px; background: radial-gradient(ellipse at center,var(--ww-wash),var(--ww-stage)); padding: 16px; }
+.design-sample-art .garment-visual { height: 100%; width: 100%; max-width: 160px; filter: drop-shadow(0 9px 5px #10251b17); }
+.design-sample-number { position: absolute; top: 12px; left: 12px; color: var(--ww-muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.design-sample-label { padding: 12px 14px 14px; }
+.design-sample-label > span { font-size: 9px; color: var(--ww-muted); }
+.design-sample-label h4 { margin: 5px 0 0; font-size: 12px; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+.appearance-design-label > span { display: block; font-size: 10px; color: var(--ww-muted); margin-bottom: 6px; }
+.appearance-designs { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 5px; }
+.appearance-designs button { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 0; padding: 5px 3px 7px; border: 1px solid var(--ww-line); border-radius: 7px; background: var(--ww-stage); color: var(--ww-ink); cursor: pointer; }
+.appearance-designs button[aria-pressed=true] { border-color: var(--ww-accent); box-shadow: inset 0 0 0 1px var(--ww-accent); background: var(--ww-wash); }
+.appearance-designs .garment-visual { width: 100%; height: 61px; }
+.appearance-designs span { font-size: 8px; line-height: 1.4; overflow-wrap: anywhere; }
+.appearance-designs button:focus-visible, .design-gallery select:focus-visible { outline: 2px solid var(--ww-accent); outline-offset: 3px; }
+.catalog-target-progress { display: flex; align-items: center; gap: 12px; padding: 10px 0; color: var(--ww-muted); font-size: 10px; }
+.catalog-target-progress progress { flex: 1; min-width: 35px; height: 5px; accent-color: var(--ww-accent); }
+.catalog-target-progress strong { color: var(--ww-ink); font-weight: 500; white-space: nowrap; }
+.studio-modal-body > .appearance-fields > .appearance-preview { grid-row: 1 / span 7; }
+@media(max-width:600px) {
+ .design-gallery-heading { align-items: stretch; flex-direction: column; gap: 8px; }
+ .design-gallery-heading select { width: 100%; }
+ .design-gallery-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+ .design-sample-art { height: 180px; padding: 16px 10px; }
+ .design-sample-label { padding: 9px; }
+ .studio-modal-body > .appearance-fields > .appearance-preview { grid-row: auto; }
+ .appearance-designs { grid-template-columns: repeat(3,minmax(0,1fr)); }
+ .appearance-designs .garment-visual { height: 70px; }
+ .catalog-target-progress { gap: 8px; flex-wrap: wrap; }
+}
+@media(max-width:500px) {
+ .catalog-view-switch { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); width: 100%; }
+ .catalog-view-switch > button { padding: 10px 4px; font-size: 10px; min-height: 40px; text-align: center; }
+}

@@ -1,0 +1,659 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-domyos-332540-20261018",
+      "kind": "manufacturer",
+      "title": "DOMYOS 332540 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kisa-kollu-bisiklet-yaka-spor-tisortu-koyu-yesil/_/R-p-332540",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-domyos-338648-20261018",
+      "kind": "manufacturer",
+      "title": "DOMYOS 338648 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-v-yakali-spor-tisortu-eflatun-fitness/_/R-p-338648",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-quechua-349961-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA 349961 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kisa-kollu-outdoor-tisort-bej-nh100/_/R-p-349961",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-kiprun-355949-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN 355949 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-dikissiz-kosu-tisortu-siyah-fume-500-confort-slim/_/R-p-355949",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-kiprun-340992-20261018",
+      "kind": "manufacturer",
+      "title": "KIPRUN 340992 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-dikissiz-kosu-tisortu-siyah-kiprun-run-500-confort/_/R-p-340992",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-norfolk-ragnar-20261018",
+      "kind": "retailer",
+      "title": "NORFOLK RAGNAR — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.decathlon.com.tr/p/mp/norfolk/percent100-merinos-yunlu-erkek-outdoor-tisort-ragnar/_/R-p-9b4d0d1a-4311-4fb0-bb4c-480797840de2",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-lcw-0s2159z8-20261018",
+      "kind": "manufacturer",
+      "title": "LCW EVERYDAY 0S2159Z8 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.lcw.com/duz-basic-pamuklu-kisa-kollu-kadin-tisort-siyah-o-649561",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-ms-t41002101c-20261018",
+      "kind": "manufacturer",
+      "title": "M&S Collection T41002101C — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.marksandspencer.com.tr/kadin-beyaz-keten-karisimli-v-yaka-tisort-10000000878642/",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-ms-t28004960a-20261018",
+      "kind": "manufacturer",
+      "title": "Autograph T28004960A — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.marksandspencer.com.tr/erkek-mavi-pure-supima-r-slim-fit-premium-pamuklu-t-shirt-10000000877156/",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    },
+    {
+      "id": "src-ms-t41007738-20261018",
+      "kind": "manufacturer",
+      "title": "M&S Collection T41007738 — ürün kimliği ve ana kumaş beyanı",
+      "url": "https://www.marksandspencer.com.tr/kadin-siyah-100-pamuklu-slim-fit-kisa-kollu-tisort-10000000979767/",
+      "accessedAt": "2026-10-17T22:45:29Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "domyos-332540",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "DOMYOS",
+      "model": "332540",
+      "name": {
+        "tr": "Erkek bisiklet yaka kısa kollu spor tişörtü",
+        "en": "Men's crew neck short sleeve sports T-shirt"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kisa-kollu-bisiklet-yaka-spor-tisortu-koyu-yesil/_/R-p-332540",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 190,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-domyos-332540-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-domyos-332540-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi / Ana kumaş alanı. Ayrı örgü/yaka kumaşı %97 pamuk ve %3 elastan; bu kayıt yalnız ana kumaşı kapsar."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-domyos-332540-20261018",
+          "basis": "manufacturer",
+          "note": "Sayfada g/m² olarak açıkça belirtilen kumaş gramajı; ölçüm raporu değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "domyos-332540-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "domyos-338648",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "DOMYOS",
+      "model": "338648",
+      "name": {
+        "tr": "Kadın V yaka kısa kollu spor tişörtü",
+        "en": "Women's V-neck short sleeve sports T-shirt"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-v-yakali-spor-tisortu-eflatun-fitness/_/R-p-338648",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 190,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-domyos-338648-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-domyos-338648-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi / Ana kumaş ve model açıklamasındaki açık 190 g/m² beyanı; beden/renk varyantları çözülmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-domyos-338648-20261018",
+          "basis": "manufacturer",
+          "note": "Sayfada g/m² olarak açıkça belirtilen kumaş gramajı; ölçüm raporu değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "domyos-338648-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-349961",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "QUECHUA",
+      "model": "349961",
+      "name": {
+        "tr": "NH100 erkek kısa kollu outdoor tişörtü",
+        "en": "NH100 men's short sleeve hiking T-shirt"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kisa-kollu-outdoor-tisort-bej-nh100/_/R-p-349961",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 60
+              },
+              {
+                "name": "Polyester",
+                "percent": 40
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-349961-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-349961-20261018",
+          "basis": "manufacturer",
+          "note": "Yalnız Ana kumaş. Ayrı örgü kumaşı %59 pamuk, %39 polyester ve %2 elastan; ana kumaşa dahil edilmedi. 0,16 kg ürün ağırlığı GSM değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-349961-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-355949",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "KIPRUN",
+      "model": "355949",
+      "name": {
+        "tr": "500 Confort Slim erkek dikişsiz koşu tişörtü",
+        "en": "500 Confort Slim men's seamless running T-shirt"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-dikissiz-kosu-tisortu-siyah-fume-500-confort-slim/_/R-p-355949",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 72
+              },
+              {
+                "name": "Polyamide",
+                "percent": 19
+              },
+              {
+                "name": "Elastane",
+                "percent": 9
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-355949-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-355949-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi / Ana kumaş. M bedende 93 g bilgisi ürün ağırlığıdır; GSM olarak kullanılmadı. 340992 modelinden ayrı kimlik ve bileşim."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-355949-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "kiprun-340992",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "KIPRUN",
+      "model": "340992",
+      "name": {
+        "tr": "Run 500 Confort erkek dikişsiz koşu tişörtü",
+        "en": "Run 500 Confort men's seamless running T-shirt"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-dikissiz-kosu-tisortu-siyah-kiprun-run-500-confort/_/R-p-340992",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyester",
+                "percent": 68
+              },
+              {
+                "name": "Polyamide",
+                "percent": 32
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-kiprun-340992-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-kiprun-340992-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi / Ana kumaş. 355949 ile aynı renk varyantı sayılmadı: ayrı model sayfası ve farklı ana kumaş bileşimi. 0,132 kg GSM değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "kiprun-340992-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "norfolk-ragnar",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "NORFOLK",
+      "model": "RAGNAR",
+      "name": {
+        "tr": "RAGNAR merinos yünlü kısa kollu outdoor tişörtü",
+        "en": "RAGNAR merino wool short sleeve outdoor T-shirt"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/mp/norfolk/percent100-merinos-yunlu-erkek-outdoor-tisort-ragnar/_/R-p-9b4d0d1a-4311-4fb0-bb4c-480797840de2",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Merino wool",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 150,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-norfolk-ragnar-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-norfolk-ragnar-20261018",
+          "basis": "manufacturer",
+          "note": "Decathlon pazaryerindeki Norfolk TR satıcı beyanı: %100 merinos yünü ve 150 g/m². Bağımsız laboratuvar doğrulaması değildir; organik/etik sertifika iddiaları aktarılmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-norfolk-ragnar-20261018",
+          "basis": "manufacturer",
+          "note": "Sayfada g/m² olarak açıkça belirtilen kumaş gramajı; ölçüm raporu değildir."
+        }
+      ],
+      "variants": [
+        {
+          "id": "norfolk-ragnar-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "lcw-0s2159z8",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "LCW EVERYDAY",
+      "model": "0S2159Z8",
+      "name": {
+        "tr": "Kadın pamuklu kısa kollu basic tişört",
+        "en": "Women's cotton blend short sleeve basic T-shirt"
+      },
+      "productUrl": "https://www.lcw.com/duz-basic-pamuklu-kisa-kollu-kadin-tisort-siyah-o-649561",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 96
+              },
+              {
+                "name": "Elastane",
+                "percent": 4
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-lcw-0s2159z8-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-lcw-0s2159z8-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün İçeriği ve Özellikleri / Ana Kumaş. Sayfadaki model 0S2159Z8, renk eki CVL. Renk eki yeni bir model olarak sayılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "lcw-0s2159z8-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "ms-t41002101c",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "M&S Collection",
+      "model": "T41002101C",
+      "name": {
+        "tr": "Kadın modal ve keten karışımlı V yaka tişört",
+        "en": "Women's modal and linen blend V-neck T-shirt"
+      },
+      "productUrl": "https://www.marksandspencer.com.tr/kadin-beyaz-keten-karisimli-v-yaka-tisort-10000000878642/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Modal",
+                "percent": 50
+              },
+              {
+                "name": "Linen",
+                "percent": 50
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-ms-t41002101c-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-ms-t41002101c-20261018",
+          "basis": "manufacturer",
+          "note": "İçerik beyanı aksesuarlar hariç %50 modal ve %50 keten. Kısa kol model açıklamasında belirtiliyor; stok/fiyat aktarılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "ms-t41002101c-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "ms-t28004960a",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "Autograph",
+      "model": "T28004960A",
+      "name": {
+        "tr": "Erkek Supima pamuklu kısa kollu tişört",
+        "en": "Men's Supima cotton short sleeve T-shirt"
+      },
+      "productUrl": "https://www.marksandspencer.com.tr/erkek-mavi-pure-supima-r-slim-fit-premium-pamuklu-t-shirt-10000000877156/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-ms-t28004960a-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-ms-t28004960a-20261018",
+          "basis": "manufacturer",
+          "note": "Aksesuar parçaları hariç %100 Supima pamuk beyanı; lif Cotton olarak normalize edildi. URL başka renk/bedene yönlenebilir. Başlıktaki slim ile açıklamadaki normal kesim çeliştiğinden kesim genellenmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "ms-t28004960a-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "ms-t41007738",
+      "garmentTypeId": "short-sleeve-tee",
+      "brand": "M&S Collection",
+      "model": "T41007738",
+      "name": {
+        "tr": "Kadın pamuklu slim fit kısa kollu tişört",
+        "en": "Women's cotton slim fit short sleeve T-shirt"
+      },
+      "productUrl": "https://www.marksandspencer.com.tr/kadin-siyah-100-pamuklu-slim-fit-kisa-kollu-tisort-10000000979767/",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-ms-t41007738-20261018",
+          "basis": "manufacturer",
+          "note": "Resmî ürün sayfasındaki model kimliği; adlar NOk tarafından sadeleştirildi/çevrildi."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-ms-t41007738-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %100 pamuk; ayrı ribana %95 pamuk ve %5 elastan. Model kodu başlıktan alındı; sayfadaki farklı ürün numaraları beden/SKU kabul edilmedi."
+        }
+      ],
+      "variants": [
+        {
+          "id": "ms-t41007738-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}

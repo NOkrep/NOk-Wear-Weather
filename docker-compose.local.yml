@@ -1,0 +1,5 @@
+# Use only for host-side development; the database remains loopback-only.
+services:
+  db:
+    ports:
+      - "127.0.0.1:${LOCAL_DB_PORT:-55442}:5432"

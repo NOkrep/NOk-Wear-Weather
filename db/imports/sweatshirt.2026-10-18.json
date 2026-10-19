@@ -1,0 +1,698 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-stanley-stsu953-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Locker Heavy STSU953 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/locker-heavy-stsu953",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-sasu024-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Slammer 2.0 SASU024 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-us/slammer-2-0-sasu024",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-sasu028-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Cooper Dry SASU028 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-us/cooper-dry-sasu028",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-sasu038-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Chaser SASU038 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-us/chaser-sasu038",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-stsu229-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Sounder STSU229 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/sounder-stsu229",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-stsu867-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Slammer Heavy STSU867 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/slammer-heavy-stsu867",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-stsu868-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Roller STSU868 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/roller-stsu868",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-stsu205-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Mixer STSU205 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/mixer-stsu205",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-stsu866-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Radder Heavy STSU866 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/radder-heavy-stsu866",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-stanley-stsu177-20261018",
+      "kind": "manufacturer",
+      "title": "Stanley/Stella Cruiser 2.0 STSU177 — ürün ve bileşen beyanı",
+      "url": "https://stanleystella.com/en-eu/cruiser-2-0-stsu177",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "stanley-stsu953",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Locker Heavy STSU953",
+      "name": {
+        "tr": "Locker Heavy fermuarlı kapüşonlu sweatshirt",
+        "en": "Locker Heavy STSU953 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/locker-heavy-stsu953",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 500,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu953-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu953-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. Avrupa ürün sayfası; Türkiye stok/fiyat bilgisi doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu953-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 500 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu953-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sasu024",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Slammer 2.0 SASU024",
+      "name": {
+        "tr": "Slammer 2.0 oversize kapüşonlu sweatshirt",
+        "en": "Slammer 2.0 SASU024 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-us/slammer-2-0-sasu024",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 80
+              },
+              {
+                "name": "Polyester",
+                "percent": 20
+              }
+            ]
+          }
+        ],
+        "gsm": 350,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sasu024-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sasu024-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. ABD model kodu; Türkiye satışı veya fiyatı doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sasu024-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 350 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sasu024-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sasu028",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Cooper Dry SASU028",
+      "name": {
+        "tr": "Cooper Dry French terry kapüşonlu sweatshirt",
+        "en": "Cooper Dry SASU028 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-us/cooper-dry-sasu028",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 400,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sasu028-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sasu028-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. ABD model kodu; Türkiye satışı veya fiyatı doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sasu028-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 400 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sasu028-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-sasu038",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Chaser SASU038",
+      "name": {
+        "tr": "Chaser rahat kesim kapüşonlu sweatshirt",
+        "en": "Chaser SASU038 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-us/chaser-sasu038",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 80
+              },
+              {
+                "name": "Polyester",
+                "percent": 20
+              }
+            ]
+          }
+        ],
+        "gsm": 280,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-sasu038-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-sasu038-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. ABD model kodu; Türkiye satışı veya fiyatı doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-sasu038-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 280 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-sasu038-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stsu229",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Sounder STSU229",
+      "name": {
+        "tr": "Sounder yan cepli kapüşonlu sweatshirt",
+        "en": "Sounder STSU229 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/sounder-stsu229",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 85
+              },
+              {
+                "name": "Polyester",
+                "percent": 15
+              }
+            ]
+          }
+        ],
+        "gsm": 280,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu229-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu229-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. Avrupa ürün sayfası; Türkiye stok/fiyat bilgisi doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu229-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 280 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu229-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stsu867",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Slammer Heavy STSU867",
+      "name": {
+        "tr": "Slammer Heavy kalın kapüşonlu sweatshirt",
+        "en": "Slammer Heavy STSU867 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/slammer-heavy-stsu867",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 500,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu867-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu867-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. Avrupa ürün sayfası; Türkiye stok/fiyat bilgisi doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu867-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 500 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu867-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stsu868",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Roller STSU868",
+      "name": {
+        "tr": "Roller bisiklet yaka sweatshirt",
+        "en": "Roller STSU868 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/roller-stsu868",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 85
+              },
+              {
+                "name": "Polyester",
+                "percent": 15
+              }
+            ]
+          }
+        ],
+        "gsm": 280,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu868-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu868-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. Avrupa ürün sayfası; Türkiye stok/fiyat bilgisi doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu868-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 280 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu868-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stsu205",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Mixer STSU205",
+      "name": {
+        "tr": "Mixer fermuarlı kapüşonlu sweatshirt",
+        "en": "Mixer STSU205 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/mixer-stsu205",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 85
+              },
+              {
+                "name": "Polyester",
+                "percent": 15
+              }
+            ]
+          }
+        ],
+        "gsm": 280,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu205-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu205-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. Avrupa ürün sayfası; Türkiye stok/fiyat bilgisi doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu205-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 280 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu205-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stsu866",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Radder Heavy STSU866",
+      "name": {
+        "tr": "Radder Heavy kalın bisiklet yaka sweatshirt",
+        "en": "Radder Heavy STSU866 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/radder-heavy-stsu866",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 500,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu866-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu866-20261018",
+          "basis": "manufacturer",
+          "note": "Fabric & composition bölümündeki ana kumaş oranı kaydedildi; yüzey kumaşı veya ribana oranı tüm ürüne genellenmedi. Avrupa ürün sayfası; Türkiye stok/fiyat bilgisi doğrulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu866-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 500 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu866-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "stanley-stsu177",
+      "garmentTypeId": "sweatshirt",
+      "brand": "Stanley/Stella",
+      "model": "Cruiser 2.0 STSU177",
+      "name": {
+        "tr": "Cruiser 2.0 kapüşonlu sweatshirt",
+        "en": "Cruiser 2.0 STSU177 sweatshirt"
+      },
+      "productUrl": "https://stanleystella.com/en-eu/cruiser-2-0-stsu177",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": 350,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-stanley-stsu177-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-stanley-stsu177-20261018",
+          "basis": "manufacturer",
+          "note": "Toplam pamuk oranı %100 olarak kaydedildi. Heather Haze için organik/geri dönüştürülmüş pamuk dağılımı farklıdır; organik oranı tüm renklere genellenmedi."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-stanley-stsu177-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 350 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "stanley-stsu177-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}
+

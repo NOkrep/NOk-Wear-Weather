@@ -1,0 +1,693 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "src-solognac-144110-20261018",
+      "kind": "manufacturer",
+      "title": "SOLOGNAC 520 144110 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kargo-avci-pantolonu-yesil-avcilik-ve-doga-gozlemi-520/_/R-p-144110",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-solognac-306447-20261018",
+      "kind": "manufacturer",
+      "title": "SOLOGNAC 500 306447 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-kargo-avci-pantolonu-gri-avcilik-ve-doga-gozlemi-500/_/R-p-306447",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-forclaz-306560-20261018",
+      "kind": "manufacturer",
+      "title": "FORCLAZ MT100 modular men 306560 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-moduleranddayanikli-2-si-1-arada-outdoor-trekking-pantolon-gri-mt100/_/R-p-306560",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-solognac-334073-20261018",
+      "kind": "manufacturer",
+      "title": "SOLOGNAC 500 workwear 334073 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/dayanikli-doga-ve-isci-pantolonu-kahverengi-500/_/R-p-334073",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-decathlon-360866-20261018",
+      "kind": "manufacturer",
+      "title": "DECATHLON Cargo 360866 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/unisex-kargo-pantolon-bej/_/R-p-360866",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-forclaz-306949-20261018",
+      "kind": "manufacturer",
+      "title": "FORCLAZ MT100 modular women 306949 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-moduler-2-si-1-arada-outdoor-trekking-pantolonu-gri-mt100/_/R-p-306949",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-327102-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA NH500 men 327102 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-pantolon-gri-nh500/_/R-p-327102",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-347183-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA NH100 men 347183 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/erkek-outdoor-pantolon-gri-nh100/_/R-p-347183",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-346726-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA NH500 linen women 346726 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-outdoor-keten-pantolon-yesil-nh500/_/R-p-346726",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    },
+    {
+      "id": "src-quechua-338483-20261018",
+      "kind": "manufacturer",
+      "title": "QUECHUA MH500 women 338483 — ürün ve bileşen beyanı",
+      "url": "https://www.decathlon.com.tr/p/kadin-outdoor-pantolon-siyah-mh500/_/R-p-338483",
+      "accessedAt": "2026-10-18T13:33:43Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "solognac-144110",
+      "garmentTypeId": "woven-trousers",
+      "brand": "SOLOGNAC",
+      "model": "520 144110",
+      "name": {
+        "tr": "520 erkek kargo pantolon",
+        "en": "520 144110 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kargo-avci-pantolonu-yesil-avcilik-ve-doga-gozlemi-520/_/R-p-144110",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyamide",
+                "percent": 94
+              },
+              {
+                "name": "Elastane",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": 157,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-solognac-144110-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-solognac-144110-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş %94 poliamid %6 elastan, 157 g/m². Takviye bölümlerinin oranları sayfada çeliştiği için bu bölümler kaydedilmedi; 240 g/m² takviye gramajı ana kumaşa uygulanmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-solognac-144110-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 157 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "solognac-144110-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "solognac-306447",
+      "garmentTypeId": "woven-trousers",
+      "brand": "SOLOGNAC",
+      "model": "500 306447",
+      "name": {
+        "tr": "500 erkek kargo pantolon",
+        "en": "500 306447 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-kargo-avci-pantolonu-gri-avcilik-ve-doga-gozlemi-500/_/R-p-306447",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyamide",
+                "percent": 94
+              },
+              {
+                "name": "Elastane",
+                "percent": 6
+              }
+            ]
+          }
+        ],
+        "gsm": 157,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-solognac-306447-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-solognac-306447-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        },
+        {
+          "field": "gsm",
+          "sourceId": "src-solognac-306447-20261018",
+          "basis": "manufacturer",
+          "note": "Ana kumaş için açıkça 157 g/m² beyanı. Giysinin toplam gram ağırlığından türetilmedi; ısı puanı hesaplanmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "solognac-306447-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "forclaz-306560",
+      "garmentTypeId": "woven-trousers",
+      "brand": "FORCLAZ",
+      "model": "MT100 modular men 306560",
+      "name": {
+        "tr": "MT100 erkek modüler trekking pantolonu",
+        "en": "MT100 modular men 306560 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-moduleranddayanikli-2-si-1-arada-outdoor-trekking-pantolon-gri-mt100/_/R-p-306560",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyamide",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-forclaz-306560-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-forclaz-306560-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "forclaz-306560-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "solognac-334073",
+      "garmentTypeId": "woven-trousers",
+      "brand": "SOLOGNAC",
+      "model": "500 workwear 334073",
+      "name": {
+        "tr": "500 dayanıklı doğa pantolonu",
+        "en": "500 workwear 334073 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/dayanikli-doga-ve-isci-pantolonu-kahverengi-500/_/R-p-334073",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-solognac-334073-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-solognac-334073-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "solognac-334073-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "decathlon-360866",
+      "garmentTypeId": "woven-trousers",
+      "brand": "DECATHLON",
+      "model": "Cargo 360866",
+      "name": {
+        "tr": "Unisex naylon kargo pantolon",
+        "en": "Cargo 360866 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/unisex-kargo-pantolon-bej/_/R-p-360866",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyamide",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-decathlon-360866-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-decathlon-360866-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "decathlon-360866-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "forclaz-306949",
+      "garmentTypeId": "woven-trousers",
+      "brand": "FORCLAZ",
+      "model": "MT100 modular women 306949",
+      "name": {
+        "tr": "MT100 kadın modüler trekking pantolonu",
+        "en": "MT100 modular women 306949 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-moduler-2-si-1-arada-outdoor-trekking-pantolonu-gri-mt100/_/R-p-306949",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Polyamide",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-forclaz-306949-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-forclaz-306949-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi ana kumaş %100 poliamid. 157 g/m² beyanı esnek diz/kalça ek kumaşına aittir; ana kumaş GSM alanına aktarılmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "forclaz-306949-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-327102",
+      "garmentTypeId": "woven-trousers",
+      "brand": "QUECHUA",
+      "model": "NH500 men 327102",
+      "name": {
+        "tr": "NH500 erkek outdoor pantolon",
+        "en": "NH500 men 327102 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-pantolon-gri-nh500/_/R-p-327102",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 62
+              },
+              {
+                "name": "Polyester",
+                "percent": 35
+              },
+              {
+                "name": "Elastane",
+                "percent": 3
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-327102-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-327102-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-327102-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-347183",
+      "garmentTypeId": "woven-trousers",
+      "brand": "QUECHUA",
+      "model": "NH100 men 347183",
+      "name": {
+        "tr": "NH100 erkek outdoor pantolon",
+        "en": "NH100 men 347183 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/erkek-outdoor-pantolon-gri-nh100/_/R-p-347183",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 98
+              },
+              {
+                "name": "Elastane",
+                "percent": 2
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-347183-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-347183-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-347183-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-346726",
+      "garmentTypeId": "woven-trousers",
+      "brand": "QUECHUA",
+      "model": "NH500 linen women 346726",
+      "name": {
+        "tr": "NH500 kadın keten karışımlı pantolon",
+        "en": "NH500 linen women 346726 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-outdoor-keten-pantolon-yesil-nh500/_/R-p-346726",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 18
+              },
+              {
+                "name": "Elastane",
+                "percent": 1
+              },
+              {
+                "name": "Linen",
+                "percent": 33
+              },
+              {
+                "name": "Lyocell",
+                "percent": 48
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-346726-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-346726-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-346726-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    },
+    {
+      "id": "quechua-338483",
+      "garmentTypeId": "woven-trousers",
+      "brand": "QUECHUA",
+      "model": "MH500 women 338483",
+      "name": {
+        "tr": "MH500 kadın outdoor pantolon",
+        "en": "MH500 women 338483 trousers"
+      },
+      "productUrl": "https://www.decathlon.com.tr/p/kadin-outdoor-pantolon-siyah-mh500/_/R-p-338483",
+      "technical": null,
+      "facts": {
+        "composition": [
+          {
+            "part": "shell",
+            "fibers": [
+              {
+                "name": "Elastane",
+                "percent": 14
+              },
+              {
+                "name": "Polyamide",
+                "percent": 86
+              }
+            ]
+          },
+          {
+            "part": "lining",
+            "fibers": [
+              {
+                "name": "Cotton",
+                "percent": 100
+              }
+            ]
+          }
+        ],
+        "gsm": null,
+        "warmth": null,
+        "waterResistance": null,
+        "windResistance": null,
+        "breathability": null
+      },
+      "evidence": [
+        {
+          "field": "name",
+          "sourceId": "src-quechua-338483-20261018",
+          "basis": "manufacturer",
+          "note": "Model kimliği resmî ürün sayfasından; farklı renkler ayrı model sayılmadı."
+        },
+        {
+          "field": "composition",
+          "sourceId": "src-quechua-338483-20261018",
+          "basis": "manufacturer",
+          "note": "Ürün Bileşimi bölümündeki ana kumaş ve açıkça astar olarak adlandırılan bileşen kaydedildi. Cep astarı, ek kumaş, kaplama ve zar ayrı ana kumaş veya dolgu gibi sunulmadı."
+        }
+      ],
+      "variants": [
+        {
+          "id": "quechua-338483-unresolved",
+          "gtin": null,
+          "size": null,
+          "color": null,
+          "sku": null
+        }
+      ],
+      "offers": []
+    }
+  ]
+}
+

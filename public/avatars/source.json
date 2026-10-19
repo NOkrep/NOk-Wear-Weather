@@ -1,0 +1,19 @@
+{
+  "author": "Quaternius",
+  "pack": "Universal Base Characters — Standard",
+  "source": "https://quaternius.itch.io/universal-base-characters",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-16",
+  "archiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+  "bodies": 2,
+  "hairstyles": 5,
+  "beard": true,
+  "faceMorphTargets": false,
+  "adaptations": [
+    "Renamed glTF resources and repaired export texture URIs",
+    "Normal/roughness maps omitted for initial mobile rendering",
+    "Base-color textures converted to WebP",
+    "Posing and fitted colour-preview garments are applied at runtime"
+  ]
+}

@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera, LoaderCircle, ScanLine, X } from 'lucide-react';
 import type { ClothingItem } from '@/lib/types';
 import { normalizeBarcode, type ProductLookup } from '@/lib/product-lookup';
+import { GARMENT_TYPES, type GarmentTypeId } from '@/lib/catalog/taxonomy';
 const categoryOptions = { base: 'İç katman', mid: 'Üst giyim', outer: 'Dış katman', bottom: 'Alt giyim', footwear: 'Ayakkabı', accessory: 'Aksesuar' };
 export function BarcodeAddPanel({ onAdd }: {
     onAdd: (item: ClothingItem) => void;
 }) {
-    const { t } = useLocale();
+    const { t, locale } = useLocale();
     const [barcode, setBarcode] = useState('');
     const [product, setProduct] = useState<ProductLookup | null>(null);
     const [title, setTitle] = useState('');
@@ -16,7 +17,8 @@ export function BarcodeAddPanel({ onAdd }: {
     const [material, setMaterial] = useState('');
     const [productUrl, setProductUrl] = useState('');
     const [category, setCategory] = useState<ClothingItem['category']>('mid');
-    const [warmth, setWarmth] = useState<ClothingItem['warmth']>(3);
+    const [garmentTypeId, setGarmentTypeId] = useState<GarmentTypeId | ''>('');
+    const [warmth, setWarmth] = useState<NonNullable<ClothingItem['warmth']>>(3);
     const [color, setColor] = useState('#9ba58d');
     const [confirmed, setConfirmed] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -165,7 +167,7 @@ export function BarcodeAddPanel({ onAdd }: {
         event.preventDefault();
         if (!product || !title.trim() || !confirmed || added)
             return;
-        onAdd({ id: `w-product-${crypto.randomUUID()}`, barcode: product.barcode || undefined, productUrl: productUrl || undefined, name: title.trim(), brandHint: brand.trim(), category, segment: 'essential', material: material.trim() || 'Kumaş içeriği bilinmiyor', materialConfirmed: Boolean(material.trim()), dataSource: product.found ? 'barcode' : 'user', warmth, waterResistance: 'none', windResistance: 'low', colorHex: color, colorName: 'Seçtiğim renk', colorType: 'neutral', isUserOwned: true, description: 'Ürün kimliği ve kullanıcı tarafından onaylanan bilgiler. Isı seviyesi kişisel tahmindir; su ve rüzgâr koruması doğrulanmadı.' });
+        onAdd({ id: `w-product-${crypto.randomUUID()}`, barcode: product.barcode || undefined, productUrl: productUrl || undefined, name: title.trim(), brandHint: brand.trim(), brand: brand.trim() || undefined, garmentTypeId: garmentTypeId || undefined, category, segment: 'essential', material: material.trim() || 'Kumaş içeriği bilinmiyor', materialConfirmed: Boolean(material.trim()), dataSource: product.found ? 'barcode' : 'user', warmth, waterResistance: null, windResistance: null, colorHex: color, colorName: 'Seçtiğim renk', colorType: 'neutral', isUserOwned: true, description: 'Ürün kimliği ve kullanıcı tarafından onaylanan bilgiler. Isı seviyesi kişisel tahmindir; su ve rüzgâr koruması doğrulanmadı.' });
         setAdded(true);
     };
     return <div className="barcode-panel">
@@ -181,9 +183,10 @@ export function BarcodeAddPanel({ onAdd }: {
         <label className="feedback-field">{t('Ürün bağlantısı (isteğe bağlı)')}<input type="url" pattern="https://.*" placeholder="https://…" value={productUrl} onChange={e=>setProductUrl(e.target.value)}/></label>
         <div className="product-fields">
           <label>{t('Ürün adı')}<input required maxLength={150} value={title} onChange={e=>setTitle(e.target.value)}/></label><label>{t('Marka')}<input maxLength={100} value={brand} onChange={e=>setBrand(e.target.value)}/></label>
-          <label>{t('Kategori')}<select value={category} onChange={e=>setCategory(e.target.value as ClothingItem['category'])}>{Object.entries(categoryOptions).map(([key,label])=><option key={key} value={key}>{t(label)}</option>)}</select></label>
+          <label>{t('Kategori')}<select value={category} onChange={e=>{setCategory(e.target.value as ClothingItem['category']);setGarmentTypeId('');}}>{Object.entries(categoryOptions).map(([key,label])=><option key={key} value={key}>{t(label)}</option>)}</select></label>
+          <label>{t('Kıyafet türü')}<select value={garmentTypeId} onChange={e=>setGarmentTypeId(e.target.value as GarmentTypeId | '')}><option value="">{t('Tür belirtilmedi')}</option>{GARMENT_TYPES.filter(type=>type.group===category).map(type=><option value={type.id} key={type.id}>{locale==='tr'?type.tr:type.en}</option>)}</select></label>
           <label>{t('Kumaş etiketi')}<small>{t('İsteğe bağlı')}</small><input maxLength={200} placeholder={t('Örn. %80 pamuk, %20 polyester')} value={material} onChange={e=>setMaterial(e.target.value)}/></label>
-          <label>{t('Isı koruması')}<small>{t('Kişisel tahmin')}</small><select value={warmth} onChange={e=>setWarmth(Number(e.target.value) as ClothingItem['warmth'])}>{[1,2,3,4,5].map(v=><option key={v} value={v}>{v} / 5</option>)}</select></label>
+          <label>{t('Isı koruması')}<small>{t('Kişisel tahmin')}</small><select value={warmth} onChange={e=>setWarmth(Number(e.target.value) as NonNullable<ClothingItem['warmth']>)}>{[1,2,3,4,5].map(v=><option key={v} value={v}>{v} / 5</option>)}</select></label>
           <label>{t('Renk')}<input type="color" value={color} onChange={e=>setColor(e.target.value)}/></label>
         </div>
         <label className="check-label"><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)} required/>{t('Bu ürünün bendeki parçayla eşleştiğini onaylıyorum.')}</label>

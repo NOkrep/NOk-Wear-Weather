@@ -1,10 +1,12 @@
 import type { ClothingItem, FeedbackRecord, ThermalProfile, WeatherConsensus } from './types';
+import { canRankForWeather, getItemWarmth } from './catalog-wardrobe';
+import { outfitSlot } from './outfit-layers';
 
 export const FEEDBACK_KEY = 'wear_weather_feedbacks';
 export const COMMUNITY_CONSENT_KEY = 'wear_weather_community_consent_v1';
 
 export function itemIdentity(item: ClothingItem): string {
-  return item.barcode ? `gtin:${item.barcode.padStart(14, '0')}` : item.catalogId ? `catalog:${item.catalogId}` : `item:${item.id}`;
+  return item.barcode ? `gtin:${item.barcode.padStart(14, '0')}` : item.productId ? `product:${item.productId}${item.variantId ? `:variant:${item.variantId}` : ''}` : item.catalogId ? `catalog:${item.catalogId}` : `item:${item.id}`;
 }
 
 export function readFeedback(): FeedbackRecord[] {
@@ -36,10 +38,13 @@ export function itemComfortAdjustment(item: ClothingItem, weather: WeatherConsen
 
 export function personalizeOutfit(items: ClothingItem[], alternatives: ClothingItem[], weather: WeatherConsensus, records: FeedbackRecord[]): ClothingItem[] {
   const target = weather.feelsLike <= 5 ? 5 : weather.feelsLike <= 11 ? 4 : weather.feelsLike <= 17 ? 3 : weather.feelsLike <= 23 ? 2 : 1;
-  const score = (item: ClothingItem) => -3 * Math.abs(item.warmth - target) + itemComfortAdjustment(item, weather, records);
+  const score = (item: ClothingItem) => {
+    const warmth = getItemWarmth(item);
+    return warmth === null ? -Infinity : -3 * Math.abs(warmth - target) + itemComfortAdjustment(item, weather, records);
+  };
   return items.map(item => {
     if (itemComfortAdjustment(item, weather, records) >= 0) return item;
-    const candidates = alternatives.filter(candidate => candidate.category === item.category && itemIdentity(candidate) !== itemIdentity(item) && (weather.precipitationProb < 40 || item.waterResistance !== 'waterproof' || candidate.waterResistance === 'waterproof'));
+    const candidates = alternatives.filter(candidate => canRankForWeather(candidate, weather) && outfitSlot(candidate) === outfitSlot(item) && itemIdentity(candidate) !== itemIdentity(item) && (weather.precipitationProb < 40 || item.waterResistance !== 'waterproof' || candidate.waterResistance === 'waterproof'));
     return candidates.reduce((best, candidate) => score(candidate) > score(best) ? candidate : best, item);
   });
 }

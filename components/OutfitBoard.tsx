@@ -1,38 +1,47 @@
 'use client';
-import { useEffect, useId, useState } from 'react';
-import { ArrowUpRight, UserRoundPen, X } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import { ArrowUpRight, UserRoundPen } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
 import type { ClothingItem } from '@/lib/types';
+import { DEFAULT_AVATAR, readAvatarProfile, saveAvatarProfile, type AvatarProfile, type AvatarView } from '@/lib/avatar-profile';
 import { GarmentVisual } from './GarmentVisual';
-import { Mannequin, type Avatar } from './Mannequin';
-const defaults: Avatar = {build:'regular',hair:'none',beard:false,face:false,faceShape:'oval',hairColor:'#38322e'};
-const storageKey='wear_weather_avatar_v1';
-const labels={base:'İç katman',mid:'Üst giyim',outer:'Dış katman',bottom:'Alt giyim',footwear:'Ayakkabı',accessory:'Aksesuar'};
-export function OutfitBoard({items,onInspect}:{items:ClothingItem[];onInspect:(item:ClothingItem)=>void}) {
-  const {t,garment}=useLocale();
-  const [avatar,setAvatar]=useState<Avatar>(defaults);
-  const [editing,setEditing]=useState(false);
-  const id=useId();
-  useEffect(()=>{
-    try { const v=JSON.parse(localStorage.getItem(storageKey)||'null'); if(v && ['slim','regular','broad'].includes(v.build) && ['none','short','long'].includes(v.hair)) setAvatar({...defaults,...v,faceShape:['oval','round','angular'].includes(v.faceShape)?v.faceShape:'oval',hairColor:/^#[0-9a-f]{6}$/i.test(v.hairColor)?v.hairColor:defaults.hairColor}); } catch {}
-    const reset=()=>setAvatar(defaults); window.addEventListener('weathrobe-data-wiped',reset);
-    return ()=>window.removeEventListener('weathrobe-data-wiped',reset);
-  },[]);
-  const change=(patch:Partial<Avatar>)=>{const next={...avatar,...patch};setAvatar(next);try{localStorage.setItem(storageKey,JSON.stringify(next));}catch{}};
-  return <div className="outfit-board board-v2">
-    <div className="board-caption"><span>{t('Günün görünümü')}<small>WEATHROBE ATELIER</small></span><button type="button" className="text-button" onClick={()=>setEditing(v=>!v)} aria-expanded={editing} aria-controls={id}><UserRoundPen size={14}/>{t('Mankenim')}</button></div>
+import { AvatarEditor, AvatarViews } from './AvatarEditor';
+import { resolveGarmentAppearance } from '@/lib/garment-appearance';
+import { selectOutfitLayers } from '@/lib/outfit-layers';
+import { avatarGarments } from '@/lib/avatar-garments';
+
+const AvatarViewer = dynamic(() => import('./AvatarViewer'), { ssr: false, loading: () => <span className="avatar-loading">3D…</span> });
+const labels = { base: 'İç katman', mid: 'Üst giyim', outer: 'Dış katman', bottom: 'Alt giyim', footwear: 'Ayakkabı', accessory: 'Aksesuar' };
+export function OutfitBoard({ items, onInspect }: { items: ClothingItem[]; onInspect: (item: ClothingItem) => void }) {
+  const { t, garment } = useLocale();
+  // The viewer is client-only; reading its initial profile here adds no server markup mismatch.
+  const [avatar, setAvatar] = useState<AvatarProfile>(readAvatarProfile);
+  const [editing, setEditing] = useState(false);
+  const [view, setView] = useState<AvatarView>('front');
+  const [sessionOnly, setSessionOnly] = useState(false);
+  const active = selectOutfitLayers(items).active;
+  const primary = active.filter(item => item.category !== 'accessory');
+  const accessories = active.filter(item => item.category === 'accessory');
+  const unsupported = avatarGarments(active).unsupported;
+  useEffect(() => {
+    const reset = () => { setAvatar({ ...DEFAULT_AVATAR }); setEditing(false); setSessionOnly(false); };
+    window.addEventListener('weathrobe-data-wiped', reset);
+    return () => window.removeEventListener('weathrobe-data-wiped', reset);
+  }, []);
+  const save = (next: AvatarProfile) => {
+    setSessionOnly(!saveAvatarProfile(next)); setAvatar(next); setView('front'); setEditing(false);
+  };
+  return <div className="outfit-board board-v2 board-3d">
+    <div className="board-caption"><span>{t('Günün görünümü')}<small>WEATHROBE ATELIER</small></span><button type="button" className="text-button" onClick={() => setEditing(true)} aria-haspopup="dialog"><UserRoundPen size={14}/>{t('Karakterim')}</button></div>
     <div className="board-scene">
-      <span className="atelier-rule" aria-hidden="true"/><span className="atelier-coordinate" aria-hidden="true">01 — DAILY FORM</span>
-      <div className="mannequin-stage" aria-label={t('Önerilen parçalarla kişisel mankenin')}><span className="mannequin-orbit"/><Mannequin avatar={avatar} items={items}/><span className="mannequin-note">{t('Kombin görünümü · beden provası değildir')}</span></div>
-      <div className="board-pieces">{items.map((item,index)=><button type="button" className={`board-piece board-piece-${index}`} key={item.id} onClick={()=>onInspect(item)} aria-label={t(`${garment(item)} — detayları aç`)}><span className="piece-index">{String(index+1).padStart(2,'0')}<ArrowUpRight size={13}/></span><GarmentVisual item={item}/><span className="piece-name">{garment(item).split('/')[0].replace(/^(Klasik |Rahat Kesim |Esnek )/,'')}</span><span className="piece-label">{t(labels[item.category])}<i style={{background:item.colorHex}}/></span></button>)}</div>
+      <div className="avatar-board-stage"><AvatarViewer profile={avatar} items={items} view={view} onRotate={() => setView('free')}/></div>
+      <div className="board-pieces">{primary.map((item, index) => <button type="button" className={`board-piece board-piece-${index}`} key={item.id} onClick={() => onInspect(item)} aria-label={t(`${garment(item)} — detayları aç`)}><span className="piece-index">{String(index + 1).padStart(2, '0')}<ArrowUpRight size={13}/></span><GarmentVisual item={item}/><span className="piece-name">{garment(item).split('/')[0].replace(/^(Klasik |Rahat Kesim |Esnek )/, '')}</span><span className="piece-label">{t(labels[item.category])}<i style={{ background: resolveGarmentAppearance(item).color }}/></span></button>)}</div>
     </div>
-    {editing && <div className="avatar-editor" id={id}><div><strong>{t('Mankenini kişiselleştir')}</strong><button type="button" className="icon-button" onClick={()=>setEditing(false)} aria-label={t('Manken ayarlarını kapat')}><X size={16}/></button></div>
-      <label>{t('Vücut')}<select value={avatar.build} onChange={e=>change({build:e.target.value as Avatar['build']})}><option value="slim">{t('İnce')}</option><option value="regular">{t('Dengeli')}</option><option value="broad">{t('Geniş')}</option></select></label>
-      <label>{t('Saç')}<select value={avatar.hair} onChange={e=>change({hair:e.target.value as Avatar['hair']})}><option value="none">{t('Sade manken')}</option><option value="short">{t('Kısa saç')}</option><option value="long">{t('Uzun saç')}</option></select></label>
-      <label>{t('Saç / sakal rengi')}<input type="color" value={avatar.hairColor} onChange={e=>change({hairColor:e.target.value})}/></label>
-      <label>{t('Yüz yapısı')}<select value={avatar.faceShape} onChange={e=>change({faceShape:e.target.value as Avatar['faceShape']})}><option value="oval">Oval</option><option value="round">{t('Yuvarlak')}</option><option value="angular">{t('Köşeli')}</option></select></label>
-      <label className="check-label"><input type="checkbox" checked={avatar.beard} onChange={e=>change({beard:e.target.checked})}/>{t('Sakal')}</label><label className="check-label"><input type="checkbox" checked={avatar.face} onChange={e=>change({face:e.target.checked})}/>{t('Yüz çizgileri')}</label>
-      <p>{t('Tercihlerin bu cihazda saklanır.')}</p>
-    </div>}
+    {accessories.length > 0 && <div className="outfit-accessory-strip" role="group" aria-label={t('Kombinin aksesuarları')}>{accessories.map(item => <button type="button" key={item.id} onClick={() => onInspect(item)}><GarmentVisual item={item}/><span>{garment(item)}</span><ArrowUpRight size={12}/></button>)}</div>}
+    <div className="avatar-board-bottom"><AvatarViews view={view} onChange={setView}/><span>{t('Temsili 3D kombin · ürün kalıbı değildir')}</span></div>
+    {unsupported.length > 0 && <p className="avatar-unsupported-note">{t('Bazı parçalar şimdilik yalnızca kartlarda gösterilir.')}</p>}
+    {sessionOnly && <p className="avatar-save-warning" role="status">{t('Görünüm bu oturumda uygulandı. Tarayıcıya kaydedilemedi.')}</p>}
+    {editing && <AvatarEditor profile={avatar} items={items} onSave={save} onClose={() => setEditing(false)}/>}
   </div>;
 }

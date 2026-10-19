@@ -1,0 +1,66 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { Pool } from 'pg';
+import { createRequire } from 'node:module';
+import { migrateCatalog } from '../scripts/catalog/migrate';
+import { catalogPool, closeCatalogPool } from '../lib/catalog/database';
+import { stageCatalogImport, publishCatalogImport } from '../lib/catalog/imports';
+import { searchPublishedProducts, publishedCoverage } from '../lib/catalog/repository';
+import { catalogResponse } from '../lib/catalog/service';
+const { fixture } = createRequire(`${process.cwd()}/tests/catalog-db.test.ts`)('./catalog-fixture.cjs');
+
+test('PostgreSQL catalogue lifecycle and runtime permissions', { skip: !process.env.CATALOG_TEST_DATABASE_URL }, async t => {
+  const url = new URL(process.env.CATALOG_TEST_DATABASE_URL!);
+  assert.ok(['127.0.0.1','localhost'].includes(url.hostname),'test must target loopback');
+  assert.equal(url.pathname,'/weathrobe_catalog_test','use a dedicated disposable test database');
+  const oldUrl = process.env.DATABASE_URL, oldPassword = process.env.CATALOG_READER_PASSWORD;
+  process.env.DATABASE_URL = url.toString();
+  process.env.CATALOG_READER_PASSWORD = 'testReaderOnlyPassword1234567890';
+  t.after(async () => { await closeCatalogPool(); if (oldUrl === undefined) delete process.env.DATABASE_URL; else process.env.DATABASE_URL = oldUrl; if (oldPassword === undefined) delete process.env.CATALOG_READER_PASSWORD; else process.env.CATALOG_READER_PASSWORD = oldPassword; });
+  await migrateCatalog(); await migrateCatalog();
+  const pool = catalogPool();
+  assert.equal((await pool.query('SELECT count(*)::integer n FROM catalog.garment_types')).rows[0].n,36);
+  assert.equal((await pool.query('SELECT count(*)::integer n FROM catalog.legacy_profiles')).rows[0].n,23);
+  assert.equal((await publishedCoverage()).reduce((n,t) => n+t.products,0),0);
+  const search = { query: '', limit: 20, offset: 0 };
+  const staged = await stageCatalogImport(fixture());
+  assert.equal((await stageCatalogImport(fixture())).id,staged.id,'identical staging is idempotent');
+  assert.equal((await searchPublishedProducts(search)).total,0,'drafts stay private');
+  await publishCatalogImport(staged.id);
+  assert.equal((await publishCatalogImport(staged.id)).alreadyPublished,true);
+  const found = await searchPublishedProducts({ ...search, query: 'YAĞMURLUĞU', countryCode: 'TR' });
+  assert.equal(found.total,1);
+  assert.equal(found.products[0].facts.gsm,null);
+  assert.equal(found.products[0].offers[0].price,1250.5);
+  assert.equal((await searchPublishedProducts({ ...search, query: '4006381333931' })).total,1);
+  const otherCountry = await searchPublishedProducts({ ...search, countryCode: 'GB' });
+  assert.equal(otherCountry.total,1); assert.deepEqual(otherCountry.products[0].offers,[]);
+  assert.equal((await searchPublishedProducts({ ...search, type: 'dress' })).total,0);
+  assert.equal((await searchPublishedProducts({ ...search, query: "' OR 1=1 --" })).total,0);
+  assert.equal((await searchPublishedProducts({ ...search, offset: 50 })).total,1);
+  const conflict = fixture();
+  conflict.products[0].id = 'conflicting-product'; conflict.products[0].model = 'Other';
+  conflict.products[0].variants[0].id = 'other-variant'; conflict.products[0].offers = [];
+  const conflicting = await stageCatalogImport(conflict);
+  await assert.rejects(publishCatalogImport(conflicting.id));
+  assert.equal((await pool.query('SELECT count(*)::integer n FROM catalog.products')).rows[0].n,1,'partial product rolled back on duplicate GTIN');
+  assert.equal((await pool.query('SELECT state FROM catalog.import_batches WHERE id=$1',[conflicting.id])).rows[0].state,'draft');
+
+  const readerUrl = new URL(url); readerUrl.username = 'catalog_reader'; readerUrl.password = process.env.CATALOG_READER_PASSWORD;
+  const reader = new Pool({ connectionString: readerUrl.toString() });
+  try {
+    assert.equal((await reader.query('SELECT count(*)::integer n FROM catalog.products')).rows[0].n,1);
+    await assert.rejects(reader.query('SELECT payload FROM catalog.import_batches'), (e: unknown) => (e as {code: string}).code === '42501');
+    await assert.rejects(reader.query("UPDATE catalog.products SET brand='Forbidden'"), (e: unknown) => (e as {code: string}).code === '42501');
+  } finally { await reader.end(); }
+  await closeCatalogPool();
+  process.env.DATABASE_URL = readerUrl.toString();
+  assert.equal((await catalogResponse(search)).backend,'postgresql','public query works with read-only role');
+  await closeCatalogPool();
+  delete process.env.DATABASE_URL;
+  const fallback = await catalogResponse(search);
+  assert.equal(fallback.productStatus,'not-configured'); assert.equal(fallback.results.length,23); assert.equal(fallback.totalProducts,0);
+  process.env.DATABASE_URL = 'postgresql://invalid:invalid@127.0.0.1:1/unavailable';
+  const unavailable = await catalogResponse(search);
+  assert.equal(unavailable.productStatus,'unavailable'); assert.equal(unavailable.totalProducts,null); assert.equal(unavailable.coverage,null);
+});
