@@ -34,13 +34,20 @@ export async function POST(req: NextRequest) {
   // This route never consumes project credentials. A provider request uses the caller's own key.
   const apiKey = req.headers.get('x-gemini-key')?.trim() || '';
   if (apiKey && !/^[A-Za-z0-9_-]{20,200}$/.test(apiKey)) return reply({ error: 'INVALID_KEY' }, 400);
-  const now = Date.now();
-  if (now - windowStart >= 60_000) { windowStart = now; attempts = 0; }
-  // Single-process limit, including the time spent reading the request body.
-  if (active >= maxConcurrent || attempts >= requestsPerMinute) {
-    return reply({ error: 'RATE_LIMIT' }, 429, { 'Retry-After': '60' });
+  // Browsers always send Origin on POST; a keyed call without it is a script using this server as a relay.
+  if (apiKey && !origin) return reply({ error: 'ORIGIN_REJECTED' }, 403);
+  // Single-process limits. Concurrency covers the time spent reading any body; the per-minute budget
+  // only counts calls that may reach Gemini, so the free local rule engine cannot be starved by them.
+  if (active >= maxConcurrent) return reply({ error: 'RATE_LIMIT' }, 429, { 'Retry-After': '5' });
+  if (apiKey) {
+    const now = Date.now();
+    if (now - windowStart >= 60_000) { windowStart = now; attempts = 0; }
+    if (attempts >= requestsPerMinute) {
+      const retryAfter = Math.max(1, Math.ceil((windowStart + 60_000 - now) / 1000));
+      return reply({ error: 'RATE_LIMIT' }, 429, { 'Retry-After': String(retryAfter) });
+    }
+    attempts++;
   }
-  attempts++;
   active++;
   try {
     const uploadSignal = AbortSignal.any([req.signal, AbortSignal.timeout(15_000)]);

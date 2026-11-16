@@ -3,6 +3,7 @@ import { WeatherCondition, WeatherSourceReading, HourlyForecastPoint, WeatherCon
 import { conditionForDaylight, mapWmoToCondition, normalizeWeather } from '@/lib/weather-condition';
 import { daylightAt, knownTimeZone, localTimeLabel, solarDaysFromProvider, validLocalDate, validTimeZone } from '@/lib/weather-time';
 import { parseForecastSource } from '@/lib/weather-forecast';
+import { UPSTREAM_USER_AGENT } from '@/lib/upstream-policy';
 
 // In-memory Geo-Grid Cache (~1.1km grid resolution, 15 min TTL)
 interface CacheEntry {
@@ -150,7 +151,7 @@ export async function GET(req: NextRequest) {
     const metUrl = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat.toFixed(4)}&lon=${lon.toFixed(4)}`;
     const metRes = await fetch(metUrl, {
       headers: {
-        'User-Agent': 'WearWeatherApp/0.2.2 (https://github.com/NOk-Collective; contact@nok-collective.org)',
+        'User-Agent': UPSTREAM_USER_AGENT,
       },
       cache: 'no-store',
       signal: AbortSignal.timeout(8_000),

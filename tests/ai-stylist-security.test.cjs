@@ -76,7 +76,8 @@ test('invalid and oversized streamed requests are rejected before making provide
   assert.equal((await POST(request(description, { 'content-type': 'text/plain' }))).status, 415);
   assert.equal((await POST(request('{'))).status, 400);
   assert.equal((await POST(request(photo))).status, 422);
-  assert.equal((await POST(request(photo, { 'x-gemini-key': personalKey }))).status, 400);
+  assert.equal((await POST(request(photo, { 'x-gemini-key': personalKey }))).status, 403);
+  assert.equal((await POST(request(photo, { origin: 'https://fixture.test', 'x-gemini-key': personalKey }))).status, 400);
   let cancelled = false;
   const stream = new ReadableStream({
     start(controller) { controller.enqueue(new Uint8Array(3 * 1024 * 1024)); },
@@ -88,26 +89,38 @@ test('invalid and oversized streamed requests are rejected before making provide
 });
 
 test('admitted concurrency and per-process rate limits do not depend on caller-supplied IP headers', async () => {
-  const { POST, clock } = loadRoute();
+  const { POST, clock, savedKeys } = loadRoute();
   const aborts = Array.from({ length: 4 }, () => new AbortController());
   const pending = aborts.map(abort => POST(request(new ReadableStream(), {}, abort.signal)));
   const busy = await POST(request(description));
   assert.equal(busy.status, 429);
-  assert.equal(busy.headers.get('Retry-After'), '60');
+  assert.equal(busy.headers.get('Retry-After'), '5');
   for (const abort of aborts) abort.abort();
   for (const response of await Promise.all(pending)) assert.equal(response.status, 408);
-  for (let index = 0; index < 26; index++) {
-    assert.equal((await POST(request(description, { 'x-forwarded-for': `192.0.2.${index}` }))).status, 200);
+
+  // Only calls that may reach Gemini spend the per-minute budget.
+  const keyed = { origin: 'https://fixture.test', 'x-gemini-key': personalKey };
+  for (let index = 0; index < 30; index++) {
+    assert.equal((await POST(request(description, { ...keyed, 'x-forwarded-for': `192.0.2.${index}` }))).status, 200);
   }
-  assert.equal((await POST(request(description))).status, 429);
-  clock.now += 60_000;
-  assert.equal((await POST(request(description))).status, 200);
+  clock.now += 20_000;
+  const limited = await POST(request(description, keyed));
+  assert.equal(limited.status, 429);
+  assert.equal(limited.headers.get('Retry-After'), '40');
+  assert.equal(savedKeys.length, 30);
+
+  // The keyless local rule engine stays available while the keyed budget is spent.
+  for (let index = 0; index < 40; index++) assert.equal((await POST(request(description))).status, 200);
+  assert.equal(savedKeys.length, 30);
+
+  clock.now += 40_000;
+  assert.equal((await POST(request(description, keyed))).status, 200);
 });
 
 test('a photo with a caller key reaches Gemini, and provider failure cannot create an empty draft', async () => {
   const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aS2sAAAAASUVORK5CYII=', 'base64');
   const photo = JSON.stringify({ mode: 'analyze_garment', imageBase64: `data:image/png;base64,${png.toString('base64')}`, mimeType: 'image/png' });
-  const headers = { 'x-gemini-key': personalKey };
+  const headers = { origin: 'https://fixture.test', 'x-gemini-key': personalKey };
   const calls = [];
   const { POST } = loadRoute(async input => {
     calls.push(input);
