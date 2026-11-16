@@ -689,3 +689,32 @@
 
 
 /* End WW-21 studio */
+
+/* WW-03 M1–M2: touch screens only. 16 px input text stops iOS/WebKit focus zoom; tap targets reach 44 px. Desktop is unchanged. */
+@media (pointer: coarse) {
+  .manual-location input,
+  .map-search-bar > input,
+  .map-search-bar input[type="time"],
+  .map-stop-pill input,
+  .language-select select { font-size: 16px; }
+  .map-search-bar input[type="time"], .map-stop-pill input { width: 104px; }
+  .language-select select { width: 54px; }
+  .map-panel .city-map-studio .map-search-wrapper .map-search-bar { padding-top: 0; padding-bottom: 0; }
+  .manual-location input,
+  .locate-text-button,
+  .location-results button,
+  .language-select select,
+  .header-actions .icon-button,
+  .header-actions .preview-toggle,
+  .map-panel .city-map-studio .map-click-mode,
+  .map-click-mode,
+  .map-stop-pill > button,
+  .map-stop-pill input,
+  .map-search-bar > input,
+  .map-search-bar input[type="time"],
+  .map-search-results .primary-button,
+  .map-search-results .text-button { min-height: 44px; touch-action: manipulation; }
+  /* Header icons and the language select stay narrow so the header keeps one row from 390 px phones (it already wraps below that); the full 44 px height stays. */
+  .header-actions .icon-button { width: 38px; height: 44px; }
+}
+/* End WW-03 M1–M2 */
