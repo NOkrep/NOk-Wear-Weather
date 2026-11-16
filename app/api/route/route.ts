@@ -1,50 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { WeatherCondition, RouteStop } from '@/lib/types';
+import { HourlyForecastPoint, RouteStop } from '@/lib/types';
+import { conditionForDaylight, mapWmoToCondition } from '@/lib/weather-condition';
+import { daylightAt, forecastPointAt, localTimeLabel, resolveWeatherInstant, solarDaysFromProvider, validTimeZone } from '@/lib/weather-time';
 
-function mapWmoToCondition(code: number): WeatherCondition {
-  if (code === 0) return 'sunny';
-  if (code === 1 || code === 2) return 'partly_cloudy';
-  if (code === 3) return 'cloudy';
-  if (code === 45 || code === 48) return 'foggy';
-  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return 'rainy';
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return 'snowy';
-  if ([95, 96, 99].includes(code)) return 'stormy';
-  return 'partly_cloudy';
-}
-
-function addMinutesToTimeStr(baseTimeStr: string, elapsedMins: number): string {
-  const parts = baseTimeStr.split(':');
-  if (parts.length === 2) {
-    const baseH = parseInt(parts[0], 10);
-    const baseM = parseInt(parts[1], 10);
-    if (!isNaN(baseH) && !isNaN(baseM)) {
-      const totalMins = (baseH * 60 + baseM + elapsedMins) % (24 * 60);
-      const h = Math.floor(totalMins / 60);
-      const m = totalMins % 60;
-      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-    }
-  }
-  const now = new Date();
-  now.setMinutes(now.getMinutes() + elapsedMins);
-  return now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-}
+const noStore = { 'Cache-Control': 'private, no-store' };
 
 async function fetchStopWeatherAndName(
   lat: number,
   lon: number,
   fallbackName: string,
   fetchName: boolean
-): Promise<{
-  name: string;
-  temp: number;
-  feelsLike: number;
-  precipitationProb: number;
-  windSpeed: number;
-  condition: WeatherCondition;
-}> {
+) {
+  const weatherLat = Number(lat.toFixed(2));
+  const weatherLon = Number(lon.toFixed(2));
   const weatherPromise = fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&timezone=auto`,
-    { next: { revalidate: 900 } }
+    `https://api.open-meteo.com/v1/forecast?latitude=${weatherLat}&longitude=${weatherLon}&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m,is_day&daily=sunrise,sunset&forecast_days=2&timeformat=unixtime&timezone=auto`,
+    { cache: 'no-store', signal: AbortSignal.timeout(8_000) }
   )
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
@@ -56,7 +27,8 @@ async function fetchStopWeatherAndName(
           headers: {
             'User-Agent': 'WearWeatherApp/0.2.2 (https://github.com/NOk-Collective)',
           },
-          next: { revalidate: 3600 },
+          cache: 'no-store',
+          signal: AbortSignal.timeout(8_000),
         }
       )
         .then((r) => (r.ok ? r.json() : null))
@@ -77,26 +49,25 @@ async function fetchStopWeatherAndName(
     }
   }
 
-  if (weatherData?.current) {
-    const c = weatherData.current;
-    return {
-      name: resolvedName,
-      temp: Math.round(c.temperature_2m * 10) / 10,
-      feelsLike: Math.round(c.apparent_temperature * 10) / 10,
-      precipitationProb: c.precipitation > 0 ? 75 : 15,
-      windSpeed: Math.round(c.wind_speed_10m || 12),
-      condition: mapWmoToCondition(c.weather_code ?? 1),
-    };
-  }
-
-  return {
-    name: resolvedName,
-    temp: 16,
-    feelsLike: 15,
-    precipitationProb: 15,
-    windSpeed: 12,
-    condition: 'partly_cloudy',
+  const context = {
+    lat, lon, timezone: validTimeZone(weatherData?.timezone),
+    solarDays: solarDaysFromProvider(weatherData || {}),
   };
+  const hourly: HourlyForecastPoint[] = (weatherData?.hourly?.time || []).map((time: number, i: number) => {
+    const h = weatherData.hourly;
+    const validAt = new Date(time * 1000).toISOString();
+    const isDay = daylightAt(context, time * 1000, {
+      validAt, isDay: h.is_day?.[i] === 1 ? true : h.is_day?.[i] === 0 ? false : null,
+    });
+    const timeStr = localTimeLabel(time * 1000, context.timezone);
+    return {
+      validAt, timeStr, isDay, hourNumber: Number(timeStr.slice(0, 2)),
+      temp: h.temperature_2m[i], feelsLike: h.apparent_temperature[i],
+      windSpeed: h.wind_speed_10m[i], precipitationProb: h.precipitation_probability?.[i] ?? 15,
+      condition: mapWmoToCondition(h.weather_code[i], isDay), suggestedAction: '',
+    };
+  });
+  return { name: resolvedName, context, hourly };
 }
 
 function generateStopClothingTip(
@@ -139,14 +110,18 @@ function generateStopClothingTip(
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const fromLat = parseFloat(searchParams.get('fromLat') || '41.0082');
-  const fromLon = parseFloat(searchParams.get('fromLon') || '28.9784');
-  const toLat = parseFloat(searchParams.get('toLat') || '39.9334');
-  const toLon = parseFloat(searchParams.get('toLon') || '32.8597');
+  const fromLat = Number(searchParams.get('fromLat') || '41.0082');
+  const fromLon = Number(searchParams.get('fromLon') || '28.9784');
+  const toLat = Number(searchParams.get('toLat') || '39.9334');
+  const toLon = Number(searchParams.get('toLon') || '32.8597');
   const originName = searchParams.get('fromName') || 'Kalkış Noktası';
   const destName = searchParams.get('toName') || 'Varış Noktası';
   const departureTime = searchParams.get('departureTime') || '08:30';
   const transport = searchParams.get('transport') || 'car';
+  if (![fromLat, fromLon, toLat, toLon].every(Number.isFinite)
+    || Math.abs(fromLat) > 90 || Math.abs(toLat) > 90 || Math.abs(fromLon) > 180 || Math.abs(toLon) > 180) {
+    return NextResponse.json({ error: 'Invalid coordinates' }, { status: 400, headers: noStore });
+  }
 
   let coordinates: [number, number][] = [
     [fromLat, fromLon],
@@ -158,7 +133,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${fromLon},${fromLat};${toLon},${toLat}?overview=full&geometries=geojson&steps=false`;
-    const res = await fetch(osrmUrl, { next: { revalidate: 1800 } });
+    const res = await fetch(osrmUrl, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
 
     if (res.ok) {
       const data = await res.json();
@@ -177,9 +152,7 @@ export async function GET(req: NextRequest) {
         coordinates = route.geometry.coordinates.map(([lon, lat]: [number, number]) => [lat, lon]);
       }
     }
-  } catch (err) {
-    console.error('OSRM route fetch error, using geodesic fallback:', err);
-  }
+  } catch { /* Keep the existing fallback geometry on provider failure. */ }
 
   const hours = Math.floor(durationMinutes / 60);
   const mins = durationMinutes % 60;
@@ -208,19 +181,31 @@ export async function GET(req: NextRequest) {
     })
   );
 
-  const originTemp = rawStopDetails[0]?.temp ?? 18;
+  const departureAt = resolveWeatherInstant(departureTime, rawStopDetails[0].context.timezone, Date.now());
+  if (departureAt === null) return NextResponse.json({ error: 'Invalid or nonexistent local departure time' }, { status: 400, headers: noStore });
+  const originTemp = forecastPointAt(rawStopDetails[0].hourly, departureAt)?.temp ?? 16;
 
   const stops: RouteStop[] = sampledIndices.map((idx, stepNum) => {
     const [lat, lon] = coordinates[idx];
     const isOrigin = stepNum === 0;
     const isDest = stepNum === sampledIndices.length - 1;
     const elapsedMins = Math.round((stepNum / (sampledIndices.length - 1)) * durationMinutes);
-    const timeStr = addMinutesToTimeStr(departureTime, elapsedMins);
-    const info = rawStopDetails[stepNum];
+    const details = rawStopDetails[stepNum];
+    const at = departureAt + elapsedMins * 60000;
+    const timeStr = localTimeLabel(at, details.context.timezone);
+    const point = forecastPointAt(details.hourly, at);
+    const isDay = daylightAt(details.context, at, point);
+    const info = {
+      name: details.name, temp: point?.temp ?? 16, feelsLike: point?.feelsLike ?? 15,
+      precipitationProb: point?.precipitationProb ?? 15, windSpeed: point?.windSpeed ?? 12,
+      condition: point ? conditionForDaylight(point.condition, isDay) : 'partly_cloudy' as const,
+    };
     const delta = Math.round((info.temp - originTemp) * 10) / 10;
 
     return {
       id: `stop-${stepNum}`,
+      validAt: new Date(at).toISOString(), timezone: details.context.timezone, isDay,
+      forecastAvailable: Boolean(point),
       lat,
       lon,
       name: info.name,
@@ -250,5 +235,5 @@ export async function GET(req: NextRequest) {
     durationStr,
     polyline: coordinates,
     stops,
-  });
+  }, { headers: noStore });
 }

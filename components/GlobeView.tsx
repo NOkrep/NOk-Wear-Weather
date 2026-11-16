@@ -170,7 +170,9 @@ export function GlobeView({ theme = 'dark' }: GlobeViewProps) {
 
   const [fromWeather, setFromWeather] = useState<WeatherConsensus | null>(null);
   const [toWeather, setToWeather] = useState<WeatherConsensus | null>(null);
-  const [isLoadingWeather, setIsLoadingWeather] = useState(false);
+  const weatherRequest = JSON.stringify([fromCity, toCity]);
+  const [settledWeatherRequest, setSettledWeatherRequest] = useState<string | null>(null);
+  const isLoadingWeather = settledWeatherRequest !== weatherRequest;
 
   const [viewStyle, setViewStyle] = useState<'map' | '3d'>('map');
   const rotationRef = useRef<number>(0);
@@ -178,8 +180,6 @@ export function GlobeView({ theme = 'dark' }: GlobeViewProps) {
   // Fetch live weather for both Origin and Destination cities in parallel
   useEffect(() => {
     let isMounted = true;
-    setIsLoadingWeather(true);
-
     Promise.all([
       fetchWeatherConsensus({
         country: 'Global',
@@ -200,57 +200,57 @@ export function GlobeView({ theme = 'dark' }: GlobeViewProps) {
         if (isMounted) {
           setFromWeather(wFrom);
           setToWeather(wTo);
-          setIsLoadingWeather(false);
+          setSettledWeatherRequest(weatherRequest);
         }
       })
       .catch((err) => {
         console.error(err);
-        if (isMounted) setIsLoadingWeather(false);
+        if (isMounted) setSettledWeatherRequest(weatherRequest);
       });
 
     return () => {
       isMounted = false;
     };
-  }, [fromCity.lat, fromCity.lon, fromCity.name, toCity.lat, toCity.lon, toCity.name]);
+  }, [fromCity.lat, fromCity.lon, fromCity.name, toCity.lat, toCity.lon, toCity.name, weatherRequest]);
 
   // Debounced search for custom Origin city
   useEffect(() => {
     if (!fromQuery || fromQuery.trim().length < 2 || fromQuery === fromCity.name) {
-      setFromResults([]);
       return;
     }
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/geocode?q=${encodeURIComponent(fromQuery.trim())}`);
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(fromQuery.trim())}`, { signal: controller.signal });
         if (res.ok) {
           const data = await res.json();
-          setFromResults(data.results || []);
+          if (!controller.signal.aborted) setFromResults(data.results || []);
         }
       } catch (e) {
-        console.error(e);
+        if (!controller.signal.aborted) console.error(e);
       }
     }, 300);
-    return () => clearTimeout(timer);
+    return () => { clearTimeout(timer); controller.abort(); };
   }, [fromQuery, fromCity.name]);
 
   // Debounced search for custom Destination city
   useEffect(() => {
     if (!toQuery || toQuery.trim().length < 2 || toQuery === toCity.name) {
-      setToResults([]);
       return;
     }
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/geocode?q=${encodeURIComponent(toQuery.trim())}`);
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(toQuery.trim())}`, { signal: controller.signal });
         if (res.ok) {
           const data = await res.json();
-          setToResults(data.results || []);
+          if (!controller.signal.aborted) setToResults(data.results || []);
         }
       } catch (e) {
-        console.error(e);
+        if (!controller.signal.aborted) console.error(e);
       }
     }, 300);
-    return () => clearTimeout(timer);
+    return () => { clearTimeout(timer); controller.abort(); };
   }, [toQuery, toCity.name]);
 
   // Initialize or update 2D Leaflet Map
@@ -534,11 +534,11 @@ export function GlobeView({ theme = 'dark' }: GlobeViewProps) {
             <input
               type="text"
               value={fromQuery}
-              onChange={(e) => setFromQuery(e.target.value)}
+              onChange={(e) => { setFromQuery(e.target.value); setFromResults([]); }}
               placeholder="Örn: İstanbul, Ankara, Berlin..."
               className="w-full text-xs font-medium px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-sky-500"
             />
-            {fromResults.length > 0 && (
+            {fromQuery.trim().length >= 2 && fromQuery !== fromCity.name && fromResults.length > 0 && (
               <div className="absolute left-0 right-0 top-full mt-1 z-30 p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl max-h-48 overflow-y-auto">
                 {fromResults.map((item, i) => (
                   <button
@@ -586,11 +586,11 @@ export function GlobeView({ theme = 'dark' }: GlobeViewProps) {
             <input
               type="text"
               value={toQuery}
-              onChange={(e) => setToQuery(e.target.value)}
+              onChange={(e) => { setToQuery(e.target.value); setToResults([]); }}
               placeholder="Örn: Londra, Tokyo, New York, Oslo..."
               className="w-full text-xs font-medium px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-sky-500"
             />
-            {toResults.length > 0 && (
+            {toQuery.trim().length >= 2 && toQuery !== toCity.name && toResults.length > 0 && (
               <div className="absolute left-0 right-0 top-full mt-1 z-30 p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl max-h-48 overflow-y-auto">
                 {toResults.map((item, i) => (
                   <button

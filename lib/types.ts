@@ -30,9 +30,28 @@ export interface WeatherSourceReading {
   precipitationProb: number; // %
   condition: WeatherCondition;
   isAvailable: boolean;
+  isDay?: boolean | null;
+}
+
+/** Additive metadata: old personal records remain readable. All instants are UTC ISO. */
+export interface WeatherTimeContext {
+  timezoneKnown?: boolean;
+  timezone?: string;
+  lat?: number;
+  lon?: number;
+  observedAt?: string;
+  isDay?: boolean | null;
+  solarDays?: { date: string; sunrise: string | null; sunset: string | null }[];
 }
 
 export interface HourlyForecastPoint {
+  timezone?: string;
+  stopLabel?: string;
+  stopId?: string;
+  coveredStartAt?: string;
+  coveredEndAt?: string;
+  validAt?: string;
+  isDay?: boolean | null;
   timeStr: string; // "08:00", "12:00" etc.
   hourNumber: number;
   temp: number;
@@ -43,7 +62,41 @@ export interface HourlyForecastPoint {
   suggestedAction: string;
 }
 
-export interface WeatherConsensus {
+export interface StopWeatherPlan {
+  date: string; // YYYY-MM-DD at this stop, not at the browser/server
+  startTime: string;
+  endTime?: string; // earlier than start means the next local day; empty means one instant
+}
+export interface ForecastPoint extends HourlyForecastPoint {
+  humidity: number;
+  dewPoint: number;
+  uvIndex?: number;
+}
+export interface ForecastSource extends WeatherTimeContext {
+  sourceName: string;
+  status: 'available' | 'unavailable' | 'current-only';
+  points: ForecastPoint[];
+}
+export interface WeatherPlanSelection {
+  date: string;
+  startAt: string;
+  endAt: string;
+  point: boolean;
+  minTemp: number;
+  maxTemp: number;
+  minFeelsLike: number;
+  maxFeelsLike: number;
+  maxWind: number;
+  maxPrecipitation: number;
+}
+
+export interface WeatherConsensus extends WeatherTimeContext {
+  requestedDate?: string;
+  forecastSources?: ForecastSource[];
+  selection?: WeatherPlanSelection;
+  uvIndexKnown?: boolean;
+  fetchedAt?: string;
+  forecastAvailable?: boolean;
   temp: number;
   feelsLike: number;
   humidity: number;
@@ -104,7 +157,7 @@ export interface ClothingItem {
 
 export interface LayerTimelineStep {
   timeRange: string;
-  phase: 'morning' | 'midday' | 'evening';
+  phase: 'morning' | 'midday' | 'evening' | 'night';
   expectedTemp: number;
   feelsLikeTemp: number;
   precipitationProb: number;
@@ -172,6 +225,7 @@ export interface CustomApiKeys {
 
 // Multi-stop user itinerary item (City, Domestic, or International)
 export interface ItineraryStop {
+  plan?: StopWeatherPlan;
   id: string;
   location: LocationInfo;
   preferredTime?: string; // e.g., "08:30", "14:00", or "" for live/now
@@ -183,6 +237,10 @@ export interface ItineraryStop {
 }
 
 export interface RouteStop {
+  validAt?: string;
+  timezone?: string;
+  isDay?: boolean | null;
+  forecastAvailable?: boolean;
   id: string;
   name: string;
   lat: number;

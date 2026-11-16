@@ -5,7 +5,7 @@ import { GARMENT_TYPES, type GarmentTypeId } from '@/lib/catalog/taxonomy';
 import { garmentDesigns } from '@/lib/garment-designs';
 import { GARMENT_PALETTE } from '@/lib/garment-appearance';
 import { useLocale } from '@/lib/i18n';
-import { GarmentVisual } from './GarmentVisual';
+import { GarmentStudioVisual } from './GarmentStudioVisual';
 
 /** Illustration library, deliberately unable to create a sourced product or a thermal claim. */
 export function GarmentDesignGallery() {
@@ -24,8 +24,8 @@ export function GarmentDesignGallery() {
     <p className="design-gallery-note">{t('Özgün temsili çizimler · mağaza ürünü veya kumaş bilgisi değildir.')}</p>
     <div className="design-gallery-count" role="status">{designs.length} {t('tasarım')} · {typeId === 'all' ? GARMENT_TYPES.length : 1} {locale === 'en' && typeId !== 'all' ? 'type' : t('tür')}</div>
     <div className="design-gallery-grid">{visible.map(({ type, design }) => <article className="design-sample" key={design.id}>
-      <div className="design-sample-art"><GarmentVisual item={{
-        name: design.tr, category: type.group === 'one_piece' ? 'base' : type.group, garmentTypeId: type.id,
+      <div className="design-sample-art"><GarmentStudioVisual item={{
+        name: locale === 'tr' ? design.tr : design.en, category: type.group === 'one_piece' ? 'base' : type.group, garmentTypeId: type.id,
         colorHex: GARMENT_PALETTE[[3, 5, 6, 7, 8][design.variant]],
         personalAppearance: { version: 1, designId: design.id },
       }}/><span className="design-sample-number">{String(design.variant + 1).padStart(2, '0')}</span></div>

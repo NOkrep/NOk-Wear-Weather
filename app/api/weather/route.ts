@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { WeatherCondition, WeatherSourceReading, HourlyForecastPoint } from '@/lib/types';
+import { WeatherCondition, WeatherSourceReading, HourlyForecastPoint, WeatherConsensus, WeatherTimeContext, ForecastSource } from '@/lib/types';
+import { conditionForDaylight, mapWmoToCondition, normalizeWeather } from '@/lib/weather-condition';
+import { daylightAt, knownTimeZone, localTimeLabel, solarDaysFromProvider, validLocalDate, validTimeZone } from '@/lib/weather-time';
+import { parseForecastSource } from '@/lib/weather-forecast';
 
 // In-memory Geo-Grid Cache (~1.1km grid resolution, 15 min TTL)
 interface CacheEntry {
   timestamp: number;
-  payload: any;
+  payload: WeatherConsensus;
 }
 const CACHE_TTL_MS = 15 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 250;
 const weatherGeoCache = new Map<string, CacheEntry>();
-
-function mapWmoToCondition(code: number, isNight: boolean = false): WeatherCondition {
-  if (code === 0) return isNight ? 'clear_night' : 'sunny';
-  if (code === 1 || code === 2) return 'partly_cloudy';
-  if (code === 3) return 'cloudy';
-  if (code === 45 || code === 48) return 'foggy';
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return 'rainy';
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return 'snowy';
-  if ([95, 96, 99].includes(code)) return 'stormy';
-  return 'partly_cloudy';
-}
+const noStore = { 'Cache-Control': 'no-store' };
 
 // Magnus approximation for Dew Point (°C) when a source doesn't return it directly
 function estimateDewPoint(tempC: number, humidity: number): number {
@@ -43,35 +36,56 @@ function buildSuggestedAction(tempVal: number, precipVal: number, windVal: numbe
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const lat = parseFloat(searchParams.get('lat') || '41.0082');
-  const lon = parseFloat(searchParams.get('lon') || '28.9784');
+  const queryLat = Number(searchParams.get('lat') || '41.0082');
+  const queryLon = Number(searchParams.get('lon') || '28.9784');
+  const requestedDate = searchParams.get('date') || undefined;
+  if (requestedDate && !validLocalDate(requestedDate)) return NextResponse.json({ error: 'Invalid date' }, { status: 400, headers: noStore });
+  if (!Number.isFinite(queryLat) || !Number.isFinite(queryLon) || Math.abs(queryLat) > 90 || Math.abs(queryLon) > 180) {
+    return NextResponse.json({ error: 'Invalid coordinates' }, { status: 400, headers: noStore });
+  }
+  const lat = Number(queryLat.toFixed(2));
+  const lon = Number(queryLon.toFixed(2));
 
   const weatherApiKey = req.headers.get('x-weatherapi-key')?.trim() || '';
   const owmKey = req.headers.get('x-owm-key')?.trim() || '';
 
   // Round to 2 decimal places (~1.1 km) for Geo-Grid caching
-  const gridKey = `${lat.toFixed(2)},${lon.toFixed(2)}:${Boolean(weatherApiKey)}:${Boolean(owmKey)}`;
+  const gridKey = `${lat.toFixed(2)},${lon.toFixed(2)}:${requestedDate || 'live'}:${Boolean(weatherApiKey)}:${Boolean(owmKey)}`;
   const now = Date.now();
   const cachedEntry = weatherGeoCache.get(gridKey);
-  if (cachedEntry && now - cachedEntry.timestamp < CACHE_TTL_MS) {
-    return NextResponse.json({ ...cachedEntry.payload, cached: true });
+  if (!weatherApiKey && !owmKey && cachedEntry && now - cachedEntry.timestamp < CACHE_TTL_MS) {
+    return NextResponse.json(normalizeWeather({ ...cachedEntry.payload, cached: true }, now), { headers: noStore });
   }
 
   let hourlyData: HourlyForecastPoint[] = [];
-  let uvIndex = 3;
+  let uvIndex = 0;
+  const context: WeatherTimeContext = { lat, lon, timezone: 'UTC', timezoneKnown: false };
+  const forecastSources: ForecastSource[] = requestedDate ? [
+    { sourceName: 'Open-Meteo (ECMWF/IFS)', status: 'unavailable', points: [] },
+    { sourceName: 'DWD ICON (Küresel Model)', status: 'unavailable', points: [] },
+    { sourceName: 'MET Norway (Yr.no)', status: 'current-only', points: [] },
+    { sourceName: 'DWD Bright Sky (ICON)', status: 'current-only', points: [] },
+    { sourceName: 'WeatherAPI.com (Özel Anahtar)', status: 'current-only', points: [] },
+    { sourceName: 'OpenWeatherMap (Özel Anahtar)', status: 'current-only', points: [] },
+  ] : [];
 
   // Task 1: Open-Meteo Best Match (ECMWF / GFS Blend) + Hourly Series
   const fetchOpenMeteo = async (): Promise<WeatherSourceReading | null> => {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m,uv_index&timezone=auto&forecast_days=2`;
-    const res = await fetch(url, { next: { revalidate: 600 } });
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,dew_point_2m,precipitation_probability,weather_code,wind_speed_10m,uv_index,is_day&daily=sunrise,sunset&timeformat=unixtime&timezone=auto&forecast_days=${requestedDate ? 16 : 2}`;
+    const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
     if (!res.ok) throw new Error(`Open-Meteo HTTP ${res.status}`);
     const data = await res.json();
+    if (requestedDate) forecastSources[0] = parseForecastSource('Open-Meteo (ECMWF/IFS)', data, lat, lon);
     const current = data.current;
-    const cond = mapWmoToCondition(current.weather_code);
+    context.timezone = validTimeZone(data.timezone);
+    context.timezoneKnown = knownTimeZone(data.timezone);
+    context.solarDays = solarDaysFromProvider(data);
+    context.observedAt = new Date(current.time * 1000).toISOString();
+    context.isDay = current.is_day === 1 ? true : current.is_day === 0 ? false : null;
+    const cond = mapWmoToCondition(current.weather_code, daylightAt(context, now, { validAt: context.observedAt, isDay: context.isDay }));
 
-    if (data.hourly && Array.isArray(data.hourly.time)) {
-      const currentHour = new Date().getHours();
-      const times: string[] = data.hourly.time;
+    if (!requestedDate && data.hourly && Array.isArray(data.hourly.time)) {
+      const times: number[] = data.hourly.time;
       const temps: number[] = data.hourly.temperature_2m;
       const feels: number[] = data.hourly.apparent_temperature;
       const precips: number[] = data.hourly.precipitation_probability;
@@ -79,28 +93,29 @@ export async function GET(req: NextRequest) {
       const winds: number[] = data.hourly.wind_speed_10m;
       const uvs: number[] = data.hourly.uv_index;
 
-      if (uvs && uvs.length > currentHour) {
-        uvIndex = Math.max(...uvs.slice(currentHour, currentHour + 10));
-      }
-
-      hourlyData = times.slice(currentHour, currentHour + 18).map((t, idx) => {
-        const globalIdx = currentHour + idx;
+      const currentIdx = Math.max(0, times.findIndex(t => t * 1000 + 3600000 > now));
+      uvIndex = uvs?.[currentIdx] ?? 0;
+      // Keep dated points for the entire location day; a selected past hour stays on that day.
+      hourlyData = times.map((t, globalIdx) => {
         const tempVal = Math.round(temps[globalIdx]);
         const feelVal = Math.round(feels[globalIdx]);
         const precipVal = precips[globalIdx] ?? 0;
         const codeVal = codes[globalIdx] ?? 1;
         const windVal = Math.round(winds[globalIdx] ?? 10);
-        const hourNum = new Date(t).getHours();
-        const isNightHour = hourNum < 6 || hourNum > 20;
+        const validAt = new Date(t * 1000).toISOString();
+        const flag = data.hourly.is_day?.[globalIdx];
+        const isDay = daylightAt(context, t * 1000, { validAt, isDay: flag === 1 ? true : flag === 0 ? false : null });
+        const timeStr = localTimeLabel(t * 1000, context.timezone);
+        const hourNum = Number(timeStr.slice(0, 2));
 
         return {
-          timeStr: `${String(hourNum).padStart(2, '0')}:00`,
+          validAt, isDay, timeStr,
           hourNumber: hourNum,
           temp: tempVal,
           feelsLike: feelVal,
           precipitationProb: precipVal,
           windSpeed: windVal,
-          condition: mapWmoToCondition(codeVal, isNightHour),
+          condition: mapWmoToCondition(codeVal, isDay),
           suggestedAction: buildSuggestedAction(feelVal, precipVal, windVal),
         };
       });
@@ -108,7 +123,7 @@ export async function GET(req: NextRequest) {
 
     const currentPrecipProb =
       hourlyData.length > 0
-        ? hourlyData[0].precipitationProb
+        ? (hourlyData.find(p => Date.parse(p.validAt!) <= now && now - Date.parse(p.validAt!) < 3600000)?.precipitationProb ?? 15)
         : current.precipitation > 0
         ? 80
         : 15;
@@ -131,12 +146,14 @@ export async function GET(req: NextRequest) {
 
   // Task 2: MET Norway (api.met.no)
   const fetchMetNorway = async (): Promise<WeatherSourceReading | null> => {
+    if (requestedDate) return null;
     const metUrl = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat.toFixed(4)}&lon=${lon.toFixed(4)}`;
     const metRes = await fetch(metUrl, {
       headers: {
         'User-Agent': 'WearWeatherApp/0.2.2 (https://github.com/NOk-Collective; contact@nok-collective.org)',
       },
-      next: { revalidate: 600 },
+      cache: 'no-store',
+      signal: AbortSignal.timeout(8_000),
     });
     if (!metRes.ok) throw new Error(`MET Norway HTTP ${metRes.status}`);
     const metData = await metRes.json();
@@ -153,6 +170,7 @@ export async function GET(req: NextRequest) {
     else if (symbolCode.includes('rain') || symbolCode.includes('drizzle')) metCond = 'rainy';
     else if (symbolCode.includes('fog')) metCond = 'foggy';
     else if (symbolCode.includes('clearsky')) metCond = symbolCode.includes('night') ? 'clear_night' : 'sunny';
+    else if (symbolCode.includes('partlycloudy') || symbolCode.includes('fair')) metCond = 'partly_cloudy';
     else if (symbolCode.includes('cloudy')) metCond = 'cloudy';
 
     const tempC = details.air_temperature;
@@ -183,9 +201,10 @@ export async function GET(req: NextRequest) {
 
   // Task 3: DWD ICON Model (Bright Sky station first, with global DWD ICON API fallback for outside Central Europe)
   const fetchDwdIcon = async (): Promise<WeatherSourceReading | null> => {
+    if (!requestedDate) {
     try {
       const dwdUrl = `https://api.brightsky.dev/current_weather?lat=${lat}&lon=${lon}`;
-      const dwdRes = await fetch(dwdUrl, { next: { revalidate: 600 } });
+      const dwdRes = await fetch(dwdUrl, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
       if (dwdRes.ok) {
         const dwdData = await dwdRes.json();
         const weather = dwdData.weather;
@@ -195,7 +214,8 @@ export async function GET(req: NextRequest) {
           else if (weather.condition === 'snow' || weather.condition === 'sleet') dwdCond = 'snowy';
           else if (weather.condition === 'rain') dwdCond = 'rainy';
           else if (weather.condition === 'fog') dwdCond = 'foggy';
-          else if (weather.condition === 'dry') dwdCond = 'sunny';
+          else if (weather.icon === 'clear-day' || weather.icon === 'clear-night') dwdCond = 'sunny';
+          else if (weather.icon === 'cloudy' || weather.cloud_cover >= 80) dwdCond = 'cloudy';
 
           const rh = weather.relative_humidity ?? 60;
           return {
@@ -217,12 +237,16 @@ export async function GET(req: NextRequest) {
     } catch {
       // Fall through to global DWD ICON endpoint
     }
+    }
 
     // Real Global DWD ICON Model endpoint via Open-Meteo DWD service (no random simulation)
-    const iconUrl = `https://api.open-meteo.com/v1/dwd-icon?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&timezone=auto`;
-    const iconRes = await fetch(iconUrl, { next: { revalidate: 600 } });
+    const hourlyQuery = requestedDate ? '&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,dew_point_2m,precipitation_probability,weather_code,wind_speed_10m,is_day&daily=sunrise,sunset&forecast_days=10' : '';
+    const iconUrl = `https://api.open-meteo.com/v1/dwd-icon?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day&timeformat=unixtime&timezone=auto${hourlyQuery}`;
+    const iconRes = await fetch(iconUrl, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
     if (!iconRes.ok) throw new Error(`DWD ICON Global HTTP ${iconRes.status}`);
     const iconData = await iconRes.json();
+    if (requestedDate) forecastSources[1] = parseForecastSource('DWD ICON (Küresel Model)', iconData, lat, lon);
+    if (context.timezoneKnown === false && knownTimeZone(iconData.timezone)) { context.timezone = validTimeZone(iconData.timezone); context.timezoneKnown = true; }
     const cur = iconData.current;
     return {
       sourceName: 'DWD ICON (Küresel Model)',
@@ -235,20 +259,24 @@ export async function GET(req: NextRequest) {
           : estimateDewPoint(cur.temperature_2m, cur.relative_humidity_2m),
       windSpeed: Math.round(cur.wind_speed_10m),
       precipitationProb: cur.precipitation > 0 ? 75 : 12,
-      condition: mapWmoToCondition(cur.weather_code),
+      condition: mapWmoToCondition(cur.weather_code, daylightAt({ lat, lon }, now, {
+        validAt: typeof cur.time === 'number' ? new Date(cur.time * 1000).toISOString() : undefined,
+        isDay: cur.is_day === 1 ? true : cur.is_day === 0 ? false : null,
+      })),
       isAvailable: true,
     };
   };
 
   // Optional Task 4: User-provided WeatherAPI.com key
   const fetchWeatherApiCustom = async (): Promise<WeatherSourceReading | null> => {
-    if (!weatherApiKey) return null;
+    if (!weatherApiKey || requestedDate) return null;
     const url = `https://api.weatherapi.com/v1/current.json?key=${encodeURIComponent(weatherApiKey)}&q=${lat},${lon}&aqi=no`;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
     if (!res.ok) return null;
     const data = await res.json();
     const cur = data.current;
     if (!cur) return null;
+    if (context.timezoneKnown === false && knownTimeZone(data.location?.tz_id)) { context.timezone = validTimeZone(data.location.tz_id); context.timezoneKnown = true; }
     const text = (cur.condition?.text || '').toLowerCase();
     let cond: WeatherCondition = 'partly_cloudy';
     if (text.includes('thunder') || text.includes('storm')) cond = 'stormy';
@@ -273,9 +301,9 @@ export async function GET(req: NextRequest) {
 
   // Optional Task 5: User-provided OpenWeatherMap key
   const fetchOwmCustom = async (): Promise<WeatherSourceReading | null> => {
-    if (!owmKey) return null;
+    if (!owmKey || requestedDate) return null;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${encodeURIComponent(owmKey)}`;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
     if (!res.ok) return null;
     const data = await res.json();
     if (!data.main) return null;
@@ -316,6 +344,12 @@ export async function GET(req: NextRequest) {
       sources.push(result.value);
     }
   }
+  // Vote only after every provider has the SAME location and time context.
+  const isDay = daylightAt(context, now, { validAt: context.observedAt, isDay: context.isDay });
+  sources.forEach(source => {
+    source.condition = conditionForDaylight(source.condition, isDay);
+    source.isDay = isDay;
+  });
 
   // Fallback if all network providers are unreachable
   if (sources.length === 0) {
@@ -369,7 +403,11 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  const responsePayload = {
+  const responsePayload: WeatherConsensus = normalizeWeather({
+    ...context,
+    ...(requestedDate ? { requestedDate, forecastSources } : {}),
+    fetchedAt: new Date(now).toISOString(),
+    forecastAvailable: sources.some(s => s.isAvailable),
     temp: avgTemp,
     feelsLike: avgFeels,
     humidity: avgHum,
@@ -378,19 +416,21 @@ export async function GET(req: NextRequest) {
     precipitationProb: avgPrecip,
     uvIndex: Math.round(uvIndex),
     condition: primaryCondition,
-    confidenceScore,
+    confidenceScore: sources.some(s => s.isAvailable) ? confidenceScore : 0,
     sources,
     hourly: hourlyData,
-    lastUpdated: new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+    lastUpdated: localTimeLabel(now, context.timezone),
     cached: false,
-  };
+  }, now);
 
   // Store in LRU Geo-Grid cache
   if (weatherGeoCache.size >= MAX_CACHE_ENTRIES) {
     const oldestKey = weatherGeoCache.keys().next().value;
     if (oldestKey) weatherGeoCache.delete(oldestKey);
   }
-  weatherGeoCache.set(gridKey, { timestamp: now, payload: responsePayload });
+  if (!weatherApiKey && !owmKey && (responsePayload.forecastAvailable || forecastSources.some(s => s.points.length))) {
+    weatherGeoCache.set(gridKey, { timestamp: now, payload: responsePayload });
+  }
 
-  return NextResponse.json(responsePayload);
+  return NextResponse.json(responsePayload, { headers: noStore });
 }

@@ -22,7 +22,6 @@ interface RealCityMapProps {
   onSelectActiveStop: (id: string) => void;
   onAddStop: (loc: LocationInfo, preferredTime?: string) => void;
   onUpdateStopLocation: (id: string, loc: LocationInfo) => void;
-  onUpdateStopTime: (id: string, time: string) => void;
   onRemoveStop: (id: string) => void;
   theme?: 'dark' | 'light';
 }
@@ -74,7 +73,6 @@ export const RealCityMap = memo(function RealCityMap({
   onSelectActiveStop,
   onAddStop,
   onUpdateStopLocation,
-  onUpdateStopTime,
   onRemoveStop,
   theme = 'dark',
 }: RealCityMapProps) {
@@ -235,9 +233,9 @@ export const RealCityMap = memo(function RealCityMap({
     stops.forEach((stop, idx) => {
       const isActive = stop.id === activeStopId;
       const resolved = stop.weather
-        ? resolveStopWeatherAtTime(stop.weather, stop.preferredTime)
+        ? resolveStopWeatherAtTime(stop.weather, stop.preferredTime, Date.now(), stop.plan)
         : null;
-      const tempVal = resolved ? resolved.temp : null;
+      const tempVal = resolved?.forecastAvailable ? resolved.temp : null;
 
       const icon = L.divIcon({
         className: 'hmi-stop-marker',
@@ -247,7 +245,7 @@ export const RealCityMap = memo(function RealCityMap({
           tempVal,
           isActive,
           accentHex,
-          stop.preferredTime
+          stop.plan ? `${stop.plan.date} ${stop.plan.startTime}${stop.plan.endTime ? `–${stop.plan.endTime}` : ''}` : stop.preferredTime
         ),
         iconSize: [140, 28],
         iconAnchor: [70, 14],
@@ -357,7 +355,7 @@ export const RealCityMap = memo(function RealCityMap({
   };
 
   return <div className="city-map-studio">
-    <div className="map-control-row"><div className="map-stop-pills" aria-label={t('Durak saatleri')}>{stops.map((stop,index)=><div key={stop.id} className={`map-stop-pill ${stop.id===activeStopId?'map-stop-selected':''}`}><button type="button" onClick={()=>onSelectActiveStop(stop.id)} aria-pressed={stop.id===activeStopId}><span>{String(index+1).padStart(2,'0')}</span><strong>{stop.location.district}</strong></button><input type="time" value={stop.preferredTime||''} onChange={e=>onUpdateStopTime(stop.id,e.target.value)} aria-label={`${stop.location.district} · ${t('Durak saati')}`}/>{stops.length>1&&<button type="button" className="map-pill-remove" onClick={()=>onRemoveStop(stop.id)} aria-label={t(`${stop.location.district} durağını sil`)}><X size={12}/></button>}</div>)}</div><button type="button" className="map-click-mode" aria-pressed={clickAction==='add'} onClick={()=>setClickAction(v=>v==='add'?'update':'add')} title={t('Haritaya tıklama davranışı')}><MapPin size={13}/>{t(clickAction==='add'?'Tıkla: durak ekle':'Tıkla: konumu değiştir')}</button></div>
+    <div className="map-control-row"><div className="map-stop-pills" aria-label={t('Durak saatleri')}>{stops.map((stop,index)=><div key={stop.id} className={`map-stop-pill ${stop.id===activeStopId?'map-stop-selected':''}`}><button type="button" title={t('Durak planını düzenle')} onClick={()=>{onSelectActiveStop(stop.id);document.getElementById('stop-plan-title')?.scrollIntoView({block:'nearest'});}} aria-pressed={stop.id===activeStopId}><span>{String(index+1).padStart(2,'0')}</span><strong>{stop.location.district}</strong></button><span className="map-stop-plan-label">{stop.plan ? `${stop.plan.date} · ${stop.plan.startTime}${stop.plan.endTime?`–${stop.plan.endTime}`:''}` : stop.preferredTime || t('Şimdi')}</span>{stops.length>1&&<button type="button" className="map-pill-remove" onClick={()=>onRemoveStop(stop.id)} aria-label={t(`${stop.location.district} durağını sil`)}><X size={12}/></button>}</div>)}</div><button type="button" className="map-click-mode" aria-pressed={clickAction==='add'} onClick={()=>setClickAction(v=>v==='add'?'update':'add')} title={t('Haritaya tıklama davranışı')}><MapPin size={13}/>{t(clickAction==='add'?'Tıkla: durak ekle':'Tıkla: konumu değiştir')}</button></div>
     <div className="map-search-wrapper"><div className="map-search-bar"><Search size={15}/><input type="search" aria-label={t('Rotaya durak ara')} placeholder={t('Şehir, ilçe veya ülke ekle…')} value={searchQuery} onChange={e=>setSearchQuery(e.target.value)}/><label><Clock size={13}/><span className="sr-only">{t('Yeni durak saati')}</span><input type="time" value={newStopTime} onChange={e=>setNewStopTime(e.target.value)} aria-label={t('Yeni durak saati')}/></label>{isSearching&&<Loader2 size={14} className="loading-spin"/>}</div>
       {searchResults.length>0&&<div className="map-search-results">{searchResults.map((item,index)=><div key={index}><span>{item.displayName}</span><div><button type="button" className="text-button" onClick={()=>handlePickSearchResult(item,'update')}>{t('Değiştir')}</button><button type="button" className="primary-button" onClick={()=>handlePickSearchResult(item,'add')}><Plus size={13}/>{t('Ekle')}</button></div></div>)}</div>}
     </div>

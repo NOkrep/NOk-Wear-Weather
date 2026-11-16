@@ -18,7 +18,7 @@ const { saveWardrobeList, getStoredWardrobe, DEFAULT_WARDROBE_ITEMS } = require(
 const { english } = require('../lib/translations.ts');
 const batch = require('../db/imports/multi-source-tees.2026-10-18.json');
 const owned = () => catalogProductToWardrobe(batch.products[0], batch.sources, 'my-piece');
-const draw = item => renderToStaticMarkup(React.createElement(GarmentVisual, { item }));
+const draw = (item, props = {}) => renderToStaticMarkup(React.createElement(GarmentVisual, { item, ...props }));
 
 test('all 36 stable types render locally without a product name heuristic or remote image', () => {
   assert.equal(GARMENT_TYPES.length, 36);
@@ -107,6 +107,9 @@ test('all 180 original designs change real SVG geometry and retain personal-only
       assert.equal(resolveGarmentAppearance({ ...item, personalAppearance }).color, '#abcdef');
       assert.equal(resolveGarmentAppearance({ ...item, personalAppearance }).pattern, 'stripes');
       const markup = draw({ ...item, personalAppearance });
+      const before = draw({ ...item, personalAppearance }, { drawingVersion: 'before' });
+      assert.ok(before.includes(`data-garment-design="${design.id}"`));
+      assert.ok(markup.includes(`data-garment-design="${design.id}"`));
       assert.ok(!/https?:|<image|undefined|NaN/.test(markup));
       // Ignore metadata, colours, useId, labels: a design must alter visible construction.
       geometries.add([...markup.matchAll(/<(?:path|circle|ellipse|rect)\b[^>]*(?:d|cx|x)="([^"]*)"[^>]*>/g)].map(match => match[0].replace(/fill="[^"]*"|stroke="[^"]*"/g,'')).join(''));

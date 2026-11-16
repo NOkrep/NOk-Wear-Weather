@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
 const directories = ['app', 'components', 'lib', 'public', 'db', 'scripts', 'deploy', 'tests'];
-const rootFiles = ['package.json', 'package-lock.json', 'Dockerfile', 'docker-compose.yml', '.dockerignore', '.env.example', 'next.config.ts', 'tsconfig.json', 'next-env.d.ts', 'postcss.config.mjs', 'postcss.config.js', 'eslint.config.mjs', 'eslint.config.js', 'README.md', 'DEVELOPMENT_HANDOFF.md', 'ARCHITECTURE_AND_ROADMAP.md', 'wear_weather_project_spec_and_handoff.md', 'MOBILE_APP_GUIDE.md', 'LICENSE', 'LICENSE.md'];
+const rootFiles = ['package.json', 'package-lock.json', 'Dockerfile', 'docker-compose.yml', '.dockerignore', '.env.example', 'next.config.ts', 'tsconfig.json', 'next-env.d.ts', 'postcss.config.mjs', 'postcss.config.js', 'eslint.config.mjs', 'eslint.config.js', 'README.md', 'PROJECT_GOALS.md', 'DEVELOPMENT_HANDOFF.md', 'ARCHITECTURE_AND_ROADMAP.md', 'wear_weather_project_spec_and_handoff.md', 'MOBILE_APP_GUIDE.md', 'LICENSE', 'LICENSE.md'];
 const required = ['package.json', 'package-lock.json', 'Dockerfile', 'docker-compose.yml', '.dockerignore', 'next.config.ts', 'tsconfig.json', 'db/imports/local-approved.json', 'deploy/Caddyfile'];
 
 export function excludedReleasePath(relative) {
@@ -58,14 +58,22 @@ function tar(args) {
 export async function packageRelease({ directory = process.cwd(), name = 'weathrobe-preview' } = {}) {
   if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(name)) throw new Error('Invalid release name.');
   const root = await realpath(path.resolve(directory));
+  let release;
+  try {
+    await lstat(path.join(root, 'deploy/release-profile.json'));
+    release = await (await import('./check-release.mjs')).assertPackagingReady(root);
+  } catch (error) { if (error.code !== 'ENOENT' || error.path !== path.join(root, 'deploy/release-profile.json')) throw error; }
   const files = await releaseFiles(root);
+  const archiveFiles = [];
+  for (const file of files) archiveFiles.push([file, createHash('sha256').update(await readFile(path.join(root, file))).digest('hex')]);
   const output = path.join(root, 'artifacts', 'releases');
   await mkdir(output, { recursive: true });
   const resolvedOutput = await realpath(output);
   if (!resolvedOutput.startsWith(`${root}${path.sep}`)) throw new Error('Release output must stay inside the workspace.');
   const archive = path.join(resolvedOutput, `${name}.tar.gz`);
   const checksum = `${archive}.sha256`;
-  for (const target of [archive, checksum]) {
+  const sourceManifest = `${archive}.manifest.json`;
+  for (const target of [archive, checksum, sourceManifest]) {
     try { await lstat(target); throw new Error('Release output already exists; choose a new name. Existing files were preserved.'); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }
   }
@@ -80,9 +88,13 @@ export async function packageRelease({ directory = process.cwd(), name = 'weathr
     const hash = createHash('sha256');
     for await (const chunk of createReadStream(staging)) hash.update(chunk);
     const digest = hash.digest('hex');
+    for (const [file, digest] of archiveFiles) if (createHash('sha256').update(await readFile(path.join(root, file))).digest('hex') !== digest) throw new Error('Source file changed while packaging');
+    if (release && (await (await import('./check-release.mjs')).releaseIdentity(root)).sourceId !== release.sourceId) throw new Error('Source changed while packaging');
     await copyFile(staging, archive, constants.COPYFILE_EXCL);
     await writeFile(checksum, `${digest}  ${path.basename(archive)}\n`, { flag: 'wx', mode: 0o600 });
-    return { archive, checksum, sha256: digest, files: files.length, bytes: (await stat(archive)).size };
+    if (release) await writeFile(sourceManifest, JSON.stringify({ schemaVersion: 1, version: release.version, sourceId: release.sourceId,
+      archive: path.basename(archive), sha256: digest, sourceFiles: release.files, archiveFiles, checks: release.proof.checks, liveDeployment: false }, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+    return { archive, checksum, ...(release ? { sourceManifest, version: release.version, sourceId: release.sourceId } : {}), sha256: digest, files: files.length, bytes: (await stat(archive)).size };
   } finally {
     // Only the two explicitly named files in our newly created temp directory are removed.
     await rm(list, { force: true });
@@ -97,7 +109,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     console.error('Usage: node scripts/deploy/package-release.mjs --name weathrobe-preview-YYYY-MM-DD');
     process.exitCode = 1;
   } else {
-    packageRelease({ name }).then(result => console.log(JSON.stringify(result, null, 2))).catch(error => {
+    import('./check-release.mjs').then(m => m.assertPackagingReady()).then(() => packageRelease({ name })).then(result => console.log(JSON.stringify(result, null, 2))).catch(error => {
       console.error(error instanceof Error ? error.message : 'Could not package release.');
       process.exitCode = 1;
     });

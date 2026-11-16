@@ -50,7 +50,7 @@ cd "$HOME/weathrobe-preview-20261019"
 
 ## 5. Alan adı alımı olmadan HTTPS adresi ve yeni sırlar
 
-İlk paylaşım için `weathrobe-<SUNUCU-IP-TİRELERLE>.sslip.io` kullanılabilir. Örneğin belgelerdeki örnek IP `203.0.113.10` olsaydı ad `weathrobe-203-0-113-10.sslip.io` olurdu; bu örnek IP'yi kullanmayın. Gerçek public IP'nizle aşağıdaki değişkeni doldurun:
+İlk paylaşım için `weathrobe-<SUNUCU-IP-TİRELERLE>.sslip.io` kullanılabilir. Örneğin belgelerdeki örnek IP `203.0.113.10` olsaydı ad `weathrobe-preview.example.com` olurdu; bu örnek IP'yi kullanmayın. Gerçek public IP'nizle aşağıdaki değişkeni doldurun:
 
 ```bash
 weathrobe_ip='ORACLE_SUNUCU_PUBLIC_IPV4'
@@ -118,3 +118,7 @@ Bu yalnız katalog DB yedeğidir; topluluk volume'u ve `.env` için ayrı koruma
 ## 9. Doctus için sonraki adım
 
 Aynı sunucuda başka site yayınlanabilir. Şimdiki Compose'un Caddy servisi 80/443'ü kullanır. İkinci uygulama eklenirken ortak Caddy yönlendirmesi ve açık bir ortak proxy ağı düzenlenmeli; uygulama/veri volume'ları ayrı tutulmalıdır. Mevcut Compose'u ikinci kez ayrı bir Caddy ile aynı portlara başlatmak uygun değildir. Kaynaklar toplam Oracle kotası içinde değerlendirilir; Doctus kurulumu bu paketin kapsamında değildir.
+
+## 30 Ekim 2026 — güncelleme hazırlığı
+
+Yukarıdaki komutlar 19 Ekim ilk kurulumu içindir. WW-22/24/23/21 toplu güncellemesi için [RELEASE.md](RELEASE.md), [yayın profili](release-profile.json) ve [kanıt kaydı](RELEASE_EVIDENCE.md) esas alınır. Mevcut volume/proje ve ortak proxy durumu yeniden doğrulanmadan ilk kurulum komutlarını tekrar çalıştırmayın. Yeni rapor alanı yedek kapsamındadır; eski katalog dump'ı tek başına tam kurtarma kopyası değildir. Yeni paket hazırlığı canlı yayın onayı anlamına gelmez.

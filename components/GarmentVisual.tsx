@@ -1,14 +1,17 @@
 'use client';
 
-import { memo, useId } from 'react';
+import React, { memo, useId } from 'react';
 import { resolveGarmentAppearance, type AppearanceItem } from '@/lib/garment-appearance';
+import { garmentIllustration, type GarmentIllustration } from '@/lib/garment-illustrations';
 
-interface GarmentVisualProps { item: AppearanceItem; className?: string; worn?: boolean }
+interface GarmentVisualProps { item: AppearanceItem; className?: string; worn?: boolean; drawingVersion?: 'before' | 'current' }
 
 /** Original vector templates; styling is representative and never changes source facts. */
-export const GarmentVisual = memo(function GarmentVisual({ item, className = '', worn = false }: GarmentVisualProps) {
+export const GarmentVisual = memo(function GarmentVisual({ item, className = '', worn = false, drawingVersion = 'current' }: GarmentVisualProps) {
   const id = useId().replace(/:/g, '');
   const a = resolveGarmentAppearance(item), type = a.type;
+  const refined = drawingVersion === 'before' ? undefined : garmentIllustration(a);
+  if (refined) return <RefinedGarmentVisual appearance={a} art={refined} id={id} className={className} worn={worn}/>;
   const v = a.design?.variant ?? -1;
   const seam = { stroke: '#182d29', strokeOpacity: .36, strokeWidth: 1.1, fill: 'none' };
   const stitch = { ...seam, strokeOpacity: .2, strokeDasharray: '2 2' };
@@ -131,6 +134,50 @@ export const GarmentVisual = memo(function GarmentVisual({ item, className = '',
     {a.umbrella && <path d="M100 36V182A13 13 0 0 1 74 182M100 36Q65 55 63 110M100 36Q135 55 137 110" {...seam} strokeWidth="2"/>}
   </svg>;
 });
+
+function RefinedGarmentVisual({ appearance: a, art, id, className, worn }: {
+  appearance: ReturnType<typeof resolveGarmentAppearance>; art: GarmentIllustration;
+  id: string; className: string; worn: boolean;
+}) {
+  const rgb = a.color.slice(1).match(/../g)!.map(value => parseInt(value, 16));
+  const dark = rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722 < 95;
+  const ink = dark ? '#dce4e0' : '#263b36';
+  const line = { stroke: ink, strokeWidth: 1.65, strokeOpacity: dark ? .7 : .73, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' };
+  const fill = { body: a.color, accent: a.accentColor, shade: '#10251f', light: '#ffffff' };
+  return <svg className={`garment-visual ${className}`} viewBox="0 0 200 240" fill="none" aria-hidden="true" focusable="false"
+    data-garment-type={a.type} data-garment-pattern={a.pattern} data-garment-design={a.design?.id} data-garment-illustration="ww21">
+    <defs>
+      <clipPath id={`${id}-body`}>{art.body.map((d, i) => <path key={i} d={d}/>)}</clipPath>
+      <linearGradient id={`${id}-volume`} x1="25" y1="100" x2="177" y2="110" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#091d16" stopOpacity=".18"/><stop offset=".28" stopColor="#fff" stopOpacity=".12"/>
+        <stop offset=".65" stopColor="#fff" stopOpacity=".02"/><stop offset="1" stopColor="#091d16" stopOpacity=".21"/>
+      </linearGradient>
+      <pattern id={`${id}-surface`} width={a.pattern === 'dots' ? 15 : 24} height={a.pattern === 'dots' ? 15 : 24} patternUnits="userSpaceOnUse">
+        {a.pattern === 'stripes' && <path d="M0 6H24M0 18H24" stroke={a.accentColor} strokeWidth="4"/>}
+        {a.pattern === 'checks' && <><path d="M0 8H24M8 0V24" stroke={a.accentColor} strokeWidth="6" opacity=".6"/><path d="M0 20H24M20 0V24" stroke={a.accentColor} strokeWidth="1.5"/></>}
+        {a.pattern === 'dots' && <circle cx="6" cy="6" r="2" fill={a.accentColor}/>}
+      </pattern>
+      <filter id={`${id}-shadow`} x="-15%" y="-15%" width="130%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="2.5" floodColor="#10251b" floodOpacity=".13"/></filter>
+    </defs>
+    <g filter={worn ? undefined : `url(#${id}-shadow)`}>
+      <g clipPath={`url(#${id}-body)`}>
+        <rect width="200" height="240" fill={a.color}/>
+        {a.pattern === 'colour-block' ? <path d="M0 103H200V144H0Z" fill={a.accentColor}/> : a.pattern !== 'plain' && <rect width="200" height="240" fill={`url(#${id}-surface)`}/>}
+        <rect width="200" height="240" fill={`url(#${id}-volume)`}/>
+      </g>
+      {art.panels.map((panel, i) => <path key={i} d={panel.d} fill={fill[panel.tone]} opacity={panel.opacity} clipPath={panel.outside ? undefined : `url(#${id}-body)`}/>) }
+    </g>
+    {art.body.map((d, i) => <path key={i} d={d} {...line} strokeWidth="1.8"/>)}
+    <g clipPath={`url(#${id}-body)`}>
+      {art.seams.map((d, i) => <path key={i} d={d} {...line}/>)}
+      {art.stitches.map((d, i) => <path key={i} d={d} {...line} strokeWidth="1" strokeOpacity={dark ? .45 : .48} strokeDasharray="2.2 1.8"/>)}
+      {art.folds.map((d, i) => <path key={i} d={d} {...line} strokeWidth="2.5" strokeOpacity=".13"/>)}
+      {art.buttons.map((button, i) => <circle key={i} {...button} fill={ink} opacity=".8"/>)}
+    </g>
+    {art.neck.map((d, i) => <path key={i} d={d} {...line}/>)}
+  </svg>;
+}
+
 /** Seams and closures carry visual differences; none are evidence of real materials. */
 function illustrationDetails(type: string | undefined, v: number, hem: number): string[] {
   const zip = `M100 52V${hem - 6}M97 58V${hem - 6}`;
