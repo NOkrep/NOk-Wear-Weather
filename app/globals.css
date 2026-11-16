@@ -718,3 +718,14 @@
   .header-actions .icon-button { width: 38px; height: 44px; }
 }
 /* End WW-03 M1–M2 */
+
+/* WW-29/1 thanks & sources (inside Sources & privacy) */
+.settings-credits .credit-group { margin-top: 16px; }
+.settings-credits .credit-group h4 { font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--ww-muted); margin-bottom: 6px; }
+.settings-credits ul { list-style: none; padding: 0; margin: 0; }
+.settings-credits li { padding: 9px 0; border-bottom: 1px solid color-mix(in srgb, var(--ww-line) 50%, transparent); overflow-wrap: anywhere; }
+.settings-credits li > a { font-size: 12px; font-weight: 600; color: var(--ww-ink); }
+.settings-credits li small { display: block; font-size: 10px; color: var(--ww-muted); margin-top: 2px; }
+.settings-credits li small a { color: inherit; text-decoration: underline; }
+.settings-credits li p { font-size: 11px; color: var(--ww-ink); margin-top: 4px; line-height: 1.45; }
+/* End WW-29/1 */
