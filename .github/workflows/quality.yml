@@ -1,0 +1,113 @@
+name: Weathrobe Quality
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source:
+    name: Source checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Reject private artwork and review records in the public source tree
+        run: |
+          node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          const files = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\0');
+          if (files.some(file => /^(artifacts\/previews|evidence\/ww21)\//.test(file))) {
+            throw Error('Original artwork and acceptance records must stay in the private release repository.');
+          }
+          NODE
+      - run: npm run check
+      - run: git diff --check
+
+  catalogue:
+    name: Disposable catalogue lifecycle
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    needs: source
+    env:
+      CATALOG_TEST_DATABASE_URL: postgresql://catalog_test:synthetic-ci-only-password@127.0.0.1:5432/weathrobe_catalog_test
+      CATALOG_DATA_TEST_DATABASE_URL: postgresql://catalog_test:synthetic-ci-only-password@127.0.0.1:5432/weathrobe_catalog_data_test
+      CATALOG_SOURCE_TEST_DATABASE_URL: postgresql://catalog_test:synthetic-ci-only-password@127.0.0.1:5432/weathrobe_source_test
+      WEATHROBE_DEPLOY_TEST_DATABASE_URL: postgresql://catalog_test:synthetic-ci-only-password@127.0.0.1:5432/weathrobe_deployment_test
+      CATALOG_READER_PASSWORD: syntheticCiReaderPassword0123456789
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: weathrobe_catalog_test
+          POSTGRES_USER: catalog_test
+          POSTGRES_PASSWORD: synthetic-ci-only-password
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --health-cmd "pg_isready -U catalog_test -d weathrobe_catalog_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Create separate disposable integration databases
+        run: |
+          node --input-type=module <<'NODE'
+          import pg from 'pg';
+          const pool = new pg.Pool({ connectionString: process.env.CATALOG_TEST_DATABASE_URL });
+          try {
+            for (const name of ['weathrobe_catalog_data_test', 'weathrobe_source_test', 'weathrobe_deployment_test']) {
+              await pool.query('CREATE DATABASE ' + name);
+            }
+          } finally { await pool.end(); }
+          NODE
+      - name: Verify migrations, publication, reader permissions and unavailable data
+        run: |
+          npm run test:catalog:db
+          node --test --test-concurrency=1 tests/catalog-data.test.cjs tests/catalog-sources.test.cjs tests/deployment.test.cjs
+      # The exact historical 74-product restore test needs a separately authenticated
+      # old snapshot; an empty source-CI database is not evidence of that restore.
+      - name: Verify private reports survive container replacement
+        env:
+          WW24_DOCKER_TEST: '1'
+        run: |
+          docker pull node:24-bookworm-slim
+          node --test tests/product-feedback.test.cjs
+
+  security:
+    name: Dependency security
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm audit --package-lock-only --omit=dev --audit-level=moderate
+      - run: npm audit --package-lock-only --audit-level=high
+
+# No production environment, private release action, deployment credential or publication.
+# Operational upgrade/rollback gates remain in the private release centre.

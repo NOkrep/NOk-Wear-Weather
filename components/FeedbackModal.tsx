@@ -35,24 +35,28 @@ export function FeedbackModal({ isOpen, onClose, currentLocationName, onFeedback
     const [submitted, setSubmitted] = useState(false);
     const [busy, setBusy] = useState(false);
     const [message, setMessage] = useState('');
+    const [wasOpen, setWasOpen] = useState(false);
+    if (isOpen !== wasOpen) {
+        setWasOpen(isOpen);
+        if (isOpen) {
+            setFeedbacks(readFeedback());
+            setSubmitted(false);
+            setWorn(false);
+            setItemKey('');
+            setNotes('');
+            setMessage('');
+            try { setConsent(localStorage.getItem(COMMUNITY_CONSENT_KEY) === 'true'); } catch { setConsent(false); }
+        }
+    }
     useEffect(() => {
         if (!isOpen)
             return;
         const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         const oldOverflow = document.body.style.overflow;
-        setFeedbacks(readFeedback());
-        setSubmitted(false);
-        setWorn(false);
-        setItemKey('');
-        setNotes('');
-        setMessage('');
-        try {
-            setConsent(localStorage.getItem(COMMUNITY_CONSENT_KEY) === 'true');
-        }
-        catch { }
-        dialog.current?.showModal();
+        const element = dialog.current;
+        element?.showModal();
         document.body.style.overflow = 'hidden';
-        return () => { dialog.current?.close(); document.body.style.overflow = oldOverflow; previous?.focus({ preventScroll: true }); };
+        return () => { element?.close(); document.body.style.overflow = oldOverflow; previous?.focus({ preventScroll: true }); };
     }, [isOpen]);
     if (!isOpen)
         return null;

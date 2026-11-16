@@ -1,5 +1,9 @@
 /** Local dictionaries: changing language never sends wardrobe or personal text to a service. */
 export const english: Record<string, string> = {
+  'Temsili stüdyo': 'Studio reference',
+  'Temsili stüdyo · gerçek ürün fotoğrafı değildir.': 'Synthetic studio reference · not an actual product photograph.',
+  'Görsel yüklenemedi · çizim': 'Image unavailable · illustration',
+  'Stüdyo modelleri sabit örneklerdir; kişisel renk, desen ve kesim kişisel önizlemede gösterilir.': 'Studio models are fixed references; your personal colour, pattern and cut appear in the personal preview.',
   'Dolabında': 'In your wardrobe', 'Kaynaklı ürün': 'Sourced product', 'Isı bilgisi yok': 'Warmth unknown',
   'Su koruması bilinmiyor': 'Water protection unknown', 'Kişisel ısı tahminim': 'My warmth estimate',
   'Belirtilmedi': 'Not specified', 'Çok hafif': 'Very light', 'Hafif': 'Light', 'Sıcak': 'Warm', 'Çok sıcak': 'Very warm',
@@ -147,6 +151,9 @@ Object.assign(english, {
  'Parçanı tarif et':'Describe your piece','Örn. Lacivert kaban, etikette %80 yün %20 kaşmir…':'e.g. Navy coat, label says 80% wool, 20% cashmere…','Fotoğraf seçildi':'Photo selected','Fotoğraf ekle (isteğe bağlı)':'Add photo (optional)','Taslak oluştur':'Create draft','Seçtiğin kıyafet fotoğrafı':'Selected garment photo','Fotoğrafı kaldır':'Remove photo',
  'Bu işlemde yazdığın açıklama ve seçtiğin fotoğraf, yapılandırılmışsa AI hizmetine gönderilir. Barkod / Manuel bölümünü kullanarak kendin de ekleyebilirsin.':'Your description and selected photo are sent to the AI service if configured. You can also add pieces yourself in Barcode / Manual.',
  'Taslak oluşturulamadı. Manuel girişle devam edebilirsin.':'Could not create a draft. Continue with manual entry.',
+ 'En fazla 2 MiB boyutunda JPEG, PNG veya WebP fotoğraf seç.':'Choose a JPEG, PNG, or WebP photo up to 2 MiB.',
+ 'Fotoğraf analizi için Kaynaklar bölümüne kişisel Gemini anahtarını ekle veya fotoğrafı kaldır.':'Add your personal Gemini key in Sources to analyze a photo, or remove the photo.',
+ 'Kişisel Gemini anahtarın varsa gönderdiğin açıklama ve fotoğraf Google Gemini ile paylaşılır.':'If you have added a personal Gemini key, submitting shares your description and photo with Google Gemini.',
  'Durak saatleri':'Stop times','Durak saati':'Stop time','Haritaya tıklama davranışı':'Map click behaviour','Tıkla: durak ekle':'Click: add stop','Tıkla: konumu değiştir':'Click: move stop','Rotaya durak ara':'Search for a route stop','Şehir, ilçe veya ülke ekle…':'Add city, district or country…','Yeni durak saati':'New stop time','Değiştir':'Replace','Ekle':'Add','Konum alınıyor…':'Finding location…',
  'Standart & Bütçe Dostu':'Everyday & affordable','Orta-Üst & Şehir Klasiği':'Elevated city essentials','Lüks & İleri Teknik':'Luxury & advanced technical','Standart & Erişilebilir (Essential)':'Everyday & accessible','Orta-Üst & Kaliteli Şehir (Smart)':'Elevated city essentials','Lüks & Pro-Teknik (Luxury)':'Luxury & technical',
  'Basic %100 Pamuklu Süprem Tişört':'100% cotton jersey T-shirt','%100 Taranmış Pamuk (160 GSM)':'100% combed cotton (160 GSM)','Nefes alan, teri emen günlük temel tişört.':'A breathable, absorbent everyday T-shirt.',
@@ -298,4 +305,68 @@ Object.assign(english, {
   "Tür başına hedef": "Target per type",
   "Kaynaklı ürün hedefi": "Sourced product target",
   "Bu tür için kaynak doğrulaması sürüyor. Diğer türleri inceleyebilir veya kendi parçanı ekleyebilirsin.": "Source verification for this type is ongoing. Explore other types or add your own piece."
+});
+
+
+Object.assign(english, {
+  'Kombin değerlendirmesi': 'Outfit review', 'Düzenle': 'Edit',
+  'Uygulama geri bildirimi': 'App feedback',
+  'Hata bildir / Öneri paylaş': 'Report a bug / Share an idea',
+  'Hata bildir': 'Report a bug', 'Öneri paylaş': 'Share an idea',
+  'Bildirimin kaydedildi.': 'Your report has been saved.',
+  'İnceleme için rapor numaran:': 'Your report reference:',
+  'Göndermeden önce kontrol et': 'Review before sending',
+  'Kategori': 'Category', 'Açıklama': 'Description',
+  'Tekrar adımları (isteğe bağlı)': 'Steps to reproduce (optional)',
+  'Eklenmedi': 'Not provided', 'Form dili': 'Form language',
+  'Yalnızca bu bilgiler gönderilir. Sunucu rapor numarası ve kayıt zamanı ekler. Gönderim sınırı için bir günlük anonim çerez ve özetlenmiş sayaç kullanılır. IP adresi kaydedilmez.': 'Only these details are sent. The server adds a report reference and creation time. A one-day anonymous cookie and a hashed counter are used to limit submissions. Your IP address is not stored.',
+  'Önizlemedeki bilgilerin inceleme için sunucuda saklanmasını onaylıyorum.': 'I agree to the details in this preview being stored on the server for review.',
+  'Onayla ve gönder': 'Confirm and send', 'Gönderiliyor…': 'Sending…',
+  'Uygulamadaki bir sorunu veya geliştirme fikrini paylaş. Kombin ve üşüme/terleme değerlendirmesi ayrı bölümde kalır.': 'Share an app issue or an improvement idea. Outfit and thermal comfort reviews remain in their own section.',
+  '10–2000 karakter. Kişisel bilgi veya gizli anahtar yazma.': '10–2000 characters. Do not include personal information or secret keys.',
+  'Konumun, dolabın, avatarın, API anahtarların ve cihaz dökümü otomatik eklenmez. Ekran görüntüsü veya dosya alınmaz.': 'Your location, wardrobe, avatar, API keys and device details are not added automatically. No screenshots or files are collected.',
+  'Taslak yalnızca bu pencerede kalır; kapattığında silinir. Önizleme veri göndermez.': 'Your draft stays only in this dialog and is discarded when you close it. Previewing sends nothing.',
+  'Gönderilecek bilgileri önizle': 'Preview what will be sent',
+  'Açıklama 10–2000 karakter, tekrar adımları en fazla 2000 karakter olmalı.': 'Use 10–2000 characters for the description and up to 2000 for the steps.',
+  'Gönderim sınırına ulaşıldı. Daha sonra tekrar deneyebilirsin.': 'The submission limit has been reached. Please try again later.',
+  'Bildirim doğrulanamadı. Düzenle düğmesiyle metni kontrol edip yeniden önizle.': 'The report could not be validated. Use Edit to check the text and preview it again.',
+  'Kayıt onayı alınamadı. Metnin bu pencerede korunuyor; tekrar gönderebilirsin.': 'We could not confirm the save. Your text remains in this dialog; you can try sending again.'
+});
+
+
+Object.assign(english, {
+ 'Durak planı':'Stop plan','Saat dilimi':'Time zone','Bekleniyor':'Pending','Plan tarihi':'Plan date','Yarın':'Tomorrow','Takvim':'Calendar',
+ 'Başlangıç saati':'Start time','Bitiş saati (isteğe bağlı)':'End time (optional)',
+ 'Bitiş ertesi yerel güne taşar.':'The end falls on the next local day.',
+ 'Bitiş boşsa yalnız başlangıç anı seçilir.':'Leave the end empty to select just the start instant.',
+ 'Seçilen aralık için saatlik tahmin hazır.':'Hourly forecasts are ready for the selected interval.',
+ 'Seçilen tarihin tahmini alınıyor.':'Loading forecasts for the selected date.',
+ 'Bu plan için kullanılabilir tahmin yok. Güncel hava yerine gösterilmez.':'No usable forecast is available for this plan. Current weather is not substituted.',
+ 'Tahmin güncel değil. Yenileyerek tekrar dene.':'This forecast is stale. Refresh and try again.',
+ 'Konumun saat dilimi doğrulanamadı; tarihli plan hesaplanmadı.':'The location time zone could not be verified; the dated plan was not calculated.',
+ 'Geçerli bir takvim tarihi seç.':'Choose a valid calendar date.',
+ 'Seçilen yerel saat bu tarihte geçerli değil. Saat dilimi veya yaz saati geçişini kontrol et.':'The selected local time does not exist on this date. Check the time zone or daylight saving transition.',
+ 'Bitiş saati başlangıçtan farklı olmalı.':'The end time must differ from the start.',
+ 'Geçmiş gün için ileri tarihli tahmin kullanılamaz.':'A future forecast cannot be used for a past date.',
+ 'Seçilen aralık kaynakların kullanılabilir tahmin ufkunun dışında.':'The selected interval is outside the available forecast horizon.',
+ 'Seçilen aralığın bazı saatlerinde veri eksik. Eksik saatler uydurulmadı; öneri hesaplanmadı.':'Some hours in the selected interval are missing. No data was invented and no outfit was calculated.',
+ 'Plan tahmini':'Planned forecast','En yüksek yağış':'Highest rain probability','En yüksek rüzgâr':'Highest wind',
+ 'Kaynakların tahmin kapsamı':'Forecast coverage by source',
+ 'Ufuk, gerçekten alınan saatlik verilere aittir. Aradaki boşluklar ayrıca denetlenir; gün sayısı garanti edilmez.':'Coverage comes from the hourly data actually received. Gaps are checked separately; no number of days is guaranteed.',
+ 'Bu uygulamada yalnız Şimdi akışında kullanılır.':'Used only in the Now flow in this app.',
+ 'WeatherAPI.com (Özel Anahtar)':'WeatherAPI.com (Custom key)',
+ 'OpenWeatherMap (Özel Anahtar)':'OpenWeatherMap (Custom key)',
+ 'Saatlik tahmin alınamadı.':'Hourly forecasts could not be retrieved.',
+ 'Bu aralığın tamamını karşılıyor.':'Covers this entire interval.',
+ 'Seçilen aralığın tamamı bu kaynakla doğrulanmadı.':'This source does not verify the whole selected interval.',
+ 'Tarih seçimi için konumun saat dilimi bekleniyor.':'Waiting for the location time zone before enabling dates.',
+ 'Saat geri alındığında tekrarlanan saatin ilk oluşumu kullanılır. Saat ileri alınıp atlanan bir saat seçilirse hesaplama yapılmaz.':'When clocks go back, the first occurrence of a repeated time is used. A skipped time when clocks go forward is rejected.',
+ 'Planın, sana göre':'Your plan, your way','tahmin kaynağı':'forecast sources',
+ 'Plan verileri tamamlanmadan kombin hesaplanmaz.':'An outfit cannot be calculated until every stop has plan data.',
+ 'Seçilen planın saatleri':'Hours in the selected plan',
+ 'Saatlik tahmin gösterilir; aradaki dakikalar için yeni ölçüm üretilmez. Kaynak karşılaştırması aralığın en düşük sıcaklığını ve en yüksek risklerini kullanır.':'Hourly forecasts are shown; no new measurements are invented between hours. Source comparisons use the interval’s lowest temperature and highest risks.',
+ 'Sıcak katmanlar':'Warm layers','Hafif katmanlar':'Light layers','İnce dış katman':'Light outer layer',
+ 'Plan tahmini; gerçek giyim deneyimi kaydı değildir.':'A planned forecast, not a record of clothes actually worn.',
+ 'Hissedilen aralık':'Feels-like range','Gece':'Night','Durak planını düzenle':'Edit stop plan',
+ 'Sıcak saatler için açık renk ve nefes alan katman seç. UV verisi bilinmiyor.':'Choose light colours and breathable layers for warm hours. UV data is unknown.'
 });

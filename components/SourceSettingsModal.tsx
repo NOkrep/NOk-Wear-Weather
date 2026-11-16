@@ -1,5 +1,5 @@
 'use client';
-import {useEffect,useState} from 'react';
+import {useState} from 'react';
 import {Check,Database,KeyRound,LoaderCircle,ShieldCheck,Trash2} from 'lucide-react';
 import {getStoredCustomKeys} from '@/lib/weather-service';
 import {wipeAllLocalUserData} from '@/lib/security';
@@ -11,7 +11,8 @@ export function SourceSettingsModal({isOpen,onClose,onKeysSaved,onDataWiped,weat
  const {t}=useLocale();
  const [weatherApiKey,setWeatherApiKey]=useState(''),[openWeatherMapKey,setOpenWeatherMapKey]=useState(''),[geminiApiKey,setGeminiApiKey]=useState('');
  const [saved,setSaved]=useState(false),[wiped,setWiped]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
- useEffect(()=>{if(isOpen){const keys=getStoredCustomKeys();setWeatherApiKey(keys.weatherApiKey||'');setOpenWeatherMapKey(keys.openWeatherMapKey||'');setGeminiApiKey(keys.geminiApiKey||'');setWiped(false);setSaved(false);setError('');}},[isOpen]);
+ const [wasOpen,setWasOpen]=useState(false);
+ if(isOpen!==wasOpen){setWasOpen(isOpen);if(isOpen){const keys=getStoredCustomKeys();setWeatherApiKey(keys.weatherApiKey||'');setOpenWeatherMapKey(keys.openWeatherMapKey||'');setGeminiApiKey(keys.geminiApiKey||'');setWiped(false);setSaved(false);setError('');}}
  const save=(e:React.FormEvent)=>{e.preventDefault();try{localStorage.setItem('wear_weather_custom_keys',JSON.stringify({weatherApiKey:weatherApiKey.trim(),openWeatherMapKey:openWeatherMapKey.trim(),geminiApiKey:geminiApiKey.trim()}));setSaved(true);onKeysSaved?.();}catch{setError('Ayarlar kaydedilemedi. Tarayıcı depolamasını kontrol et.');}};
  const wipe=async()=>{setBusy(true);setError('');try{const r=await fetch('/api/community',{method:'DELETE'});if(!r.ok)throw Error();wipeAllLocalUserData();setWeatherApiKey('');setOpenWeatherMapKey('');setGeminiApiKey('');setWiped(true);onDataWiped?.();}catch{setError('Topluluk katkıları silinemedi. Bağlantını kontrol edip yeniden dene; silme işlemi tamamlanmadı.');}finally{setBusy(false);}};
  if(!isOpen)return null;

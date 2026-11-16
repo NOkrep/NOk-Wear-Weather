@@ -3,7 +3,7 @@
 import { ArrowUpRight, FileCheck2, Ruler, Plus, Check } from 'lucide-react';
 import type { CatalogProduct, CatalogSource } from '@/lib/catalog/model';
 import { useLocale } from '@/lib/i18n';
-import { GarmentVisual } from './GarmentVisual';
+import { GarmentStudioVisual, studioReference } from './GarmentStudioVisual';
 import { GARMENT_TYPES } from '@/lib/catalog/taxonomy';
 import { catalogMaterial } from '@/lib/catalog-wardrobe';
 
@@ -17,11 +17,12 @@ export function CatalogProductCard({ product, sources, isAdded, onAdd }: { produ
   const source = sources.find(source => source.id === evidence?.sourceId);
   const category = type && type.group !== 'one_piece' ? type.group : 'base';
 
+  const modelItem = { name, category, garmentTypeId: product.garmentTypeId, colorHex: '#c7cebf' };
   return <article className="catalog-piece real-product-card" data-product-id={product.id}>
     <div className="catalog-piece-art">
       <span className="catalog-category">{type ? (locale === 'tr' ? type.tr : type.en) : ''}</span>
-      <GarmentVisual item={{ name: product.name.tr, category, garmentTypeId: product.garmentTypeId, colorHex: '#c7cebf' }}/>
-      <span className="product-illustration-label">{t('Temsili çizim')}</span>
+      <GarmentStudioVisual item={modelItem}/>
+      {!studioReference(modelItem) && <span className="product-illustration-label">{t('Temsili çizim')}</span>}
     </div>
     <div className="catalog-piece-info">
       <span className="catalog-tier">{product.brand} <span aria-hidden="true">/</span> {product.model}</span>

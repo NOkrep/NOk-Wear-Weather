@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { english, translateEnglish } from './translations';
 import type { ClothingItem } from './types';
 
@@ -14,10 +14,16 @@ type GarmentLabel = Pick<ClothingItem, 'name' | 'nameEn' | 'dataSource' | 'isUse
 type Context = { locale: Locale; setLocale: (locale: Locale) => void; t: typeof identity; garment: (item: GarmentLabel) => string };
 const identity = <T,>(value: T): T => value;
 const LanguageContext = createContext<Context>({ locale: 'tr', setLocale: () => {}, t: identity, garment: item => item.name });
+const subscribeToHydration = () => () => {};
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLanguage] = useState<Locale>('tr');
-  useEffect(() => {
+  const browserReady = useSyncExternalStore(subscribeToHydration, () => true, () => false);
+  const [languageLoaded, setLanguageLoaded] = useState(false);
+  if (browserReady && !languageLoaded) {
+    setLanguageLoaded(true);
     try { if (localStorage.getItem(LOCALE_KEY) === 'en') setLanguage('en'); } catch {}
+  }
+  useEffect(() => {
     const reset = () => setLanguage('tr');
     window.addEventListener('weathrobe-data-wiped', reset);
     return () => window.removeEventListener('weathrobe-data-wiped', reset);

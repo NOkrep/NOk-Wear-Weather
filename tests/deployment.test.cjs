@@ -96,12 +96,18 @@ test('release archive includes current sources and reviewed data, excluding cred
   const { packageRelease } = await packaging;
   for (const name of ['.env', '.env.local', '.git/config', '.data/community.json', 'node_modules/dummy.js', 'public/credential.key', 'public/secret.pem', 'scripts/private/identity.txt', 'lib/.env.local', 'db/backups/private.dump']) await put(folder, name, 'fixture-not-for-release');
   await put(folder, '.env.example', 'GEMINI_API_KEY=');
+  await put(folder, 'public/garments/studio/model-0123456789ab.webp', 'synthetic optimized asset');
+  await put(folder, 'artifacts/previews/raw-source.png', 'not a production asset');
+  await put(folder, 'app/api/health/route.ts', '// current release health source');
   const result = await packageRelease({ directory: folder, name: 'test-preview' });
   const listing = spawnSync('tar', ['-tzf', result.archive], { encoding: 'utf8', windowsHide: true });
   assert.equal(listing.status, 0, listing.stderr);
   assert.ok(listing.stdout.includes('app/page.tsx'));
   assert.ok(listing.stdout.includes('db/imports/local-approved.json'));
   assert.ok(listing.stdout.includes('.env.example'));
+  assert.ok(listing.stdout.includes('public/garments/studio/model-0123456789ab.webp'));
+  assert.ok(listing.stdout.includes('app/api/health/route.ts'));
+  assert.ok(!listing.stdout.includes('artifacts/'));
   assert.ok(!listing.stdout.includes('.env.local'));
   assert.ok(!listing.stdout.includes('.git/'));
   assert.ok(!listing.stdout.includes('.data/'));

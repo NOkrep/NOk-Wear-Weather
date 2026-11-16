@@ -5,7 +5,7 @@ import { ArrowUpRight, UserRoundPen } from 'lucide-react';
 import { useLocale } from '@/lib/i18n';
 import type { ClothingItem } from '@/lib/types';
 import { DEFAULT_AVATAR, readAvatarProfile, saveAvatarProfile, type AvatarProfile, type AvatarView } from '@/lib/avatar-profile';
-import { GarmentVisual } from './GarmentVisual';
+import { GarmentStudioVisual } from './GarmentStudioVisual';
 import { AvatarEditor, AvatarViews } from './AvatarEditor';
 import { resolveGarmentAppearance } from '@/lib/garment-appearance';
 import { selectOutfitLayers } from '@/lib/outfit-layers';
@@ -36,9 +36,9 @@ export function OutfitBoard({ items, onInspect }: { items: ClothingItem[]; onIns
     <div className="board-caption"><span>{t('Günün görünümü')}<small>WEATHROBE ATELIER</small></span><button type="button" className="text-button" onClick={() => setEditing(true)} aria-haspopup="dialog"><UserRoundPen size={14}/>{t('Karakterim')}</button></div>
     <div className="board-scene">
       <div className="avatar-board-stage"><AvatarViewer profile={avatar} items={items} view={view} onRotate={() => setView('free')}/></div>
-      <div className="board-pieces">{primary.map((item, index) => <button type="button" className={`board-piece board-piece-${index}`} key={item.id} onClick={() => onInspect(item)} aria-label={t(`${garment(item)} — detayları aç`)}><span className="piece-index">{String(index + 1).padStart(2, '0')}<ArrowUpRight size={13}/></span><GarmentVisual item={item}/><span className="piece-name">{garment(item).split('/')[0].replace(/^(Klasik |Rahat Kesim |Esnek )/, '')}</span><span className="piece-label">{t(labels[item.category])}<i style={{ background: resolveGarmentAppearance(item).color }}/></span></button>)}</div>
+      <div className="board-pieces">{primary.map((item, index) => <button type="button" className={`board-piece board-piece-${index}`} key={item.id} onClick={() => onInspect(item)} aria-label={t(`${garment(item)} — detayları aç`)}><span className="piece-index">{String(index + 1).padStart(2, '0')}<ArrowUpRight size={13}/></span><GarmentStudioVisual item={item}/><span className="piece-name">{garment(item).split('/')[0].replace(/^(Klasik |Rahat Kesim |Esnek )/, '')}</span><span className="piece-label">{t(labels[item.category])}<i style={{ background: resolveGarmentAppearance(item).color }}/></span></button>)}</div>
     </div>
-    {accessories.length > 0 && <div className="outfit-accessory-strip" role="group" aria-label={t('Kombinin aksesuarları')}>{accessories.map(item => <button type="button" key={item.id} onClick={() => onInspect(item)}><GarmentVisual item={item}/><span>{garment(item)}</span><ArrowUpRight size={12}/></button>)}</div>}
+    {accessories.length > 0 && <div className="outfit-accessory-strip" role="group" aria-label={t('Kombinin aksesuarları')}>{accessories.map(item => <button type="button" key={item.id} onClick={() => onInspect(item)}><GarmentStudioVisual item={item}/><span>{garment(item)}</span><ArrowUpRight size={12}/></button>)}</div>}
     <div className="avatar-board-bottom"><AvatarViews view={view} onChange={setView}/><span>{t('Temsili 3D kombin · ürün kalıbı değildir')}</span></div>
     {unsupported.length > 0 && <p className="avatar-unsupported-note">{t('Bazı parçalar şimdilik yalnızca kartlarda gösterilir.')}</p>}
     {sessionOnly && <p className="avatar-save-warning" role="status">{t('Görünüm bu oturumda uygulandı. Tarayıcıya kaydedilemedi.')}</p>}

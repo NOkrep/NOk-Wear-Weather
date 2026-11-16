@@ -61,72 +61,70 @@ export function RoutePlanner({
     polyline: [number, number][];
     stops: RouteStop[];
   } | null>(null);
-  const [isLoadingRoute, setIsLoadingRoute] = useState(false);
+  const routeUrl = `/api/route?fromLat=${originCoords.lat}&fromLon=${originCoords.lon}&toLat=${destCoords.lat}&toLon=${destCoords.lon}&fromName=${encodeURIComponent(originName)}&toName=${encodeURIComponent(destName)}&departureTime=${encodeURIComponent(departureTime)}&transport=${transport}`;
+  const [settledRouteUrl, setSettledRouteUrl] = useState<string | null>(null);
+  const isLoadingRoute = settledRouteUrl !== routeUrl;
 
   // Debounced autocomplete for Origin
   useEffect(() => {
     if (!originQuery || originQuery.trim().length < 2 || originQuery === originName) {
-      setOriginResults([]);
       return;
     }
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/geocode?q=${encodeURIComponent(originQuery.trim())}`);
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(originQuery.trim())}`, { signal: controller.signal });
         if (res.ok) {
           const data = await res.json();
-          setOriginResults(data.results || []);
+          if (!controller.signal.aborted) setOriginResults(data.results || []);
         }
       } catch (e) {
-        console.error(e);
+        if (!controller.signal.aborted) console.error(e);
       }
     }, 300);
-    return () => clearTimeout(timer);
+    return () => { clearTimeout(timer); controller.abort(); };
   }, [originQuery, originName]);
 
   // Debounced autocomplete for Destination
   useEffect(() => {
     if (!destQuery || destQuery.trim().length < 2 || destQuery === destName) {
-      setDestResults([]);
       return;
     }
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/geocode?q=${encodeURIComponent(destQuery.trim())}`);
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(destQuery.trim())}`, { signal: controller.signal });
         if (res.ok) {
           const data = await res.json();
-          setDestResults(data.results || []);
+          if (!controller.signal.aborted) setDestResults(data.results || []);
         }
       } catch (e) {
-        console.error(e);
+        if (!controller.signal.aborted) console.error(e);
       }
     }, 300);
-    return () => clearTimeout(timer);
+    return () => { clearTimeout(timer); controller.abort(); };
   }, [destQuery, destName]);
 
   // Fetch real road routing and live stop weather
   useEffect(() => {
     let isMounted = true;
-    setIsLoadingRoute(true);
-
-    const url = `/api/route?fromLat=${originCoords.lat}&fromLon=${originCoords.lon}&toLat=${destCoords.lat}&toLon=${destCoords.lon}&fromName=${encodeURIComponent(originName)}&toName=${encodeURIComponent(destName)}&departureTime=${encodeURIComponent(departureTime)}&transport=${transport}`;
-
-    fetch(url)
+    fetch(routeUrl)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
           setRouteData(data);
-          setIsLoadingRoute(false);
+          setSettledRouteUrl(routeUrl);
         }
       })
       .catch((err) => {
         console.error('Route error:', err);
-        if (isMounted) setIsLoadingRoute(false);
+        if (isMounted) setSettledRouteUrl(routeUrl);
       });
 
     return () => {
       isMounted = false;
     };
-  }, [originCoords.lat, originCoords.lon, destCoords.lat, destCoords.lon, originName, destName, departureTime, transport]);
+  }, [routeUrl]);
 
   // Initialize Leaflet Map once
   useEffect(() => {
@@ -267,11 +265,11 @@ export function RoutePlanner({
             <input
               type="text"
               value={originQuery}
-              onChange={(e) => setOriginQuery(e.target.value)}
+              onChange={(e) => { setOriginQuery(e.target.value); setOriginResults([]); }}
               placeholder="Örn: İstanbul, Kadıköy, Bursa..."
               className="w-full text-xs font-medium px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-sky-500"
             />
-            {originResults.length > 0 && (
+            {originQuery.trim().length >= 2 && originQuery !== originName && originResults.length > 0 && (
               <div className="absolute left-0 right-0 top-full mt-1 z-30 p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl max-h-48 overflow-y-auto">
                 {originResults.map((item, i) => (
                   <button
@@ -314,11 +312,11 @@ export function RoutePlanner({
             <input
               type="text"
               value={destQuery}
-              onChange={(e) => setDestQuery(e.target.value)}
+              onChange={(e) => { setDestQuery(e.target.value); setDestResults([]); }}
               placeholder="Örn: Ankara, İzmir, Antalya, Kaş..."
               className="w-full text-xs font-medium px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-sky-500"
             />
-            {destResults.length > 0 && (
+            {destQuery.trim().length >= 2 && destQuery !== destName && destResults.length > 0 && (
               <div className="absolute left-0 right-0 top-full mt-1 z-30 p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl max-h-48 overflow-y-auto">
                 {destResults.map((item, i) => (
                   <button

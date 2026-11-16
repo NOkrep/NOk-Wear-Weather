@@ -6,7 +6,8 @@ import {
   AnchorMatchResult,
   HourlyForecastPoint,
 } from './types';
-import { getMarketProfileForCountry } from './clothing-catalog';
+import { getMarketProfileForCountry, VERIFIED_GARMENT_CATALOG } from './clothing-catalog';
+import { localDateKey, localTimeLabel } from './weather-time';
 
 // Anchor Items Catalogue
 export const ANCHOR_ITEMS: ClothingItem[] = [
@@ -108,7 +109,7 @@ export function getColorThermalAdvice(weather: WeatherConsensus): {
   reason: string;
   caution: string;
 } {
-  const isHighUvOrHot = weather.temp >= 24 || weather.uvIndex >= 5;
+  const isHighUvOrHot = (weather.selection?.maxTemp ?? weather.temp) >= 24 || (weather.uvIndexKnown !== false && weather.uvIndex >= 5);
   const isCold = weather.temp <= 10;
   const isRainy = weather.precipitationProb >= 50 || weather.condition === 'rainy';
   const isMuggy = (weather.dewPoint ?? 10) >= 16;
@@ -116,7 +117,7 @@ export function getColorThermalAdvice(weather: WeatherConsensus): {
   if (isHighUvOrHot) {
     return {
       recommendedPalette: ['#ffffff', '#fef08a', '#e0f2fe', '#f5f5f4'],
-      reason: `Güneş ışığını ve UV radyasyonunu (UV: ${weather.uvIndex}) yansıtan açık renkler (Beyaz, bej, açık pastel) vücut ısısını korur.`,
+      reason: weather.uvIndexKnown === false ? 'Sıcak saatler için açık renk ve nefes alan katman seç. UV verisi bilinmiyor.' : `Güneş ışığını ve UV radyasyonunu (UV: ${weather.uvIndex}) yansıtan açık renkler (Beyaz, bej, açık pastel) vücut ısısını korur.`,
       caution: isMuggy
         ? `Çiy noktası yüksek (${weather.dewPoint}°C); koyu renkli ve sentetik dokulardan kaçının.`
         : 'Güneş altında koyu renkler ısıyı hızla hapsedeceğinden terlemeyi tetikler.',
@@ -171,7 +172,7 @@ function extractPhaseMetrics(
 }
 
 function buildPhaseStep(
-  phase: 'morning' | 'midday' | 'evening',
+  phase: LayerTimelineStep['phase'],
   timeRange: string,
   metrics: { temp: number; feelsLike: number; precipProb: number; windSpeed: number },
   segment: BudgetSegment,
@@ -186,7 +187,7 @@ function buildPhaseStep(
   const tierKey = segment === 'premium' || segment === 'luxury' ? 'luxury' : segment === 'smart' ? 'smart' : 'essential';
   const brands = market.tiers[tierKey].referenceBrands.slice(0, 2).join('/');
 
-  const phaseLabel = phase === 'morning' ? 'Sabah' : phase === 'midday' ? 'Öğle' : 'Akşam';
+  const phaseLabel = phase === 'morning' ? 'Sabah' : phase === 'midday' ? 'Öğle' : phase === 'night' ? 'Gece' : 'Akşam';
 
   // Cold Regime (<= 10°C)
   if (effectiveTemp <= 10) {
@@ -346,6 +347,27 @@ export function generateLayerTimeline(
   thermalOffsetC: number = 0,
   country: string = 'Türkiye'
 ): LayerTimelineStep[] {
+  if (weather.selection) {
+    const groups: { phase: LayerTimelineStep['phase']; key: string; points: HourlyForecastPoint[] }[] = [];
+    const stopOrder = [...new Set(weather.hourly.map(p => p.stopId))];
+    for (const point of [...weather.hourly].sort((a, b) => stopOrder.indexOf(a.stopId) - stopOrder.indexOf(b.stopId)
+      || Date.parse(a.coveredStartAt || a.validAt || '') - Date.parse(b.coveredStartAt || b.validAt || ''))) {
+      if (!point.validAt) continue;
+      const zone = point.timezone || weather.timezone;
+      const phase = point.isDay === false ? 'night' : point.hourNumber < 12 ? 'morning' : point.hourNumber < 17 ? 'midday' : 'evening';
+      const key = `${point.stopId || ''}:${zone}:${localDateKey(Date.parse(point.validAt), zone)}:${phase}`;
+      const last = groups[groups.length - 1];
+      if (last?.key === key) last.points.push(point); else groups.push({ phase, key, points: [point] });
+    }
+    return groups.map(({ phase, points }) => {
+      const first = points[0], last = points[points.length - 1], zone = first.timezone || weather.timezone;
+      const start = Date.parse(first.coveredStartAt || first.validAt!);
+      const end = Date.parse(last.coveredEndAt || last.validAt!);
+      const timeRange = `${first.stopLabel ? first.stopLabel + ' · ' : ''}${localDateKey(start, zone)} ${localTimeLabel(start, zone)}–${localTimeLabel(end, zone)} · ${zone || 'UTC'}`;
+      return buildPhaseStep(phase, timeRange, { temp: Math.min(...points.map(p => p.temp)), feelsLike: Math.min(...points.map(p => p.feelsLike)),
+        precipProb: Math.max(...points.map(p => p.precipitationProb)), windSpeed: Math.max(...points.map(p => p.windSpeed)) }, segment, thermalOffsetC, weather.dewPoint, country);
+    });
+  }
   const morningMetrics = extractPhaseMetrics(weather, [7, 8, 9, 10], -3);
   const middayMetrics = extractPhaseMetrics(weather, [12, 13, 14, 15, 16], 2);
   const eveningMetrics = extractPhaseMetrics(weather, [18, 19, 20, 21, 22], -2);
@@ -358,7 +380,7 @@ export function generateLayerTimeline(
   ];
 }
 
-export function generateDirectOutfit(
+function generateDirectBaseOutfit(
   weather: WeatherConsensus,
   segment: BudgetSegment,
   thermalOffsetC: number = 0,
@@ -439,6 +461,22 @@ export function generateDirectOutfit(
     { id: 'p-9', garmentTypeId: 'coat-parka', name: 'Schoeller DWR Teknik Trençkot', category: 'outer', segment: 'luxury', material: 'İsviçre Schoeller Membran', warmth: 3, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgar ve yağmur kalkanı.', brandHint },
     { id: 'p-10', garmentTypeId: 'woven-trousers', name: 'Teknik Merinos Yün Pantolon', category: 'bottom', segment: 'luxury', material: 'Elastan Katkılı Merinos', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Üstün hareket özgürlüğü.', brandHint },
   ];
+}
+
+export function generateDirectOutfit(weather: WeatherConsensus, segment: BudgetSegment, thermalOffsetC = 0, country = 'Türkiye'): ClothingItem[] {
+  const outfit = generateDirectBaseOutfit(weather, segment, thermalOffsetC, country);
+  if (!weather.selection) return outfit;
+  const rain = weather.precipitationProb >= 40 || weather.condition === 'rainy', wind = weather.windSpeed >= 22;
+  if (!rain && !wind) return outfit;
+  const protects = (item: ClothingItem) => (!rain || item.waterResistance === 'waterproof')
+    && (!wind || item.windResistance === 'medium' || item.windResistance === 'high');
+  const outer = outfit.find(item => item.category === 'outer');
+  if (outer && protects(outer)) return outfit;
+  const targetWarmth = outer?.warmth ?? 2;
+  const shell = VERIFIED_GARMENT_CATALOG.filter(item => item.category === 'outer' && protects(item)
+    && (outer ? (item.warmth ?? 0) >= targetWarmth : (item.warmth ?? 5) <= 3))
+    .sort((a, b) => Math.abs((a.warmth ?? 0) - targetWarmth) - Math.abs((b.warmth ?? 0) - targetWarmth))[0];
+  return shell ? [...outfit.filter(item => item.category !== 'outer'), { ...shell, segment }] : outfit;
 }
 
 export function matchAnchorItem(

@@ -2,25 +2,75 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI, Type } from '@google/genai';
 import { ClothingItem, WeatherConsensus, ThermalProfile, AiStylistResponse } from '@/lib/types';
 import { canRankForWeather, getItemWarmth } from '@/lib/catalog-wardrobe';
+import { AI_MAX_DESCRIPTION_LENGTH, decodeStylistImage, readStylistBody } from '@/lib/ai-stylist-input';
+
+const noStore = { 'Cache-Control': 'private, no-store' };
+const maxConcurrent = 4;
+const requestsPerMinute = 30;
+let active = 0;
+let windowStart = 0;
+let attempts = 0;
+
+function reply(body: unknown, status = 200, headers: Record<string, string> = {}) {
+  return NextResponse.json(body, { status, headers: { ...noStore, ...headers } });
+}
+
+function textField(value: unknown, max = AI_MAX_DESCRIPTION_LENGTH): value is string | undefined {
+  return value === undefined || (typeof value === 'string' && value.length <= max);
+}
 
 export async function POST(req: NextRequest) {
+  const origin = req.headers.get('origin');
+  if (origin) {
+    try {
+      const caller = new URL(origin);
+      if (!['http:', 'https:'].includes(caller.protocol) || caller.host !== req.headers.get('host')
+        || req.headers.get('sec-fetch-site') === 'cross-site') return reply({ error: 'ORIGIN_REJECTED' }, 403);
+    } catch { return reply({ error: 'ORIGIN_REJECTED' }, 403); }
+  }
+  if (req.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') {
+    return reply({ error: 'JSON_REQUIRED' }, 415);
+  }
+  // This route never consumes project credentials. A provider request uses the caller's own key.
+  const apiKey = req.headers.get('x-gemini-key')?.trim() || '';
+  if (apiKey && !/^[A-Za-z0-9_-]{20,200}$/.test(apiKey)) return reply({ error: 'INVALID_KEY' }, 400);
+  const now = Date.now();
+  if (now - windowStart >= 60_000) { windowStart = now; attempts = 0; }
+  // Single-process limit, including the time spent reading the request body.
+  if (active >= maxConcurrent || attempts >= requestsPerMinute) {
+    return reply({ error: 'RATE_LIMIT' }, 429, { 'Retry-After': '60' });
+  }
+  attempts++;
+  active++;
   try {
-    const body = await req.json();
-    const mode: 'analyze_garment' | 'stylist_advice' = body.mode || 'stylist_advice';
+    const uploadSignal = AbortSignal.any([req.signal, AbortSignal.timeout(15_000)]);
+    let body: Awaited<ReturnType<typeof readStylistBody>>;
+    try { body = await readStylistBody(req, uploadSignal); }
+    catch { return reply({ error: 'INVALID_BODY' }, uploadSignal.aborted ? 408 : 400); }
+    if (body === null) return reply({ error: 'TOO_LARGE' }, 413);
+    const mode = body.mode ?? 'stylist_advice';
+    if (mode !== 'analyze_garment' && mode !== 'stylist_advice') return reply({ error: 'INVALID_MODE' }, 400);
 
-    const headerKey = req.headers.get('x-gemini-key')?.trim();
-    const apiKey =
-      headerKey ||
-      process.env.GEMINI_API_KEY ||
-      process.env.API_KEY ||
-      process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-      '';
+    const generationLimits = {
+      httpOptions: { retryOptions: { attempts: 1 } },
+      automaticContinuation: false,
+      abortSignal: AbortSignal.any([req.signal, AbortSignal.timeout(20_000)]),
+      maxOutputTokens: 1024,
+      thinkingConfig: { thinkingBudget: 0 },
+    };
 
     // MODE 1: Multimodal Garment Tagging (Photo and/or Text Description -> ClothingItem JSON)
     if (mode === 'analyze_garment') {
-      const descriptionText: string = body.descriptionText || '';
-      const imageBase64: string | undefined = body.imageBase64;
-      const mimeType: string = body.mimeType || 'image/jpeg';
+      if (!textField(body.descriptionText)) return reply({ error: 'INVALID_DESCRIPTION' }, 400);
+      const descriptionText = body.descriptionText?.trim() || '';
+      const mimeType = body.mimeType ?? 'image/jpeg';
+      let imageBase64: string | null = null;
+      if (body.imageBase64 !== undefined) {
+        if (!apiKey) return reply({ error: 'PHOTO_REQUIRES_KEY' }, 422);
+        imageBase64 = decodeStylistImage(body.imageBase64, mimeType);
+        if (!imageBase64) return reply({ error: 'INVALID_IMAGE' }, 400);
+      }
+      if (!descriptionText && !imageBase64) return reply({ error: 'EMPTY_DRAFT' }, 400);
 
       if (apiKey) {
         try {
@@ -28,12 +78,9 @@ export async function POST(req: NextRequest) {
           const contents: any[] = [];
 
           if (imageBase64) {
-            const cleanBase64 = imageBase64.includes(',')
-              ? imageBase64.split(',')[1]
-              : imageBase64;
             contents.push({
               inlineData: {
-                data: cleanBase64,
+                data: imageBase64,
                 mimeType,
               },
             });
@@ -55,6 +102,7 @@ Kurallar:
             model: 'gemini-2.5-flash',
             contents,
             config: {
+              ...generationLimits,
               responseMimeType: 'application/json',
               responseSchema: {
                 type: Type.OBJECT,
@@ -113,12 +161,11 @@ Kurallar:
               description: parsed.description || 'Gemini AI tarafından analiz edilerek eklendi.',
               isUserOwned: true,
             };
-            return NextResponse.json({ item, modelUsed: 'gemini-2.5-flash' });
+            return reply({ item, modelUsed: 'gemini-2.5-flash' });
           }
-        } catch (aiErr) {
-          console.error('Gemini analyze_garment error, using heuristic parser:', aiErr);
-        }
+        } catch { /* A usable description can still produce a local draft. */ }
       }
+      if (!descriptionText) return reply({ error: 'PHOTO_ANALYSIS_UNAVAILABLE' }, 502);
 
       // Intelligent Heuristic Fallback when Gemini API key is not yet entered
       const lower = descriptionText.toLowerCase();
@@ -180,15 +227,26 @@ Kurallar:
         isUserOwned: true,
       };
 
-      return NextResponse.json({ item: fallbackItem, modelUsed: 'local-heuristic' });
+      return reply({ item: fallbackItem, modelUsed: 'local-heuristic' });
     }
 
     // MODE 2: Personalized AI Stylist & Microclimate Reasoning
-    const weather: WeatherConsensus = body.weather;
-    const districtName: string = body.districtName || 'Seçili Bölge';
-    const wardrobe: ClothingItem[] = body.wardrobe || [];
-    const thermalProfile: ThermalProfile = body.thermalProfile || { offsetC: 0, feedbackCount: 0, label: 'Standart' };
-    const userActivity: string = body.userActivity || 'Günlük şehir içi tempo';
+    const weather = body.weather as WeatherConsensus | undefined;
+    const thermalProfile = (body.thermalProfile ?? { offsetC: 0, feedbackCount: 0, label: 'Standart' }) as ThermalProfile;
+    const wardrobe = body.wardrobe ?? [];
+    if (!textField(body.districtName, 160) || !textField(body.userActivity)
+      || typeof thermalProfile.label !== 'string' || !textField(thermalProfile.label, 160) || !Number.isFinite(thermalProfile.offsetC)
+      || !Array.isArray(wardrobe) || wardrobe.length > 200
+      || wardrobe.some(item => !item || typeof item.name !== 'string'
+        || typeof item.category !== 'string' || !textField(item.category, 24) || !textField(item.name, 160) || !textField(item.material, 260)
+        || !textField(item.colorName, 100) || !textField(item.waterResistance ?? undefined, 40))
+      || (weather !== undefined && (!weather || typeof weather.condition !== 'string' || !textField(weather.condition, 60)
+        || ![weather.temp, weather.feelsLike, weather.humidity, weather.dewPoint, weather.windSpeed,
+          weather.precipitationProb, weather.uvIndex].every(value => Number.isFinite(value))))) {
+      return reply({ error: 'INVALID_STYLIST_INPUT' }, 400);
+    }
+    const districtName = body.districtName || 'Seçili Bölge';
+    const userActivity = body.userActivity || 'Günlük şehir içi tempo';
 
     if (apiKey && weather) {
       try {
@@ -221,6 +279,7 @@ Lütfen kullanıcının kendi gardırobundaki parçalara öncelik vererek JSON �
           model: 'gemini-2.5-flash',
           contents: prompt,
           config: {
+            ...generationLimits,
             responseMimeType: 'application/json',
             responseSchema: {
               type: Type.OBJECT,
@@ -256,19 +315,18 @@ Lütfen kullanıcının kendi gardırobundaki parçalara öncelik vererek JSON �
             modelUsed: 'Gemini 2.5 Flash',
             isFallback: false,
           };
-          return NextResponse.json(result);
+          return reply(result);
         }
-      } catch (err) {
-        console.error('Gemini stylist_advice error, falling back to deterministic engine:', err);
-      }
+      } catch { /* The deterministic advice is still available. */ }
     }
 
     // Deterministic Scientific Stylist Fallback (works out-of-the-box even before GEMINI_API_KEY is added)
     const effTemp = (weather?.feelsLike ?? 18) + (thermalProfile?.offsetC ?? 0);
+    const precipitationProbability = weather?.precipitationProb ?? 0;
     const pickNames = wardrobe
       .filter((i) => {
         const warmth = getItemWarmth(i);
-        if (warmth === null || !canRankForWeather(i, weather)) return false;
+        if (warmth === null || !weather || !canRankForWeather(i, weather)) return false;
         if (effTemp <= 12) return warmth >= 3;
         if (effTemp >= 23) return warmth <= 2;
         return warmth >= 1 && warmth <= 3;
@@ -281,17 +339,18 @@ Lütfen kullanıcının kendi gardırobundaki parçalara öncelik vererek JSON �
       outfitAdvice: `Hissedilen ${weather?.feelsLike ?? 17}°C sıcaklık ve kişisel termal profiliniz (${thermalProfile.label}) baz alındığında, "${userActivity}" planınız için dolabınızdaki nefes alan iç taban ile ${effTemp <= 16 ? 'rüzgar kesici dış katmanı modüler olarak' : 'hafif tekli üst katmanı'} eşleştirmeniz en yüksek termal konforu sağlar.`,
       fabricAndColorTip: `Çiy noktası ${weather?.dewPoint ?? 10}°C ve bağıl nem %${weather?.humidity ?? 60} seviyesinde. ${(weather?.dewPoint ?? 10) >= 15 ? 'Nem yüksek olduğu için sentetik polyester yerine %100 pamuk veya keten lifleri tercih edin.' : 'Nem dengeli; pamuklu dokumalar ve ince trikolar gün boyu ferah tutacaktır.'}`,
       travelOrActivityTip:
-        (weather?.precipitationProb ?? 0) >= 40
-          ? `%${weather.precipitationProb} yağış olasılığına karşı su itici dış katmanınızı ve koyu renkli alt giyimi tercih edin.`
+        precipitationProbability >= 40
+          ? `%${precipitationProbability} yağış olasılığına karşı su itici dış katmanınızı ve koyu renkli alt giyimi tercih edin.`
           : `Akşam saatlerinde rüzgarın (${weather?.windSpeed ?? 12} km/s) etkisiyle hissedilen sıcaklık 3-4°C düşeceğinden kolay giyilip çıkarılabilir bir üst katmanı yanınızda bulundurun.`,
       recommendedItemNames: pickNames.length > 0 ? pickNames : ['Beyaz Pamuklu Basic Tişört', 'Açık Mavi Oxford Gömlek', 'Bej Su İtici Trençkot / Rüzgarlık'],
-      modelUsed: 'Weathrobe Termal Kural Motoru (Canlı Gemini AI için Kaynaklar menüsünden GEMINI_API_KEY ekleyebilirsiniz)',
+      modelUsed: 'Weathrobe Termal Kural Motoru',
       isFallback: true,
     };
 
-    return NextResponse.json(fallbackResponse);
-  } catch (err) {
-    console.error('AI Stylist route error:', err);
-    return NextResponse.json({ error: 'Stil analizi yapılamadı' }, { status: 500 });
+    return reply(fallbackResponse);
+  } catch {
+    return reply({ error: 'STYLIST_UNAVAILABLE' }, 500);
+  } finally {
+    active--;
   }
 }

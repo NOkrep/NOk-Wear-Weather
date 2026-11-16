@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+function reply(body: unknown, status = 200) {
+  return NextResponse.json(body, { status, headers: { 'Cache-Control': 'private, no-store' } });
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q');
@@ -7,16 +11,19 @@ export async function GET(req: NextRequest) {
   const lonStr = searchParams.get('lon');
 
   // Reverse Geocoding (When clicking on map)
-  if (latStr && lonStr) {
-    const lat = parseFloat(latStr);
-    const lon = parseFloat(lonStr);
+  if (latStr !== null || lonStr !== null) {
+    const lat = Number(latStr);
+    const lon = Number(lonStr);
+    if (!latStr?.trim() || !lonStr?.trim() || !Number.isFinite(lat) || !Number.isFinite(lon)
+      || Math.abs(lat) > 90 || Math.abs(lon) > 180) return reply({ error: 'Invalid coordinates' }, 400);
     try {
       const revUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=tr&zoom=14`;
       const res = await fetch(revUrl, {
         headers: {
           'User-Agent': 'WearWeatherApp/0.2.0 contact@nok-collective.internal',
         },
-        next: { revalidate: 3600 },
+        cache: 'no-store',
+        signal: AbortSignal.timeout(8_000),
       });
 
       if (res.ok) {
@@ -34,7 +41,7 @@ export async function GET(req: NextRequest) {
         const city = addr.city || addr.province || addr.state || 'Bölge';
         const country = addr.country || 'Global';
 
-        return NextResponse.json({
+        return reply({
           district,
           city,
           country,
@@ -43,11 +50,9 @@ export async function GET(req: NextRequest) {
           displayName: data.display_name,
         });
       }
-    } catch (e) {
-      console.error('Reverse geocode error:', e);
-    }
+    } catch { /* A map pin can still use the fallback label. */ }
 
-    return NextResponse.json({
+    return reply({
       district: 'Seçili Konum',
       city: 'Harita Noktası',
       country: 'Global',
@@ -57,12 +62,13 @@ export async function GET(req: NextRequest) {
   }
 
   // Forward Search Geocoding (Global Autocomplete)
+  if (q && q.length > 200) return reply({ error: 'Invalid search' }, 400);
   if (q && q.trim().length > 1) {
     try {
       const searchUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
         q.trim()
       )}&count=10&language=tr&format=json`;
-      const res = await fetch(searchUrl, { next: { revalidate: 3600 } });
+      const res = await fetch(searchUrl, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
 
       if (res.ok) {
         const data = await res.json();
@@ -75,12 +81,10 @@ export async function GET(req: NextRequest) {
           displayName: `${item.name}${item.admin1 ? ', ' + item.admin1 : ''}, ${item.country || ''}`,
         }));
 
-        return NextResponse.json({ results });
+        return reply({ results });
       }
-    } catch (e) {
-      console.error('Forward geocode search error:', e);
-    }
+    } catch { /* Provider failure is represented by an empty result list. */ }
   }
 
-  return NextResponse.json({ results: [] });
+  return reply({ results: [] });
 }

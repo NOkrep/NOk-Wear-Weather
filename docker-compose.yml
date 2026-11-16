@@ -15,9 +15,12 @@ services:
       retries: 20
 
   catalog-migrate:
+    image: ${WEATHROBE_TOOLS_IMAGE:-weathrobe-preview-tools:0.6.0}
     build:
       context: .
       target: tools
+      args:
+        WEATHROBE_SOURCE_ID: ${WEATHROBE_SOURCE_ID:-unverified}
     restart: "no"
     depends_on:
       db:
@@ -28,9 +31,12 @@ services:
     command: ["npm", "run", "db:migrate"]
 
   wear-weather:
+    image: ${WEATHROBE_APP_IMAGE:-weathrobe-preview-app:0.6.0}
     build:
       context: .
       target: runner
+      args:
+        WEATHROBE_SOURCE_ID: ${WEATHROBE_SOURCE_ID:-unverified}
     restart: unless-stopped
     depends_on:
       catalog-migrate:
@@ -42,14 +48,35 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       APP_URL: ${APP_URL:-http://localhost:3000}
       WEAR_WEATHER_COMMUNITY_DIR: /app/.data/community
+      WEAR_WEATHER_REPORTS_DIR: /app/.data/reports
     volumes:
       - community_data:/app/.data/community
+      - reports_data:/app/.data/reports
 
-  catalog-tools:
+  feedback-review:
     profiles: ["tools"]
+    image: ${WEATHROBE_TOOLS_IMAGE:-weathrobe-preview-tools:0.6.0}
     build:
       context: .
       target: tools
+      args:
+        WEATHROBE_SOURCE_ID: ${WEATHROBE_SOURCE_ID:-unverified}
+    network_mode: "none"
+    environment:
+      WEAR_WEATHER_REPORTS_DIR: /reports
+    volumes:
+      - reports_data:/reports:ro
+    entrypoint: ["node", "scripts/feedback/review.mjs"]
+    command: ["--limit", "20"]
+
+  catalog-tools:
+    profiles: ["tools"]
+    image: ${WEATHROBE_TOOLS_IMAGE:-weathrobe-preview-tools:0.6.0}
+    build:
+      context: .
+      target: tools
+      args:
+        WEATHROBE_SOURCE_ID: ${WEATHROBE_SOURCE_ID:-unverified}
     depends_on:
       db:
         condition: service_healthy
@@ -79,5 +106,6 @@ services:
 volumes:
   postgres_data:
   community_data:
+  reports_data:
   caddy_data:
   caddy_config:

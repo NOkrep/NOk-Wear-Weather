@@ -9,3 +9,6 @@ coverage/
 
 # Generated deployment archives; source and reviewed catalogue files remain tracked.
 /artifacts/releases/
+
+# Original artwork, generated comparisons and acceptance records belong to the private release repo.
+/artifacts/previews/

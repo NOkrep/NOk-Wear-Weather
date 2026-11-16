@@ -14,8 +14,7 @@ View your app in AI Studio: https://ai.studio/apps/3411c9db-4b32-4450-b247-0fd91
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Run the app:
    `npm run dev`
 
 
@@ -27,7 +26,12 @@ Yukarıdaki AI Studio bölümü projenin ilk oluşturulma kaydıdır ve korunmu�
 
 Güncel dosya haritası, uygulanan özellikler, test sonuçları, açık işler ve Meta VR referanslı avatar tasarımı için **[DEVELOPMENT_HANDOFF.md](DEVELOPMENT_HANDOFF.md)** dosyasını okuyun. Sonraki geliştirmelerde bu belgeyi kodla birlikte güncelleyin.
 
-Hava/rota/katalog akışları ile isteğe bağlı AI stilist entegrasyonu ayrı değerlendirilmelidir; yukarıdaki Gemini anahtarı adımını tüm uygulamanın zorunlu önkoşulu olarak yorumlamayın. Kullanıcının bu oturumdaki onayıyla ilk gerçek 3D avatar/editör sürümü uygulandı; varlık kapsamı ve giysi renk önizlemesinin sınırları güncel devir belgesinin 8. bölümündedir. Mobil App Preview, mağazada yayımlanmış native uygulama anlamına gelmez.
+Hava, rota ve katalog akışları Gemini anahtarı gerektirmez. İlk gerçek 3D avatar/editör sürümünün varlık kapsamı ve giysi renk önizlemesinin sınırları güncel devir belgesinin 8. bölümündedir. Mobil App Preview tarayıcı tabanlı önizlemedir.
+
+### Dolap taslağı ve konum verisi
+
+- Metinden dolap taslağı Weathrobe'un kural motoruyla oluşturulabilir. Kaynaklar ekranında kişisel Gemini anahtarı tanımlanmışsa uygulama gönderilen açıklamayı ve varsa fotoğrafı Gemini'ye iletir. Fotoğraf kabulü JPEG, PNG ve WebP için 2 MiB ile sınırlı. Gemini istekleri kişisel anahtarın Google kotasına tabidir. Her uygulama süreci en fazla dört eşzamanlı taslak isteğini ve dakikada 30 başvuruyu kabul eder.
+- Service worker uygulama API yanıtlarını ağdan ister ve eski Weathrobe Cache Storage girdilerindeki API kayıtlarını temizler. Hava tahmini sağlayıcılarına ve cihaz konumu akışına iki ondalığa yuvarlatılmış koordinatlar gider. Adres ve yol sağlayıcıları arayüzün verdiği koordinatları, yer arama sağlayıcısı arama metnini alır. Uygulama bu sorgular için kalıcı Next.js veri önbelleğini kullanmaz. Tarayıcı navigasyon geçmişi ve dış sağlayıcıların saklama politikaları kendi sınırlarında kalır.
 
 ## Katalog ve sunucu altyapısı — 18 Ekim 2026
 
@@ -98,3 +102,32 @@ Dolabım → Katalog → **Tasarım örnekleri**: 36 türün her biri için 5, t
 - Yerel Docker Linux üretim imajı derlendi; boş test DB'sinde Linux yayın testleri **9/9** başarılı. İkinci aktarım 0 yeni ürün, salt okuma hesabı yazmayı/taslak payload okumayı reddediyor. Üretim imajı HTTP 200 ve DB üzerinden 146 ürün/36 tür/23 eski profil ile doğrulandı. Bu kanıt yerel Docker ortamına aittir; Oracle/HTTPS/gerçek mobil cihaz kontrolü sonraki adımdır.
 
 İlk paylaşım adresi için alan adı satın almadan `sslip.io` ve Caddy kullanılabilir; DNS/sertifika hizmetlerinin kullanılabilirliğine bağlıdır. Genel uygulama geri bildirim kutusu ve gerçek 3D katman düzeltmesi bu tur eklenmedi. Mevcut Markdown bölümleri ve kişisel yerel veriler korundu.
+
+## Hedef ve ilerleme takibi — 27 Ekim 2026
+
+[PROJECT_GOALS.md](PROJECT_GOALS.md), tamamlanan işleri, öncelikli hedefleri, bağımlılıkları, kabul koşullarını ve tarihli ilerleme günlüğünü tek yerde toplar. Önceki bölümler tarihsel kayıt olarak korunur.
+
+19 Ekim'de kullanıcı Oracle ARM üretim derlemesini, 146 ürün / 20 grup / 36 tür aktarımını ve sitenin açıldığını doğruladı. Yukarıdaki “yayın henüz tamamlanmadı” ifadeleri hazırlık aşamasına aittir. 27 Ekim incelemesinde canlı sunucu yeniden kontrol edilmedi; bugünkü erişim ve yedek sağlığı doğrulanmış sayılmaz.
+
+Önerilen sıra: **WW-01 canlı durumu doğrulama → WW-02 sunucu dışı yedek ve izole geri yükleme → WW-03 gerçek cihaz kabulü**. Katalog hedefi 146/3.600, dolu tür 18/36; 3D katman hatası ve diğer ürün işleri listede açık kalır. Bu tur uygulama/sürüm/veri/yayın değişikliği yapılmadı.
+
+## WW-05 — 0.6.0 toplu yayın hazırlığı — 30 Ekim 2026
+
+Kullanıcı WW-22/24/23/21'i tek sürümde hazırlamak için 23 dosyalık kapsamı onayladı. Paket/kilit, görünür sürüm, SW önbelleği ve imaj kimlikleri 0.6.0 ile eşleştiriliyor. Bağımlılık sürümleri değiştirilmedi; canlı yayın yapılmadı. Yukarıdaki eski sürüm/audit/kurulum sonuçları kendi tarihlerine aittir.
+
+[Yayın profili](deploy/release-profile.json), [hazırlık ve geri dönüş rehberi](deploy/RELEASE.md), [güncel kanıtlar ve açık kapılar](deploy/RELEASE_EVIDENCE.md). `node scripts/deploy/check-release.mjs --all` aynı kaynakta tüm hazırlık kontrollerini çalıştırır. Başarısız veya eksik kapıda paketleme engellenir. Yeni sağlık uç noktası `/api/health` sürüm/kaynak kimliği ve DB kaynaklı katalog sayımını sır göstermeden bildirir; çevrimdışı başarı yanıtı önbellekten sunulmaz. Gerçek canlı envanter ve kurtarma kanıtları yerel prova ile karıştırılmaz; yayın ayrı onayda kalır.
+
+## 0.6.0 canlı yayın kabulü — 2 Kasım 2026
+
+WW-22/24/23/21 tek sürümde gerçek ARM64 sunucuya yayınlandı; kullanıcı kısa tarayıcı kabulünü verdi. Sağlık HTTPS 200, katalog 146 ürün/36 tür ve içerik eşitliği, 30 stüdyo görseli sunumu, geri bildirim güvenliği/kalıcılığı, rapor içeren gerçek yedek/izole geri yükleme ve güncel bağımsız bilgisayar kopyası doğrulandı. Mevcut DB/Caddy/Doctus kimlikleri ve geri dönüş malzemesi korundu. Önceden kişisel kayıt yoktu; gerçek kayıt korunumu bu kullanıcıda uygulanamadı. Önceki hazırlık tarihli bölümler kendi tarihlerine aittir.
+
+[Güncel hedefler](PROJECT_GOALS.md), [yayın/kurtarma kanıtı ve kabul sınırları](deploy/RELEASE_EVIDENCE.md), [geri dönüş rehberi](deploy/RELEASE.md). Önerilen sıradaki hedef **WW-03 — masaüstü ve en az bir gerçek telefonda temel kullanıcı akışları**; kısa tarayıcı kabulü bu kapsamı tamamlamaz. Yayın için kullanılan kaynak/arşiv değişmeden tutuldu; düzenli yedek ve kapasite bakımına devam edilir.
+
+<!-- ww28-private-evidence-2026-11-02 -->
+## Özgün stüdyo görselleri ile public kaynak sınırı — 2 Kasım 2026
+
+Uygulamanın 30 optimize WebP'si `public/garments/studio/` ve kimlik/hash eşlemesi `lib/garment-studio-assets.ts` içinde kalır. Public `npm run check`, özgün PNG veya kabul kaydı gerektirmeden runtime kimliklerini, gerçek WebP çözümleme/şeffaflık/boyut/hash ve aktarım bütçesini doğrular. Kaynak CI, `artifacts/previews/` veya `evidence/ww21/` altında takip edilen dosya bulursa durur.
+
+Özgün 30 PNG, manifest ve iki karşılaştırma HTML'i ayrı private `NOk-Weathrobe-Release/evidence/ww21/` alanındadır; SHA-256 envanteriyle korunur. Önizleme araçları bu ortak merkez yolunu varsayılan alır; başka yerel kanıt dizini için `NOK_STUDIO_EVIDENCE_ROOT` kullanılır. Eski yerel özgünler silinmedi, `artifacts/previews/` Git dışında bırakıldı. Üretim uygulaması bu özel dizini okumaz.
+
+Private hedef deposunda `npm run test:evidence -- --source <Weathrobe-kaynak-dizini>` özgün/kabul/önizleme kontrollerini çalıştırır. Yeniden görsel hazırlama kabul edilmiş envanteri kendiliğinden yenilemez; değişiklik yeni görsel inceleme gerektirir. Ayrıntılı yerel hedef ve devir notları ayrıca gözden geçirilmeden public gönderime topluca eklenmez. Bu ayrımın yerel kontrolleri geçti; GitHub'a gönderim ve uzak koşu ayrı adımlardır.

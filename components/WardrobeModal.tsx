@@ -15,6 +15,7 @@ import {
 import { useLocale } from '@/lib/i18n';
 import { Modal } from './Modal';
 import { GarmentVisual } from './GarmentVisual';
+import { GarmentStudioVisual } from './GarmentStudioVisual';
 import { Layers, Droplets, ArrowUpRight } from 'lucide-react';
 import { BarcodeAddPanel } from './BarcodeAddPanel';
 import { CatalogProductCard } from './CatalogProductCard';
@@ -25,6 +26,7 @@ import { GarmentAppearanceEditor } from './GarmentAppearanceEditor';
 import { GarmentDesignGallery } from './GarmentDesignGallery';
 import { normalizeGarmentAppearance, type GarmentAppearance } from '@/lib/garment-appearance';
 import { getStoredCustomKeys } from '@/lib/weather-service';
+import { AI_IMAGE_TYPES, AI_MAX_DESCRIPTION_LENGTH, AI_MAX_IMAGE_BYTES } from '@/lib/ai-stylist-input';
 import {
   X,
   Shirt,
@@ -190,6 +192,12 @@ export function WardrobeModal({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    e.target.value = '';
+    if (!AI_IMAGE_TYPES.some(type => type === file.type) || file.size > AI_MAX_IMAGE_BYTES) {
+      setAiError('En fazla 2 MiB boyutunda JPEG, PNG veya WebP fotoğraf seç.');
+      return;
+    }
+    setAiError('');
     setImageMimeType(file.type || 'image/jpeg');
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -205,16 +213,19 @@ export function WardrobeModal({
     setIsAnalyzing(true);
     setAiError('');
     try {
-      const customKeys = getStoredCustomKeys();
+      const geminiKey = getStoredCustomKeys().geminiApiKey?.trim();
+      if (imagePreview && !geminiKey) {
+        setAiError('Fotoğraf analizi için Kaynaklar bölümüne kişisel Gemini anahtarını ekle veya fotoğrafı kaldır.');
+        return;
+      }
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
       };
-      if (customKeys.geminiApiKey?.trim()) {
-        headers['x-gemini-key'] = customKeys.geminiApiKey.trim();
-      }
+      if (geminiKey) headers['x-gemini-key'] = geminiKey;
 
       const res = await fetch('/api/ai-stylist', {
         method: 'POST',
+        cache: 'no-store',
         headers,
         body: JSON.stringify({
           mode: 'analyze_garment',
@@ -225,17 +236,14 @@ export function WardrobeModal({
       });
 
       if (!res.ok) throw new Error();
-      if (res.ok) {
-        const data = await res.json();
-        if (data.item) {
-          const updated = addWardrobeItem({ ...data.item, dataSource: 'user', materialConfirmed: false });
-          onWardrobeChange(updated);
-          setAiDescription('');
-          setImagePreview(null);
-          setActiveTab('my_closet');
-        }
-      }
-    } catch (err) {
+      const data = await res.json();
+      if (!data.item) throw new Error();
+      const updated = addWardrobeItem({ ...data.item, dataSource: 'user', materialConfirmed: false });
+      onWardrobeChange(updated);
+      setAiDescription('');
+      setImagePreview(null);
+      setActiveTab('my_closet');
+    } catch {
       setAiError('Taslak oluşturulamadı. Manuel girişle devam edebilirsin.');
     } finally {
       setIsAnalyzing(false);
@@ -278,7 +286,7 @@ export function WardrobeModal({
       </>:<>
       <p className="catalog-disclaimer">{t('Örnek giysi profilleri · mağazalardan doğrulanmış ürün kayıtları değildir.')}</p>
       <div className="studio-catalog-grid">{catalogResults.filter(tpl=>locale!=='en'||!catalogQuery.trim()||[t(tpl.name),t(tpl.material),tpl.brandExamplesGlobal,tpl.brandExamplesTr].join(' ').toLowerCase().includes(catalogQuery.toLowerCase().trim())).map(tpl=><article className="catalog-piece" key={tpl.id}>
-        <div className="catalog-piece-art"><span className="catalog-category">{t(CATEGORY_LABELS[tpl.category])}</span><GarmentVisual item={tpl}/><i style={{background:tpl.colorHex}}/></div>
+        <div className="catalog-piece-art"><span className="catalog-category">{t(CATEGORY_LABELS[tpl.category])}</span><GarmentStudioVisual item={tpl}/><i style={{background:tpl.colorHex}}/></div>
         <div className="catalog-piece-info"><span className="catalog-tier">{t(tpl.segment==='luxury'?'Lüks / Teknik':tpl.segment==='smart'?'Orta-Üst':'Standart')}</span><h3>{t(tpl.name)}</h3><p>{t(tpl.material)}</p><details><summary>{t('Parça ayrıntısı')}</summary><p>{t(tpl.description)}</p><small>{currentCountry.toLowerCase().includes('türkiye')?tpl.brandExamplesTr:tpl.brandExamplesGlobal}</small></details><div className="catalog-piece-bottom"><span><Layers size={13}/>{tpl.warmth}/5</span><button type="button" className="text-button" onClick={()=>handleAddFromCatalog(tpl)}>{justAddedId===tpl.id?<CheckCircle2 size={15}/>:<Plus size={15}/>} {t(justAddedId===tpl.id?'Eklendi':'Dolabıma ekle')}</button></div></div>
       </article>)}</div>
       {!isSearchingCatalog&&!catalogResults.filter(tpl=>locale!=='en'||!catalogQuery.trim()||[t(tpl.name),t(tpl.material),tpl.brandExamplesGlobal,tpl.brandExamplesTr].join(' ').toLowerCase().includes(catalogQuery.toLowerCase().trim())).length&&<div className="studio-empty"><Shirt size={32}/><h3>{t('Eşleşen parça bulunamadı.')}</h3><button type="button" className="text-button" onClick={()=>setActiveTab('barcode')}>{t('Kendi parçanı ekle')}<ArrowUpRight size={14}/></button></div>}
@@ -303,6 +311,27 @@ export function WardrobeModal({
       </article>)}</div>
       {!wardrobe.length&&<div className="studio-empty"><Shirt size={32}/><h3>{t('İlk parçanı ekle.')}</h3><button type="button" className="primary-button" onClick={()=>setActiveTab('barcode')}><Plus size={16}/>{t('Parça ekle')}</button></div>}
     </>}
-    {activeTab==='custom_ai'&&<form onSubmit={handleAiAdd} className="studio-ai-form"><span className="eyebrow">{t('İsteğe bağlı yardımcı')}</span><h3>{t('Etiketi yaz. Bir taslak oluşturalım.')}</h3><p>{t('Fotoğraftan kumaş içeriği doğrulanamaz. Etiketteki bilgileri yaz; oluşturulan teknik değerleri tahmin olarak değerlendir.')}</p><label className="feedback-field">{t('Parçanı tarif et')}<textarea value={aiDescription} onChange={e=>setAiDescription(e.target.value)} placeholder={t('Örn. Lacivert kaban, etikette %80 yün %20 kaşmir…')} rows={3}/></label><input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} hidden/><div className="studio-form-actions"><button type="button" className="secondary-button" onClick={()=>fileInputRef.current?.click()}><Upload size={15}/>{t(imagePreview?'Fotoğraf seçildi':'Fotoğraf ekle (isteğe bağlı)')}</button><button type="submit" className="primary-button" disabled={isAnalyzing||(!aiDescription.trim()&&!imagePreview)}>{isAnalyzing?<Loader2 size={16} className="loading-spin"/>:<Sparkles size={16}/>} {t('Taslak oluştur')}</button></div>{imagePreview&&<div className="ai-image-preview"><img src={imagePreview} alt={t('Seçtiğin kıyafet fotoğrafı')}/><button type="button" className="text-button" onClick={()=>setImagePreview(null)}><X size={14}/>{t('Fotoğrafı kaldır')}</button></div>}<p className="form-message">{t('Bu işlemde yazdığın açıklama ve seçtiğin fotoğraf, yapılandırılmışsa AI hizmetine gönderilir. Barkod / Manuel bölümünü kullanarak kendin de ekleyebilirsin.')}</p>{aiError&&<p role="alert" className="form-message">{t(aiError)}</p>}</form>}
+    {activeTab === 'custom_ai' && <form onSubmit={handleAiAdd} className="studio-ai-form">
+      <span className="eyebrow">{t('İsteğe bağlı yardımcı')}</span>
+      <h3>{t('Etiketi yaz. Bir taslak oluşturalım.')}</h3>
+      <p>{t('Fotoğraftan kumaş içeriği doğrulanamaz. Etiketteki bilgileri yaz; oluşturulan teknik değerleri tahmin olarak değerlendir.')}</p>
+      <label className="feedback-field">{t('Parçanı tarif et')}
+        <textarea value={aiDescription} onChange={e => setAiDescription(e.target.value)} maxLength={AI_MAX_DESCRIPTION_LENGTH}
+          placeholder={t('Örn. Lacivert kaban, etikette %80 yün %20 kaşmir…')} rows={3}/>
+      </label>
+      <input ref={fileInputRef} type="file" accept={AI_IMAGE_TYPES.join(',')} onChange={handleFileChange} hidden/>
+      {imagePreview && <div className="ai-image-preview">
+        <img src={imagePreview} alt={t('Seçtiğin kıyafet fotoğrafı')}/>
+        <button type="button" className="text-button" onClick={() => setImagePreview(null)}><X size={14}/>{t('Fotoğrafı kaldır')}</button>
+      </div>}
+      <p className="form-message">{t('Kişisel Gemini anahtarın varsa gönderdiğin açıklama ve fotoğraf Google Gemini ile paylaşılır.')}</p>
+      <div className="studio-form-actions">
+        <button type="button" className="secondary-button" onClick={() => fileInputRef.current?.click()}><Upload size={15}/>{t(imagePreview ? 'Fotoğraf seçildi' : 'Fotoğraf ekle (isteğe bağlı)')}</button>
+        <button type="submit" className="primary-button" disabled={isAnalyzing || (!aiDescription.trim() && !imagePreview)}>
+          {isAnalyzing ? <Loader2 size={16} className="loading-spin"/> : <Sparkles size={16}/>} {t('Taslak oluştur')}
+        </button>
+      </div>
+      {aiError && <p role="alert" className="form-message">{t(aiError)}</p>}
+    </form>}
   </Modal>;
 }

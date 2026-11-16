@@ -6,6 +6,7 @@ import type { ClothingItem } from '@/lib/types';
 import { APPEARANCE_OPTIONS, GARMENT_PALETTE, editableGarmentTypes, isUpperGarment, normalizeGarmentAppearance, resolveGarmentAppearance, sleeveOptions, type GarmentAppearance } from '@/lib/garment-appearance';
 import { useLocale } from '@/lib/i18n';
 import { GarmentVisual } from './GarmentVisual';
+import { GarmentStudioVisual, studioReference } from './GarmentStudioVisual';
 import { Modal } from './Modal';
 import { garmentDesigns } from '@/lib/garment-designs';
 
@@ -19,6 +20,7 @@ export function GarmentAppearanceEditor({ item, onSave }: { item: ClothingItem; 
   const types = editableGarmentTypes(item);
   const upper = isUpperGarment(appearance.type, item.category);
   const designs = appearance.type ? garmentDesigns(appearance.type) : [];
+  const studioDesigns = designs.some(design => studioReference({ ...item, personalAppearance: { version: 1, garmentTypeId: draft.garmentTypeId, designId: design.id } }, 'design'));
   const save = () => {
     if (onSave(normalizeGarmentAppearance(draft, item))) setEditing(false);
   };
@@ -34,9 +36,9 @@ export function GarmentAppearanceEditor({ item, onSave }: { item: ClothingItem; 
         <option value="">{t('Kayıtlı tür / temsili çizim')}</option>
         {types.map(type => <option value={type.id} key={type.id}>{locale === 'tr' ? type.tr : type.en}</option>)}
       </select></label>
-      {designs.length > 0 && <div className="appearance-design-label"><span>{t('Silüet tasarımı')}</span><div className="appearance-designs" role="group" aria-label={t('Silüet tasarımı')}>
+      {designs.length > 0 && <div className="appearance-design-label"><span>{t('Silüet tasarımı')}</span>{studioDesigns && <p className="appearance-studio-note">{t('Stüdyo modelleri sabit örneklerdir; kişisel renk, desen ve kesim kişisel önizlemede gösterilir.')}</p>}<div className="appearance-designs" role="group" aria-label={t('Silüet tasarımı')}>
         {designs.map(design => <button type="button" key={design.id} aria-pressed={draft.designId === design.id} onClick={() => setDraft(normalizeGarmentAppearance({ version: 1, garmentTypeId: draft.garmentTypeId, designId: design.id, pattern: draft.pattern, color: draft.color, accentColor: draft.accentColor }, item))}>
-          <GarmentVisual item={{ ...item, personalAppearance: { version: 1, garmentTypeId: draft.garmentTypeId, designId: design.id, color: draft.color } }}/><span>{locale === 'tr' ? design.tr : design.en}</span>
+          <GarmentStudioVisual context="design" item={{ ...item, personalAppearance: { version: 1, garmentTypeId: draft.garmentTypeId, designId: design.id } }}/><span>{locale === 'tr' ? design.tr : design.en}</span>
         </button>)}
       </div></div>}
       <div className="appearance-select-grid">{(['neckline', 'sleeve', 'fit', 'length', 'pattern'] as const).filter(field => {
