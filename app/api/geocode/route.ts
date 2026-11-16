@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createWindowLimit, nominatimReverse, tooManyRequests } from '@/lib/upstream-policy';
+
+// Search-as-you-type and map clicks from all visitors share this per-process budget.
+const admit = createWindowLimit(120);
 
 function reply(body: unknown, status = 200) {
   return NextResponse.json(body, { status, headers: { 'Cache-Control': 'private, no-store' } });
@@ -16,41 +20,33 @@ export async function GET(req: NextRequest) {
     const lon = Number(lonStr);
     if (!latStr?.trim() || !lonStr?.trim() || !Number.isFinite(lat) || !Number.isFinite(lon)
       || Math.abs(lat) > 90 || Math.abs(lon) > 180) return reply({ error: 'Invalid coordinates' }, 400);
-    try {
-      const revUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=tr&zoom=14`;
-      const res = await fetch(revUrl, {
-        headers: {
-          'User-Agent': 'WearWeatherApp/0.2.0 contact@nok-collective.internal',
-        },
-        cache: 'no-store',
-        signal: AbortSignal.timeout(8_000),
+    const admission = admit(Date.now());
+    if (!admission.ok) return NextResponse.json({ error: 'RATE_LIMIT' }, tooManyRequests(admission));
+    // The provider only sees ~110 m precision; the caller keeps its own coordinates.
+    const data = await nominatimReverse(fetch, lat, lon, 14, Date.now());
+    if (data) {
+      const addr = (data.address || {}) as Record<string, string | undefined>;
+      const district =
+        addr.suburb ||
+        addr.district ||
+        addr.neighbourhood ||
+        addr.borough ||
+        addr.town ||
+        addr.county ||
+        addr.city_district ||
+        'Bölge';
+      const city = addr.city || addr.province || addr.state || 'Bölge';
+      const country = addr.country || 'Global';
+
+      return reply({
+        district,
+        city,
+        country,
+        lat,
+        lon,
+        displayName: data.display_name,
       });
-
-      if (res.ok) {
-        const data = await res.json();
-        const addr = data.address || {};
-        const district =
-          addr.suburb ||
-          addr.district ||
-          addr.neighbourhood ||
-          addr.borough ||
-          addr.town ||
-          addr.county ||
-          addr.city_district ||
-          'Bölge';
-        const city = addr.city || addr.province || addr.state || 'Bölge';
-        const country = addr.country || 'Global';
-
-        return reply({
-          district,
-          city,
-          country,
-          lat,
-          lon,
-          displayName: data.display_name,
-        });
-      }
-    } catch { /* A map pin can still use the fallback label. */ }
+    }
 
     return reply({
       district: 'Seçili Konum',
@@ -64,6 +60,8 @@ export async function GET(req: NextRequest) {
   // Forward Search Geocoding (Global Autocomplete)
   if (q && q.length > 200) return reply({ error: 'Invalid search' }, 400);
   if (q && q.trim().length > 1) {
+    const admission = admit(Date.now());
+    if (!admission.ok) return NextResponse.json({ error: 'RATE_LIMIT' }, tooManyRequests(admission));
     try {
       const searchUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
         q.trim()

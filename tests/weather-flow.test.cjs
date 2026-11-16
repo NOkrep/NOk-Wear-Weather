@@ -230,7 +230,10 @@ test('forecast uses a coarse grid and geocoding bypasses persistent fetch caches
   }
   assert.equal(queries.length, 2);
   assert.ok(queries.every(({ init }) => init.cache === 'no-store' && !init.next));
-  assert.equal(queries[0].url.searchParams.get('lat'), '41.123456');
+  // Reverse geocoding answers at district level; the provider only receives ~110 m precision.
+  assert.equal(queries[0].url.searchParams.get('lat'), '41.123');
+  assert.equal(queries[0].url.searchParams.get('lon'), '29.988');
+  assert.match(queries[0].init.headers['User-Agent'], /^Weathrobe\/\d+\.\d+\.\d+ \(\+https:\/\/github\.com\/NOkrep\/NOk-Wear-Weather\)$/);
   assert.equal(queries[1].url.searchParams.get('name'), 'Example district');
 });
 

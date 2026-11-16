@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { HourlyForecastPoint, RouteStop } from '@/lib/types';
 import { conditionForDaylight, mapWmoToCondition } from '@/lib/weather-condition';
 import { daylightAt, forecastPointAt, localTimeLabel, resolveWeatherInstant, solarDaysFromProvider, validTimeZone } from '@/lib/weather-time';
+import { createWindowLimit, nominatimReverse, roundForRouting, tooManyRequests } from '@/lib/upstream-policy';
 
 const noStore = { 'Cache-Control': 'private, no-store' };
+// Each route request fans out to OSRM, four forecasts and two reverse lookups.
+const admit = createWindowLimit(30);
 
 async function fetchStopWeatherAndName(
   lat: number,
@@ -20,26 +23,13 @@ async function fetchStopWeatherAndName(
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
 
-  const namePromise = fetchName
-    ? fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=tr&zoom=10`,
-        {
-          headers: {
-            'User-Agent': 'WearWeatherApp/0.2.2 (https://github.com/NOk-Collective)',
-          },
-          cache: 'no-store',
-          signal: AbortSignal.timeout(8_000),
-        }
-      )
-        .then((r) => (r.ok ? r.json() : null))
-        .catch(() => null)
-    : Promise.resolve(null);
+  const namePromise = fetchName ? nominatimReverse(fetch, lat, lon, 10, Date.now()) : Promise.resolve(null);
 
   const [weatherData, geoData] = await Promise.all([weatherPromise, namePromise]);
 
   let resolvedName = fallbackName;
-  if (geoData?.address) {
-    const a = geoData.address;
+  if (geoData?.address && typeof geoData.address === 'object') {
+    const a = geoData.address as Record<string, string | undefined>;
     const town = a.town || a.county || a.district || a.suburb || a.city_district || '';
     const city = a.city || a.province || a.state || '';
     if (town && city && town !== city) {
@@ -122,6 +112,8 @@ export async function GET(req: NextRequest) {
     || Math.abs(fromLat) > 90 || Math.abs(toLat) > 90 || Math.abs(fromLon) > 180 || Math.abs(toLon) > 180) {
     return NextResponse.json({ error: 'Invalid coordinates' }, { status: 400, headers: noStore });
   }
+  const admission = admit(Date.now());
+  if (!admission.ok) return NextResponse.json({ error: 'RATE_LIMIT' }, tooManyRequests(admission));
 
   let coordinates: [number, number][] = [
     [fromLat, fromLon],
@@ -132,7 +124,8 @@ export async function GET(req: NextRequest) {
   let durationMinutes = 285;
 
   try {
-    const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${fromLon},${fromLat};${toLon},${toLat}?overview=full&geometries=geojson&steps=false`;
+    const [oLat, oLon, dLat, dLon] = [fromLat, fromLon, toLat, toLon].map(roundForRouting);
+    const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${oLon},${oLat};${dLon},${dLat}?overview=full&geometries=geojson&steps=false`;
     const res = await fetch(osrmUrl, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
 
     if (res.ok) {
