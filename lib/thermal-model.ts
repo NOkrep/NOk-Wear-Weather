@@ -27,16 +27,24 @@ export type GarmentCloEntry = {
   clo: CloRange | null;
   /** ASHRAE 55 table rows used (exact names from the source table). */
   reference: string[];
-  /** `exact`: same garment; `nearest`: closest listed garment, wording kept visible. */
-  match: 'exact' | 'nearest' | 'none';
+  /**
+   * `exact`: same garment; `nearest`: closest listed garment, wording kept visible;
+   * `secondary`: value from a secondary copy of a table whose primary source was not checked (shown as unverified).
+   */
+  match: 'exact' | 'nearest' | 'secondary' | 'none';
 };
 
-const entry = (min: number, max: number, match: 'exact' | 'nearest', ...reference: string[]): GarmentCloEntry => ({ clo: { min, max }, reference, match });
+const entry = (min: number, max: number, match: 'exact' | 'nearest' | 'secondary', ...reference: string[]): GarmentCloEntry => ({ clo: { min, max }, reference, match });
 const none: GarmentCloEntry = { clo: null, reference: [], match: 'none' };
 
+/** Down jacket, coat and parka values as reproduced by Engineering ToolBox from ASHRAE garment tables; primary source not checked. */
+export const SECONDARY_OUTERWEAR_SOURCE = 'https://www.engineeringtoolbox.com/clo-clothing-thermal-insulation-d_732.html';
+
 /**
- * Indoor ASHRAE 55 values. Outdoor shells, insulated jackets, coats, hats, scarves and gloves are
- * not in that table, so they stay `null` until a cited source (e.g. ISO 9920 Annex A) is added.
+ * Indoor ASHRAE 55 values. Shells, softshells, hats, scarves and gloves are not in that table and stay
+ * `null`. Puffer and coat/parka use secondary values (user decision, WW-29/2a). They are shown as
+ * unverified and never decide a verdict: the coat/parka type also holds light trench coats, and the
+ * puffer value is low for high-loft garments.
  */
 export const GARMENT_CLO: Readonly<Record<GarmentTypeId, GarmentCloEntry>> = {
   'short-sleeve-tee': entry(0.08, 0.08, 'exact', 'T-shirt'),
@@ -52,8 +60,8 @@ export const GARMENT_CLO: Readonly<Record<GarmentTypeId, GarmentCloEntry>> = {
   windbreaker: none,
   'rain-jacket': none,
   softshell: none,
-  puffer: none,
-  'coat-parka': none,
+  puffer: entry(0.55, 0.55, 'secondary', 'Down jacket'),
+  'coat-parka': entry(0.6, 0.7, 'secondary', 'Coat', 'Parka'),
   jeans: entry(0.24, 0.24, 'nearest', 'Thick trousers'),
   'woven-trousers': entry(0.15, 0.24, 'exact', 'Thin trousers', 'Thick trousers'),
   joggers: entry(0.28, 0.28, 'exact', 'Sweatpants'),
@@ -257,22 +265,37 @@ export type EnsembleEstimate = {
   icl: CloRange & { mid: number };
   /** garment types without a cited value; the estimate is then a lower bound */
   unknownTypes: string[];
+  /** garment types with only a secondary, unverified value; they never decide a verdict */
+  lowerBoundTypes: string[];
+  /** ISO 9920 intrinsic insulation of the fully cited garments only (underwear included), clo */
+  citedMin: number;
   references: string[];
 };
 
-export function estimateEnsemble(typeIds: readonly string[]): EnsembleEstimate {
-  const known: CloRange[] = [UNDERWEAR_CLO].map(value => ({ min: value, max: value }));
+export type EnsemblePart = { key: string; clo: CloRange | null; reference: string[]; lowerBound?: boolean };
+
+export function estimateEnsembleParts(parts: readonly EnsemblePart[]): EnsembleEstimate {
+  const known: CloRange[] = [{ min: UNDERWEAR_CLO, max: UNDERWEAR_CLO }];
   const unknownTypes: string[] = [];
+  const lowerBoundTypes: string[] = [];
   const references = new Set<string>(["Men's underwear"]);
-  for (const id of typeIds) {
-    const garment = (GARMENT_CLO as Record<string, GarmentCloEntry | undefined>)[id];
-    if (!garment?.clo) { unknownTypes.push(id); continue; }
-    known.push(garment.clo);
-    garment.reference.forEach(reference => references.add(reference));
+  for (const part of parts) {
+    if (!part.clo) { unknownTypes.push(part.key); continue; }
+    if (part.lowerBound) lowerBoundTypes.push(part.key);
+    known.push(part.clo);
+    part.reference.forEach(reference => references.add(reference));
   }
   const min = ensembleIntrinsicClo(known.map(range => range.min));
   const max = ensembleIntrinsicClo(known.map(range => range.max));
-  return { icl: { min, max, mid: (min + max) / 2 }, unknownTypes, references: [...references] };
+  const citedMin = ensembleIntrinsicClo(parts.filter(part => part.clo && !part.lowerBound).map(part => part.clo!.min).concat(UNDERWEAR_CLO));
+  return { icl: { min, max, mid: (min + max) / 2 }, unknownTypes, lowerBoundTypes, citedMin, references: [...references] };
+}
+
+export function estimateEnsemble(typeIds: readonly string[]): EnsembleEstimate {
+  return estimateEnsembleParts(typeIds.map(id => {
+    const garment = (GARMENT_CLO as Record<string, GarmentCloEntry | undefined>)[id];
+    return { key: id, clo: garment?.clo ?? null, reference: garment?.reference ?? [], lowerBound: garment?.match === 'secondary' };
+  }));
 }
 
 /**
@@ -287,15 +310,36 @@ export type OutfitAssessment = {
 };
 
 export function assessOutfit(typeIds: readonly string[], input: RequirementInput, exposureHours = 8): OutfitAssessment {
-  const ensemble = estimateEnsemble(typeIds);
-  const requirement = requiredInsulation(input);
-  const dleHours = { low: durationLimitedExposure(input, ensemble.icl.min).min, high: durationLimitedExposure(input, ensemble.icl.max).min };
+  return assessEnsemble(estimateEnsemble(typeIds), input, exposureHours);
+}
+
+/**
+ * Smallest basic insulation whose DLE_min covers the exposure (DLE grows with insulation). At or above
+ * 8 h this is ICL_min. Lets a search compare outfits with one number instead of re-running DLE.
+ */
+export function insulationForExposure(input: RequirementInput, exposureHours: number, requirement = requiredInsulation(input)): number {
+  if (exposureHours >= 8) return requirement.iclMin;
+  if (durationLimitedExposure(input, 0).min >= exposureHours) return 0;
+  let low = 0, high = Math.max(requirement.iclMin, 0.01);
+  for (let i = 0; i < 30; i++) {
+    const middle = (low + high) / 2;
+    if (durationLimitedExposure(input, middle).min >= exposureHours) high = middle; else low = middle;
+  }
+  return high;
+}
+
+/** Fit from insulation alone; equivalent to comparing DLE with the exposure. */
+export function thermalFit(ensemble: EnsembleEstimate, requirement: Requirement, neededClo: number): ThermalFit {
   // Outside ISO 11079 (e.g. above 10 °C) sweating dominates and the cold model gives no verdict.
-  const fit: ThermalFit = requirement.method === 'extended' ? 'unknown'
-    : ensemble.icl.min > requirement.iclNeutral ? 'excess'
-    : ensemble.unknownTypes.length ? 'unknown'
-    : dleHours.high < exposureHours ? 'insufficient'
-    : dleHours.low >= exposureHours ? 'acceptable'
-    : 'unknown';
-  return { fit, ensemble, requirement, dleHours };
+  if (requirement.method === 'extended') return 'unknown';
+  // Secondary values are not trusted either way: a trench coat and a parka share one type range.
+  if (ensemble.citedMin > requirement.iclNeutral) return 'excess';
+  if (ensemble.citedMin >= neededClo) return 'acceptable'; // cited garments alone are enough
+  if (ensemble.unknownTypes.length || ensemble.lowerBoundTypes.length) return 'unknown';
+  return ensemble.icl.max < neededClo ? 'insufficient' : 'unknown';
+}
+
+export function assessEnsemble(ensemble: EnsembleEstimate, input: RequirementInput, exposureHours = 8, requirement = requiredInsulation(input), neededClo = insulationForExposure(input, exposureHours, requirement)): OutfitAssessment {
+  const dleHours = { low: durationLimitedExposure(input, ensemble.icl.min).min, high: durationLimitedExposure(input, ensemble.icl.max).min };
+  return { fit: thermalFit(ensemble, requirement, neededClo), ensemble, requirement, dleHours };
 }

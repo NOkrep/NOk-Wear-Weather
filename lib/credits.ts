@@ -40,6 +40,9 @@ export const CREDITS: Credit[] = [
     usage: { tr: 'Kombinin toplam yalıtımı ile rüzgâr ve yürümenin yalıtımı nasıl azalttığı.', en: 'Total outfit insulation and how wind and walking reduce it.' } },
   { id: 'iso-11079', kind: 'science', name: 'ISO 11079 (IREQ)', by: 'International Organization for Standardization', license: 'Standard (cited method)', url: iso('ISO 11079'),
     usage: { tr: 'Soğuk havada gereken giysi yalıtımı ve kısa süreli maruziyet sınırı.', en: 'Required clothing insulation in the cold and the limit for short exposures.' } },
+  { id: 'engineering-toolbox', kind: 'science', name: 'Engineering ToolBox — clothing insulation (clo) table', by: 'Engineering ToolBox', license: 'Cited values (secondary source)',
+    url: 'https://www.engineeringtoolbox.com/clo-clothing-thermal-insulation-d_732.html',
+    usage: { tr: 'Şişme mont, palto ve parka için yalıtım değerleri. ASHRAE tablolarının ikincil kopyası; birincil kaynağı doğrulamadık ve arayüzde "doğrulanmadı" diye belirtiyoruz.', en: 'Insulation values for puffer jackets, coats and parkas. A secondary copy of ASHRAE tables; we have not checked the primary source and say so in the app.' } },
   { id: 'noaa-solar', kind: 'science', name: 'NOAA Solar Calculation', by: 'NOAA Global Monitoring Laboratory', license: 'Public domain (U.S. federal work)', url: 'https://gml.noaa.gov/grad/solcalc/',
     usage: { tr: 'Gün doğumu ve batımı; gece ile gündüz gösterimi.', en: 'Sunrise and sunset; showing day or night correctly.' } },
 

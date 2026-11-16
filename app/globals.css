@@ -729,3 +729,8 @@
 .settings-credits li small a { color: inherit; text-decoration: underline; }
 .settings-credits li p { font-size: 11px; color: var(--ww-ink); margin-top: 4px; line-height: 1.45; }
 /* End WW-29/1 */
+
+/* WW-29/2a warmth note on the outfit card */
+.thermal-note.thermal-acceptable { border-color: var(--ww-accent); color: var(--ww-ink); }
+.thermal-note.thermal-insufficient, .thermal-note.thermal-excess { border-color: var(--ww-ink); background: var(--ww-wash); color: var(--ww-ink); font-weight: 600; }
+/* End WW-29/2a */

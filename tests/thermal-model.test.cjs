@@ -71,15 +71,17 @@ test('every garment type has an entry; cited values carry their source rows', ()
       assert.ok(entry.clo.min > 0 && entry.clo.min <= entry.clo.max && entry.clo.max < 1, type.id);
     } else assert.equal(entry.match, 'none', type.id);
   }
-  assert.equal(model.GARMENT_CLO.puffer.clo, null, 'no invented value for outdoor insulation');
+  assert.equal(model.GARMENT_CLO['rain-jacket'].clo, null, 'no invented value for shells');
+  assert.equal(model.GARMENT_CLO.puffer.match, 'secondary', 'secondary values stay labelled');
+  assert.match(model.SECONDARY_OUTERWEAR_SOURCE, /^https:\/\//);
 });
 
 test('ensemble estimate keeps unknown garments visible and never claims a shortfall it cannot prove', () => {
   const summer = model.estimateEnsemble(['short-sleeve-tee', 'shorts', 'sneakers', 'socks']);
   assert.deepEqual(summer.unknownTypes, []);
   close(summer.icl.min, 0.835 * (0.04 + 0.08 + 0.06 + 0.02 + 0.02) + 0.161, 1e-9, 'summer min');
-  const winter = model.estimateEnsemble(['thermal-top', 'sweater', 'puffer', 'jeans', 'winter-boots']);
-  assert.deepEqual(winter.unknownTypes, ['puffer']);
+  const winter = model.estimateEnsemble(['thermal-top', 'sweater', 'rain-jacket', 'jeans', 'winter-boots']);
+  assert.deepEqual(winter.unknownTypes, ['rain-jacket']);
 
   const coldDay = { airTempC: -5, relativeHumidity: 70, windKmh10m: 20, activity: 'walking' };
   const cold = model.requiredInsulation(coldDay);
@@ -87,7 +89,9 @@ test('ensemble estimate keeps unknown garments visible and never claims a shortf
   assert.ok(cold.iclNeutral > cold.iclMin && cold.iclMin > 0);
   const summerOutfit = ['short-sleeve-tee', 'shorts', 'sneakers', 'socks'];
   assert.equal(model.assessOutfit(summerOutfit, coldDay, 1).fit, 'insufficient');
-  assert.equal(model.assessOutfit(['thermal-top', 'sweater', 'puffer', 'jeans', 'winter-boots'], coldDay, 1).fit, 'unknown', 'the missing puffer value could close the gap');
+  assert.equal(model.assessOutfit(['thermal-top', 'sweater', 'rain-jacket', 'jeans', 'winter-boots'], coldDay, 1).fit, 'unknown', 'the missing shell value could close the gap');
+  assert.equal(model.assessOutfit(['thermal-top', 'sweater', 'light-jacket', 'joggers', 'winter-boots', 'beanie'], { ...coldDay, airTempC: 6, windKmh10m: 10 }, 0.5).fit, 'acceptable', 'an unknown beanie cannot spoil an outfit the cited garments already cover');
+  assert.equal(model.assessOutfit(['thermal-top', 'sweater', 'puffer', 'jeans', 'winter-boots'], coldDay, 1).fit, 'unknown', 'a secondary puffer value decides nothing');
   const warm = model.assessOutfit(['short-sleeve-tee', 'shorts', 'sandals'], { ...coldDay, airTempC: 25 }, 1);
   assert.equal(warm.requirement.method, 'extended');
   assert.equal(warm.fit, 'unknown', 'no cold-model verdict outside ISO 11079');
@@ -105,6 +109,16 @@ test('a short trip can be acceptable where a full day outside is not (ISO 11079 
   assert.ok(short.dleHours.low >= 0.5, `DLE ${short.dleHours.low}`);
   assert.equal(short.fit, 'acceptable');
   assert.equal(long.fit, 'insufficient');
+});
+
+test('insulation needed for an exposure agrees with DLE', () => {
+  const day = { airTempC: 2, relativeHumidity: 70, windKmh10m: 15, activity: 'walking' };
+  for (const hours of [0.25, 0.5, 1, 2]) {
+    const need = model.insulationForExposure(day, hours);
+    assert.ok(model.durationLimitedExposure(day, need).min >= hours, `${hours} h at ${need}`);
+    assert.ok(model.durationLimitedExposure(day, Math.max(0, need - 0.02)).min < hours, `${hours} h just below ${need}`);
+  }
+  assert.equal(model.insulationForExposure(day, 8), model.requiredInsulation(day).iclMin);
 });
 
 test('activity and wind move the requirement in the physical direction', () => {
