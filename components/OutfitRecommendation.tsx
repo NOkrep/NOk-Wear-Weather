@@ -12,7 +12,7 @@ import {GarmentStudioVisual} from './GarmentStudioVisual';
 import {OutfitBoard} from './OutfitBoard';
 import {Modal} from './Modal';
 import {canRankForWeather} from '@/lib/catalog-wardrobe';
-import {assessItems,refineOutfit,thermalContext,thermalNote} from '@/lib/outfit-thermal';
+import {aestheticNote,assessAesthetics,assessItems,refineOutfit,thermalContext,thermalNote} from '@/lib/outfit-thermal';
 interface Props {weather:WeatherConsensus;districtName:string;countryName?:string;stopCount?:number;accentHex?:string;thermalProfile?:ThermalProfile;wardrobe?:ClothingItem[];onOpenFeedback?:()=>void;onItemsChange?:(items:ClothingItem[])=>void;onOpenWardrobe?:()=>void}
 const categories={base:'İç katman',mid:'Üst giyim',outer:'Dış katman',bottom:'Alt giyim',footwear:'Ayakkabı',accessory:'Aksesuar'};
 const modes:{id:OutfitApproach;label:string}[]=[{id:'direct',label:'Günün kombini'},{id:'layering',label:'Katmanlar'},{id:'wardrobe',label:'Dolabımdan'},{id:'anchor',label:'Eşleştir'}];
@@ -55,6 +55,7 @@ export const OutfitRecommendation=memo(function OutfitRecommendation({weather,co
  const tier=market.tiers[segment==='premium'?'luxury':segment];
  const items=useMemo(()=>approach==='wardrobe'?wardrobeMatch.selectedItems:approach==='anchor'?anchorMatch.items:directOutfit,[approach,wardrobeMatch,anchorMatch,directOutfit]);
  const thermalCheck=useMemo(()=>assessItems(items,thermalContext(weather,thermalProfile.offsetC)),[items,weather,thermalProfile.offsetC]);
+ const look=useMemo(()=>assessAesthetics(items),[items]);
  const hasUnassessedSelection=items.some(item=>item.dataSource==='catalog'&&!canRankForWeather(item,weather));
  const hasPersonalEstimate=items.some(item=>item.dataSource==='catalog'&&item.personalWarmth);
  const unrankedProducts=wardrobe.filter(item=>item.dataSource==='catalog'&&!canRankForWeather(item,weather)).length;
@@ -79,6 +80,7 @@ export const OutfitRecommendation=memo(function OutfitRecommendation({weather,co
    {hasUnassessedSelection&&<p className="catalog-selection-note" role="status">{t('Seçtiğin ürün korunuyor; eksik teknik bilgiler nedeniyle hava uygunluğu doğrulanmadı.')}</p>}
    {!hasUnassessedSelection&&hasPersonalEstimate&&<p className="catalog-selection-note">{t('Kaynaklı ürün seçiminde kişisel ısı tahminin kullanılıyor; bu bir ölçüm değildir.')}</p>}
    {approach!=='layering'&&items.length>0&&<p className={`catalog-selection-note thermal-note thermal-${thermalCheck.applies?thermalCheck.fit:'rule'}`} role="status">{thermalNote(thermalCheck,locale)}</p>}
+   {approach!=='layering'&&items.length>0&&<p className={`catalog-selection-note look-note${look.colour==='clash'||look.formalityClash?' look-mismatch':''}`}>{aestheticNote(look,locale)}</p>}
    {approach==='layering'?<div className="layer-timeline">{layerTimeline.map(step=><article className="layer-phase" key={step.timeRange}><div className="layer-phase-heading"><span>{t(({morning:'Sabah',midday:'Öğle',evening:'Akşam',night:'Gece'})[step.phase])}<small>{step.timeRange}</small></span><strong>{step.expectedTemp}°</strong></div><div className="layer-garments">{step.activeItems.map((name,i)=><div key={`${name}-${i}`}><GarmentStudioVisual item={inferGarment(name)}/><span>{t(name).split('/')[0]}</span></div>)}</div><p>{locale==='en'?(step.expectedTemp<=12?'Keep your warm layers on.':step.expectedTemp>=23?'Choose light, breathable layers.':'Keep a removable layer nearby.'):step.actionTitle.split(':').slice(1).join(':').trim()||step.actionTitle}</p><details className="layer-details"><summary>{t('Katman ayrıntısı')}</summary><p>{locale==='en'?t('Katmanlarını hava ve hareketine göre çıkarıp ekle.'):step.actionDescription}</p><p>{locale==='en'?t('Rüzgâr ve yağış için dış katmanını yanında tut.'):step.thermalTip}</p></details></article>)}</div>:<div className="outfit-board-container">{items.length>0?<OutfitBoard items={items} onInspect={setInspectedItem}/>:<div className="wardrobe-empty"><Shirt size={32}/><p>{t('Havaya uygun parçaların burada görünsün.')}</p><button type="button" className="primary-button" onClick={onOpenWardrobe}><Plus size={16}/>{t('Dolabına parça ekle')}</button></div>}</div>}
    <button type="button" className="visible-feedback-button" disabled={!onOpenFeedback} onClick={onOpenFeedback}>{t('Nasıl hissettin?')}<span>{t('Üşüdüm · Rahattım · Terledim · Islandım')}</span><ArrowUpRight size={15}/></button>
    <div className="outfit-footnote"><span><span className="status-dot"/>{t(hasUnassessedSelection?'Kullanıcı seçimi · hava uygunluğu eksik':stopCount>1?`${stopCount} durağın havasına göre`:'Günün havasına göre')}</span><div className="outfit-swatches" aria-label={t('Önerilen renkler')} title={locale==='en'?'Suggested colours for these weather conditions':colorAdvice.reason}>{colorAdvice.recommendedPalette.map((color,i)=><span key={`${color}-${i}`} style={{background:color}}/>)}</div><span>{t('Detaylar için parçaya dokun')}<ArrowUpRight size={13}/></span></div>

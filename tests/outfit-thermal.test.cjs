@@ -165,3 +165,14 @@ test('planned hours carry their own solar radiation through parsing and every ho
   assert.ok(context.warm.conditions[0].deltaMrt > 0 && context.warm.conditions[1].deltaMrt === 0, 'current radiation is not reused for planned hours');
   assert.equal(context.exposureHours, 2);
 });
+
+test('in mild weather open-ended floors do not make a puffer look lighter than a trench coat', () => {
+  const { matchFromUserWardrobe, DEFAULT_WARDROBE_ITEMS } = require('../lib/wardrobe-storage.ts');
+  const mild = weatherAt(16, { feelsLike: 15, windSpeed: 19, humidity: 70 });
+  // Full default wardrobe: the hoodie (formality 2) and the trench coat (4) no longer count as a mismatch.
+  const picked = matchFromUserWardrobe(DEFAULT_WARDROBE_ITEMS, mild).selectedItems;
+  const outer = picked.find(item => item.category === 'outer');
+  assert.equal(outer.id, 'w-outer-trench', picked.map(item => item.id).join(','));
+  const verdict = thermal.assessItems([piece('tee', 'base', 'short-sleeve-tee', 1), piece('puffer', 'outer', 'puffer', 5), piece('jeans', 'bottom', 'jeans', 3)], thermal.thermalContext(mild));
+  if (verdict.fit === 'unknown') assert.match(thermal.thermalNote(verdict, 'tr'), /fazla sıcak gelmeyeceği doğrulanamadı\.$/);
+});

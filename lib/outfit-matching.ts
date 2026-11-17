@@ -21,27 +21,6 @@ export function uniqueAnchorChoices(items: ClothingItem[]): ClothingItem[] {
   });
 }
 
-function colourCompatibility(colour: string, others: ClothingItem[]): number {
-  const hsl = (hex: string) => {
-    if (!/^#[a-f\d]{6}$/i.test(hex)) return { hue: 0, saturation: 0 };
-    const [r, g, b] = hex.slice(1).match(/../g)!.map(value => parseInt(value, 16) / 255);
-    const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
-    const lightness = (max + min) / 2;
-    if (!delta || lightness < .12 || lightness > .88) return { hue: 0, saturation: 0 };
-    const hue = max === r ? ((g - b) / delta) % 6 : max === g ? (b - r) / delta + 2 : (r - g) / delta + 4;
-    return { hue: (hue * 60 + 360) % 360, saturation: delta / (1 - Math.abs(2 * lightness - 1)) };
-  };
-  const candidate = hsl(colour);
-  if (candidate.saturation < .18) return 2;
-  return others.reduce((score, item) => {
-    const other = hsl(item.colorHex);
-    if (other.saturation < .18) return score + 2;
-    const difference = Math.abs(candidate.hue - other.hue);
-    const angle = Math.min(difference, 360 - difference);
-    return score + (angle <= 35 || angle >= 150 ? 2 : -1);
-  }, 0) / Math.max(1, others.length);
-}
-
 export interface MultiAnchorMatch {
   items: ClothingItem[];
   lockedItems: ClothingItem[];
@@ -83,8 +62,8 @@ export function matchSelectedItems(
     const score = (item: ClothingItem) => {
       const protection = rainy && ['outer', 'footwear'].includes(category) ? item.waterResistance === 'waterproof' ? 18 : item.waterResistance === 'light' ? 4 : -14 : 0;
       const warmth = getItemWarmth(item);
-      const colour = item.colorType === 'unknown' ? 0 : colourCompatibility(item.colorHex, lockedItems.filter(other => other.colorType !== 'unknown'));
-      return warmth === null ? -Infinity : -7 * Math.abs(warmth - desired) + protection + colour + itemComfortAdjustment(item, weather, feedbacks);
+      // Colour and formality are judged for the whole outfit in chooseThermalCombination (WW-29/3).
+      return warmth === null ? -Infinity : -7 * Math.abs(warmth - desired) + protection + itemComfortAdjustment(item, weather, feedbacks);
     };
     const eligible = candidates.filter(item => canRankForWeather(item, weather) && item.category === category && !active.has(outfitSlot(item)) && !activeKeys.has(itemIdentity(item)));
     // Best-first, ties keep candidate order (same winner as the former single pick).

@@ -52,6 +52,12 @@ export const CREDITS: Credit[] = [
   { id: 'cbe-2013', kind: 'science', name: 'Typical Clothing Ensemble Insulation Levels for Sixteen Body Parts', by: 'Juyoun Lee, Hui Zhang, Edward Arens (CBE, UC Berkeley, CLIMA 2013)', license: 'Open access (cited measurements)',
     url: 'https://escholarship.org/uc/item/18f0r375',
     usage: { tr: 'Termal mankenle ölçülmüş kombin yalıtımları: hesap yöntemimizin doğruluğunu bu ölçümlerle test ediyoruz ve şişme mont ile trençkot için ölçülmüş alt değerleri buradan türetiyoruz. Yalnız sayıları kaynak göstererek kullanıyoruz.', en: 'Clothing insulation measured on a thermal manikin: we test our method against these measurements and derive measured lower values for puffer jackets and trench coats. We use only the numbers, with attribution.' } },
+  { id: 'ou-luo-2006', kind: 'science', name: 'A colour harmony model for two-colour combinations', by: 'Li-Chen Ou, M. Ronnier Luo (Color Research & Application, 2006)', license: 'Published method',
+    url: 'https://doi.org/10.1002/col.20208', licenseUrl: 'https://patents.google.com/patent/US10107687B2/en',
+    usage: { tr: 'Kombindeki renk çiftlerinin uyumu (CIELAB). Denklemleri aynı grubun patentindeki yeniden yayımdan aldık. Model giysilerde zayıf kaldığı için yalnız belirgin renk çatışmalarını geri sıralıyoruz.', en: 'Harmony of colour pairs in an outfit (CIELAB). Equations taken from the same group\'s patent republication. As the model is weak for garments, we only push back clear colour clashes.' } },
+  { id: 'dress-codes', kind: 'science', name: 'Western dress codes and formality rubric', by: 'Western dress-code tiers; Permanent Style (Simon Crompton)', license: 'Cited guidance (rule-based)',
+    url: 'https://www.permanentstyle.com/2016/01/seven-levels-of-formality',
+    usage: { tr: 'Tür başına 1–4 resmiyet ölçeğimizin dayanağı. Bilimsel ölçüm değil; arayüzde "kural tabanlı" diye belirtiyoruz.', en: 'The basis of our 1–4 formality scale per garment type. Not a measurement; labelled "rule-based" in the app.' } },
   { id: 'noaa-solar', kind: 'science', name: 'NOAA Solar Calculation', by: 'NOAA Global Monitoring Laboratory', license: 'Public domain (U.S. federal work)', url: 'https://gml.noaa.gov/grad/solcalc/',
     usage: { tr: 'Gün doğumu ve batımı, gece ile gündüz gösterimi ve güneşin gökyüzündeki yüksekliği.', en: 'Sunrise and sunset, showing day or night correctly, and the sun\'s height in the sky.' } },
 

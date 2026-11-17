@@ -8,7 +8,9 @@
 import type { ClothingItem, HourlyForecastPoint, WeatherConsensus } from './types';
 import { canRankForWeather, getItemWarmth } from './catalog-wardrobe';
 import { itemIdentity } from './comfort';
+import { outfitHarmony } from './colour-harmony';
 import { solarGain, twoNodeGagge } from './comfort-model';
+import { FORMALITY, FORMALITY_CLASH, formalitySpread } from './formality';
 import { sourceGarmentType } from './garment-appearance';
 import { outfitSlot } from './outfit-layers';
 import {
@@ -162,13 +164,50 @@ const rankOf = (items: readonly ClothingItem[], context: ThermalContext, steps: 
     }
   }
   if (context.warm) {
-    const verdict = warmVerdict(ensemble, context);
-    fits.push(verdict.fit);
-    gap += verdict.deviation / 4; // sensation units → roughly clo-sized steps
+    fits.push(warmVerdict(ensemble, context).fit);
+    // Rank by fully cited pieces only: an open or secondary floor makes e.g. a puffer look lighter than a trench coat,
+    // which is usually backwards; with equal cited layers the preferred pick decides.
+    gap += warmVerdict({ ...ensemble, citedMin: ensemble.closedMin }, context).deviation / 4; // sensation units → roughly clo-sized steps
   }
   // Verdict class always dominates the gap (gap ≤ ~110 → ≤ 1.1e7) and the gap dominates steps.
-  return RANK[combine(fits)] * 1_000_000_000 + Math.round(gap * 1000) * 100 + steps;
+  return RANK[combine(fits)] * 1_000_000_000 + Math.round(gap * 1000) * 100 + Math.round(assessAesthetics(items).penalty * 10) + steps;
 };
+
+export type Aesthetics = {
+  /** Ou & Luo pair harmony of known garment colours: mean and worst pair */ harmony: { score: number; worst: number; pairs: number } | null;
+  colour: 'harmonious' | 'acceptable' | 'clash' | null;
+  formality: { min: number; max: number; spread: number } | null;
+  formalityClash: boolean;
+  /** soft ranking penalty: only clear colour clashes and formality gaps count */ penalty: number;
+};
+
+/** Colour clash below this CH: saturated opposing pairs (red/green, orange/purple). Dark/neutral pairs stay unpenalised. */
+export const COLOUR_CLASH_CH = -0.3;
+
+/**
+ * WW-29/3 look check. Recorded garment colours only (unknown catalogue colours and personal illustration colours
+ * are excluded); hidden layers (thermal top, socks) are ignored. It re-orders outfits only after the thermal verdict.
+ */
+export function assessAesthetics(items: readonly ClothingItem[]): Aesthetics {
+  const visible = items.filter(item => { const type = sourceGarmentType(item); return !type || FORMALITY[type] !== null; });
+  const harmony = outfitHarmony(visible.filter(item => item.colorType !== 'unknown').map(item => item.colorHex));
+  // One clashing pair is visible on its own, so clashes use the worst pair; the mean sets harmonious vs acceptable.
+  const colour = harmony === null ? null : harmony.worst < COLOUR_CLASH_CH ? 'clash' : harmony.score >= 0 ? 'harmonious' : 'acceptable';
+  const formality = formalitySpread(visible.map(item => sourceGarmentType(item)));
+  const formalityClash = Boolean(formality && formality.spread >= FORMALITY_CLASH);
+  const penalty = (harmony ? Math.max(0, COLOUR_CLASH_CH - harmony.worst) : 0) + (formalityClash ? 1 : 0);
+  return { harmony, colour, formality, formalityClash, penalty };
+}
+
+export function aestheticNote(look: Aesthetics, locale: 'tr' | 'en'): string | null {
+  const en = locale === 'en';
+  const colour = look.colour === null ? (en ? 'no colour data' : 'renk bilgisi yok')
+    : en ? `colours ${({ harmonious: 'harmonious', acceptable: 'acceptable', clash: 'clash' })[look.colour]} (Ou–Luo)`
+      : `renkler ${({ harmonious: 'uyumlu', acceptable: 'kabul edilebilir', clash: 'çatışıyor' })[look.colour]} (Ou–Luo)`;
+  const formality = look.formality === null ? null
+    : en ? `formality ${look.formalityClash ? 'mixed' : 'consistent'} (rule-based)` : `resmiyet ${look.formalityClash ? 'karışık' : 'tutarlı'} (kural tabanlı)`;
+  return `${en ? 'Look' : 'Görünüş'}: ${[colour, formality].filter(Boolean).join(' · ')}`;
+}
 const cloMid = (item: ClothingItem) => { const clo = itemCloPart(item).clo; return clo ? (clo.min + clo.max) / 2 : -1; };
 
 /**
@@ -240,6 +279,10 @@ export function thermalNote(thermal: OutfitThermal, locale: 'tr' | 'en'): string
       : `Mont/kaban yalıtımı yalnız ikincil, doğrulanmamış kaynaktan biliniyor; ${span} için uygunluk doğrulanamadı.`;
     if (!thermal.ensemble.unknownTypes.length && thermal.ensemble.openUpperTypes.length) {
       const trench = thermal.ensemble.openUpperTypes.includes('trench-coat') && !thermal.ensemble.openUpperTypes.includes('puffer');
+      // Mild weather: the open upper end is the problem (it may feel too warm), not a shortfall.
+      if (thermal.cold?.fit !== 'unknown') return en
+        ? `Only a lower insulation value is known for the ${trench ? 'trench coat' : 'puffer'} (CBE 2013), so it could not be confirmed that it will not feel too warm for ${span}.`
+        : `${trench ? 'Trençkot' : 'Şişme mont'} için yalnız alt yalıtım değeri biliniyor (CBE 2013); ${span} için fazla sıcak gelmeyeceği doğrulanamadı.`;
       return en
         ? `Only a measured lower value is known for the ${trench ? 'trench coat' : 'puffer'} (CBE 2013); it is not enough to confirm comfort for ${span}, though a warmer one may be.`
         : `${trench ? 'Trençkot' : 'Şişme mont'} için yalnız ölçülmüş bir alt değer biliniyor (CBE 2013); bu değer ${span} için yetmiyor, daha sıcak bir ${trench ? 'trençkot' : 'mont'} yetebilir.`;
