@@ -20,8 +20,8 @@ const batch = require('../db/imports/multi-source-tees.2026-10-18.json');
 const owned = () => catalogProductToWardrobe(batch.products[0], batch.sources, 'my-piece');
 const draw = (item, props = {}) => renderToStaticMarkup(React.createElement(GarmentVisual, { item, ...props }));
 
-test('all 36 stable types render locally without a product name heuristic or remote image', () => {
-  assert.equal(GARMENT_TYPES.length, 36);
+test('all 37 stable types render locally without a product name heuristic or remote image', () => {
+  assert.equal(GARMENT_TYPES.length, 37);
   for (const type of GARMENT_TYPES) {
     const item = { name: 'renamed: bot kapüşon elbise', category: type.group === 'one_piece' ? 'base' : type.group, garmentTypeId: type.id, colorHex: '#456789' };
     const markup = draw(item);
@@ -91,7 +91,7 @@ test('legacy IDs retain known silhouettes, unknown records stay unspecified, and
   for (const options of Object.values(APPEARANCE_OPTIONS)) for (const label of Object.values(options)) assert.ok(english[label], label);
 });
 
-test('all 180 original designs change real SVG geometry and retain personal-only metadata', () => {
+test('all 185 original designs change real SVG geometry and retain personal-only metadata', () => {
   const { garmentDesigns, findGarmentDesign } = require('../lib/garment-designs.ts');
   const ids = new Set();
   for (const type of GARMENT_TYPES) {
@@ -119,7 +119,7 @@ test('all 180 original designs change real SVG geometry and retain personal-only
     const different = GARMENT_TYPES.find(candidate => candidate.id !== type.id);
     assert.equal(normalizeGarmentAppearance({ version: 1, designId: garmentDesigns(different.id)[0].id }, item).designId, undefined);
   }
-  assert.equal(ids.size, 180);
+  assert.equal(ids.size, 185);
 });
 
 test('saved silhouette IDs survive storage and never replace observed fabric, brand or warmth', () => {

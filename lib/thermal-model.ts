@@ -89,6 +89,9 @@ export const GARMENT_CLO: Readonly<Record<GarmentTypeId, GarmentCloEntry>> = {
   blouse: entry(0.19, 0.25, 'nearest', 'Short-sleeve dress shirt', 'Long-sleeve dress shirt'),
   gilet: entry(0.1, 0.17, 'nearest', 'Sleeveless vest (thin)', 'Sleeveless vest (thick)'),
   'rain-poncho': none,
+  // CBE 2013 short trench coat over a turtleneck ensemble: 1.24 − (0.80 + turtleneck − shirt 0.11) = 0.33 clo → 0.40 per garment.
+  // Two-step difference and lined winter trenches are warmer, so this is a floor with an open upper end.
+  'trench-coat': { clo: { min: 0.4, max: 0.4 }, reference: ['CBE 2013 short trench coat (two-step difference)'], match: 'derived', openUpper: true },
 };
 
 /** ASHRAE 55 typical tasks (pythermalcomfort `met_typical_tasks`); walking speed per ISO 11079 limits (≤ 1.2 m/s). */

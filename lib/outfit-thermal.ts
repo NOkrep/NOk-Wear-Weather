@@ -238,9 +238,12 @@ export function thermalNote(thermal: OutfitThermal, locale: 'tr' | 'en'): string
     if (!thermal.ensemble.unknownTypes.length && thermal.ensemble.lowerBoundTypes.length) return en
       ? `Coat/jacket insulation is only known from a secondary, unverified source, so comfort for ${span} could not be confirmed.`
       : `Mont/kaban yalıtımı yalnız ikincil, doğrulanmamış kaynaktan biliniyor; ${span} için uygunluk doğrulanamadı.`;
-    if (!thermal.ensemble.unknownTypes.length && thermal.ensemble.openUpperTypes.length) return en
-      ? `Only a measured lower value is known for the puffer (CBE 2013); it is not enough to confirm comfort for ${span}, though a warmer puffer may be.`
-      : `Şişme mont için yalnız ölçülmüş bir alt değer biliniyor (CBE 2013); bu değer ${span} için yetmiyor, daha sıcak bir mont yetebilir.`;
+    if (!thermal.ensemble.unknownTypes.length && thermal.ensemble.openUpperTypes.length) {
+      const trench = thermal.ensemble.openUpperTypes.includes('trench-coat') && !thermal.ensemble.openUpperTypes.includes('puffer');
+      return en
+        ? `Only a measured lower value is known for the ${trench ? 'trench coat' : 'puffer'} (CBE 2013); it is not enough to confirm comfort for ${span}, though a warmer one may be.`
+        : `${trench ? 'Trençkot' : 'Şişme mont'} için yalnız ölçülmüş bir alt değer biliniyor (CBE 2013); bu değer ${span} için yetmiyor, daha sıcak bir ${trench ? 'trençkot' : 'mont'} yetebilir.`;
+    }
     return en ? 'Some pieces have no known insulation value, so comfort could not be confirmed.' : 'Bazı parçaların yalıtım değeri bilinmediği için uygunluk doğrulanamadı.';
   }
   if (thermal.fit === 'insufficient') {

@@ -8,9 +8,9 @@ const { validateCatalogImport } = require('../lib/catalog/validation.ts');
 const { GARMENT_TYPES, findGarmentTypes, LEGACY_TYPE_MAP, normalizeCatalogText } = require('../lib/catalog/taxonomy.ts');
 const { LEGACY_GARMENT_CATALOG, VERIFIED_GARMENT_CATALOG, searchGarmentCatalog } = require('../lib/clothing-catalog.ts');
 
-test('36 stable bilingual types include dress coverage and five distinct accessories', () => {
-  assert.equal(GARMENT_TYPES.length,36);
-  assert.equal(new Set(GARMENT_TYPES.map(t => t.id)).size,36);
+test('37 stable bilingual types include dress coverage and five distinct accessories', () => {
+  assert.equal(GARMENT_TYPES.length,37);
+  assert.equal(new Set(GARMENT_TYPES.map(t => t.id)).size,37);
   assert.deepEqual(GARMENT_TYPES.find(t => t.id === 'dress').slots,['torso','upper-legs']);
   assert.equal(GARMENT_TYPES.filter(t => t.group === 'accessory').length,5);
   for (const type of GARMENT_TYPES) assert.ok(type.tr && type.en && type.slots.length);

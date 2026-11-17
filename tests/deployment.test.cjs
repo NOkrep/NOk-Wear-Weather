@@ -132,7 +132,7 @@ test('reviewed catalogue preflight validates all 146 products without needing a 
   const result = spawnSync(process.execPath, ['--import', 'tsx', 'scripts/catalog/import-reviewed.ts', '--check'], { cwd: root, encoding: 'utf8', windowsHide: true, env: { ...process.env, DATABASE_URL: '' } });
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /146 reviewed products in 20 batches/);
-  assert.match(result.stdout, /36 types/);
+  assert.match(result.stdout, /37 types/);
 });
 
 test('reviewed importer requires explicit review and rejects traversal or a bad later batch before DB access', async t => {
@@ -177,13 +177,13 @@ const {Pool}=require(${JSON.stringify(path.join(root, 'node_modules/pg'))});
   await migrateCatalog();
   assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.products')).rows[0].n,0);
   const first=await importReviewedCatalog();
-  assert.deepEqual(first,{products:146,batches:20,types:36,newlyPublished:146});
+  assert.deepEqual(first,{products:146,batches:20,types:37,newlyPublished:146});
   const snapshot=await pool.query('SELECT id,digest,state FROM catalog.import_batches ORDER BY id');
   assert.equal((await importReviewedCatalog()).newlyPublished,0);
   assert.deepEqual((await pool.query('SELECT id,digest,state FROM catalog.import_batches ORDER BY id')).rows,snapshot.rows);
   assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.products')).rows[0].n,146);
   assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.legacy_profiles')).rows[0].n,23);
-  assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.garment_types')).rows[0].n,36);
+  assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.garment_types')).rows[0].n,37);
   const url=new URL(process.env.DATABASE_URL);url.username='catalog_reader';url.password=process.env.CATALOG_READER_PASSWORD;
   const reader=new Pool({connectionString:url.toString()});
   try{
