@@ -60,6 +60,8 @@ export interface HourlyForecastPoint {
   windSpeed: number;
   condition: WeatherCondition;
   suggestedAction: string;
+  /** Open-Meteo direct normal irradiance (W/m², preceding-hour mean); absent when the provider gave none */
+  directNormalIrradiance?: number;
 }
 
 export interface StopWeatherPlan {
@@ -95,6 +97,8 @@ export interface WeatherConsensus extends WeatherTimeContext {
   forecastSources?: ForecastSource[];
   selection?: WeatherPlanSelection;
   uvIndexKnown?: boolean;
+  /** Open-Meteo current direct normal irradiance, W/m²; not set for planned intervals (use `hourly`) */
+  directNormalIrradiance?: number;
   fetchedAt?: string;
   forecastAvailable?: boolean;
   temp: number;

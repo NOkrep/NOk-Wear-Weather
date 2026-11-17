@@ -60,6 +60,7 @@ export async function GET(req: NextRequest) {
 
   let hourlyData: HourlyForecastPoint[] = [];
   let uvIndex = 0;
+  let directNormalIrradiance: number | undefined;
   const context: WeatherTimeContext = { lat, lon, timezone: 'UTC', timezoneKnown: false };
   const forecastSources: ForecastSource[] = requestedDate ? [
     { sourceName: 'Open-Meteo (ECMWF/IFS)', status: 'unavailable', points: [] },
@@ -72,7 +73,7 @@ export async function GET(req: NextRequest) {
 
   // Task 1: Open-Meteo Best Match (ECMWF / GFS Blend) + Hourly Series
   const fetchOpenMeteo = async (): Promise<WeatherSourceReading | null> => {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,dew_point_2m,precipitation_probability,weather_code,wind_speed_10m,uv_index,is_day&daily=sunrise,sunset&timeformat=unixtime&timezone=auto&forecast_days=${requestedDate ? 16 : 2}`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day,direct_normal_irradiance&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,dew_point_2m,precipitation_probability,weather_code,wind_speed_10m,uv_index,is_day,direct_normal_irradiance&daily=sunrise,sunset&timeformat=unixtime&timezone=auto&forecast_days=${requestedDate ? 16 : 2}`;
     const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8_000) });
     if (!res.ok) throw new Error(`Open-Meteo HTTP ${res.status}`);
     const data = await res.json();
@@ -83,6 +84,7 @@ export async function GET(req: NextRequest) {
     context.solarDays = solarDaysFromProvider(data);
     context.observedAt = new Date(current.time * 1000).toISOString();
     context.isDay = current.is_day === 1 ? true : current.is_day === 0 ? false : null;
+    if (typeof current.direct_normal_irradiance === 'number' && current.direct_normal_irradiance >= 0) directNormalIrradiance = current.direct_normal_irradiance;
     const cond = mapWmoToCondition(current.weather_code, daylightAt(context, now, { validAt: context.observedAt, isDay: context.isDay }));
 
     if (!requestedDate && data.hourly && Array.isArray(data.hourly.time)) {
@@ -93,6 +95,7 @@ export async function GET(req: NextRequest) {
       const codes: number[] = data.hourly.weather_code;
       const winds: number[] = data.hourly.wind_speed_10m;
       const uvs: number[] = data.hourly.uv_index;
+      const dnis: unknown[] = data.hourly.direct_normal_irradiance ?? [];
 
       const currentIdx = Math.max(0, times.findIndex(t => t * 1000 + 3600000 > now));
       uvIndex = uvs?.[currentIdx] ?? 0;
@@ -118,6 +121,7 @@ export async function GET(req: NextRequest) {
           windSpeed: windVal,
           condition: mapWmoToCondition(codeVal, isDay),
           suggestedAction: buildSuggestedAction(feelVal, precipVal, windVal),
+          ...(typeof dnis[globalIdx] === 'number' && (dnis[globalIdx] as number) >= 0 ? { directNormalIrradiance: dnis[globalIdx] as number } : {}),
         };
       });
     }
@@ -416,6 +420,7 @@ export async function GET(req: NextRequest) {
     windSpeed: avgWind,
     precipitationProb: avgPrecip,
     uvIndex: Math.round(uvIndex),
+    ...(directNormalIrradiance !== undefined ? { directNormalIrradiance } : {}),
     condition: primaryCondition,
     confidenceScore: sources.some(s => s.isAvailable) ? confidenceScore : 0,
     sources,

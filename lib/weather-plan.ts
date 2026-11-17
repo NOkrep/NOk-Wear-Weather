@@ -79,12 +79,14 @@ export function resolvePlannedWeather(weather: WeatherConsensus | undefined, pla
     const at = Date.parse(validAt), timeStr = localTimeLabel(at, weather.timezone), isDay = daylightAt(context, at, readings[0]);
     const condition = readings.reduce((a, b) => severity[b.condition] > severity[a] ? b.condition : a, readings[0].condition);
     const uv = readings.flatMap(p => p.uvIndex === undefined ? [] : [p.uvIndex]);
+    const dni = readings.flatMap(p => p.directNormalIrradiance === undefined ? [] : [p.directNormalIrradiance]);
     return { validAt, timezone: weather.timezone, timeStr, hourNumber: Number(timeStr.slice(0, 2)), isDay,
       coveredStartAt: new Date(Math.max(start, at)).toISOString(), coveredEndAt: new Date(Math.min(end, at + 3600000)).toISOString(),
       temp: mean(readings.map(p => p.temp)), feelsLike: mean(readings.map(p => p.feelsLike)),
       humidity: mean(readings.map(p => p.humidity)), dewPoint: Math.max(...readings.map(p => p.dewPoint)),
       precipitationProb: Math.max(...readings.map(p => p.precipitationProb)), windSpeed: Math.max(...readings.map(p => p.windSpeed)),
-      condition: conditionForDaylight(condition, isDay), suggestedAction: '', ...(uv.length ? { uvIndex: Math.max(...uv) } : {}) };
+      condition: conditionForDaylight(condition, isDay), suggestedAction: '', ...(uv.length ? { uvIndex: Math.max(...uv) } : {}),
+      ...(dni.length ? { directNormalIrradiance: Math.max(...dni) } : {}) };
   });
   const selection = { date: plan.date, startAt: new Date(start).toISOString(), endAt: new Date(window.point ? start : end).toISOString(), point: window.point!,
     minTemp: Math.min(...hourly.map(p => p.temp)), maxTemp: Math.max(...hourly.map(p => p.temp)),
@@ -103,7 +105,7 @@ export function resolvePlannedWeather(weather: WeatherConsensus | undefined, pla
       windSpeed: Math.max(...points.map(p => p.windSpeed)), precipitationProb: Math.max(...points.map(p => p.precipitationProb)),
       condition: conditionForDaylight(points[0].condition, isDay), isDay };
   });
-  return result('available', { ...weather, selection, hourly, sources, isDay, condition: conditionForDaylight(condition, isDay),
+  return result('available', { ...weather, directNormalIrradiance: undefined, selection, hourly, sources, isDay, condition: conditionForDaylight(condition, isDay),
     forecastAvailable: true, temp: selection.minTemp, feelsLike: selection.minFeelsLike,
     precipitationProb: selection.maxPrecipitation, windSpeed: selection.maxWind,
     humidity: mean(hourly.map(p => p.humidity)), dewPoint: Math.max(...hourly.map(p => p.dewPoint)),

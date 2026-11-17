@@ -28,10 +28,10 @@ export function parseForecastSource(sourceName: string, value: unknown, lat: num
     if (!Number.isFinite(new Date(stamp * 1000).getTime()) || humidity < 0 || humidity > 100 || windSpeed < 0 || precipitationProb < 0 || precipitationProb > 100) return;
     const validAt = new Date(stamp * 1000).toISOString(), flag = numberAt(data, 'is_day', i);
     const isDay = daylightAt(context, stamp * 1000, { validAt, isDay: flag === 1 ? true : flag === 0 ? false : null });
-    const timeStr = localTimeLabel(stamp * 1000, context.timezone), uv = numberAt(data, 'uv_index', i);
+    const timeStr = localTimeLabel(stamp * 1000, context.timezone), uv = numberAt(data, 'uv_index', i), dni = numberAt(data, 'direct_normal_irradiance', i);
     points.push({ validAt, timezone: context.timezone, timeStr, hourNumber: Number(timeStr.slice(0, 2)), temp, feelsLike, humidity, dewPoint,
       windSpeed, precipitationProb, condition: mapWmoToCondition(code, isDay), isDay,
-      ...(uv !== null && uv >= 0 ? { uvIndex: uv } : {}), suggestedAction: '' });
+      ...(uv !== null && uv >= 0 ? { uvIndex: uv } : {}), ...(dni !== null && dni >= 0 ? { directNormalIrradiance: dni } : {}), suggestedAction: '' });
   });
   points.sort((a, b) => Date.parse(a.validAt!) - Date.parse(b.validAt!));
   return { sourceName, ...context, status: points.length ? 'available' : 'unavailable', points };
