@@ -94,6 +94,8 @@ export function itemCloPart(item: ClothingItem): EnsemblePart & { secondary: boo
   const type = sourceGarmentType(item);
   const entry = type ? GARMENT_CLO[type] : undefined;
   if (!type || !entry?.clo) return { key: type ?? `item:${item.id}`, clo: null, reference: [], secondary: false };
+  // An open-ended measured floor stays a floor: a 1–5 warmth cannot place a garment inside an unknown range.
+  if (entry.openUpper) return { key: type, clo: entry.clo, reference: entry.reference, secondary: false, openUpper: true };
   const warmth = getItemWarmth(item);
   const { min, max } = entry.clo;
   const point = warmth === null ? null : min + ((warmth - 1) / 4) * (max - min);
@@ -105,7 +107,7 @@ type WarmVerdict = { fit: ThermalFit; hottest: number; coldest: number; deviatio
 /** Lower estimate: cited garments only. Upper estimate only when every garment has a cited value. */
 function warmVerdict(ensemble: EnsembleEstimate, context: ThermalContext): WarmVerdict {
   const conditions = context.warm!.conditions;
-  const upper = ensemble.unknownTypes.length || ensemble.lowerBoundTypes.length ? null : ensemble.icl.max;
+  const upper = ensemble.unknownTypes.length || ensemble.lowerBoundTypes.length || ensemble.openUpperTypes.length ? null : ensemble.icl.max;
   const across = (clo: number) => conditions.map((_, index) => context.sensation(index, clo));
   const low = across(ensemble.citedMin), high = upper === null ? null : across(upper);
   const hottest = Math.max(...(high ?? low)), coldest = Math.min(...low);
@@ -152,14 +154,20 @@ const rankOf = (items: readonly ClothingItem[], context: ThermalContext, steps: 
   if (context.cold) {
     const fit = thermalFit(ensemble, context.cold.requirement, context.cold.neededClo);
     fits.push(fit);
-    if (fit !== 'acceptable' && fit !== 'excess') gap += Math.max(0, context.cold.neededClo - ensemble.citedMin);
+    if (fit !== 'acceptable' && fit !== 'excess') {
+      // Not proven: an outfit whose outer layer may be much warmer (open or secondary value) ranks before a fully
+      // cited one that falls short; within each group the warmer cited layers win.
+      const open = ensemble.openUpperTypes.length || ensemble.lowerBoundTypes.length;
+      gap += (open ? 0 : 100) + Math.max(0, context.cold.neededClo - ensemble.closedMin);
+    }
   }
   if (context.warm) {
     const verdict = warmVerdict(ensemble, context);
     fits.push(verdict.fit);
     gap += verdict.deviation / 4; // sensation units → roughly clo-sized steps
   }
-  return RANK[combine(fits)] * 1_000_000 + Math.round(gap * 1000) * 100 + steps;
+  // Verdict class always dominates the gap (gap ≤ ~110 → ≤ 1.1e7) and the gap dominates steps.
+  return RANK[combine(fits)] * 1_000_000_000 + Math.round(gap * 1000) * 100 + steps;
 };
 const cloMid = (item: ClothingItem) => { const clo = itemCloPart(item).clo; return clo ? (clo.min + clo.max) / 2 : -1; };
 
@@ -230,6 +238,9 @@ export function thermalNote(thermal: OutfitThermal, locale: 'tr' | 'en'): string
     if (!thermal.ensemble.unknownTypes.length && thermal.ensemble.lowerBoundTypes.length) return en
       ? `Coat/jacket insulation is only known from a secondary, unverified source, so comfort for ${span} could not be confirmed.`
       : `Mont/kaban yalıtımı yalnız ikincil, doğrulanmamış kaynaktan biliniyor; ${span} için uygunluk doğrulanamadı.`;
+    if (!thermal.ensemble.unknownTypes.length && thermal.ensemble.openUpperTypes.length) return en
+      ? `Only a measured lower value is known for the puffer (CBE 2013); it is not enough to confirm comfort for ${span}, though a warmer puffer may be.`
+      : `Şişme mont için yalnız ölçülmüş bir alt değer biliniyor (CBE 2013); bu değer ${span} için yetmiyor, daha sıcak bir mont yetebilir.`;
     return en ? 'Some pieces have no known insulation value, so comfort could not be confirmed.' : 'Bazı parçaların yalıtım değeri bilinmediği için uygunluk doğrulanamadı.';
   }
   if (thermal.fit === 'insufficient') {

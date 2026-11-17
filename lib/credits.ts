@@ -48,7 +48,10 @@ export const CREDITS: Credit[] = [
     usage: { tr: 'Soğuk havada gereken giysi yalıtımı ve kısa süreli maruziyet sınırı.', en: 'Required clothing insulation in the cold and the limit for short exposures.' } },
   { id: 'engineering-toolbox', kind: 'science', name: 'Engineering ToolBox — clothing insulation (clo) table', by: 'Engineering ToolBox', license: 'Cited values (secondary source)',
     url: 'https://www.engineeringtoolbox.com/clo-clothing-thermal-insulation-d_732.html',
-    usage: { tr: 'Şişme mont, palto ve parka için yalıtım değerleri. ASHRAE tablolarının ikincil kopyası; birincil kaynağı doğrulamadık ve arayüzde "doğrulanmadı" diye belirtiyoruz.', en: 'Insulation values for puffer jackets, coats and parkas. A secondary copy of ASHRAE tables; we have not checked the primary source and say so in the app.' } },
+    usage: { tr: 'Palto ve parka için yalıtım değerleri. ASHRAE tablolarının ikincil kopyası; birincil kaynağı doğrulamadık, arayüzde "doğrulanmadı" diye belirtiyoruz ve bu değerlerle karar vermiyoruz.', en: 'Insulation values for coats and parkas. A secondary copy of ASHRAE tables; we have not checked the primary source, say so in the app and make no verdict from them.' } },
+  { id: 'cbe-2013', kind: 'science', name: 'Typical Clothing Ensemble Insulation Levels for Sixteen Body Parts', by: 'Juyoun Lee, Hui Zhang, Edward Arens (CBE, UC Berkeley, CLIMA 2013)', license: 'Open access (cited measurements)',
+    url: 'https://escholarship.org/uc/item/18f0r375',
+    usage: { tr: 'Termal mankenle ölçülmüş kombin yalıtımları: hesap yöntemimizin doğruluğunu bu ölçümlerle test ediyoruz ve şişme mont için ölçülmüş alt değeri buradan türetiyoruz. Yalnız sayıları kaynak göstererek kullanıyoruz.', en: 'Clothing insulation measured on a thermal manikin: we test our method against these measurements and derive a measured lower value for puffer jackets. We use only the numbers, with attribution.' } },
   { id: 'noaa-solar', kind: 'science', name: 'NOAA Solar Calculation', by: 'NOAA Global Monitoring Laboratory', license: 'Public domain (U.S. federal work)', url: 'https://gml.noaa.gov/grad/solcalc/',
     usage: { tr: 'Gün doğumu ve batımı, gece ile gündüz gösterimi ve güneşin gökyüzündeki yüksekliği.', en: 'Sunrise and sunset, showing day or night correctly, and the sun\'s height in the sky.' } },
 

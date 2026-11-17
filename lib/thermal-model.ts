@@ -31,13 +31,17 @@ export type GarmentCloEntry = {
    * `exact`: same garment; `nearest`: closest listed garment, wording kept visible;
    * `secondary`: value from a secondary copy of a table whose primary source was not checked (shown as unverified).
    */
-  match: 'exact' | 'nearest' | 'secondary' | 'none';
+  match: 'exact' | 'nearest' | 'secondary' | 'derived' | 'none';
+  /** `derived`: measured lower value only; warmer garments of the same type exist, so the upper end is open */
+  openUpper?: boolean;
 };
 
 const entry = (min: number, max: number, match: 'exact' | 'nearest' | 'secondary', ...reference: string[]): GarmentCloEntry => ({ clo: { min, max }, reference, match });
 const none: GarmentCloEntry = { clo: null, reference: [], match: 'none' };
 
 /** Down jacket, coat and parka values as reproduced by Engineering ToolBox from ASHRAE garment tables; primary source not checked. */
+/** Lee, Zhang & Arens 2013 (CBE, UC Berkeley): measured ensembles; garment values derived by difference. */
+export const CBE_2013_SOURCE = 'https://escholarship.org/uc/item/18f0r375';
 export const SECONDARY_OUTERWEAR_SOURCE = 'https://www.engineeringtoolbox.com/clo-clothing-thermal-insulation-d_732.html';
 
 /**
@@ -60,7 +64,9 @@ export const GARMENT_CLO: Readonly<Record<GarmentTypeId, GarmentCloEntry>> = {
   windbreaker: none,
   'rain-jacket': none,
   softshell: none,
-  puffer: entry(0.55, 0.55, 'secondary', 'Down jacket'),
+  // CBE 2013: four winter jackets over the same base ensemble add 0.22–0.35 clo → 0.26–0.42 per garment (÷ 0.835).
+  // Only the lowest is used as a floor; high-loft down jackets are far warmer, so the upper end stays open.
+  puffer: { clo: { min: 0.26, max: 0.26 }, reference: ['CBE 2013 winter jacket (lowest of four, by difference)'], match: 'derived', openUpper: true },
   'coat-parka': entry(0.6, 0.7, 'secondary', 'Coat', 'Parka'),
   jeans: entry(0.24, 0.24, 'nearest', 'Thick trousers'),
   'woven-trousers': entry(0.15, 0.24, 'exact', 'Thin trousers', 'Thick trousers'),
@@ -267,34 +273,41 @@ export type EnsembleEstimate = {
   unknownTypes: string[];
   /** garment types with only a secondary, unverified value; they never decide a verdict */
   lowerBoundTypes: string[];
+  /** garment types with a measured floor but an open upper end (e.g. puffer); they can prove enough warmth, never a shortfall */
+  openUpperTypes: string[];
+  /** cited garments without open/secondary values only (underwear included), clo — used for ranking */
+  closedMin: number;
   /** ISO 9920 intrinsic insulation of the fully cited garments only (underwear included), clo */
   citedMin: number;
   references: string[];
 };
 
-export type EnsemblePart = { key: string; clo: CloRange | null; reference: string[]; lowerBound?: boolean };
+export type EnsemblePart = { key: string; clo: CloRange | null; reference: string[]; lowerBound?: boolean; openUpper?: boolean };
 
 export function estimateEnsembleParts(parts: readonly EnsemblePart[]): EnsembleEstimate {
   const known: CloRange[] = [{ min: UNDERWEAR_CLO, max: UNDERWEAR_CLO }];
   const unknownTypes: string[] = [];
   const lowerBoundTypes: string[] = [];
+  const openUpperTypes: string[] = [];
   const references = new Set<string>(["Men's underwear"]);
   for (const part of parts) {
     if (!part.clo) { unknownTypes.push(part.key); continue; }
     if (part.lowerBound) lowerBoundTypes.push(part.key);
+    if (part.openUpper) openUpperTypes.push(part.key);
     known.push(part.clo);
     part.reference.forEach(reference => references.add(reference));
   }
   const min = ensembleIntrinsicClo(known.map(range => range.min));
   const max = ensembleIntrinsicClo(known.map(range => range.max));
   const citedMin = ensembleIntrinsicClo(parts.filter(part => part.clo && !part.lowerBound).map(part => part.clo!.min).concat(UNDERWEAR_CLO));
-  return { icl: { min, max, mid: (min + max) / 2 }, unknownTypes, lowerBoundTypes, citedMin, references: [...references] };
+  const closedMin = ensembleIntrinsicClo(parts.filter(part => part.clo && !part.lowerBound && !part.openUpper).map(part => part.clo!.min).concat(UNDERWEAR_CLO));
+  return { icl: { min, max, mid: (min + max) / 2 }, unknownTypes, lowerBoundTypes, openUpperTypes, citedMin, closedMin, references: [...references] };
 }
 
 export function estimateEnsemble(typeIds: readonly string[]): EnsembleEstimate {
   return estimateEnsembleParts(typeIds.map(id => {
     const garment = (GARMENT_CLO as Record<string, GarmentCloEntry | undefined>)[id];
-    return { key: id, clo: garment?.clo ?? null, reference: garment?.reference ?? [], lowerBound: garment?.match === 'secondary' };
+    return { key: id, clo: garment?.clo ?? null, reference: garment?.reference ?? [], lowerBound: garment?.match === 'secondary', openUpper: garment?.openUpper };
   }));
 }
 
@@ -335,7 +348,7 @@ export function thermalFit(ensemble: EnsembleEstimate, requirement: Requirement,
   // Secondary values are not trusted either way: a trench coat and a parka share one type range.
   if (ensemble.citedMin > requirement.iclNeutral) return 'excess';
   if (ensemble.citedMin >= neededClo) return 'acceptable'; // cited garments alone are enough
-  if (ensemble.unknownTypes.length || ensemble.lowerBoundTypes.length) return 'unknown';
+  if (ensemble.unknownTypes.length || ensemble.lowerBoundTypes.length || ensemble.openUpperTypes.length) return 'unknown';
   return ensemble.icl.max < neededClo ? 'insufficient' : 'unknown';
 }
 

@@ -37,7 +37,10 @@ test('a known 1–5 warmth only picks a point inside the cited type range', () =
   assert.deepEqual(thermal.itemCloPart(piece('thick', 'bottom', 'woven-trousers', 5)).clo, { min: 0.24, max: 0.24 });
   assert.deepEqual(thermal.itemCloPart(piece('unknown', 'bottom', 'woven-trousers', null)).clo, { min: 0.15, max: 0.24 });
   assert.equal(thermal.itemCloPart(piece('shell', 'outer', 'rain-jacket', 3)).clo, null);
-  assert.equal(thermal.itemCloPart(piece('puffer', 'outer', 'puffer', 5)).secondary, true);
+  assert.equal(thermal.itemCloPart(piece('coat', 'outer', 'coat-parka', 5)).secondary, true);
+  const puffer = thermal.itemCloPart(piece('puffer', 'outer', 'puffer', 5));
+  assert.equal(puffer.openUpper, true);
+  assert.deepEqual(puffer.clo, { min: 0.26, max: 0.26 }, 'a 1–5 warmth cannot lift an open-ended measured floor');
 });
 
 test('above 10 °C the SET* model swaps a heavy preferred outfit for a lighter one on a hot day', () => {
@@ -105,15 +108,30 @@ test('Match and Wardrobe paths keep locked pieces and pick a warm enough complet
 
 test('a secondary coat value never decides a verdict either way', () => {
   const context = thermal.thermalContext(weatherAt(-2, { windSpeed: 20 }));
-  const outfit = [piece('thermal', 'base', 'thermal-top', 4), piece('cardigan', 'mid', 'cardigan', 2), piece('puffer', 'outer', 'puffer', 5),
+  const outfit = [piece('thermal', 'base', 'thermal-top', 4), piece('cardigan', 'mid', 'cardigan', 2), piece('coat', 'outer', 'coat-parka', 5),
     piece('joggers', 'bottom', 'joggers', 4), piece('boots', 'footwear', 'winter-boots', 4)];
   const verdict = thermal.assessItems(outfit, context);
   assert.ok(verdict.ensemble.citedMin < context.cold.neededClo);
   assert.equal(verdict.fit, 'unknown');
   assert.match(thermal.thermalNote(verdict, 'tr'), /^Mont\/kaban yalıtımı yalnız ikincil, doğrulanmamış kaynaktan biliniyor; 60 dk \(varsayılan süre\) için uygunluk doğrulanamadı\.$/);
   assert.match(thermal.thermalNote(verdict, 'en'), /^Coat\/jacket insulation is only known from a secondary, unverified source/);
-  const withoutCoat = outfit.filter(item => item.id !== 'puffer');
+  const withoutCoat = outfit.filter(item => item.id !== 'coat');
   assert.equal(thermal.assessItems(withoutCoat, context).fit, 'insufficient', 'fully cited outfits can still be judged too cold');
+});
+
+test('a measured puffer floor (CBE 2013) can prove enough warmth but never a shortfall', () => {
+  const outfit = [piece('thermal', 'base', 'thermal-top', 4), piece('sweater', 'mid', 'sweater', 5), piece('puffer', 'outer', 'puffer', 5),
+    piece('joggers', 'bottom', 'joggers', 4), piece('boots', 'footwear', 'winter-boots', 4)];
+  const freezing = thermal.thermalContext(weatherAt(-2, { windSpeed: 20 }));
+  const cold = thermal.assessItems(outfit, freezing);
+  assert.equal(cold.fit, 'unknown', 'the floor alone is short, yet a warmer puffer could cover it');
+  assert.match(thermal.thermalNote(cold, 'tr'), /^Şişme mont için yalnız ölçülmüş bir alt değer biliniyor \(CBE 2013\)/);
+  const cool = thermal.thermalContext(weatherAt(8, { windSpeed: 10 }));
+  assert.equal(thermal.assessItems(outfit, cool).fit, 'acceptable', 'the floor alone already covers a cool hour');
+  // When nothing is proven, a possibly warm puffer ranks before a fully cited light jacket.
+  const base = [piece('tee', 'base', 'short-sleeve-tee', 1)], outer = [piece('jacket', 'outer', 'light-jacket', 5), piece('puffer2', 'outer', 'puffer', 5)];
+  const chosen = thermal.chooseThermalCombination([], [base, outer, [piece('jeans', 'bottom', 'jeans', 3)]], freezing);
+  assert.ok(chosen.some(item => item.id === 'puffer2'), chosen.map(item => item.id).join(','));
 });
 
 test('secondary coat values do not swap a puffer for a trench coat (Erzurum regression)', () => {

@@ -43,6 +43,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 - ISO 9920 (clothing insulation), ISO 7730 Annex C (dynamic clothing insulation), ISO 11079 (IREQ) — International Organization for Standardization.
 - ASHRAE Standard 55 garment insulation table and Appendix C SolarCal — ASHRAE.
 - Gagge two-node model — A. P. Gagge, A. P. Fobelets, L. G. Berglund (1986).
+- Measured ensemble insulation — J. Lee, H. Zhang, E. Arens, "Typical Clothing Ensemble Insulation Levels for Sixteen Body Parts", CLIMA 2013, Center for the Built Environment, UC Berkeley (https://escholarship.org/uc/item/18f0r375). Whole-body values are transcribed as numbers with attribution in `tests/fixtures/cbe-2013-ensembles.json`; no text or images are copied.
 - NOAA Solar Calculation equations — NOAA Global Monitoring Laboratory (public domain).
 
 ## Data and services

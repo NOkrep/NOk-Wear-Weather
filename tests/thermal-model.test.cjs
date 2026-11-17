@@ -72,7 +72,9 @@ test('every garment type has an entry; cited values carry their source rows', ()
     } else assert.equal(entry.match, 'none', type.id);
   }
   assert.equal(model.GARMENT_CLO['rain-jacket'].clo, null, 'no invented value for shells');
-  assert.equal(model.GARMENT_CLO.puffer.match, 'secondary', 'secondary values stay labelled');
+  assert.equal(model.GARMENT_CLO['coat-parka'].match, 'secondary', 'secondary values stay labelled');
+  assert.equal(model.GARMENT_CLO.puffer.match, 'derived');
+  assert.equal(model.GARMENT_CLO.puffer.openUpper, true, 'a measured floor keeps its upper end open');
   assert.match(model.SECONDARY_OUTERWEAR_SOURCE, /^https:\/\//);
 });
 
