@@ -1,6 +1,7 @@
 'use client';
 import {useState} from 'react';
-import {Check,Database,KeyRound,LoaderCircle,ShieldCheck,Trash2} from 'lucide-react';
+import {Check,Database,HeartHandshake,KeyRound,LoaderCircle,ShieldCheck,Trash2} from 'lucide-react';
+import {CREDITS,CREDIT_KINDS} from '@/lib/credits';
 import {getStoredCustomKeys} from '@/lib/weather-service';
 import {wipeAllLocalUserData} from '@/lib/security';
 import type {WeatherConsensus} from '@/lib/types';
@@ -8,7 +9,7 @@ import {useLocale} from '@/lib/i18n';
 import {Modal} from './Modal';
 interface Props{isOpen:boolean;onClose:()=>void;onKeysSaved?:()=>void;onDataWiped?:()=>void;weather?:WeatherConsensus}
 export function SourceSettingsModal({isOpen,onClose,onKeysSaved,onDataWiped,weather}:Props){
- const {t}=useLocale();
+ const {t,locale}=useLocale();
  const [weatherApiKey,setWeatherApiKey]=useState(''),[openWeatherMapKey,setOpenWeatherMapKey]=useState(''),[geminiApiKey,setGeminiApiKey]=useState('');
  const [saved,setSaved]=useState(false),[wiped,setWiped]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
  const [wasOpen,setWasOpen]=useState(false);
@@ -26,6 +27,9 @@ export function SourceSettingsModal({isOpen,onClose,onKeysSaved,onDataWiped,weat
   </div>
   <details className="settings-section settings-keys"><summary><KeyRound size={16}/>{t('İsteğe bağlı API anahtarları')}</summary><p className="settings-copy">{t('Anahtarlar bu tarayıcıda saklanır ve ilgili özelliği kullanırken sunucuya iletilir. Ortak cihazlarda kendi anahtarını kaydetme.')}</p>
    <form onSubmit={save}><label className="feedback-field">Google Gemini<input type="password" autoComplete="off" value={geminiApiKey} onChange={e=>setGeminiApiKey(e.target.value)} placeholder={t('İsteğe bağlı anahtar')}/></label><label className="feedback-field">WeatherAPI.com<input type="password" autoComplete="off" value={weatherApiKey} onChange={e=>setWeatherApiKey(e.target.value)} placeholder={t('İsteğe bağlı anahtar')}/></label><label className="feedback-field">OpenWeatherMap<input type="password" autoComplete="off" value={openWeatherMapKey} onChange={e=>setOpenWeatherMapKey(e.target.value)} placeholder={t('İsteğe bağlı anahtar')}/></label><button type="submit" className="primary-button"><Check size={16}/>{t(saved?'Kaydedildi':'Ayarları kaydet')}</button></form>
+  </details>
+  <details className="settings-section settings-keys settings-credits"><summary><HeartHandshake size={16}/>{t('Teşekkürler ve kaynaklar')}</summary><p className="settings-copy">{t('Weathrobe başkalarının emeği üzerine kurulu. Kullandığımız yöntemleri, verileri, modelleri ve açık kaynak yazılımları; sahiplerini, lisanslarını ve burada ne işe yaradıklarını teşekkürle listeliyoruz.')}</p>
+   {CREDIT_KINDS.map(group=><section key={group.kind} className="credit-group"><h4>{locale==='en'?group.en:group.tr}</h4><ul>{CREDITS.filter(credit=>credit.kind===group.kind).map(credit=><li key={credit.id}><a href={credit.url} target="_blank" rel="noopener noreferrer">{credit.name}</a><small>{credit.by} · {credit.licenseUrl?<a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">{credit.license}</a>:credit.license}</small><p>{locale==='en'?credit.usage.en:credit.usage.tr}</p></li>)}</ul></section>)}
   </details>
   <div className="settings-data-control"><div><strong>{t('Verilerini temizle')}</strong><p>{t('Bu tarayıcının topluluk katkılarını ve yerel kişisel kayıtlarını siler. Dil tercihi de sıfırlanır.')}</p></div><button type="button" className="danger-button" disabled={busy||wiped} onClick={wipe}>{busy?<LoaderCircle size={15} className="loading-spin"/>:<Trash2 size={15}/>} {t(wiped?'Temizlendi':'Verilerimi temizle')}</button></div>
   {error&&<p role="alert" className="form-message">{t(error)}</p>}

@@ -33,7 +33,7 @@ const isType = (value: unknown): value is GarmentTypeId => GARMENT_TYPES.some(ty
 const savedTypes: Record<string, GarmentTypeId> = {
   'w-base-white-tee': 'short-sleeve-tee', 'w-base-black-long': 'thermal-top',
   'w-mid-oxford-shirt': 'shirt', 'w-mid-grey-hoodie': 'sweatshirt',
-  'w-outer-trench': 'coat-parka', 'w-outer-puffer': 'puffer',
+  'w-outer-trench': 'trench-coat', 'w-outer-puffer': 'puffer',
   'w-bottom-jeans': 'jeans', 'w-bottom-chino': 'woven-trousers',
   'w-foot-sneaker': 'sneakers', 'w-foot-boot': 'winter-boots', 'cat-bot-3': 'shorts',
 };
@@ -81,7 +81,7 @@ export function resolveGarmentAppearance(item: AppearanceItem) {
   const personal = { ...design?.appearance, ...saved };
   const key = item.catalogId ?? item.id;
   const hoodie = type === 'rain-jacket' || key === 'cat-mid-3' || key === 'w-mid-grey-hoodie' || key === 'w-outer-puffer' || key === 'anc-grey-hoodie';
-  const neckline = hoodie || type === 'rain-poncho' ? 'hood' : type === 'polo-shirt' ? 'polo' : type === 'gilet' ? 'turtle' : type === 'shirt' || type === 'light-jacket' || type === 'coat-parka' ? 'collar' : key === 'cat-mid-7' || key === 'p-1' ? 'turtle' : key === 's-8' || key === 'p-8' ? 'polo' : 'crew';
+  const neckline = hoodie || type === 'rain-poncho' ? 'hood' : type === 'polo-shirt' ? 'polo' : type === 'gilet' ? 'turtle' : type === 'shirt' || type === 'light-jacket' || type === 'coat-parka' || type === 'trench-coat' ? 'collar' : key === 'cat-mid-7' || key === 'p-1' ? 'turtle' : key === 's-8' || key === 'p-8' ? 'polo' : 'crew';
   return {
     type, design, neckline: personal.neckline ?? neckline,
     sleeve: personal.sleeve ?? (type === 'tank-top' || type === 'dress' || type === 'gilet' ? 'none' : type === 'short-sleeve-tee' || type === 'polo-shirt' ? 'short' : 'long'),

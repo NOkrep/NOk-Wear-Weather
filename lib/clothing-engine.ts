@@ -27,7 +27,7 @@ export const ANCHOR_ITEMS: ClothingItem[] = [
     isAnchorCompatible: true,
   },
   {
-    id: 'anc-beige-trench', garmentTypeId: 'coat-parka',
+    id: 'anc-beige-trench', garmentTypeId: 'trench-coat',
     name: 'Bej Klasik Trençkot',
     category: 'outer',
     segment: 'smart',
@@ -435,7 +435,7 @@ function generateDirectBaseOutfit(
     }
     return [
       { id: 's-8', garmentTypeId: 'sweater', name: 'Supima Pamuk / Merinos Polo Triko', category: 'mid', segment: 'smart', material: 'Supima Pamuk & Merinos', warmth: 2, waterResistance: 'none', windResistance: 'low', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Terletmeyen doğal doku.', brandHint },
-      { id: 's-9', garmentTypeId: 'coat-parka', name: 'Su İtici Klasik Gabardin Trençkot', category: 'outer', segment: 'smart', material: '290 GSM Pamuk Gabardin', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Klasik Bej', colorHex: '#d4b996', colorType: 'light', description: 'Rüzgar ve çisenti kalkanı.', brandHint },
+      { id: 's-9', garmentTypeId: 'trench-coat', name: 'Su İtici Klasik Gabardin Trençkot', category: 'outer', segment: 'smart', material: '290 GSM Pamuk Gabardin', warmth: 3, waterResistance: 'light', windResistance: 'high', colorName: 'Klasik Bej', colorHex: '#d4b996', colorType: 'light', description: 'Rüzgar ve çisenti kalkanı.', brandHint },
       { id: 's-10', garmentTypeId: 'woven-trousers', name: 'Esnek Gabardin Chino Pantolon', category: 'bottom', segment: 'smart', material: 'Pamuk-Elastan Twill', warmth: 2, waterResistance: 'none', windResistance: 'medium', colorName: 'Taş Rengi', colorHex: '#e7e5e4', colorType: 'light', description: 'Şehir içi esnek konfor.', brandHint },
     ];
   }
@@ -458,7 +458,7 @@ function generateDirectBaseOutfit(
   }
   return [
     { id: 'p-8', garmentTypeId: 'sweater', name: '19.5 Mikron Merinos Polo Triko', category: 'mid', segment: 'luxury', material: '%100 Ekstra İnce Merinos', warmth: 3, waterResistance: 'none', windResistance: 'low', colorName: 'Adaçayı Yeşili', colorHex: '#84cc16', colorType: 'neutral', description: 'Sıcaklık dalgalanmalarına adapte olur.', brandHint },
-    { id: 'p-9', garmentTypeId: 'coat-parka', name: 'Schoeller DWR Teknik Trençkot', category: 'outer', segment: 'luxury', material: 'İsviçre Schoeller Membran', warmth: 3, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgar ve yağmur kalkanı.', brandHint },
+    { id: 'p-9', garmentTypeId: 'trench-coat', name: 'Schoeller DWR Teknik Trençkot', category: 'outer', segment: 'luxury', material: 'İsviçre Schoeller Membran', warmth: 3, waterResistance: 'waterproof', windResistance: 'high', colorName: 'Karamel Bej', colorHex: '#b45309', colorType: 'light', description: 'Ultra hafif rüzgar ve yağmur kalkanı.', brandHint },
     { id: 'p-10', garmentTypeId: 'woven-trousers', name: 'Teknik Merinos Yün Pantolon', category: 'bottom', segment: 'luxury', material: 'Elastan Katkılı Merinos', warmth: 3, waterResistance: 'none', windResistance: 'medium', colorName: 'Lacivert', colorHex: '#1e3a8a', colorType: 'dark', description: 'Üstün hareket özgürlüğü.', brandHint },
   ];
 }

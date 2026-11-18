@@ -19,7 +19,7 @@ test('PostgreSQL catalogue lifecycle and runtime permissions', { skip: !process.
   t.after(async () => { await closeCatalogPool(); if (oldUrl === undefined) delete process.env.DATABASE_URL; else process.env.DATABASE_URL = oldUrl; if (oldPassword === undefined) delete process.env.CATALOG_READER_PASSWORD; else process.env.CATALOG_READER_PASSWORD = oldPassword; });
   await migrateCatalog(); await migrateCatalog();
   const pool = catalogPool();
-  assert.equal((await pool.query('SELECT count(*)::integer n FROM catalog.garment_types')).rows[0].n,36);
+  assert.equal((await pool.query('SELECT count(*)::integer n FROM catalog.garment_types')).rows[0].n,37);
   assert.equal((await pool.query('SELECT count(*)::integer n FROM catalog.legacy_profiles')).rows[0].n,23);
   assert.equal((await publishedCoverage()).reduce((n,t) => n+t.products,0),0);
   const search = { query: '', limit: 20, offset: 0 };

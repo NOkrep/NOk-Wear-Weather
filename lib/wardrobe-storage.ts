@@ -2,6 +2,7 @@ import { itemComfortAdjustment, readFeedback } from './comfort';
 import { ClothingItem, WeatherConsensus, WardrobeOutfitMatch } from './types';
 import { canRankForWeather, getItemWarmth } from './catalog-wardrobe';
 import { accessoryRelevant, outfitSlot } from './outfit-layers';
+import { chooseThermalCombination, thermalContext } from './outfit-thermal';
 
 const WARDROBE_STORAGE_KEY = 'wear_weather_user_wardrobe_v1';
 
@@ -247,10 +248,13 @@ export function matchFromUserWardrobe(
     return score + itemComfortAdjustment(item, weather, comfortRecords);
   };
 
+  // Best-first per category; the cold model may later pick a warmer option from the same list.
+  const ranked: ClothingItem[][] = [];
   const pickBest = (category: ClothingItem['category']): ClothingItem | null => {
     const candidates = wardrobe.filter((i) => i.category === category && canRankForWeather(i, weather));
     if (candidates.length === 0) return null;
     const sorted = [...candidates].sort((a, b) => scoreItem(b) - scoreItem(a));
+    ranked.push(sorted);
     return sorted[0];
   };
 
@@ -291,6 +295,10 @@ export function matchFromUserWardrobe(
   const footItem = pickBest('footwear');
   if (footItem) selectedItems.push(footItem);
   else missingCategories.push('Ayakkabı / Bot');
+
+  // At or below 10 °C judge the core outfit as a whole (ISO 11079); otherwise the picks above stand.
+  const core = chooseThermalCombination([], ranked, thermalContext(weather, thermalOffsetC));
+  selectedItems.splice(0, selectedItems.length, ...core);
 
   // 6. Optional Accessory if available and relevant
   const accessories = new Map<string, ClothingItem>();

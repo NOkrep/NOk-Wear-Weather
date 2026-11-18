@@ -36,6 +36,8 @@ export const GARMENT_TYPES = [
   { id: 'blouse', group: 'base', tr: 'Bluz', en: 'Blouse', slots: ['torso', 'arms'], aliases: ['blouse', 'bluz'] },
   { id: 'gilet', group: 'outer', tr: 'Yelek', en: 'Gilet / vest', slots: ['torso'], aliases: ['vest', 'waistcoat', 'kolsuz mont'] },
   { id: 'rain-poncho', group: 'outer', tr: 'Yağmurluk pançosu', en: 'Rain poncho', slots: ['torso', 'arms', 'upper-legs'], aliases: ['poncho', 'panço'] },
+  // WW-30: separate from coat-parka; a trench and a parka differ too much in insulation to share one type.
+  { id: 'trench-coat', group: 'outer', tr: 'Trençkot', en: 'Trench coat', slots: ['torso', 'arms', 'upper-legs'], aliases: ['trench', 'trençkot', 'gabardin'] },
 ] as const;
 
 export type GarmentTypeId = (typeof GARMENT_TYPES)[number]['id'];
@@ -58,7 +60,7 @@ export const LEGACY_TYPE_MAP: Readonly<Record<string, GarmentTypeId>> = {
   'cat-base-3': 'thermal-top', 'cat-base-4': 'thermal-top',
   'cat-mid-1': 'shirt', 'cat-mid-2': 'shirt', 'cat-mid-3': 'sweatshirt',
   'cat-mid-4': 'shirt', 'cat-mid-5': 'fleece', 'cat-mid-6': 'sweater', 'cat-mid-7': 'sweater',
-  'cat-outer-1': 'light-jacket', 'cat-outer-2': 'coat-parka', 'cat-outer-3': 'rain-jacket',
+  'cat-outer-1': 'light-jacket', 'cat-outer-2': 'trench-coat', 'cat-outer-3': 'rain-jacket',
   'cat-outer-4': 'light-jacket', 'cat-outer-5': 'puffer', 'cat-outer-6': 'rain-jacket',
   'cat-bot-1': 'jeans', 'cat-bot-2': 'woven-trousers',
   'cat-foot-1': 'sneakers', 'cat-foot-2': 'winter-boots',

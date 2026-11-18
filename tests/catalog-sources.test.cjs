@@ -137,8 +137,8 @@ test('all approved batches publish idempotently into a disposable PostgreSQL cat
     assert.equal((await searchPublishedProducts({ query: '', type: 'long-sleeve-tee', limit: 12, offset: 0 })).total, 11);
     assert.equal((await searchPublishedProducts({ query: '', limit: 12, offset: 12 })).products.length, 12);
     const coverage = await publishedCoverage();
-    assert.equal(coverage.length, 36);
-    assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.garment_types WHERE target_min=100 AND target_max=100')).rows[0].n, 36);
+    assert.equal(coverage.length, 37);
+    assert.equal((await pool.query('SELECT count(*)::int n FROM catalog.garment_types WHERE target_min=100 AND target_max=100')).rows[0].n, 37);
     const beforeMigration = await pool.query('SELECT id,model,import_batch_id FROM catalog.products ORDER BY id');
     await migrateCatalog();
     assert.deepEqual((await pool.query('SELECT id,model,import_batch_id FROM catalog.products ORDER BY id')).rows, beforeMigration.rows);

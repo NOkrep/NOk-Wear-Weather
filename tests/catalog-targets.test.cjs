@@ -11,13 +11,13 @@ const expansion = manifest.batches.filter(entry => entry.file.includes('.expansi
 const products = expansion.flatMap(batch => batch.products);
 const product = id => products.find(row => row.id === id);
 const fibers = (id,part='shell') => Object.fromEntries(product(id).facts.composition.find(row => row.part===part).fibers.map(row => [row.name,row.percent]));
-test('100 is a per-type real model target; 180 illustration presets are never counted as products', async () => {
+test('100 is a per-type real model target; 185 illustration presets are never counted as products', async () => {
   assert.deepEqual(PILOT_TARGET, { minimum:100, maximum:100 });
   const report = await catalogProgress();
-  assert.equal(report.types,36);
-  assert.equal(report.target,3600);
+  assert.equal(report.types,37);
+  assert.equal(report.target,3700);
   assert.equal(report.products,146);
-  assert.equal(report.remaining,3454);
+  assert.equal(report.remaining,3554);
   assert.equal(report.completedTypes,0);
   assert.equal(report.rows.filter(row => row.products>0).length,18);
   assert.equal(report.rows.find(row => row.id==='short-sleeve-tee').products,39);

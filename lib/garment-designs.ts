@@ -38,7 +38,8 @@ const STYLES = {
   "polo-shirt": [["Klasik kısa kol","Classic short sleeve"],["Uzun kol","Long sleeve"],["Açık V pat","Open V placket"],["Kontrast yaka","Contrast collar"],["Fermuarlı pat","Zip placket"]],
   "blouse": [["Yuvarlak yaka","Round neck"],["Bağlamalı yaka","Tie neck"],["Anvelop","Wrap front"],["Balon kol","Volume sleeves"],["Kolsuz drapeli","Sleeveless drape"]],
   "gilet": [["Fermuarlı düz","Plain zip"],["Bölmeli yelek","Quilted vest"],["Çok cepli","Utility pockets"],["Düğmeli klasik","Buttoned waistcoat"],["Uzun kapüşonlu","Long hooded"]],
-  "rain-poncho": [["Klasik panço","Classic poncho"],["Ön fermuarlı","Front zip"],["Çıtçıtlı yan","Side snaps"],["Ön cepli","Front pocket"],["Uzun bisiklet kesimi","Long cycling cut"]]
+  "rain-poncho": [["Klasik panço","Classic poncho"],["Ön fermuarlı","Front zip"],["Çıtçıtlı yan","Side snaps"],["Ön cepli","Front pocket"],["Uzun bisiklet kesimi","Long cycling cut"]],
+  "trench-coat": [["Kuşaklı klasik trenç","Belted classic trench"],["Kısa trenç","Short trench"],["Kruvaze uzun trenç","Long double-breasted trench"],["Kapüşonlu trenç","Hooded trench"],["Uzun sade trenç","Long plain trench"]]
 } as const;
 export interface GarmentDesign {
   id: string;
@@ -60,7 +61,8 @@ export function findGarmentDesign(type: GarmentTypeId | undefined, id: unknown):
 }
 function designAppearance(type: GarmentTypeId, variant: number): Partial<GarmentAppearance> {
   const a: Partial<GarmentAppearance> = {};
-  if (['shirt', 'light-jacket', 'coat-parka'].includes(type)) a.neckline = 'collar';
+  if (['shirt', 'light-jacket', 'coat-parka', 'trench-coat'].includes(type)) a.neckline = 'collar';
+  if (type === 'trench-coat') { if (variant === 3) a.neckline = 'hood'; a.length = variant === 1 ? 'cropped' : 'long'; }
   if (type === 'polo-shirt') { a.neckline = 'polo'; a.sleeve = variant === 1 ? 'long' : 'short'; }
   if (type === 'gilet') { a.sleeve = 'none'; a.neckline = variant === 4 ? 'hood' : variant === 3 ? 'v' : 'turtle'; }
   if (type === 'rain-poncho' || type === 'rain-jacket') a.neckline = 'hood';

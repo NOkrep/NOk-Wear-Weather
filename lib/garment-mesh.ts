@@ -9,7 +9,7 @@ function dimensions(garment: AvatarGarment, fit: GarmentFit) {
   const offset = slot === 'outer' ? .062 : slot === 'mid' ? .038 : .019;
   const ease = a.fit === 'slim' ? 0 : a.fit === 'relaxed' ? .018 : a.fit === 'oversized' ? .035 : .008;
   const sleeve = a.sleeve === 'none' ? .195 : a.sleeve === 'short' ? .395 : a.sleeve === 'three-quarter' ? .59 : .755;
-  const hem = a.length === 'cropped' ? 1.15 : a.length === 'long' || a.type === 'coat-parka' ? .89 : 1.015;
+  const hem = a.length === 'cropped' ? 1.15 : a.length === 'long' || a.type === 'coat-parka' || a.type === 'trench-coat' ? .89 : 1.015;
   const legHem = a.type === 'shorts' ? a.length === 'cropped' ? .67 : a.length === 'long' ? .44 : .55 : a.length === 'cropped' ? .27 : .11;
   const bootTop = a.type === 'rain-boots' ? .38 : a.type === 'winter-boots' ? .23 : .112;
   return { offset, ease, sleeve: sleeve * fit.armScale, hem: hem * fit.height, legHem: legHem * fit.height, bootTop: bootTop * fit.height, upper: ['tee', 'long-top', 'sweatshirt', 'jacket'].includes(template) };

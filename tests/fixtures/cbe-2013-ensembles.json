@@ -1,0 +1,199 @@
+{
+  "source": {
+    "citation": "Lee J, Zhang H, Arens E. Typical Clothing Ensemble Insulation Levels for Sixteen Body Parts. Proceedings of CLIMA 2013. Center for the Built Environment, UC Berkeley.",
+    "url": "https://escholarship.org/uc/item/18f0r375",
+    "method": "Whole-body intrinsic insulation (clo) measured on a 16-segment female thermal manikin seated on a mesh arm chair, 20 °C, 50 % RH, 0.1 m/s. Every ensemble includes bra and panty. Numbers transcribed from Table 3; descriptions kept as printed.",
+    "note": "Only measured numbers are used, with attribution. Garment types are Weathrobe's mapping, not the authors'."
+  },
+  "validation": [
+    {
+      "description": "T-shirt, long pants, socks, sneakers",
+      "measured": 0.52,
+      "types": [
+        "short-sleeve-tee",
+        "woven-trousers",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "tank top, skirt, sandals",
+      "measured": 0.31,
+      "types": [
+        "tank-top",
+        "skirt",
+        "sandals"
+      ]
+    },
+    {
+      "description": "long sleeve shirts, skirt, sandals",
+      "measured": 0.52,
+      "types": [
+        "shirt",
+        "skirt",
+        "sandals"
+      ]
+    },
+    {
+      "description": "long-sleeve shirt, shorts, sandals",
+      "measured": 0.43,
+      "types": [
+        "shirt",
+        "shorts",
+        "sandals"
+      ]
+    },
+    {
+      "description": "long sleeve shirts, long pants, socks, sneakers",
+      "measured": 0.8,
+      "types": [
+        "shirt",
+        "woven-trousers",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "T-shirt, long sleeve shirts, long pants, socks, sneakers",
+      "measured": 0.83,
+      "types": [
+        "short-sleeve-tee",
+        "shirt",
+        "woven-trousers",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "T-shirt, jeans, socks, sneakers",
+      "measured": 0.57,
+      "types": [
+        "short-sleeve-tee",
+        "jeans",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "long sleeve shirts, jeans, socks, sneakers",
+      "measured": 0.74,
+      "types": [
+        "shirt",
+        "jeans",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "thin dress shirts, long pants, socks, sneakers",
+      "measured": 0.69,
+      "types": [
+        "shirt",
+        "woven-trousers",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "thin dress shirts, long pants, wool sweater, socks, sneakers",
+      "measured": 0.92,
+      "types": [
+        "shirt",
+        "woven-trousers",
+        "sweater",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "thin dress shirts, long pants, cashmere sweater, socks, sneakers",
+      "measured": 0.87,
+      "types": [
+        "shirt",
+        "woven-trousers",
+        "sweater",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "long sleeve shirts, long pants, blazer, socks, sneakers",
+      "measured": 0.96,
+      "types": [
+        "shirt",
+        "woven-trousers",
+        "light-jacket",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "T-shirts, long sleeve shirts, jeans, sports jumper, socks, sneakers",
+      "measured": 1.07,
+      "types": [
+        "short-sleeve-tee",
+        "shirt",
+        "jeans",
+        "sweatshirt",
+        "socks",
+        "sneakers"
+      ]
+    },
+    {
+      "description": "tank top, long sleeve shirts, blazer, skirt, sandals",
+      "measured": 0.86,
+      "types": [
+        "tank-top",
+        "shirt",
+        "light-jacket",
+        "skirt",
+        "sandals"
+      ]
+    }
+  ],
+  "winterJacket": {
+    "base": {
+      "description": "T-shirt, long sleeve shirts, long pants, socks, sneakers",
+      "measured": 0.83
+    },
+    "withJacket": [
+      {
+        "description": "T-shirt, long sleeve shirts, long pants, winter jacket, socks, sneakers",
+        "measured": 1.15
+      },
+      {
+        "description": "T-shirt, long sleeve shirts, long pants, winter jacket, socks, sneakers",
+        "measured": 1.08
+      },
+      {
+        "description": "T-shirts, long sleeve shirts, long pants, winter jacket (Notica), socks, sneakers",
+        "measured": 1.05
+      },
+      {
+        "description": "T-shirts, long sleeve shirts, long pants, winter jacket, socks, sneakers",
+        "measured": 1.18
+      }
+    ]
+  },
+  "trenchCoat": {
+    "note": "No measured trench-free twin exists; the base is estimated from two measured pairs.",
+    "withTrench": {
+      "description": "turtle neck, long pants, short trench coat, socks, sneakers",
+      "measured": 1.24
+    },
+    "shirtBase": {
+      "description": "long sleeve shirts, long pants, socks, sneakers",
+      "measured": 0.8
+    },
+    "turtleneckVsShirt": [
+      {
+        "description": "turtleneck, wool skirt, socks, formal shoes",
+        "measured": 0.7
+      },
+      {
+        "description": "long sleeve shirts, wool skirt, socks, formal shoes",
+        "measured": 0.59
+      }
+    ]
+  }
+}

@@ -101,11 +101,11 @@ test('real batch roundtrips through a disposable PostgreSQL database', { skip: !
     const page = await searchPublishedProducts({ ...search, limit: 3, offset: 3 });
     assert.equal(page.products.length, 3); assert.equal(page.total, 10);
     const coverage = await publishedCoverage();
-    assert.equal(coverage.length, 36);
+    assert.equal(coverage.length, 37);
     assert.equal(coverage.find(type => type.garmentTypeId === 'short-sleeve-tee').products, 10);
     assert.equal(coverage.filter(type => type.products > 0).length, 1);
     assert.equal((await pool.query('SELECT count(*)::integer AS n FROM catalog.legacy_profiles')).rows[0].n, 23);
-    console.log('Real batch PostgreSQL QA: 10 products, 10 sources, 36 types, 23 legacy profiles preserved.');
+    console.log('Real batch PostgreSQL QA: 10 products, 10 sources, 37 types, 23 legacy profiles preserved.');
   } finally {
     await closeCatalogPool();
     if (oldUrl === undefined) delete process.env.DATABASE_URL; else process.env.DATABASE_URL = oldUrl;

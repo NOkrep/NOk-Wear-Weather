@@ -16,7 +16,7 @@ export const GarmentVisual = memo(function GarmentVisual({ item, className = '',
   const seam = { stroke: '#182d29', strokeOpacity: .36, strokeWidth: 1.1, fill: 'none' };
   const stitch = { ...seam, strokeOpacity: .2, strokeDasharray: '2 2' };
   const top = ['base', 'mid', 'outer'].includes(item.category) && type !== 'dress';
-  const hem = a.length === 'cropped' ? 155 : a.length === 'long' || type === 'coat-parka' ? 210 : 189;
+  const hem = a.length === 'cropped' ? 155 : a.length === 'long' || type === 'coat-parka' || type === 'trench-coat' ? 210 : 189;
   const width = a.fit === 'slim' ? 31 : a.fit === 'relaxed' ? 43 : a.fit === 'oversized' ? 48 : 37;
   const rightSleeve = a.sleeve === 'short' ? '173 68 155 101 137 91' : a.sleeve === 'three-quarter' ? '176 126 155 135 137 91' : '183 162 159 169 137 94';
   const leftSleeve = a.sleeve === 'short' ? '63 91 45 101 27 68' : a.sleeve === 'three-quarter' ? '63 91 45 135 24 126' : '63 94 41 169 17 162';
@@ -106,6 +106,7 @@ export const GarmentVisual = memo(function GarmentVisual({ item, className = '',
       {v < 0 && type === 'thermal-top' && <path d="M72 80L80 122V170M128 80L120 122V170" {...stitch}/>}
       {v < 0 && type === 'light-jacket' && <path d="M70 78H89V103H70ZM111 78H130V103H111Z" {...seam}/>}
       {v < 0 && type === 'coat-parka' && <path d="M79 64L73 76 100 107 127 76 121 64M65 153L82 143M135 153L118 143" {...seam}/>}
+      {v < 0 && type === 'trench-coat' && <path d="M79 64L73 76 100 107 127 76 121 64M62 124H138M95 119H105V129H95Z" {...seam}/>}
       {v < 0 && type === 'dress' && <path d="M74 95Q100 103 126 95M87 102L72 206M113 102L128 206" {...seam}/>}</g>
     </>}
     {v < 0 && item.category === 'bottom' && <g clipPath={`url(#${id}-clip)`}>
@@ -201,6 +202,7 @@ function illustrationDetails(type: string | undefined, v: number, hem: number): 
   if (type === 'rain-poncho') return [['M35 170Q100 196 165 170'],[zip],['M38 139h3M33 155h3M162 139h-3M167 155h-3'],['M76 100H124V135H76Z'],['M44 184Q100 208 156 184M100 66V114']][v];
   if (type === 'softshell') return [[zip], [zip,'M65 133L84 122M135 133L116 122'],[zip,pocket], [zip,'M62 77L77 113V178M138 77L123 113V178'],[zip,'M66 192Q100 212 134 192']][v];
   if (type === 'puffer' || type === 'gilet' && v === 1) return [zip, v === 1 ? 'M61 78L100 95 139 78M61 105L100 122 139 105M61 132L100 149 139 132M61 159L100 176 139 159' : `M61 78H139M61 101H139M61 124H139M61 147H139M61 170H139`, ...(v === 4 ? ['M62 194H138'] : [])];
+  if (type === 'trench-coat') return [['M79 64L73 76 100 107 127 76 121 64','M62 124H138M95 119H105V129H95Z'],['M79 64L73 76 100 107 127 76 121 64','M100 112v1M100 130v1'],['M79 64L73 76 100 107 127 76 121 64','M87 86h2M112 86h2M87 114h2M112 114h2','M62 124H138'],[zip,'M62 124H138'],['M79 64L73 76 100 107 127 76 121 64','M100 112v1M100 132v1M100 152v1']][v];
   if (type === 'coat-parka') return [[zip,'M87 86h2M112 86h2M87 114h2M112 114h2'],['M65 116H135M89 111L111 121M111 111L89 121'],[zip,pocket,'M64 145H84V170H64ZM116 145H136V170H116Z'],[zip,'M85 23H115'],[zip,'M72 42L65 76 100 112 135 76 128 42']][v];
   if (type === 'gilet') return [[zip],[zip],[zip,pocket,'M66 116H89V149H66ZM111 116H134V149H111Z'],['M81 38L100 87 119 38M100 87V177M102 107h1M102 132h1M102 157h1'],[zip,'M63 198H137']][v];
   if (type === 'blouse') return [['M79 40Q100 64 121 40'],['M95 53L80 108 98 83 120 108 105 53'],['M125 47L76 108 134 184M67 103L121 105'],['M39 147L54 150M146 150L161 147'],['M73 74Q100 102 127 74M71 88Q100 116 129 88']][v];

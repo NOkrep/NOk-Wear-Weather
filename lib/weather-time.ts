@@ -64,7 +64,7 @@ export function resolveWeatherInstant(selection: string | undefined, zone: strin
  * https://gml.noaa.gov/grad/solcalc/solareqns.PDF (90.833 degree sunrise zenith).
  * This is an astronomical fallback, not an observed sunrise; it handles polar seasons.
  */
-function estimatedDaylight(at: number, lat: number, lon: number): boolean {
+function cosSolarZenith(at: number, lat: number, lon: number): number {
   const d = new Date(at), year = d.getUTCFullYear();
   const day = (Date.UTC(year, d.getUTCMonth(), d.getUTCDate()) - Date.UTC(year, 0, 0)) / 86400000;
   const days = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
@@ -77,8 +77,16 @@ function estimatedDaylight(at: number, lat: number, lon: number): boolean {
     - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
   const rad = Math.PI / 180;
   const angle = (hour * 60 + eq + 4 * lon) / 4 - 180;
-  const cosZenith = Math.sin(lat * rad) * Math.sin(decl) + Math.cos(lat * rad) * Math.cos(decl) * Math.cos(angle * rad);
-  return cosZenith > Math.cos(90.833 * rad);
+  return Math.sin(lat * rad) * Math.sin(decl) + Math.cos(lat * rad) * Math.cos(decl) * Math.cos(angle * rad);
+}
+
+function estimatedDaylight(at: number, lat: number, lon: number): boolean {
+  return cosSolarZenith(at, lat, lon) > Math.cos(90.833 * Math.PI / 180);
+}
+
+/** Geometric solar elevation in degrees (same NOAA equations; no refraction), negative below the horizon. */
+export function solarElevation(at: number, lat: number, lon: number): number {
+  return Math.asin(Math.max(-1, Math.min(1, cosSolarZenith(at, lat, lon)))) * 180 / Math.PI;
 }
 
 export function daylightAt(context: WeatherTimeContext, at: number, hint?: { validAt?: string; isDay?: boolean | null }): boolean | null {
