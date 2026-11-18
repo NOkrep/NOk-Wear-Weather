@@ -23,6 +23,14 @@ test('every dependency is thanked with the licence its own package declares', ()
   }
 });
 
+test('no credit lists a package that is no longer a dependency', () => {
+  const dependencies = new Set(Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }));
+  for (const credit of CREDITS) for (const name of credit.packages ?? []) {
+    if (name === '@types/*') assert.ok([...dependencies].some(dep => dep.startsWith('@types/')));
+    else assert.ok(dependencies.has(name), `${credit.id} still lists removed package ${name}`);
+  }
+});
+
 test('every credit names its source, licence and use in both languages', () => {
   const ids = new Set();
   const kinds = new Set(CREDIT_KINDS.map(group => group.kind));
