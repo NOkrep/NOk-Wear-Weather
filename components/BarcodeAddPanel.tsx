@@ -18,7 +18,8 @@ export function BarcodeAddPanel({ onAdd }: {
     const [productUrl, setProductUrl] = useState('');
     const [category, setCategory] = useState<ClothingItem['category']>('mid');
     const [garmentTypeId, setGarmentTypeId] = useState<GarmentTypeId | ''>('');
-    const [warmth, setWarmth] = useState<NonNullable<ClothingItem['warmth']>>(3);
+    // WW-10 B2: warmth starts unknown; only the user's own estimate is stored.
+    const [warmth, setWarmth] = useState<ClothingItem['warmth']>(null);
     const [color, setColor] = useState('#9ba58d');
     const [confirmed, setConfirmed] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -186,7 +187,7 @@ export function BarcodeAddPanel({ onAdd }: {
           <label>{t('Kategori')}<select value={category} onChange={e=>{setCategory(e.target.value as ClothingItem['category']);setGarmentTypeId('');}}>{Object.entries(categoryOptions).map(([key,label])=><option key={key} value={key}>{t(label)}</option>)}</select></label>
           <label>{t('Kıyafet türü')}<select value={garmentTypeId} onChange={e=>setGarmentTypeId(e.target.value as GarmentTypeId | '')}><option value="">{t('Tür belirtilmedi')}</option>{GARMENT_TYPES.filter(type=>type.group===category).map(type=><option value={type.id} key={type.id}>{locale==='tr'?type.tr:type.en}</option>)}</select></label>
           <label>{t('Kumaş etiketi')}<small>{t('İsteğe bağlı')}</small><input maxLength={200} placeholder={t('Örn. %80 pamuk, %20 polyester')} value={material} onChange={e=>setMaterial(e.target.value)}/></label>
-          <label>{t('Isı koruması')}<small>{t('Kişisel tahmin')}</small><select value={warmth} onChange={e=>setWarmth(Number(e.target.value) as NonNullable<ClothingItem['warmth']>)}>{[1,2,3,4,5].map(v=><option key={v} value={v}>{v} / 5</option>)}</select></label>
+          <label>{t('Isı koruması')}<small>{t('Kişisel tahmin')}</small><select value={warmth??''} onChange={e=>setWarmth(e.target.value?Number(e.target.value) as NonNullable<ClothingItem['warmth']>:null)}><option value="">{t('Bilmiyorum')}</option>{[1,2,3,4,5].map(v=><option key={v} value={v}>{v} / 5</option>)}</select></label>
           <label>{t('Renk')}<input type="color" value={color} onChange={e=>setColor(e.target.value)}/></label>
         </div>
         <label className="check-label"><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)} required/>{t('Bu ürünün bendeki parçayla eşleştiğini onaylıyorum.')}</label>

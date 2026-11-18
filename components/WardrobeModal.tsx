@@ -18,6 +18,8 @@ import { GarmentVisual } from './GarmentVisual';
 import { GarmentStudioVisual } from './GarmentStudioVisual';
 import { Layers, Droplets, ArrowUpRight } from 'lucide-react';
 import { BarcodeAddPanel } from './BarcodeAddPanel';
+import { GarmentDraftReview } from './GarmentDraftReview';
+import type { GarmentDraft } from '@/lib/garment-draft';
 import { CatalogProductCard } from './CatalogProductCard';
 import type { CatalogProduct, CatalogSource } from '@/lib/catalog/model';
 import { GARMENT_TYPES, PILOT_TARGET } from '@/lib/catalog/taxonomy';
@@ -91,6 +93,8 @@ export function WardrobeModal({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageMimeType, setImageMimeType] = useState<string>('image/jpeg');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  // WW-10 B2: a draft waits for the user's review; nothing is stored until it is confirmed.
+  const [draft, setDraft] = useState<GarmentDraft | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const market = getMarketProfileForCountry(currentCountry);
@@ -237,12 +241,8 @@ export function WardrobeModal({
 
       if (!res.ok) throw new Error();
       const data = await res.json();
-      if (!data.item) throw new Error();
-      const updated = addWardrobeItem({ ...data.item, dataSource: 'user', materialConfirmed: false });
-      onWardrobeChange(updated);
-      setAiDescription('');
-      setImagePreview(null);
-      setActiveTab('my_closet');
+      if (!data.draft) throw new Error();
+      setDraft(data.draft as GarmentDraft);
     } catch {
       setAiError('Taslak oluşturulamadı. Manuel girişle devam edebilirsin.');
     } finally {
@@ -311,7 +311,16 @@ export function WardrobeModal({
       </article>)}</div>
       {!wardrobe.length&&<div className="studio-empty"><Shirt size={32}/><h3>{t('İlk parçanı ekle.')}</h3><button type="button" className="primary-button" onClick={()=>setActiveTab('barcode')}><Plus size={16}/>{t('Parça ekle')}</button></div>}
     </>}
-    {activeTab === 'custom_ai' && <form onSubmit={handleAiAdd} className="studio-ai-form">
+    {activeTab === 'custom_ai' && draft && <div className="studio-ai-form"><span className="eyebrow">{t('İsteğe bağlı yardımcı')}</span>
+      <GarmentDraftReview draft={draft} onCancel={() => setDraft(null)} onConfirm={item => {
+        const updated = addWardrobeItem(item);
+        onWardrobeChange(updated);
+        setDraft(null);
+        setAiDescription('');
+        setImagePreview(null);
+        setActiveTab('my_closet');
+      }}/></div>}
+    {activeTab === 'custom_ai' && !draft && <form onSubmit={handleAiAdd} className="studio-ai-form">
       <span className="eyebrow">{t('İsteğe bağlı yardımcı')}</span>
       <h3>{t('Etiketi yaz. Bir taslak oluşturalım.')}</h3>
       <p>{t('Fotoğraftan kumaş içeriği doğrulanamaz. Etiketteki bilgileri yaz; oluşturulan teknik değerleri tahmin olarak değerlendir.')}</p>

@@ -30,7 +30,7 @@ test('small controls reach a 44 px tap height on touch screens', () => {
   for (const selector of ['.manual-location input', '.locate-text-button', '.location-results button', '.language-select select',
     '.header-actions .icon-button', '.header-actions .preview-toggle', '.map-panel .city-map-studio .map-click-mode',
     '.map-stop-pill > button', '.map-stop-pill input', '.map-search-bar > input', '.map-search-bar input[type="time"]',
-    '.map-search-results .primary-button', '.map-search-results .text-button']) {
+    '.map-search-results .primary-button', '.map-search-results .text-button', '.draft-suggestion']) {
     const declarations = declarationsFor(selector);
     assert.match(declarations, /min-height:\s*44px/, selector);
     assert.match(declarations, /touch-action:\s*manipulation/, selector);
