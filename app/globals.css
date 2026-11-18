@@ -739,3 +739,8 @@
 .look-note { margin-top: -6px; }
 .look-note.look-mismatch { border-color: var(--ww-ink); background: var(--ww-wash); color: var(--ww-ink); }
 /* End WW-29/3 */
+
+/* WW-11 take-along line on the outfit card */
+.carry-note { margin-top: -6px; }
+.carry-note.carry-add, .carry-note.carry-unconfirmed { border-color: var(--ww-accent); color: var(--ww-ink); font-weight: 600; }
+/* End WW-11 */
