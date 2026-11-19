@@ -13,3 +13,16 @@ coverage/
 
 # Original artwork, generated comparisons and acceptance records belong to the private release repo.
 /artifacts/previews/
+
+# Private planning notes and agent rule links stay on the developer's machine; this repository is public.
+/AGENTS.md
+/CLAUDE.md
+/PROJECT_GOALS.md
+/KOMBIN_SISTEMI_ARASTIRMASI.md
+/AVATAR_UI_ONERILERI.md
+/CLAUDE_CHATGPT_EKLENTILERI_VE_BECERILERI.md
+
+# Release runbook, live evidence and profile belong to the private release repo.
+/deploy/RELEASE.md
+/deploy/RELEASE_EVIDENCE.md
+/deploy/release-profile.json
