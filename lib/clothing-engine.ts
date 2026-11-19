@@ -147,29 +147,15 @@ export function getColorThermalAdvice(weather: WeatherConsensus): {
   };
 }
 
-function extractPhaseMetrics(
-  weather: WeatherConsensus,
-  targetHours: number[],
-  fallbackDelta: number
-): { temp: number; feelsLike: number; precipProb: number; windSpeed: number } {
-  const matching = (weather.hourly || []).filter((h: HourlyForecastPoint) =>
-    targetHours.includes(h.hourNumber)
-  );
-  if (matching.length > 0) {
-    const avgTemp = Math.round(matching.reduce((s, h) => s + h.temp, 0) / matching.length);
-    const avgFeel = Math.round(matching.reduce((s, h) => s + h.feelsLike, 0) / matching.length);
-    const maxPrecip = Math.max(...matching.map((h) => h.precipitationProb));
-    const avgWind = Math.round(matching.reduce((s, h) => s + h.windSpeed, 0) / matching.length);
-    return { temp: avgTemp, feelsLike: avgFeel, precipProb: maxPrecip, windSpeed: avgWind };
-  }
-  const est = Math.round(weather.temp + fallbackDelta);
-  return {
-    temp: est,
-    feelsLike: Math.round(weather.feelsLike + fallbackDelta),
-    precipProb: weather.precipitationProb,
-    windSpeed: weather.windSpeed,
-  };
+/** WW-07: a phase is summarised by its coldest hour and its worst rain and wind, the same rule for planned and unplanned days. */
+function phaseMetrics(points: HourlyForecastPoint[]): { temp: number; feelsLike: number; precipProb: number; windSpeed: number } {
+  return { temp: Math.min(...points.map(p => p.temp)), feelsLike: Math.min(...points.map(p => p.feelsLike)),
+    precipProb: Math.max(...points.map(p => p.precipitationProb)), windSpeed: Math.max(...points.map(p => p.windSpeed)) };
 }
+
+const DAY_PHASES: { phase: LayerTimelineStep['phase']; hours: number[] }[] = [
+  { phase: 'morning', hours: [7, 8, 9, 10] }, { phase: 'midday', hours: [12, 13, 14, 15, 16] }, { phase: 'evening', hours: [18, 19, 20, 21, 22] },
+];
 
 function buildPhaseStep(
   phase: LayerTimelineStep['phase'],
@@ -345,7 +331,8 @@ export function generateLayerTimeline(
   weather: WeatherConsensus,
   segment: BudgetSegment,
   thermalOffsetC: number = 0,
-  country: string = 'Türkiye'
+  country: string = 'Türkiye',
+  now: number = Date.now()
 ): LayerTimelineStep[] {
   if (weather.selection) {
     const groups: { phase: LayerTimelineStep['phase']; key: string; points: HourlyForecastPoint[] }[] = [];
@@ -364,20 +351,22 @@ export function generateLayerTimeline(
       const start = Date.parse(first.coveredStartAt || first.validAt!);
       const end = Date.parse(last.coveredEndAt || last.validAt!);
       const timeRange = `${first.stopLabel ? first.stopLabel + ' · ' : ''}${localDateKey(start, zone)} ${localTimeLabel(start, zone)}–${localTimeLabel(end, zone)} · ${zone || 'UTC'}`;
-      return buildPhaseStep(phase, timeRange, { temp: Math.min(...points.map(p => p.temp)), feelsLike: Math.min(...points.map(p => p.feelsLike)),
-        precipProb: Math.max(...points.map(p => p.precipitationProb)), windSpeed: Math.max(...points.map(p => p.windSpeed)) }, segment, thermalOffsetC, weather.dewPoint, country);
+      return buildPhaseStep(phase, timeRange, phaseMetrics(points), segment, thermalOffsetC, weather.dewPoint, country);
     });
   }
-  const morningMetrics = extractPhaseMetrics(weather, [7, 8, 9, 10], -3);
-  const middayMetrics = extractPhaseMetrics(weather, [12, 13, 14, 15, 16], 2);
-  const eveningMetrics = extractPhaseMetrics(weather, [18, 19, 20, 21, 22], -2);
+  // WW-07: without a plan, use the location's own dated hours. A phase with no forecast hours is left out, never estimated
+  // from the current reading with fixed offsets.
+  const zone = weather.timezone;
+  const day = weather.requestedDate ?? localDateKey(Date.parse(weather.observedAt || weather.fetchedAt || '') || now, zone);
+  const dayPoints = (weather.hourly || []).filter(point => point.validAt && localDateKey(Date.parse(point.validAt), point.timezone || zone) === day)
+    .sort((a, b) => Date.parse(a.validAt!) - Date.parse(b.validAt!));
   const dewPoint = weather.dewPoint ?? 10;
-
-  return [
-    buildPhaseStep('morning', '07:30 - 10:30', morningMetrics, segment, thermalOffsetC, dewPoint, country),
-    buildPhaseStep('midday', '12:00 - 16:00', middayMetrics, segment, thermalOffsetC, dewPoint, country),
-    buildPhaseStep('evening', '18:30 - 22:30', eveningMetrics, segment, thermalOffsetC, dewPoint, country),
-  ];
+  return DAY_PHASES.flatMap(({ phase, hours }) => {
+    const points = dayPoints.filter(point => hours.includes(point.hourNumber));
+    if (!points.length) return [];
+    const start = Date.parse(points[0].validAt!), end = Date.parse(points[points.length - 1].validAt!);
+    return [buildPhaseStep(phase, `${localTimeLabel(start, zone)}–${localTimeLabel(end, zone)}`, phaseMetrics(points), segment, thermalOffsetC, dewPoint, country)];
+  });
 }
 
 function generateDirectBaseOutfit(
