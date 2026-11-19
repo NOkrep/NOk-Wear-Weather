@@ -50,6 +50,9 @@ export const OutfitRecommendation=memo(function OutfitRecommendation({weather,co
  const market=useMemo(()=>getMarketProfileForCountry(countryName),[countryName]);
  const colorAdvice=useMemo(()=>getColorThermalAdvice(weather),[weather]);
  const layerTimeline=useMemo(()=>generateLayerTimeline(weather,segment,thermalProfile.offsetC,countryName),[weather,segment,thermalProfile.offsetC,countryName]);
+ // thermalProfile.feedbackCount is a deliberate cache key: these results read comfort feedback from localStorage
+ // (readFeedback, also inside matchFromUserWardrobe), so a new report must recompute them. The lint rule cannot see that;
+ // removing the key would leave personalisation stale.
  const directOutfit=useMemo(()=>{const base=generateDirectOutfit(weather,segment,thermalProfile.offsetC,countryName);const alts=[...wardrobe,...generateDirectOutfit(weather,segment,thermalProfile.offsetC-3,countryName),...generateDirectOutfit(weather,segment,thermalProfile.offsetC+3,countryName)];return refineOutfit(personalizeOutfit(base,alts,weather,readFeedback()),alts,weather,thermalContext(weather,thermalProfile.offsetC));},[weather,segment,thermalProfile.offsetC,thermalProfile.feedbackCount,countryName,wardrobe]);
  const anchorMatch=useMemo(()=>matchSelectedItems(selectedAnchors,weather,{segment,country:countryName,thermalOffsetC:thermalProfile.offsetC,wardrobe,feedbacks:readFeedback()}),[selectedAnchors,weather,segment,countryName,thermalProfile.offsetC,thermalProfile.feedbackCount,wardrobe]);
  const wardrobeMatch=useMemo(()=>matchFromUserWardrobe(wardrobe,weather,thermalProfile.offsetC),[wardrobe,weather,thermalProfile.offsetC,thermalProfile.feedbackCount]);
