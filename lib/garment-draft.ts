@@ -66,37 +66,63 @@ export function sanitizeAiDraft(value: unknown, fallbackName: string): GarmentDr
   };
 }
 
-const COLOURS: [RegExp, string, string][] = [
-  [/beyaz|krem|ekru/, 'Beyaz / ekru', '#f8fafc'], [/bej|kum rengi|tas rengi/, 'Bej', '#d6d3d1'], [/siyah/, 'Siyah', '#18181b'],
-  [/lacivert/, 'Lacivert', '#1e3a8a'], [/mavi/, 'Mavi', '#3b82f6'], [/haki|yesil/, 'Haki / yeşil', '#3f6212'],
-  [/gri|antrasit/, 'Gri', '#6b7280'], [/kirmizi|bordo/, 'Kırmızı / bordo', '#991b1b'], [/kahve|taba/, 'Kahverengi', '#78350f'],
+// The description is normalised to lower-case ASCII words separated by single spaces, padded with a space at both ends.
+// Turkish stems match at a word start, so suffixes still count ("yünlü", "kalın") but "since" no longer hides "ince".
+// English words (WW-10 B2 follow-up) match whole words only.
+const stems = (...list: string[]) => new RegExp(` (${list.join('|')})`);
+const words = (...list: string[]) => new RegExp(` (${list.join('|')}) `);
+type Rule = [RegExp, RegExp];
+
+const COLOURS: [Rule, string, string][] = [
+  [[stems('beyaz', 'krem', 'ekru'), words('white', 'cream', 'ivory', 'ecru', 'off white')], 'Beyaz / ekru', '#f8fafc'],
+  [[stems('bej', 'kum rengi', 'tas rengi'), words('beige', 'sand', 'stone')], 'Bej', '#d6d3d1'],
+  [[stems('siyah'), words('black')], 'Siyah', '#18181b'],
+  [[stems('lacivert'), words('navy')], 'Lacivert', '#1e3a8a'],
+  [[stems('mavi'), words('blue')], 'Mavi', '#3b82f6'],
+  [[stems('haki', 'yesil'), words('khaki', 'green', 'olive')], 'Haki / yeşil', '#3f6212'],
+  [[stems('gri', 'antrasit'), words('grey', 'gray', 'charcoal')], 'Gri', '#6b7280'],
+  [[stems('kirmizi', 'bordo'), words('red', 'burgundy')], 'Kırmızı / bordo', '#991b1b'],
+  [[stems('kahve', 'taba'), words('brown', 'tan')], 'Kahverengi', '#78350f'],
 ];
-const MATERIALS: [RegExp, string][] = [[/keten/, 'Keten'], [/kasmir/, 'Kaşmir'], [/merinos/, 'Merinos yünü'], [/yun/, 'Yün'], [/polar/, 'Polar'], [/deri/, 'Deri'], [/pamuk/, 'Pamuk']];
+/** The material is named in the language the user wrote it in. */
+const MATERIALS: [RegExp, string, RegExp, string][] = [
+  [stems('keten'), 'Keten', words('linen'), 'Linen'], [stems('kasmir'), 'Kaşmir', words('cashmere'), 'Cashmere'],
+  [stems('merinos'), 'Merinos yünü', words('merino'), 'Merino wool'], [stems('yun'), 'Yün', words('wool', 'woollen', 'woolen'), 'Wool'],
+  [stems('polar'), 'Polar', words('fleece'), 'Fleece'], [stems('deri'), 'Deri', words('leather'), 'Leather'], [stems('pamuk'), 'Pamuk', words('cotton'), 'Cotton'],
+];
+const CATEGORY_RULES: [ClothingItem['category'], Rule][] = [
+  ['base', [stems('tisort', 't shirt', 'iclik', 'atlet'), words('tee', 'tank', 'undershirt', 'vest top')]],
+  ['outer', [stems('ceket', 'mont', 'kaban', 'trenckot', 'yagmurluk', 'parka'), words('jacket', 'coat', 'anorak', 'raincoat', 'trench')]],
+  ['bottom', [stems('pantolon', 'jean', 'sort', 'esofman', 'etek'), words('kot', 'trousers', 'pants', 'shorts', 'skirt', 'joggers')]],
+  ['footwear', [stems('ayakkabi', 'sneaker', 'loafer', 'sandalet'), words('bot', 'shoe', 'shoes', 'boot', 'boots', 'trainers', 'sandal', 'sandals')]],
+  ['accessory', [stems('sapka', 'atki', 'bere', 'eldiven', 'corap'), words('hat', 'cap', 'scarf', 'beanie', 'gloves', 'mittens', 'socks')]],
+];
+const WARM: Rule = [stems('kislik', 'kalin', 'yun', 'polar', 'kasmir', 'astarli'), words('winter', 'thick', 'wool', 'woollen', 'woolen', 'fleece', 'cashmere', 'lined', 'insulated', 'padded')];
+const LIGHT: Rule = [stems('keten', 'yazlik', 'ince', 'tul'), words('linen', 'summer', 'thin', 'lightweight', 'sheer')];
+const WATERPROOF: Rule = [stems('su gecirmez', 'gore tex', 'goretex'), words('waterproof')];
+const REPELLENT: Rule = [stems('su itici'), words('water repellent', 'showerproof', 'dwr')];
+const WINDPROOF: Rule = [stems('ruzgar gecirmez', 'ruzgarlik'), words('windproof', 'windbreaker')];
 
 /** Local rules: only what the user's own words say; temperature words become a suggestion, not a fact. */
 export function rulesDraft(description: string): GarmentDraft {
   const lower = ` ${normalizeCatalogText(description).replace(/[^a-z0-9]+/g, ' ')} `;
   const has = (pattern: RegExp) => pattern.test(lower);
+  const either = ([tr, en]: Rule) => has(tr) || has(en);
   const garmentTypeId = matchGarmentType(description);
-  let category = groupOf(garmentTypeId);
-  if (!category) {
-    category = has(/tisort|t shirt|iclik|atlet/) ? 'base' : has(/ceket|mont|kaban|trenckot|yagmurluk|parka/) ? 'outer'
-      : has(/pantolon| kot |jean|sort|esofman|etek/) ? 'bottom' : has(/ayakkabi| bot |sneaker|loafer|sandalet/) ? 'footwear'
-      : has(/sapka|atki|bere|eldiven|corap/) ? 'accessory' : 'mid';
-  }
-  const colour = COLOURS.find(([pattern]) => has(pattern));
-  const material = MATERIALS.find(([pattern]) => has(pattern));
-  const warm = has(/kislik|kalin|yun|polar|kasmir|astarli/), light = has(/keten|yazlik|ince|tul/);
+  const category = groupOf(garmentTypeId) ?? CATEGORY_RULES.find(([, rule]) => either(rule))?.[0] ?? 'mid';
+  const colour = COLOURS.find(([rule]) => either(rule));
+  const material = MATERIALS.map(([tr, trName, en, enName]) => has(tr) ? trName : has(en) ? enName : null).find(Boolean) ?? null;
+  const warm = either(WARM), light = either(LIGHT);
   return {
     name: description.trim().slice(0, 120) || 'Yeni gardırop parçası',
     category, garmentTypeId,
-    material: material?.[1] ?? null,
+    material,
     colorName: colour?.[1] ?? null,
     colorHex: colour?.[2] ?? null,
     suggestions: {
       warmth: warm && !light ? 4 : light && !warm ? 1 : null,
-      waterResistance: has(/su gecirmez|gore tex|goretex/) ? 'waterproof' : has(/su itici/) ? 'light' : null,
-      windResistance: has(/ruzgar gecirmez|ruzgarlik/) ? 'high' : null,
+      waterResistance: either(WATERPROOF) ? 'waterproof' : either(REPELLENT) ? 'light' : null,
+      windResistance: either(WINDPROOF) ? 'high' : null,
     },
     source: 'rules',
   };

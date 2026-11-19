@@ -68,6 +68,40 @@ test('local rules use only the user’s words and keep temperature words as sugg
   assert.equal(draft.rulesDraft('Keten gömlek').suggestions.warmth, 1);
 });
 
+test('English descriptions get the same honest rules, with the material named in English', () => {
+  const wool = draft.rulesDraft('Navy wool sweater');
+  assert.equal(wool.garmentTypeId, 'sweater');
+  assert.equal(wool.material, 'Wool');
+  assert.equal(wool.colorHex, '#1e3a8a');
+  assert.deepEqual(wool.suggestions, { warmth: 4, waterResistance: null, windResistance: null });
+
+  const shell = draft.rulesDraft('Black waterproof jacket');
+  assert.equal(shell.category, 'outer');
+  assert.equal(shell.colorName, 'Siyah');
+  assert.equal(shell.material, null);
+  assert.deepEqual(shell.suggestions, { warmth: null, waterResistance: 'waterproof', windResistance: null });
+
+  assert.equal(draft.rulesDraft('Merino wool base layer').material, 'Merino wool');
+  assert.equal(draft.rulesDraft('Linen summer shirt').suggestions.warmth, 1);
+  assert.equal(draft.rulesDraft('Water repellent windbreaker').suggestions.waterResistance, 'light');
+  assert.equal(draft.rulesDraft('Water repellent windbreaker').suggestions.windResistance, 'high');
+  assert.equal(draft.rulesDraft('Leather boots').category, 'footwear');
+  assert.equal(draft.rulesDraft('Grey trousers').category, 'bottom');
+});
+
+test('words are matched at word boundaries, so unrelated words do not become facts or suggestions', () => {
+  // "since" contains "ince", "tank" is not "tan", "redesigned" is not "red".
+  const tee = draft.rulesDraft('Tee I have worn since 2019, redesigned print');
+  assert.equal(tee.category, 'base');
+  assert.equal(tee.colorHex, null);
+  assert.equal(tee.suggestions.warmth, null);
+  assert.equal(draft.rulesDraft('Tank top').colorHex, null);
+  // Turkish suffixes still count.
+  assert.equal(draft.rulesDraft('Yünlü kalın hırka').suggestions.warmth, 4);
+  assert.equal(draft.rulesDraft('Yünlü kalın hırka').material, 'Yün');
+  assert.equal(draft.rulesDraft('Kot pantolon').category, 'bottom');
+});
+
 test('only confirmed values reach the wardrobe; unknowns stay unknown', () => {
   const unknown = draft.draftToWardrobeItem(choices({}), 'w-draft-test');
   assert.equal(unknown.warmth, null);
