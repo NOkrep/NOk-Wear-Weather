@@ -3,6 +3,7 @@ import { GoogleGenAI, Type } from '@google/genai';
 import { ClothingItem, WeatherConsensus, ThermalProfile, AiStylistResponse } from '@/lib/types';
 import { canRankForWeather, getItemWarmth } from '@/lib/catalog-wardrobe';
 import { AI_MAX_DESCRIPTION_LENGTH, decodeStylistImage, readStylistBody } from '@/lib/ai-stylist-input';
+import { DRAFT_TYPE_IDS, rulesDraft, sanitizeAiDraft } from '@/lib/garment-draft';
 
 const noStore = { 'Cache-Control': 'private, no-store' };
 const maxConcurrent = 4;
@@ -94,14 +95,15 @@ export async function POST(req: NextRequest) {
           }
 
           contents.push(
-            `Sen uzman bir tekstil mühendisi ve gardırop küratörüsün. Kullanıcının yüklediği giysi fotoğrafını ve/veya açıklamasını ("${descriptionText}") analiz ederek Weathrobe dijital gardırop formatında JSON döndür.
+            `Sen uzman bir tekstil mühendisi ve gardırop küratörüsün. Kullanıcının giysi fotoğrafını ve/veya açıklamasını ("${descriptionText}") analiz et.
 Kurallar:
-- category yalnızca şunlardan biri olabilir: "base" (tişört/içlik), "mid" (gömlek/kazak/sweatshirt/hırka), "outer" (ceket/trençkot/mont/kaban/yağmurluk), "bottom" (pantolon/şort/etek), "footwear" (ayakkabı/bot/sneaker), "accessory" (şemsiye/şapka/atkı/gözlük).
-- segment: "essential" veya "premium".
+- Emin olmadığın alanı hiç yazma; uydurma. Isı ve koruma tahminlerin kullanıcıya yalnız öneri olarak gösterilecek, o onaylamadan kaydedilmeyecek.
+- garmentTypeId yalnız şu kimliklerden biri olabilir: ${DRAFT_TYPE_IDS.join(', ')}.
+- category yalnız şunlardan biri olabilir: "base", "mid", "outer", "bottom", "footwear", "accessory".
 - warmth: 1 (çok ince yazlık) ile 5 (ağır kışlık) arasında tam sayı.
 - waterResistance: "none", "light" veya "waterproof".
 - windResistance: "low", "medium" veya "high".
-- colorType: "light", "dark" veya "neutral".
+- colorHex: fotoğraftaki baskın renk (#rrggbb). Fotoğraf yoksa ve açıklamada renk geçmiyorsa yazma.
 - Tüm metinler Türkçe olmalıdır.`
           );
 
@@ -116,125 +118,27 @@ Kurallar:
                 properties: {
                   name: { type: Type.STRING },
                   category: { type: Type.STRING },
-                  segment: { type: Type.STRING },
+                  garmentTypeId: { type: Type.STRING, enum: DRAFT_TYPE_IDS },
                   material: { type: Type.STRING },
                   warmth: { type: Type.INTEGER },
                   waterResistance: { type: Type.STRING },
                   windResistance: { type: Type.STRING },
                   colorName: { type: Type.STRING },
                   colorHex: { type: Type.STRING },
-                  colorType: { type: Type.STRING },
-                  description: { type: Type.STRING },
                 },
-                required: [
-                  'name',
-                  'category',
-                  'segment',
-                  'material',
-                  'warmth',
-                  'waterResistance',
-                  'windResistance',
-                  'colorName',
-                  'colorHex',
-                  'colorType',
-                  'description',
-                ],
+                // WW-10 B2: only a name and a category are required; unknown fields stay unknown.
+                required: ['name', 'category'],
               },
             },
           });
 
-          if (response.text) {
-            const parsed = JSON.parse(response.text);
-            const item: ClothingItem = {
-              id: `w-ai-${Date.now()}`,
-              name: parsed.name || 'Yeni Gardırop Parçası',
-              category: ['base', 'mid', 'outer', 'bottom', 'footwear', 'accessory'].includes(parsed.category)
-                ? parsed.category
-                : 'mid',
-              segment: parsed.segment === 'premium' ? 'premium' : 'essential',
-              material: parsed.material || 'Pamuk Karışım',
-              warmth: (Math.max(1, Math.min(5, Number(parsed.warmth) || 3)) as 1 | 2 | 3 | 4 | 5),
-              waterResistance: ['none', 'light', 'waterproof'].includes(parsed.waterResistance)
-                ? parsed.waterResistance
-                : 'none',
-              windResistance: ['low', 'medium', 'high'].includes(parsed.windResistance)
-                ? parsed.windResistance
-                : 'medium',
-              colorName: parsed.colorName || 'Nötr Ton',
-              colorHex: parsed.colorHex?.startsWith('#') ? parsed.colorHex : '#64748b',
-              colorType: ['light', 'dark', 'neutral'].includes(parsed.colorType)
-                ? parsed.colorType
-                : 'neutral',
-              description: parsed.description || 'Gemini AI tarafından analiz edilerek eklendi.',
-              isUserOwned: true,
-            };
-            return reply({ item, modelUsed: 'gemini-2.5-flash' });
-          }
+          if (response.text) return reply({ draft: sanitizeAiDraft(JSON.parse(response.text), descriptionText), modelUsed: 'gemini-2.5-flash' });
         } catch { /* A usable description can still produce a local draft. */ }
       }
       if (!descriptionText) return reply({ error: 'PHOTO_ANALYSIS_UNAVAILABLE' }, 502);
 
-      // Intelligent Heuristic Fallback when Gemini API key is not yet entered
-      const lower = descriptionText.toLowerCase();
-      let category: ClothingItem['category'] = 'mid';
-      if (lower.includes('tişört') || lower.includes('t-shirt') || lower.includes('içlik') || lower.includes('atlet')) {
-        category = 'base';
-      } else if (lower.includes('ceket') || lower.includes('mont') || lower.includes('kaban') || lower.includes('trençkot') || lower.includes('yağmurluk') || lower.includes('parka')) {
-        category = 'outer';
-      } else if (lower.includes('pantolon') || lower.includes('kot') || lower.includes('jean') || lower.includes('şort') || lower.includes('eşofman')) {
-        category = 'bottom';
-      } else if (lower.includes('ayakkabı') || lower.includes('bot') || lower.includes('sneaker') || lower.includes('loafer')) {
-        category = 'footwear';
-      } else if (lower.includes('şemsiye') || lower.includes('şapka') || lower.includes('atkı') || lower.includes('bere') || lower.includes('gözlük')) {
-        category = 'accessory';
-      }
-
-      const isWaterproof = lower.includes('su geçirmez') || lower.includes('gore-tex') || lower.includes('yağmurluk') || lower.includes('deri bot');
-      const isWarm = lower.includes('kışlık') || lower.includes('yün') || lower.includes('polar') || lower.includes('kaşmir') || lower.includes('mont') || lower.includes('kaban');
-      const isLight = lower.includes('keten') || lower.includes('yazlık') || lower.includes('ince') || lower.includes('tişört') || lower.includes('şort');
-
-      let colorName = 'Antrasit / Nötr';
-      let colorHex = '#475569';
-      let colorType: ClothingItem['colorType'] = 'neutral';
-      if (lower.includes('beyaz') || lower.includes('krem') || lower.includes('ekru')) {
-        colorName = 'Beyaz / Ekru';
-        colorHex = '#f8fafc';
-        colorType = 'light';
-      } else if (lower.includes('bej') || lower.includes('kum') || lower.includes('taş')) {
-        colorName = 'Bej';
-        colorHex = '#d6d3d1';
-        colorType = 'light';
-      } else if (lower.includes('siyah')) {
-        colorName = 'Siyah';
-        colorHex = '#18181b';
-        colorType = 'dark';
-      } else if (lower.includes('lacivert') || lower.includes('mavi')) {
-        colorName = 'Lacivert / Mavi';
-        colorHex = '#1e3a8a';
-        colorType = 'dark';
-      } else if (lower.includes('yeşil') || lower.includes('haki')) {
-        colorName = 'Haki Yeşili';
-        colorHex = '#3f6212';
-        colorType = 'neutral';
-      }
-
-      const fallbackItem: ClothingItem = {
-        id: `w-local-${Date.now()}`,
-        name: descriptionText.trim() || 'Yeni Gardırop Parçası',
-        category,
-        segment: lower.includes('kaşmir') || lower.includes('merinos') || lower.includes('gore-tex') || lower.includes('ipek') ? 'premium' : 'essential',
-        material: lower.includes('keten') ? 'Doğal Keten' : lower.includes('yün') ? 'Yün Dokuma' : lower.includes('deri') ? 'Deri' : 'Pamuk / Karışım Dokuma',
-        warmth: isWarm ? 4 : isLight ? 1 : 3,
-        waterResistance: isWaterproof ? 'waterproof' : category === 'outer' ? 'light' : 'none',
-        windResistance: category === 'outer' ? 'high' : 'medium',
-        colorName,
-        colorHex,
-        colorType,
-        description: 'Akıllı kural motoru tarafından sınıflandırıldı.',
-        isUserOwned: true,
-      };
-
-      return reply({ item: fallbackItem, modelUsed: 'local-heuristic' });
+      // Local rules when no Gemini key is set: only what the user's own words say (WW-10 B2).
+      return reply({ draft: rulesDraft(descriptionText), modelUsed: 'local-heuristic' });
     }
 
     // MODE 2: Personalized AI Stylist & Microclimate Reasoning

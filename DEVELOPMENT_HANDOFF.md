@@ -1,5 +1,7 @@
 # Weathrobe / Wear Weather — Güncel Geliştirme Devri
 
+**2 Kasım 2026 güncel kapanış:** 0.6.0 gerçek ARM64 sunucuda yayında ve kısa tarayıcı kabulü alındı. WW-22/24/23/21 tek sürümde; sağlık/katalog/veri, 30 görsel sunumu, rapor güvenliği/kalıcılığı, raporlu gerçek backup/restore ve güncel bağımsız PC kopyası doğrulandı. WW-01/02'nin bu yayın koşulları karşılandı. Önceden kişisel kullanıcı kaydı olmadığından o korunma kontrolü uygulanamadı. Yeni kullanıcı önceliği WW-27 ortak yayın merkezi, ardından WW-28 güvenlik/görünürlük incelemesi; WW-03 daha sonra açık kalır. Ayrıntılar [yayın kanıtında](deploy/RELEASE_EVIDENCE.md); aşağıdaki eski inceleme ve günlükler tarihsel bağlamıyla korunur.
+
 Son inceleme: **16 Ekim 2026**. Bu dosya mevcut kod ile hedefleri ayırır. Önceki şartname, mimari ve mobil kılavuz bölümleri korunmuştur; bu belgelerdeki eski “tamamlandı” ifadeleri güncel test kanıtı sayılmaz.
 
 **Oturum içi güncelleme:** Kullanıcı avatar uygulama kapsamını onayladı. İlk gerçek 3D karakter/editör sürümü uygulandı; ayrıntılar ve sınırlar bölüm 8'de. Bölüm 4 araştırma ve tasarım hedeflerini, bölüm 5 önceki sürümün doğrulamasını da tarihsel bağlamıyla korur.
@@ -491,7 +493,7 @@ Yeni grup sayıları: kısa tişört 25, uzun tişört 1, atlet 3, gömlek 8, po
 - Güncel son mobil/İngilizce düzeltmeler dahil ayrı Docker `runner` üretim derlemesi başarılı: Next **15.5.28**, 9 route, ana sayfa first-load JS yaklaşık 188 kB. Açık geliştirme sunucusunun `.next` diziniyle çakıştırılmadı. Image: `weathrobe-catalog-targets-preview:20261018`. Yerel image oluşturmak canlı yayın değildir.
 - Gerçek tarayıcı: katalog toplamı **146**, 36 tür ve yeni dört türün sayıları; 180/36 galeri, tür başına beş çizim ve İngilizce `1 type` doğrulandı. Kişisel taslak Vazgeç'te kayboldu; V yaka/renk Kaydet ve sayfa yenilemesi sonrası korundu. Test kaydı Sıfırla/Kaydet ile eski görünümüne döndürüldü; QA origin'i `localhost`, kullanıcının `127.0.0.1` kaydına dokunulmadı.
 - 375 × 812 dar ekran: dialog 321/321, galeri 289/289 ve katalog görünüm seçicisi 287/287 client/scroll genişliği; yeni bölümlerde yatay taşma yok. Üç görünüm seçeneğinin iki satıra düşmesi tek sıra grid ile düzeltildi. Geçici viewport override sıfırlandı. Bu bir gerçek telefon/60 FPS ölçümü değildir. Son tarayıcı hata log'u boş.
-- Galeri kanıt görseli (yerel): `C:/Users/ihsan/.codex/visualizations/2026/10/15/01a14165-2aed-7e13-a731-c984e2c4e2fe/garment-design-gallery.png`.
+- Galeri kanıt görseli (yerel): Codex yerel görselleştirme klasöründe `garment-design-gallery.png` (yerel yol açık depoda tutulmaz).
 
 ### Veri güvenliği ve devam
 
@@ -549,3 +551,526 @@ Kullanıcı terminalinde ARM64 `hello-world` ve Docker Compose v5.6.0 başarıl�
 6. Sunucu dışı yedek ve ayrı DB'de geri yükleme testi. Doctus için ortak Caddy/ayrı uygulama ağı ve volume'lar sonra onaylanacak; ikinci Caddy ile 80/443 çakıştırılmaz.
 
 Oracle konsolunun 4/24 uyarısı ile o gün kontrol edilen resmî belgenin 2/12 açıklaması uyuşmuyordu; kurulan 2/12 korunur. Hesabın ücretsiz statüsü ve toplam kaynak tüketimi kontrol edilmeden genişletme yapılmaz. Eski Markdown bölümleri korunmuştur.
+
+## 20. Yayın sonucunun uzlaştırılması ve hedef takibi — 27 Ekim 2026
+
+Kullanıcı son durumu analiz edip ilerlemeyi sistematik takip edecek hedef listesi istedi; yeni `PROJECT_GOALS.md` ile bu dosya ve README sonuna tarihli ek kapsamını bildirim üzerinden onayladı. Önceki bölümler silinmedi veya kısaltılmadı.
+
+### Son kanıt ve bugünkü sınır
+
+- Bölüm 19'daki yayın bekleme ifadelerinden sonra, 19 Ekim konuşmasında kullanıcı Oracle ARM build başarısını, `products:146, batches:20, types:36, newlyPublished:146` aktarım sonucunu ve sitenin açıldığını doğruladı. İlk önizleme yayını bu tarihli kullanıcı kanıtıyla tamamlanmıştır.
+- 27 Ekim'de yerel HEAD `f8cd86a8eb754e9ad383cb87e89d1d49d959b12d` ve başlangıç çalışma ağacının temiz olduğu görüldü. Onay listesindeki 20 JSON grubu yeniden sayıldı: 146 kayıt, 146 farklı kimlik ve 18 dolu tür. Bu, tam import doğrulaması veya canlı DB sayımı değildir.
+- Bu tur sunucuya bağlanılmadı, canlı adres açılmadı, önceki testler tekrar çalıştırılmadı. Bugünkü HTTPS/servis/katalog sağlığı, gerçek telefon kabulü ve sunucu dışı yedek/geri yükleme için yeni tamamlanma kanıtı yoktur.
+- Paket ve kilit sürümü 0.3.0; tarihsel mimari/SW adı 0.4.0, Git geçmişinde 0.5.0 mesajı var. Sürüm değiştirilmedi; sonraki yayın öncesi WW-05 ile kimlikler netleştirilecek.
+
+### Ana liste ve devam sırası
+
+[PROJECT_GOALS.md](PROJECT_GOALS.md) sabit WW kimlikleri, durumlar, öncelikler, kabul koşulları, bağımlılıklar, ölçüm tablosu ve tur sonu kayıt şablonunu içerir. Önerilen ilk sıra WW-01 (mevcut yayının salt okuma doğrulaması), WW-02 (katalog/topluluk/gizli yapılandırmanın uygun yedeği, sunucu dışı kopya ve izole geri yükleme), WW-03 (gerçek cihaz kabulü).
+
+Katalog çeşitliliği ve 36 türde 100'er gerçek model hedefi korunur; 146/3.600, 18 dolu/18 boş tür ve 3D katman sorunu başlangıç durumudur. Rota fallback güvenilirliği, 3+ durak, konum/önbellek gizliliği, arkadaş yorumlarının takibi, “Yanına al”, gerekçeler, kayıtlı kombinler, kişisel veri kurtarma, PWA/native ve topluluk/mağaza işleri ayrı hedeflere ayrıldı. Doctus ortak sunucu/proxy konusu sonraki, ayrıca yetkilendirilecek iştir.
+
+Hedeflerin listelenmesi kod/veri/yayın için toplu uygulama izni değildir. Bu tur yalnız üç dokümantasyon dosyasını kapsar; commit/push, sürüm artışı, yeni yayın paketi, sunucu işlemi veya zamanlanmış otomasyon yapılmadı. Her sonraki turda durum ve kanıtlar güncellenmeli; kod/test/canlı/kullanıcı kabulü birbirinin yerine kullanılmamalıdır.
+
+## 21. Altı kullanıcı bulgusu ve üç kıyafet seçimi önerisi — 27 Ekim 2026
+
+Kullanıcı tür çizimlerinin yetersizliğini, eksik genel hata/geri bildirim bölümünü, gece güneşli gösterimini ve ileri tarihli plan ihtiyacını bildirdi; avatar için üç kıyafet seçimi arayüzü ile Claude/ChatGPT eklenti-beceri rehberi istedi. Bildirim üzerinden iki yeni belge ve hedef/devir sonuna ek kapsamı onaylandı. Uygulama kodu/canlı yayın onayı bu turun kapsamı değildir.
+
+### İnceleme bulguları
+
+- `components/GarmentVisual.tsx` üst türlerinin çoğunda ortak ana silüet kullanıyor; `lib/garment-designs.ts` 36x5 tasarım sayısı küçük kartta görsel kaliteyi kanıtlamıyor. Önce altı temsilci türde kullanıcı görsel kabulü, sonra yayılım önerildi.
+- `components/FeedbackModal.tsx` termal değerlendirme ve ayrıca izinli GTIN katkısı içindir. Genel hata/ürün önerisi için ayrı giriş, gönderim önizlemesi ve kalıcı/yetkili inceleme akışı bulunmadığı görüldü; yeni WW-24'e yazıldı.
+- `app/api/weather/route.ts` Open-Meteo ve DWD WMO dönüşümlerinde bazı çağrılar gece bilgisi vermiyor; Bright Sky dry ve OpenWeather clear yolları sunny üretebiliyor. Saatlik pencere sunucu `new Date().getHours()` değerine göre kesiliyor; gece için sabit saat aralığı kullanılıyor. Bunlar bildirilen hatayı açıklayan kod yollarıdır; bu tur canlı hata yeniden üretilmedi ve düzeltilmedi.
+- `ItineraryStop` yalnız `preferredTime` taşıyor. `fetchWeatherConsensus` tarih almıyor, istek/önbellek tarih içermiyor, `resolveStopWeatherAtTime` tarih yerine saat numarasına bakıyor. Takvim kontrolü yanında hedef konumun tarih/saat dilimi, tam tahmin zamanı, kaynak ufku ve veri-yok akışı birlikte ele alınmalı.
+
+### Hazırlananlar ve sınırlar
+
+- [AVATAR_UI_ONERILERI.md](AVATAR_UI_ONERILERI.md): Atölye, Katman rafı ve Günlük kombin; ortak kabul koşulları, kıyafet çizimi kalite turu ve seçim sonrası uygulama kapsamı. Atölye başlangıç önerisi; kullanıcı henüz seçmedi.
+- Konuşmada karşılaştırılabilir etkileşimli önizleme: mevcut projedeki statik avatar render'ı, örnek parçalar ve yerel taslak denemeleri. Yeni 3D giysi/mesh veya canlı tarihli hava uygulanmış gibi gösterilmez.
+- [CLAUDE_CHATGPT_EKLENTILERI_VE_BECERILERI.md](CLAUDE_CHATGPT_EKLENTILERI_VE_BECERILERI.md): beceri/eklenti/MCP/bağlayıcı ayrımı, resmi OpenAI/Claude kaynakları, mevcut ve aday araçlar, izin/maliyet/durum şablonu. Product Design isteğe bağlı önerildi; kurulum veya hesap bağlantısı doğrulanmadı. Claude ortamı incelenmedi.
+- PROJECT_GOALS.md sonuna WW-21–26 ve ürün önceliği eklendi; önceki bölüm ve kayıtlar korunur. Duyulan belirli beceri/eklenti adları gelince kaynak bazlı incelenecek.
+
+Bu tur uygulama testleri yeniden çalıştırılmadı; belge bağlantıları/eklerin korunumu ve önizlemenin yerel etkileşimleri ayrıca kontrol edilir. Sunucu, veri, bağımlılık, sürüm, GitHub issue/commit/push veya yayın değişikliği yapılmadı. Sonraki adım kullanıcı tasarım seçimi ve uygulanacak kod/test kapsamının onaylanmasıdır.
+
+### Bu tur doğrulama kaydı
+
+- Önizleme, geçici ve ayrı Edge profilinde üç tasarım x 360/736 px olmak üzere altı senaryoda açıldı. Parça/kombin seçimi, taslak kaydetme, başlangıca dönme, avatar görselinin yüklenmesi ve yatay taşma kontrolü geçti; sayfa JavaScript hatası görülmedi. Bunlar konuşma önizlemesi kontrolleridir; gerçek uygulama/3D mesh/meteoroloji veya fiziksel telefon kabulü değildir.
+- İlk tarayıcı denemeleri sandbox'ın geçici profil engeli nedeniyle başarısızdı; izinli aynı kontrol ayrı Edge profiliyle başarılı oldu. Yeni tarayıcı paketi kurulmadı; kişisel tarayıcı profili kullanılmadı.
+- PROJECT_GOALS.md ve DEVELOPMENT_HANDOFF.md ek öncesi baytlarının SHA-256 karşılaştırması korundu; 26 farklı WW hedef satırı ve yeni belgelerin yerel bağlantıları kontrol edildi. `git diff --check` başarılı; normal satır sonu uyarıları dışında hata yok.
+
+
+## 22. WW-22 gece/gündüz zaman bağlamı — 29 Ekim 2026
+
+Kullanıcının bildirim üzerinden onayladığı 14 dosyalık kapsam uygulandı. Güncel sonuç ve kabul sınırları [PROJECT_GOALS.md bölüm 11](PROJECT_GOALS.md#11-ww-22--gecegündüz-düzeltmesi-29-ekim-2026) içindedir; önceki bölümler korunur.
+
+- Yeni `lib/weather-time.ts`: yerel gün/saat, IANA saat dilimi, DST boşluğu/ilk tekrar politikası, tam UTC tahmin noktası seçimi, günlük doğuş/batış ve yaklaşık astronomik yedek. Yeni `lib/weather-condition.ts`: ortak WMO/gündüz-gece dönüşümü ve önbellek/eskimiş veri normalizasyonu.
+- `app/api/weather/route.ts` ve `lib/weather-service.ts`: epoch sağlayıcı zamanları, tam iki günlük seri, konum fazında kaynak birleştirme, kaynak kesintisinde gerçek veri yok durumu, özel anahtarlı sonuçları ortak cache dışında tutma. Çıktı koordinatları istemcide mevcut iki ondalık gizlilik ızgarasında kalır; sıfır koordinatlar başka şehre dönüşmez.
+- `app/api/route/route.ts`: kalkışın konum günü, gerçek süre farkıyla varış anı, her durağın kendi saat dilimi ve o ana ait saatlik koşulu. Saatlik karşılık yoksa `forecastAvailable: false`; mevcut rota kestirimi/hata sunumu ayrıca WW-13 kapsamında ele alınmalıdır.
+- `lib/types.ts` alanları eklemelidir; eski dolap/avatar/geri bildirim kayıtlarına göç veya yazma yok. Eski tarihsiz meteoroloji saatleri geçerli bir güne atanmaz.
+- Yeni `components/WeatherIcon.tsx`, `app/page.tsx`, `components/HourlyForecastChart.tsx`: ortak ay/güneş/bulut-ay dönüşümü, yerel tarih, 30 saniyelik faz saati ve 15 dakikalık veri yenileme. Kombin hesabına yalnız hedef günün saatleri girer. Veri yokken kişisel termal rapora sahte hava bağlanmaz.
+- `public/sw.js`: kalıcı hava/rota cache replay kaldırıldı; aktivasyonda yalnız eski hava/rota girişleri silinir. Kişisel/ilgisiz cache'ler ve localStorage korunur.
+- Yeni `tests/weather-time.test.cjs` ve `tests/weather-flow.test.cjs`: 20/20 başarılı. Tüm CJS paketi 99 test: 95 başarılı, 0 başarısız, 4 DB koşullu atlama. Nihai Next üretim derlemesi exit 0; TypeScript kontrolü başarılı. React sunucu render kanıtı vardır; gerçek tarayıcı/telefon/canlı yayın kabulü yoktur.
+- Lint'te bu işle eklenen hata yok; kişisel profil yükleyen mevcut `app/page.tsx` efektinin `react-hooks/set-state-in-effect` hatası HEAD ile karşılaştırılarak teyit edildi. Build yapılandırması lint'i önceden atlıyor. Yeni bağımlılık veya lint kuralı istisnası eklenmedi.
+
+WW-22 yerel geliştirme hedefi tamamlandı. WW-23 tarih/takvim arayüzü, WW-24 genel hata raporu ve diğer hedefler ayrıca kapsam onayıyla ilerler. Sunucuya bağlanılmadı; kişisel anahtar dizinine erişilmedi; commit/push, yayın paketi veya canlı değişiklik yapılmadı.
+
+
+## 23. WW-24 genel uygulama bildirimi — 29 Ekim 2026
+
+Kullanıcının 17 dosyalık kapsam onayıyla hata/öneri formu, ayrı kalıcı rapor alanı ve yetkili salt okuma komutu hazırlandı. Termal modal ve kişisel dolap/avatar/geri bildirim kayıtları korunur. Güncel sonuç [PROJECT_GOALS.md bölüm 12](PROJECT_GOALS.md#12-ww-24--genel-hata-raporu-ve-öneri-29-ekim-2026), işletim ayrıntıları [deploy/PRODUCT_FEEDBACK.md](deploy/PRODUCT_FEEDBACK.md) içindedir.
+
+- `components/ProductFeedbackModal.tsx`, `app/page.tsx`, `components/Navbar.tsx`, `app/globals.css`, `lib/translations.ts`: görünür genel giriş; hata/öneri, açıklama ve isteğe bağlı adımlar; TR/EN önizleme, açık saklama onayı ve gönderim; başarısızlıkta taslak/kimlik korunumu; mobil taşma/fokus/dokunma kontrolü. Form otomatik kişisel bağlam almaz ve localStorage kullanmaz.
+- `lib/product-feedback.ts`, `lib/product-feedback-store.ts`, `app/api/feedback/route.ts`: katı izinli alanlar/onay, 20 KiB gerçek okuma sınırı, origin/JSON denetimi, kısa ve günlük kotalar, 10.000 kayıt kapasitesi, aynı kimlikte değişmez/idempotent kayıt, tek yazıcı kuyruğu ve atomik/senkron kalıcılık. Ham IP, ham çerez ve cihaz başlıkları kayıt dışıdır. Sayaç özeti 24 saatlik pencereyi izler ve eski sayaçlar yeni başarılı kayıtta temizlenir; raporlar otomatik silinmez.
+- `Dockerfile`, `docker-compose.yml`, `scripts/feedback/review.mjs`: raporlar bağımsız `reports_data` alanındadır. Linux 0700/0600/UID 1001; inceleme servisi Docker yetkilisine açık, ağı kapalı ve alanı salt okunurdur. GET API veya özel dosya URL'leri içerik sunmaz. Yeni web yönetici paneli/parolası veya katalog veritabanı yazma yetkisi yoktur.
+- Üç yeni test dosyası toplam 23 test: doğrulama/gizlilik, HTTP gövde/origin/izin/kota/hata, form geçişleri/TR-EN/onay/yeniden deneme ve Docker/kalıcılık. Son tam koşu `WW24_DOCKER_TEST=1` ile **122 toplam / 118 başarılı / 4 DB atlama / 0 başarısız**. Gerçek Linux konteyner yenilenmesi, farklı UID'nin EACCES alması ve salt okunur yazmanın EROFS alması doğrulandı.
+- Gerçek tarayıcıda TR/EN sentetik kayıt, kayıt öncesi önizleme, hata sonrası tekrar ve sunucu yeniden açılınca iki kaydın korunması kontrol edildi. 321/360/1441 CSS piksel son ölçümlerinde yatay taşma yok; klavye odağı ve masaüstü görüntüsü kontrol edildi. Fiziksel telefon kabulü yapılmadı; WW-03'e bırakıldı. Yerel HTTP özel dosyalara 404, rapor okumasına 405 döndürdü.
+- Nihai üretim derlemesi/tip kontrolü başarılı; yeni WW-24 kodunda lint hatası yok. Önceden mevcut ana sayfa kişisel profil efektinin lint hatası devam ediyor; mevcut yapılandırma derlemede lint'i atlıyor. Mevcut Three.js CommonJS uyarısı değiştirilmedi.
+
+WW-24 yerel geliştirme hedefi tamamlandı. Uygulama yeni rapor alanı için tek Node yazıcısı varsayar; çoklu kopyadan önce ortak işlemsel depolama gerekir. `reports_data`, mevcut PostgreSQL/topluluk yedeğine kendiliğinden girmez: sonraki WW-02/yayın turunda sunucu dışı kopya ve izole kurtarma kanıtına eklenmelidir. Canlı yayın veya sunucu bağlantısı yapılmadı; yerel testler mevcut özel kayıtlardan ayrı geçici veri kullandı. Önceki WW-22 ve belge değişiklikleri korundu; commit/push yapılmadı.
+
+
+## 24. WW-23 tarihli durak planlama — 29 Ekim 2026
+
+Kullanıcının onayladığı 20 dosyalık kapsam uygulandı. Güncel sonuç ve sonraki hedef metni [PROJECT_GOALS.md bölüm 13](PROJECT_GOALS.md#13-ww-23--ileri-tarih-ve-saat-aralığı-29-ekim-2026) içindedir. WW-22/24 değişiklikleri, eski bölümler ve kişisel kayıtlar korunur.
+
+- Yeni `lib/weather-plan.ts`: plan penceresi, yerel tarih/DST kuralları, gerçek kaynak ufku, bütün aralığı kapsama/boşluk denetimi, 15 dakika tazelik ve açık hata durumları. Yeni `lib/weather-forecast.ts`: epoch saatlik noktaların katı ayrıştırılması; eksik alan sıfır sayılmaz, bilinmeyen UV ayrı kalır.
+- `lib/weather-time.ts`, `lib/weather-condition.ts`, `lib/types.ts`: açık yerel takvim, IANA çözümleme, ertesi gün, ilk tekrarlanan saat politikası, kaynak/plan/UTC nokta tipleri ve gelecekteki an için WW-22 gündüz/gece dönüşümü.
+- `app/api/weather/route.ts`: isteğe bağlı doğrulanmış tarih, ayrı cache kimliği; Open-Meteo 16/DWD ICON 10 gün talebi fakat gerçek dönen saatlere göre kapsam. Diğer kaynaklar bu uygulamada Şimdi akışına ayrılır. Sayısal gözlem alanları eski API zarfında kalır; tarihli tüketici yalnız `forecastSources` içinden doğrulanan plan sonucunu kullanır. Gözlem değerleri ileri tarihin verisi olarak kullanılmaz.
+- `lib/weather-service.ts`: tarihli istek/deduplikasyon, planlarda özel anahtar okumama/göndermeme, durak başına çözümleme ve eksik plan varsa ortak kombini engelleme. Birden çok tarih/konumun yalnız seçili saatleri birleştirilir; güçlü koşul, soğuk hissedilen, yağış/rüzgâr riski ve bilinmeyen UV korunur.
+- Yeni `components/StopPlanControls.tsx`, `app/page.tsx`, `components/RealCityMap.tsx`: her durakta bağımsız Şimdi/Bugün/Yarın/takvim ve saatler; saat dilimi, kaynak kapsamı ve veri yok uyarıları; eski tarih/konum yanıtını reddetme; yeni yanıtla ekran saatini eşitleme. Planlar oturum durumudur; kayıt göçü veya yeni kişisel saklama alanı yoktur.
+- `components/HourlyForecastChart.tsx`: planın bütün tarihli saatleri; seçili aralığın dışındaki günler ve 12 saat sınırı plana taşınmaz. Veri saatlik [t,t+1h) dilimleridir; dakika ölçümü/interpolasyon iddia edilmez.
+- `lib/clothing-engine.ts`, `components/OutfitRecommendation.tsx`: planın gerçek dilimlerinden tarihli/gündüz-gece katman zaman çizelgesi, sıcak yağmur/rüzgâr için dış katman; sahte sabah/öğle/akşam değerleri planlarda yok. Plan gerçek giyim deneyimi olarak kaydedilemez. Eski termal geçmiş ve kişisel dolap/avatar verileri değişmez.
+- `app/globals.css`, `lib/translations.ts`: TR/EN kontroller ve uyarılar, 44px hedef/16px alan, dar ekranda sıcaklık aralığına uygun kart akışı. 320/347/1427 CSS pikselde sayfa taşması yok; gerçek telefon kabulü yapılmadı.
+- Yeni üç plan testi **19/19**; son genel koşu **141 toplam / 136 başarılı / 5 koşullu atlama / 0 başarısız**. Dört DB ve bir isteğe bağlı WW-24 Docker testi bu tur koşmadı. Son üretim derlemesi/tip kontrolü başarılı; önceki iki efekt lint hatası ve üç uyarı devam ediyor, yeni WW-23 lint hatası yok. Derleme yapılandırması lint'i önceden atlar.
+- Gerçek tarayıcıda TR/EN, Şimdi/Yarın, gece yarısı, ufuk dışı uyarı, gerçek kaynak sınırları ve iki durağın bağımsız gün/saatlerinin korunması doğrulandı. Yeni yanıtın önceki UI saati nedeniyle geçici eski sayılması ile çok durakta kar/UV birleşimi hataları regresyonla düzeltildi.
+
+WW-23 yerel hedefi tamamlandı; canlı sunucuya bağlanılmadı ve yayın yapılmadı. Fiziksel cihaz WW-03, canlı sağlık/yedek/geri dönüş WW-01/02/05 kapsamındadır. Önerilen sıradaki ürün hedefi **WW-21: önce altı temsilci kıyafet türünde görsel kabul**; kullanıcı hedefi başlatmadan yeni uygulama kapsamına geçilmez.
+
+
+## 25. WW-21 — altı kıyafet türünün çizimleri, görsel kabul aşaması — 29 Ekim 2026
+
+Sekiz dosyalık kapsam kullanıcı tarafından onaylandı. Yerel geliştirme/teknik doğrulama tamamlandı; **kullanıcı görsel kabulü henüz yoktur ve WW-21 açık kalır**. Güncel ayrıntı ve yayın sayacı [PROJECT_GOALS.md bölüm 14](PROJECT_GOALS.md#14-ww-21--altı-tür-çizim-turu-görsel-kabul-bekleniyor--29-ekim-2026) içindedir.
+
+- Yeni `lib/garment-illustrations.ts` yalnız short-sleeve-tee, shirt, sweatshirt, puffer, jeans ve sneakers için özgün silüet/panel/detay verisi üretir. Her türün beş mevcut varyantı korunur. İnce detaylar silüete kırpılır; yaka/kapüşon dış çizgileri ayrı tutulur.
+- `components/GarmentVisual.tsx` aynı çözülmüş görünümden yeni altılıyı çizer; `drawingVersion="before"` eski çıktıyı inceleme için korur. Diğer 30 tür eski yolu kullanır. Kişisel görünüm şeması, kayıt kimlikleri ve 3D giysi kodu değişmedi.
+- Yeni `scripts/preview/garment-review.tsx`, onaylı `artifacts/previews/ww21-garment-comparison.html` dosyasını üretir. Otuz önce/sonra eş, boyut/zemin/tür/varyant kontrolleri ve altı sentetik kişisel örnek vardır. Ağ/analitik/localStorage yoktur; kullanıcı kabulü sohbetten alınır. Dosya güncelliği ve CSP betik hash'i test edilir.
+- Başlangıçta alınan 216 SVG özetiyle eski görünüm tamamen aynı; yeni görünümde yalnız altı türün 36 çıktısı farklıdır. Diğer 30 türün varsayılan+beş varyanttan oluşan 180 çıktısı aynıdır. Renk/desen/kesim ve kaynak gerçekleri sentinellerle doğrulanır.
+- Yeni altı test 6/6; görünüm/avatar paketi 17/17. Son genel koşu 147 toplam, 142 başarılı, 5 koşullu atlama, 0 başarısız. İlk koşudaki eski geri bildirim testinin geçici klasör temizleme ENOTEMPTY hatası, tekil ve genel tekrarında görülmedi; ilgili kaynaklar değiştirilmedi.
+- Son üretim derlemesi/tip kontrolü ve değişen üç TS/TSX dosyasının lint'i başarılı. Fiziksel telefon doğrulanmadı. Tarayıcıda büyük varyantlar, 320/1427 CSS piksel, 72/144/240 px, açık/koyu zemin ve kişisel örneklerin filtrelerden bağımsız kalması kontrol edildi.
+- Yerel önizleme salt okunur bir test sunucusuyla açılabilir; bu canlı yayın değildir. Oluşturulan görsel özet bir tarayıcı ekran görüntüsü değil, aynı SVG çıktılarının PNG karşılaştırmasıdır. Araç motoru veya bağımlılık kurulmadı; commit/push/SSH/canlı yayın yoktur. Önceki WW-22/24/23 değişiklikleri ve eski belge bölümleri korunur.
+
+Kullanıcı düzeltme isterse altı türlük onaylı kapsamda ele alınır; kabul gelmeden 36 türe yayılmaz veya hedef tamamlandı işaretlenmez. Kullanıcının yayın kuralı her dört tamamlanan hedefte bir site güncellemesidir: WW-22 + WW-24 + WW-23 şu an 3/4; WW-21 kabulüyle 4/4. Sonraki öneri WW-05 toplu yayın hazırlığıdır; WW-01/02 sağlık/yedek/geri dönüş koşulları ayrıca doğrulanır.
+
+
+### Görsel inceleme sonrası kullanıcı geri bildirimi — 30 Ekim 2026
+
+- Kullanıcı yeni çizimlerin daha iyi olduğunu ve özellikle detaylandırılma biçimini beğendiğini belirtti; **son kullanıcıya sunulacak kaliteyi henüz yeterli bulmadı**. Bu, tam görsel kabul değildir. WW-21 açık ve yayın sayacı 3/4 kalır.
+- Kullanıcı internetten/tasarım araçlarından daha nitelikli varlık teminini, satıcıların sağlayabileceği tür modellerini ve “kişisel dolapta satıcı ürün fotoğrafı + genel öneride kendi tür çizimlerimiz” yaklaşımını sordu. Detaylandırma dili korunacak; mevcut çalışma silinmeyecek. Hibrit yaklaşım bu aşamada değerlendirme/öneridir, yeni uygulama kapsamı onayı değildir.
+- Önerilen ayrım: gerçek dolap parçası ve o parçadan yapılan öneride doğru ürün/renk varyantı fotoğrafı; ürün seçilmemiş genel öneride tutarlı temsili illüstrasyon; görsel bulunmazsa mevcut tür çizimi. 3D avatar ayrı temsili geometridir; ürün fotoğrafı otomatik 3D giysiye dönüşmüş sayılmaz.
+- Kod incelemesi: CatalogProduct ve ClothingItem henüz ürün fotoğrafı alanı taşımıyor. Mevcut barkod API'si UPCitemdb'den başlık/marka/model döndürüyor, images alanını almıyor. Fotoğraf eklemek; görsel kaynağı/izin, ürün-varyant eşleşmesi, kalıcılık ve kart gösterimi için ayrı ve onaylı dosya kapsamı gerektirir. Mevcut sekiz dosyalık çizim kapsamına sessizce genişletilmez.
+- Kaynak adayları: [VecFashion çizim örnekleri](https://vecfashion.com/collections/free-fashion-vectors?page=1) ve [lisans koşulları](https://vecfashion.com/pages/licenses); [Awin ürün görselleri içeren veri akışı](https://help.awin.com/developers/docs/product-feed-publisher-guide-intro); [UPCitemdb images yanıt alanı](https://www.upcitemdb.com/wp/docs/main/development/responses/) ve [üçüncü taraf haklarına ilişkin koşulları](https://devs.upcitemdb.com/termsofservice). Bir görsel URL'sinin veya ücretsiz indirmenin bulunması, uygulamada kullanım izni olarak kabul edilmez. Henüz dış görsel indirilmedi, satın alınmadı veya uygulamaya eklenmedi.
+- Araç keşfinde Figma ve Adobe eklentileri kurulu görünmedi; Figma isteğe bağlı bir düzenleme yolu olarak önerildi, kurulmadı/bağlanmadı. Özgün temsili görseller için mevcut görsel üretim aracıyla bağımsız kalite denemesi yapılabilir; böyle bir çıktı gerçek ürün fotoğrafı olarak etiketlenmez.
+- Sonraki kalite denemesi önerisi: bütün 36 türe yayılmadan tişört, hoodie ve mont için daha profesyonel temsili görsellerle fotoğraf/illüstrasyon ayrımını karşılaştırmak; seçilen yön ve lisans/izin koşullarından sonra somut uygulama dosya kapsamını onaya sunmak. Bu geri bildirim kaydında uygulama kodu veya canlı site değiştirilmedi.
+
+### Kalite panosu ve korunacak görünüm davranışı — 30 Ekim 2026
+
+- Tişört/hoodie/şişme mont için A moda illüstrasyonu ve B stüdyo görünümü içeren sentetik kalite panosu yerleşik görsel üretimiyle oluşturulup sohbette gösterildi. Yerel dosya Codex'in üretilmiş görseller klasöründe (yerel yol açık depoda tutulmaz); 1536x1024, 2.017.542 bayt; SHA-256 `43afc5bed8b166612e3c13b05e8010e81dca25993786675236df882f4bb2ef6e`. Bu dosya yayın varlığı veya gerçek satıcı fotoğrafı değildir; proje kodundan referans verilmedi.
+- A/B ayrımı özellikle hoodie ve montta zayıf kaldı; pano yüksek ayrıntı/hacim için referanstır, kullanıcı yön seçimi veya nihai stil kabulü değildir. Bağımsız şeffaf kesitler, küçük kart görünümü ve beşer varyant henüz bu raster yönle doğrulanmadı.
+- Kod yeniden incelendi: mevcut SVG, kişisel renk/desen/kesim/boy/kol/yaka seçimlerinden üretilir. Tek rasterı SVG yerine geçirmek bu davranışı sağlamaz. Gelecek uygulamada tasarım kimlikleri ve kişisel tercihler korunmalı; fotoğraf gösterimi gerçek ürün-varyant eşleşmesine dayanmalı; desteklenmeyen tercihler sessizce yok sayılmamalı. Raster, 3D avatar giysisi olarak sunulmaz.
+- Sonraki iş kullanıcının görsel yön geri bildirimidir; ardından gerçek kart boyutlarında ve kişisel tercihlerle seçilen yaklaşımın önizlemesi hazırlanır. Genişleyen varlık/fotoğraf kapsamı önce onaya sunulur. Mevcut altı tür SVG uygulaması ve otuz eşli karşılaştırma korunur; 36 türe yayılım/canlı yayın yapılmaz. WW-21 açık, sayaç 3/4; kabul sonrası öneri WW-05.
+- Bu tur yalnız iki belgenin sonuna kayıt eklendi. Uygulama testlerinin önceki sonuçları yeni raster yönün işlevsel doğrulaması olarak kullanılmadı; uygulama kodu değişmediği için tam test/derleme tekrarlanmadı.
+
+### B yönü seçildi — 30 Ekim 2026
+
+Kullanıcı **B — Stüdyo görünümü** yönünü seçti. Yön sorusu artık beklemiyor; nihai altı tür görsel kabulü henüz yok. WW-21 ve 3/4 yayın sayacı korunur.
+
+Hazırlanacak sonraki kapsam: altı özgün şeffaf PNG (tişört `short-sleeve-tee:0`, gömlek `shirt:0`, hoodie `sweatshirt:1`, mont `puffer:0`, jean `jeans:0`, spor ayakkabı `sneakers:0`), üretim/kimlik manifesti, ayrı yerel stüdyo karşılaştırma üreticisi ve HTML, test ve iki belge. Bu 12 dosyalık genişleme onaydan sonra uygulanır. Üç boyut/açık-koyu zemin ve gerçek mevcut SVG ile karşılaştırma yapılır; kişisel görünüm örnekleri korunur. Rasterın desteklemediği renk/desen/kesim için destek varmış gibi gösterim yapılmaz. Bu aşama uygulama entegrasyonu, ürün fotoğrafı alanı veya yeni 3D model içermez; sonraki uygulama kapsamı kalite sonucuna göre ayrıca belirlenir.
+
+### B stüdyo önizlemesi uygulandı; örneklerin görsel kabulü bekleniyor — 30 Ekim 2026
+
+12 dosyalık genişleme kullanıcı tarafından onaylandı ve hazırlandı. Altı PNG + manifest `artifacts/previews/ww21-studio/` içinde; üretici `scripts/preview/garment-studio-review.tsx`, HTML `artifacts/previews/ww21-studio-comparison.html`, yeni test `tests/garment-studio-preview.test.cjs`. Değişen mevcut dosyalar yalnız bu belge ve PROJECT_GOALS.md'dir. Önceki uygulama kodu, tasarım kimlikleri, kişisel veri ve otuz varyantlı SVG önizlemesi korunur.
+
+- Görseller yerleşik image_gen ile üretildi; tam istemler, tek ayakkabı kenar düzeltmesi, kaynak adları ve SHA-256 manifesttedir. Altısı da 1254x1254 PNG, gerçek alfa içerir ve opak silüetler dosya kenarına değmez. Toplam kaynak boyutu 9.962.765 bayt. Bunlar satıcı/SKU fotoğrafı veya malzeme/termal performans kaynağı değildir.
+- HTML altı PNG'yi birer kez gömer. Eski SVG / WW-21 SVG / sabit B örneği ve yalnız-stüdyo görünümü; tür, boyut, zemin kontrolleri; gerçek SVG'den sentetik kişisel örnekler vardır. Renk/desen/kesim desteği sabit raster için varmış gibi sunulmaz. PNG varlıkları uygulama bileşenine bağlanmadı; kalan 24 raster varyant üretilmedi.
+- Tekrar üretme: `node --import tsx scripts/preview/garment-studio-review.tsx`. Üretici varlık SHA-256 eşleşmesini doğrular. HTML 13.364.804 bayt, SHA-256 `5f77c16b4460fc24075fa06ab2bd04d135ef00ca5a16c43b2ce6130722821d14`. Üretime bu ham boyutla taşınmaz; bu bir yerel kalite incelemesidir.
+- Yeni beş test + mevcut görünüm/illüstrasyon testleri **18/18, 0 atlama, exit 0**. Tam proje `tsc --noEmit --incremental false` ve yeni TSX lint'i exit 0. İlk HTML güncellik testi derleyiciye bağlı function.toString betik farkını buldu; istemci betiği sabit metinle üretildi ve gerçek HTML betiği VM'de çalıştırılarak test edildi. Üretim build/tüm uygulama testleri bu tur tekrarlanmadı.
+- Tarayıcıda altı örneğin küçük/orta/büyük alanı, iki zemin, tür ve yalnız-stüdyo kontrolleri incelendi. Gerçek DOM ölçülerinde 1090 CSS px masaüstü ve 263 CSS px dar mobil görünümde taşma yok; büyük mobil karşılaştırma tek sütun, kişisel örnekler filtreden bağımsız. Error/warn kayıtları boş. Fiziksel telefon testi yoktur. Ekran kanıtı görev görselleştirme dizinindeki `ww21-studio-review-desktop.png` dosyasıdır.
+- Yerel salt okunur sunucu `http://127.0.0.1:33125/` adresindedir; yalnız bu HTML'i sunar. Sandbox tarayıcı erişimi ve açık kalan kontrol oturumları nedeniyle son sunucu/test/tip kontrolleri normal yerel ortamda yürütüldü. Sunucu ömrü geçicidir; HTML kalıcı teslimdir. Eski SVG HTML SHA-256 değeri `e86258ebdae18b2753f9f2f788f98ddabdd84b88d0804a0f057ea6d63f48291a` ile aynı kaldı.
+
+WW-21 henüz tamamlanmadı: bu altı tek-varyant örneğin kullanıcı kalite değerlendirmesi, ardından kalan varyantlar ve kişisel görünüm davranışını karşılayan uygulama kapsamı gerekir. 36 türe yayılım ve canlı yayın yoktur; yayın sayacı 3/4. Nihai kabul sonrası öneri WW-05 toplu yayın hazırlığıdır.
+
+### Altı B örneği için kullanıcı kalite kabulü — 30 Ekim 2026
+
+Kullanıcı **“Bu kaliteyi temel alalım”** dedi. Altı temel örnek kabul edildi; manifest `six-base-samples-quality-accepted` ve önizleme bildirimi bu durumu kaydeder. Bu, diğer 24 varyant veya uygulama entegrasyonu kabulü değildir; WW-21 açık ve sayaç 3/4 kalır.
+
+Ortak GarmentVisual çağrıları yeniden incelendi. Sabit fotoğraf temsillerini tüm çağrılara koşulsuz uygulamak kişisel görünüm seçeneklerini kaybettirir. Önerilen sonraki kapsam, 24 yeni varyant + yerel optimize edilmiş varlıklar + genel model/tasarım gösterimlerinde ayrı stüdyo bileşeni; kişisel dolap, kişisel özelleştirme ve desteklenmeyen türlerde SVG korunumudur. Temsili görsel ve kişisel görünüm ayrımı görünür/TR-EN olmalıdır. Bu yöntem ve yeni dosyalar kapsam onayından sonra uygulanır; ürün fotoğrafı veri modeli ve 3D avatar bu işin parçası değildir.
+
+Kabul kaydı sonrası beş stüdyo önizleme testi yeniden çalıştırıldı: **5/5, 0 atlama, exit 0**. Tarayıcıda güncel kabul bildirimi doğrulandı; PNG kaynakları değişmedi. Güncel HTML 13.364.856 bayt, SHA-256 `26bcad422d767b86c85063d4ec0ed508a2f1c0fabc22e8014f2ba03e9e4670a0`; önceki HTML özeti kabul öncesi sürüme aittir.
+
+### WW-21 — onaylı otuz model ve yerel entegrasyon; son görsel kabul bekleniyor — 30 Ekim 2026
+
+Kullanıcı kalan 24 PNG + 30 WebP + 19 kod/test/önizleme/belge dosyasını onayladı; kapsam uygulandı. Kabul edilen altı kaynak PNG bayt düzeyinde korunur. Altı tür × beş mevcut tasarım = 30 model; diğer 30 türün SVG akışı ve kişisel görünüm veri modeli değişmez. WW-21 henüz tamamlanmadı, yayın sayacı 3/4.
+
+Tekrar üretim: `node scripts/preview/prepare-garment-studio-assets.mjs`, ardından `node --import tsx scripts/preview/garment-studio-review.tsx`. İlk komut mevcut Sharp ile alfa sınırlarını ölçer, kenar payıyla kırpar, şeffaf 640×640 WebP üretir; içerik SHA-256'sını dosya adına ekler. Manifestten üretilen `lib/garment-studio-assets.ts` yalnız yerel URL/kimlik/boyut/özet içerir. 30 PNG toplamı 46.951.215 bayt, 30 WebP toplamı 1.331.496 bayt. Yeniden optimizasyon tüm çıktılarda bayt eşitliğiyle doğrulandı (exit 0).
+
+`GarmentStudioVisual` genel referanslarda B gösterir; kişisel bağlam, sahip olunan/kullanıcı/barkod parçası veya geçerli kişisel renk/desen/kesim değişikliği varsa eski `GarmentVisual` döner. Düzenleyicinin ana önizlemesi ve dolaptaki kişisel parça SVG kalır; tasarım seçeneklerinde yalnız sabit B referansı gösterilir. Hata durumu URL'ye bağlı tutulur; yüklenemeyen yerel WebP için SVG ve TR/EN hata notu vardır. Alt yazı/alt metni sentetik model olduğunu açıklar. Katalog, galeri, genel profil, öneri ve OutfitBoard çağrıları bu ayrımı kullanır; kayıt işlemleri ve 3D değişmez.
+
+Doğrulama kanıtı:
+
+- Uygulama aşamasında hedefli 24 test, tüm testlerde 158 toplam/153 başarılı/0 hata/5 koşullu atlama; `tsc --noEmit --incremental false` ve `next build` exit 0. Atlamalar dört PostgreSQL ve bir isteğe bağlı Linux/Docker kontrolüdür.
+- Son devam turunda stüdyo varlık/önizleme/arayüz testleri 11/11 geçti. Yeni bileşen, optimizasyon/önizleme betikleri ve ilgili temiz çağrılarda ESLint exit 0. Önceden var olan OutfitRecommendation effect/dependency bulguları ve WardrobeModal img uyarısı aynı: 1 hata + 4 uyarı; bunlar kapsam dışı tutuldu.
+- Gerçek uygulama galerisinde altı türün beşer B kimliği ve yükleme kontrolü; TR/EN açıklamalar; kişisel ana SVG; kaydedilmeden renk/desen taslağı; 337 CSS px mobil düzenleyici taşma kontrolü doğrulandı. Tek bir WebP geçici yeniden adlandırılarak gerçek 404 → SVG dönüşümü görüldü; dosya SHA-256 doğrulanarak geri konuldu ve tekrar normal yüklendi. Kullanıcı kişisel kayıtları okunmadı/değiştirilmedi; test ayrı yerel origin üzerinde varsayılan örnek dolapla yapıldı.
+- Güncel HTML 2.036.654 bayt, SHA-256 `b77a044933629151a296ea3b2f90538f99fc794a5bb1216c54354882f7b8a2dc`. Manifest SHA-256 `d0f5eed628df7cd5ef3b3196cb2899620a7da72cb2165a8afa3f0506884c8894`. Önceki altı örnekli HTML özetleri geçmiş aşamaya aittir. Güncel ekran kanıtı görev görselleştirme dizinindeki `ww21-studio-variants-review.png`, `ww21-mobile-editor-en.png`, `ww21-image-fallback.png`, `ww21-app-gallery-tr.png` dosyalarıdır.
+
+Yerel inceleme `http://127.0.0.1:33125/`; uygulama kontrolü `http://127.0.0.1:33126/`. Sunucular geçicidir. Fiziksel telefon testi ve veritabanı bağlı gerçek ürün kataloğu uçtan uca kontrolü yapılmadı. Yerel next start standalone uyarısı verdi; bu çalışma yayın/standalone paket doğrulaması değildir. Canlı yayın, yeni bağımlılık ve gerçek satıcı fotoğrafı desteği yoktur.
+
+Sıradaki işlem: tüm 30 modelin kullanıcı görsel kabulü. Kabul sonrası WW-21 kapanır; **WW-05 toplu yayın hazırlığı ve geri dönüş planı** önerilir. WW-01 sağlık/katalog ile WW-02 yedek/geri yükleme kanıtları yayın öncesinde uzlaştırılır. Görsel kabul olmadan hedef tamamlandı veya sayaç 4/4 diye kaydetme.
+
+### WW-21 nihai kullanıcı kabulü ve kapanış — 30 Ekim 2026
+
+Kullanıcı **“30 modeli ve yerel entegrasyonu kabul ediyorum”** yanıtını verdi. **WW-21 tamamlandı; dört hedeflik yayın sayacı 4/4** (WW-22, WW-24, WW-23, WW-21). Önceki bekleme kayıtları tarihsel durumdur. Kabul, altı türün toplam otuz stüdyo modelini ve yerel temsili/kişisel görünüm ayrımını kapsar; diğer 30 tür, gerçek satıcı fotoğrafı veya canlı yayın kapsamına genişlemez.
+
+Manifestin `finalReview` kaydı nihai kararı ve 2026-10-30 tarihini taşır; ilk altı örneğin `userReview` kaydı korunur. Durum `thirty-variants-and-local-integration-accepted`. Optimizasyon betiği nihai kabulü koruyacak biçimde güncellendi; önizleme üreticisinin bekleme bildirimi kabul bildirimi oldu. İlgili mevcut test beklentileri yeni durumla eşleştirildi. PNG/WebP içerikleri, uygulama bileşenleri ve kişisel kayıtlar bu kapanış turunda değişmedi.
+
+Kabul güncellemesinden sonra 11 stüdyo testi geçti (0 hata/atlama, exit 0). Güncel manifest 70.907 bayt, SHA-256 `54ae6ac3ae9d066a07cc6c2a9fad21ef1be9acd3ba1cc2055b69d62a60f67be1`; HTML 2.036.717 bayt, SHA-256 `94e601fce1c846419811145a73f1059e3b85a6228cbda89ea7207e524a5ff40d`. Önceki özetler kabul öncesi sürümleri tanımlar. Bu tur yeni üretim build gerektiren uygulama değişikliği yapılmadı; önceki build/test kanıtları yukarıdadır. Fiziksel telefon ve gerçek katalog/veritabanı kontrollerinin yapılmadığı bilgisi korunur.
+
+**Sıradaki öneri WW-05 — dört hedeflik toplu yayın hazırlığı ve geri dönüş planı.** Önce mevcut sürüm ve kurulumun salt okunur incelemesi, sonra somut dosya kapsamı onayı; WW-01 sağlık/katalog, WW-02 yedek/sunucu dışı kopya/geri yükleme kanıtları ve ortak sunucu/proxy durumu uzlaştırılır. Tek sürüm kimliği, paket, veri korunumu, uygun standalone/Compose başlatma ve geri dönüş kanıtları hazırlanır. Canlı yayın ayrı inceleme ve onay adımıdır; bu kullanıcı kabulü yayını başlatmaz.
+
+Kapanış doğrulaması: optimizasyon betiği normal yerel ortamda yeniden çalıştırıldı; nihai kabul, manifest/eşleme ve bütün üretim varlıkları bayt düzeyinde aynı kaldı (exit 0). İki değişen betikte ESLint exit 0. Yeni kaynak/üretim görseli oluşturulmadı.
+
+### WW-05 — onaylı hazırlık sürüyor; canlı yayın yok — 30 Ekim 2026
+
+Aktif kullanıcı hedefi WW-22/24/23/21'i tek yayın grubunda hazırlamak. 23 dosya ve 0.6.0 sürümü onaylandı; paket/kilit dışında bağımlılık sürümleri değiştirilmedi. Yeni profil `deploy/release-profile.json`, rehber `deploy/RELEASE.md`, ayrıntılı kanıt `deploy/RELEASE_EVIDENCE.md`. Mevcut kirli çalışma kopyası ve önceki yayın arşivi korunur; commit/push/SSH anahtarı erişimi yok.
+
+`check-release.mjs --all` aynı kaynakta seri tam CJS testleri (163/158 başarılı/5 koşullu atlama/0 hata), tsc, üretim build ve gerçek Linux Docker provasını exit 0 ile bitirdi. Kaynak `3ae5bb5e57d21d4837604d19ea7dc7d37d8095d50aceae21f0131085caaeff12`; dört komutun kaydı `.data/release-checks/0.6.0.json`. Paketleme bu kayıtla aynı kaynağı zorunlu tutar; sırları/çalışma verisini/ham önizleme kaynaklarını dışlar, mevcut arşivi ezmez, kaynak dosya hash manifesti üretir. `--verify-source` çıkarılmış paketi kontrol eder.
+
+Prova, doğrulanmış 19 Ekim arşivinden eski imaj üretir; 146 ürün/36 tür, DB satır özeti, eski ve yeni topluluk yazısı, WW-24 rapor kalıcılığı/tekrar, otuz WebP ve eskiye geri dönüş/yeniden ileri geçişi sınar. Ayrı DB/volume'larda eski-yeni yedek geri yüklemesi, reader ve özel dosya izinleri geçti. `recovery.mjs` bu sentetik prova için şifreli doğrulama yardımcısıdır; bulunan ortak Restic canlı sisteminin yerine otomatik kurulmaz. Tam canlı kurtarma/copy kanıtı sayılmaz.
+
+Kullanıcı SSH giriş adımı eksikliğini düzeltti: önce bağlantıyı açtır, sonra Linux komutu iste. Rehberde PowerShell Read-Host ile anahtar yolu/güncel sunucu adresi girişi vardır; agent anahtar ağacını okumaz/kullanmaz ve eski adresi kurtarmaz. Node komutları Bash history/dolar dönüşümüne karşı tek tırnaklı ve kod bloklu verilir. İlk iki hatalı sağlık/inspect komutu başarılı sayılmadı; düzeltilmiş çıktılar alındı.
+
+Canlı: katalog/HTTPS 200, DB 146/36/23; Weathrobe/Doctus aynı `weathrobe-preview_default` ağında. Gerçek imaj/volume kimlikleri kanıt dosyasında. Caddy hâlâ eski Weathrobe kurulumunun deploy/Caddyfile dosyasını bind ediyor; eski kaynak dizini silinmez ve proxy yeniden başlatılmaz. Kapasite 38 GB boş disk / yaklaşık 10 GiB kullanılabilir bellek.
+
+Ortak yedek işleri ve 23 Ekim PC makbuzu bulundu; Weathrobe günlük servisinin son sonucu 30 Ekim success/0, restore 23 Ekim success/0. Kullanıcının hatırladığı sistemi yok sayma. NOk-Doctus/deploy/shared-backups README ve kodu yalnız okundu: Oracle Object Storage/Restic, ayrı şifreler, PostgreSQL dump+roller, community ve runtime.env kapsamı var; reports_data desteği kaynakta görünmüyor. Kurulu script hash'i ve hazır --health/--operations-status çıktısı istendi. Başka depo veya canlı yardımcı değişikliği henüz onaylanmadı/uygulanmadı; gerekirse somut ek kapsam istenir. WW-05 ve canlı geçiş kapıları açık kalır.
+
+### WW-05 hazırlık arşivi doğrulaması — 30 Ekim 2026
+
+0.6.0 hazırlık paketi oluşturuldu; 248 dosya çıkarılarak tam envanter/tek tek özet ve sürüm/kaynak kimliği doğrulandı (exit 0). Arşiv SHA-256: `7904180e09d30b97d2eaba1740218f82db619b7b03909de791effee9ff5abd96`. Ayrıntılar deploy/RELEASE_EVIDENCE.md içinde. Arşiv mevcut test kapısıyla aynı kaynakta; eski arşiv korunuyor. Bu not paket sonrasında eklendi, arşiv değiştirilmedi. Ortak canlı yedeğin yeni reports_data kapsamı ve güncel bağımsız kopya/geri yükleme kanıtları açık; WW-05 tamamlanmadı ve canlı yayın yapılmadı. Sıradaki adım mevcut nok-backup sağlık/işletim özeti ve kurulu yardımcı hash eşleştirmesidir.
+
+### WW-05 ortak yedek kaynak eşleşmesi — 30 Ekim 2026
+
+Kullanıcı --health/--operations-status çıktısını sağladı: günlük yedek kaydı sağlıklı; son yedek yaklaşık 9 saat 36 dakika, tam kontrol yaklaşık 3 gün 9 saat, restore ve bağımsız kopya yaklaşık 6 gün 19 saat yaşında; eşiklere göre sorun yok. PC onayı tarihsel checksum aktarım makbuzudur, güncel dosya/restore denemesi değildir. Kurulu nok-backup hash'i yerel ortak kaynakla birebir eşleşti; yeni reports_data bu kodda toplanmıyor. Ayrıntı deploy/RELEASE_EVIDENCE.md içinde. Ortak yardımcıya rapor desteği için ek kapsam onayı istenecek; sunucu veya başka depo henüz değiştirilmedi. WW-05 açık, canlı yayın ayrı onayda kalır.
+
+### WW-05 güncel bulut yedeği geri yükleme kanıtı — 30 Ekim 2026
+
+Kullanıcının 13:48:50 Türkiye saati çıktısı: son sağlık kaydıyla aynı snapshot için restore_test ok / postgres_restore ok. Kaynak sürümü 0.3.0; 146 ürün, 0 topluluk kaydı. Bu, bugün ayrı test ortamında geri açılmış mevcut canlı sürüm yedeğidir; 0.6.0 yayını veya rapor alanı koruması değildir. Ayrıntı deploy/RELEASE_EVIDENCE.md içinde. Ek ortak yardımcı dosya kapsamı onayı ile yeni rapor desteği, bağımsız kopyanın gerçek dosya doğrulaması ve sonraki yayın kapıları açık; canlı yayın yapılmadı.
+
+### WW-05 — ortak yardımcı rapor desteği yerelde doğrulandı — 30 Ekim 2026
+
+Kullanıcının devam talebiyle son sunulan sekiz dosyalık ek kapsam uygulandı. Ortak helper 0.0.5; 62 offline test, gerçek sentetik PostgreSQL/SQLite restore, Restic şifreli kopyadan rapor restore ve gerçek Linux named-volume/UID izin testi geçti. Raporlar eski uygulamaya dönüşte de açık volume eşlemesiyle korunuyor; 0.6.0'da eksik/bozuk kapsam hata sayılıyor. Helper paketi 14 kaynak dosyasıyla byte eşleşmesi ve checksum kontrolünden geçti; SHA-256 648088b7f9b097d480dc4e0f6d22f5cb9b95556301965509b5832959b785d57a. Doctus uygulama kodu/sürümü ve gerçek sunucu değiştirilmedi. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+Sıradaki WW-05 adımı: güncel bağımsız PC kopyası ve gerçek dosya doğrulaması; ardından ortak yardımcı kurulumu için somut ayrı onay ve Oracle ARM/yayın hazırlığı. Telegram günlük başarı özeti ve yetkili /durum, /yedek, /surum, /kapasite, /kontroller önerisi ortak Doctus HEDEFLER.md 19'a kaydedildi; henüz bot kodu veya mesaj ayarı değişmedi. Aktif oturum sayımı ayrıca ölçüm/mahremiyet kapsamı gerektiriyor. WW-05 açık, uygulama yayını ayrı onayda.
+
+### WW-05 güncel bilgisayar yedeği aktarım hazırlığı — 30 Ekim 2026
+
+Ortak export-pc aracı yeni şifreli nok-backups-pc-20261030T112434Z-7342e85b.tar.gz arşivini sunucuda hazırladı; SHA-256 e443197e486843ca2aa0f778ec577278465c4cfa0e0a4fab0825e01a04f78894. Kullanıcı özel sunucu indirme kopyası için tam OK çıktısını sağladı. Bu bağımsız PC kopyası değildir; Windows PowerShell aktarım/gerçek dosya hash adımı verildi, sonucu bekleniyor. Kaynak snapshot kimlikleri/zamanları ve ayrı parola saklama durumu ayrıca uzlaştırılacak. PC makbuzu, gerçek sunucu yardımcısı ve uygulama değiştirilmedi. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### WW-05 bağımsız bilgisayar kopyası tamamlandı — 30 Ekim 2026
+
+Kullanıcı SCP %100 / yerel SHA-256 OK verdi. Agent yalnız belirtilen NOk_Backups/nok-backups-pc-20261030T112434Z-7342e85b.tar.gz dosyasının SHA-256/manifestini bağımsız salt okuma kontrolüyle doğruladı: 8.240.806 bayt, e443197e486843ca2aa0f778ec577278465c4cfa0e0a4fab0825e01a04f78894. Weathrobe kaynak snapshot'ı bugün buluttan geri açılmış fb68ff0e… ile aynı; 30 Ekim iki site verisi bulunuyor. Sunucu makbuzu kullanıcı tarafından 14:32:24 Türkiye saatinde user_confirmed olarak güncellendi. İki Restic parolasının bağımsız güvenli saklandığı kullanıcı tarafından doğrulandı; değerleri okunmadı. Bilgisayarda gerçek şifre çözme/DB restore yapılmış sayılmaz. Ayrıntılar deploy/RELEASE_EVIDENCE.md. ARM64 yerel imaj derlemeleri başladı; henüz sonuç yok. Gerçek sunucu yardımcı/uygulama kurulumu ayrı onayda.
+
+### WW-05 ARM64 ve yayın incelemesi — 30 Ekim 2026
+
+Ek ARM64 runner/tools build ve gerçek geçici ARM64 PostgreSQL/Node çalışması başarılı: 146 ürün/36 tür, sağlık/ana sayfa HTTP 200, rapor oluşturma ve tekrar göndermede çoğaltmama, özel rapor erişiminin reddi, üretim görseli SHA ve native optimizasyon, Docker CLI kontrolü geçti. Kaynak 3ae5bb5e57d21d4837604d19ea7dc7d37d8095d50aceae21f0131085caaeff12 aynı. İlk geçici prova yanlış görsel yolu nedeniyle başarısızdı; manifest yolu okunarak yalnız prova düzeltildi, son tam koşu geçti. Kendi kaynakları temizlendi. Bu ARM64 emülasyon kanıtıdır, Oracle yayını değildir.
+
+deploy/RELEASE.md ayrı canlı onay için aktarım/kimlik, eski imaj koruması, helper'ın yalnız üç dosyalık kurulumu, aynı volume/ağ ile yalnız uygulama geçişi ve eski kaynak/aynı güncel veriyle geri dönüş sınırlarını somutlaştırır. Güncel bağımsız PC kopyası ve makbuzu, ayrı Restic parola saklama beyanı tamamdır. Nihai uygulama arşivinin son doğrulaması kaydedilecek. Gerçek kurulum/yayın ve sonrasındaki rapor yedeği çalışması ayrı onay kapsamıdır; fiziksel telefon WW-03, Telegram bot genişletmesi ayrı sonraki hedeftir.
+
+### WW-05 tamamlandı — yalnız yayın hazırlığı — 30 Ekim 2026
+
+[x] Kullanıcı onaylı toplu hazırlık tamamlandı. Nihai weathrobe-0-6-0.tar.gz: 6.250.863 bayt; SHA-256 26feab20e2bb8ee92c37663ea8ceaf0ed99ef5d7b94e4726894bd0750dc8612d. Çıkarılmış 248 dosya ve kaynak manifesti doğrulandı; 0.6.0 / 3ae5bb5e57d21d4837604d19ea7dc7d37d8095d50aceae21f0131085caaeff12. Aynı kaynak için test/type/build/Linux geri dönüş ve ek ARM64 gerçek çalışma kanıtları mevcut. Ortak helper 0.0.5 ayrıca paketlendi ve 62 test/kurtarma/kopya/izin provalarıyla doğrulandı. Gerçek mevcut yedek restore, aynı snapshot'lı bağımsız PC dosyası/makbuzu ve ayrı parola saklama beyanı uzlaştırıldı. Önceki arşivler ve kişisel kayıtlar korundu; anahtar ağacına erişim veya Git gönderimi yok.
+
+Ayrıntılı son kanıt deploy/RELEASE_EVIDENCE.md, ayrı canlı geçiş/geri dönüş sınırı deploy/RELEASE.md içinde. Bu kapanış arşiv üretiminden sonra eklenmiştir; arşivin belge anlık görüntüsü değiştirilmedi. Sunucuda helper kurulumu, app 0.6.0 yayını veya yeni rapor kapsamının gerçek canlı yedeği yapılmış sayılmaz; hepsi ayrı onaylı canlı hedefin kabul adımlarıdır. Fiziksel telefon WW-03, Telegram günlük özet/sorgu botu ayrı hedeftir.
+
+Sıradaki önerilen hedef: kontrollü canlı kurulum/yayın. Önce güncel hedef/geri dönüş malzemesini tekrar kontrol et; ayrı kullanıcı onayıyla helper'ın yalnız gözden geçirilmiş üç dosyasını ve yalnız wear-weather uygulama servisini değiştir; DB/Caddy/Doctus kimliklerini ve mevcut verileri koru; gerçek sağlık/katalog/yeni rapor yedeği ile kabulü doğrula. Onay olmadan başlatma.
+
+### 2 Kasım 2026 — kontrollü canlı geçiş önkontrolü sürüyor
+
+Kullanıcı devam talebi sonrası SSH bağlantısını doğruladı. Yerel 0.6.0/helper 0.0.5 arşivleri aynı checksum'larda, runtime kaynak kapısı aynı kimlikte passed. Kullanıcı dört canlı konteyner/imaj/volume ve ortak ağın 30 Ekim kimlikleriyle aynı olduğunu doğruladı; helper hâlâ 0.0.3/6da1d7da…; gerçek kurulum yok. Disk/bellek yeterli. Weathrobe günlük yedeği healthy, bugünkü snapshot c80a9196…; önceki restore kanıtı bu farklı snapshot'ın denemesi sayılmıyor.
+
+Telegram bucket uyarısının nedeni >8 günlük manuel kapasite kaydı. Yeni Oracle Usage gözlemi yaklaşık 8,79 MiB / 81 nesne / 0 multipart. 9.216.983 yaklaşık byte ve aynı 5 GiB işletim bütçesiyle kapasite kaydı güncelleme + iki uygulama sağlık/işletim okuması istendi; sonucu bekleniyor. Doğrudan mesaj gönderme, service restart, helper veya app değişikliği yok. Ayrıntılar deploy/RELEASE_EVIDENCE.md. Sıradaki adım güncel sağlık/kapasiteyi, kurtarmayı ve korunacak eski imajı doğrulayıp kontrollü aktarıma geçmek; WW-05 hazırlık kapanışı değişmedi.
+
+### 2 Kasım — kapasite ve güncel Weathrobe kurtarma geçti
+
+11:18 Türkiye saati kullanıcı çıktısı: yaklaşık kapasite kaydı yenilendi; iki uygulama healthy, işletim/disk/bucket attention=false. Bütçe ve eşikler değiştirilmedi; doğrudan Telegram gönderilmedi. 11:21'de bugünkü c80a9196… Weathrobe snapshot'ı ayrı ortamda restore_test ok / postgres_restore ok verdi: kaynak 0.3.0, 146 ürün/0 topluluk. Eski 30 Ekim snapshot'ıyla karıştırılmadı. Sonraki adım çalışan eski imajı kimlik kontrolüyle weathrobe-rollback:20261102-b87dd78e4bd2 etiketinde korumak; blok verildi, sonucu bekleniyor. Kaynak aktarımı/gerçek helper-app kurulumu henüz yok. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — geri dönüş imajı korundu, paket aktarımı bekleniyor
+
+Kullanıcı weathrobe-rollback:20261102-b87dd78e4bd2 etiketinin mevcut b87dd78e… imajına bağlandığını verified=true / services_restarted=false çıktısıyla doğruladı. Yeni build başlamadan eski imaj korundu. Yerel app/helper arşivleri ve app manifesti yeniden hash kontrolünden geçti; aynı paketler kullanılacak. Kullanıcının ayrı PowerShell penceresinde yeni nok-release-incoming-0.6.0-20261102 klasörüne beş dosya aktaracağı blok verildi; sonucu bekleniyor. Agent anahtar ağacına erişmedi. Sonraki adım sunucu checksum/içerik doğrulaması; helper/app kurulumu henüz yok. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — gerçek sunucuda imaj ve başlangıç verisi doğrulandı
+
+Kullanıcı çıktıları: iki arşiv ve açılan 248/14 dosya doğrulandı; 0.6.0 runner/tools gerçek ARM64 sunucuda aynı 3ae5bb5e… kaynağından derlendi. Ortak helper 0.0.5 kuruldu, önceki üç root dosyası özel geri dönüş klasöründe korundu; uygulama/DB/Caddy/Doctus yeniden başlatılmadı, iki uygulama yedek sağlığı normal. Eski gizli ayarlar yeni dizine byte eşitliği doğrulanarak mode 600 kopyalandı. İmaj override ve veri kontrol betiği checksum'ları, ardından Compose config --quiet doğrulandı.
+
+Geçiş öncesi gerçek veri referansı: katalog SHA-256 `bab6429eb6ee3b3615df76b38c72b30ea6630fde9d5168ece68b7c8e3d247afd`; topluluk present=false/count=0/sha256=null; eski app tam kimliği ve çalışır durumu doğrulandı. Uygulama henüz eski sürümde. Sıradaki kapı yalnız şema hazırlama, ardından aynı içerik özetleriyle veri korunumu karşılaştırması. App geçişi, rapor kalıcılığı ve yeni raporları içeren gerçek yedek/restore henüz tamamlanmadı. Ayrıntılı imaj/yardımcı/geri dönüş kimlikleri deploy/RELEASE_EVIDENCE.md içinde. Önceki bekleyen aktarım notlarının güncel durumu budur; hazırlık hedefi ile canlı kabul ayrı tutulur.
+
+### 2 Kasım — şema hazırlığı sonrası veri korundu
+
+Gerçek sunucuda 0.6.0 catalog-migrate başarılı. after-migrate katalog SHA-256 başlangıçtaki bab6429e… özetiyle birebir aynı; topluluk present=false/count=0/sha256=null. Eski uygulama kimliği/imajı hâlâ çalışıyor. Sonraki adım yalnız wear-weather servisini doğrulanmış 0.6.0 imajına geçirmek ve ardından sağlık/sürüm/veri/diğer servis korunumu doğrulaması. Geçiş sonucu ve yeni raporları kapsayan gerçek backup/restore henüz bekliyor. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — 0.6.0 çalışıyor; son yayın kontrolleri sürüyor
+
+Yalnız wear-weather geçişi yapıldı, reports_data oluşturuldu. Ayrı after-deploy kontrolü HTTP 200/status ok, version 0.6.0, doğru 3ae5bb5e… kaynak, arm64, 146 ürün/36 tür verdi. Katalog SHA-256 bab6429e… ve topluluk yok/0 durumu başlangıçla aynı; DB kimlik kapısı geçti. Yeni uygulama kimliği d162cc0c…, imaj 51f284b7…. Dış HTTPS, DB/Caddy/Doctus son kimlik kontrolü, rapor güvenliği/kalıcılığı ve yeni rapor kapsamlı gerçek backup/restore henüz bekliyor. Yayın tamamlandı kabul edilmedi. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — HTTPS ve geri bildirim kabul kapıları geçti
+
+Gerçek dış HTTPS sayfa/sağlık 200; doğru 0.6.0 kaynak ve 146 ürün/36 tür. DB/Caddy/Doctus tam kimlikleri/imajları değişmemiş, hepsi çalışıyor. Sentetik geri bildirim ilk POST 201/tekrar 200 ve tek kayıt; özel okuma 405/dosya 404, kötü Origin 403/onaysız gönderim 400; güvenli çerez ve UID1001/0700/0600 geçti. Önce 0, sonra 1 rapor; sentetik kayıt yedek kanıtı için saklanıyor. Sonraki kapı yeni sürüm ve raporu içeren gerçek backup + ayrı ortam restore-test, ardından sunucu dışı güncel kopya ve kullanıcı görünüm kontrolü. Nihai yayın kapanışı henüz verilmedi. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — 0.6.0 ve raporun gerçek kurtarma kanıtı tamamlandı
+
+Yeni gerçek snapshot 86d5899bf1c8173c0289fdc9a202c394ec3da448d0d8fc240b8c6904bbcb6590; yedek/depo kontrolü başarılı. Ayrı ortam restore-test 13:14 Türkiye saatinde ok: source_version 0.6.0, PostgreSQL ok, 146 ürün/0 topluluk, reports_coverage present/report_count 1. Sentetik rapor yeni ortak yedekten geri açıldı; canlıya restore yapılmadı. Sıradaki kapı güncel bağımsız bilgisayar arşivi hazırlama/aktarım/hash/makbuz ve son kullanıcı görünüm kontrolü. Eski bilgisayar kopyası korunuyor; yeni snapshot'ı içerdiği iddia edilmiyor. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — güncel bilgisayar yedeği ve makbuz tamamlandı
+
+Yeni nok-backups-pc-20261102T101534Z-88236fe3.tar.gz arşivi mevcut NOk_Backups klasörüne aktarıldı; kullanıcı ve agent tam dosya SHA-256 kontrolü 613b12ff… ile eşleşti. Eski kopya korundu. Sunucu aktarım makbuzu gerçek kontrolden sonra 13:21:57 Türkiye saatinde user_confirmed olarak güncellendi. Şifre çözme veya bilgisayar arşivinden restore iddiası yok; yeni Weathrobe bulut snapshot'ının ayrı ortam geri yüklemesi zaten başarılı. Son işletim/volume/görsel HTTP kontrolleri ve kullanıcının tarayıcı görünüm/kayıt kontrolü bekleniyor. Ayrıntı deploy/RELEASE_EVIDENCE.md.
+
+### 2 Kasım — canlı teknik kapılar geçti; son tarayıcı kabulü bekleniyor
+
+13:25 Türkiye son kontrolü: uygulama healthy, doğru eski community/yeni reports volume'ları ve ortak ağ; iki sitenin yedek sağlığı normal, birleşik operations attention=false. Güncel bağımsız kopya makbuzu doğrulandı. 30 gerçek üretim görselinin dış HTTPS tam hash eşitliği ve Next image optimizasyon 200 kontrolü geçti. Sağlık/katalog/veri, rapor güvenliği/kalıcılığı, yeni raporlu snapshot gerçek restore ve bilgisayar kopyası kanıtları deploy/RELEASE_EVIDENCE.md içinde.
+
+Nihai yayın kabulü için aynı tarayıcı/origin'de sürüm, varsa kişisel kayıtlar, gece/ileri tarih arayüzü, geri bildirim penceresi ve stüdyo görsellerinin kullanıcı kontrolü bekleniyor. Site verileri temizlenmeyecek. WW-03 fiziksel telefon/kapsamlı akışları bu teknik sonuçlarla bitmiş sayılmaz. Yayın kabulünden sonraki önerilen hedef WW-03; bu öneri yeni hedef başlatıldığı anlamına gelmez.
+
+### 2 Kasım 2026 — kullanıcı kabulü alındı; kontrollü canlı yayın kapandı
+
+Kullanıcı sürüm 0.6.0, gece Açık gece etiketi/ileri tarih seçimi, geri bildirim penceresi ve yeni stüdyo görsellerini doğruladı. Önceden kişisel kayıt bulunmadığını belirtti; gerçek kullanıcı kayıt korunumu uygulanamadı, başarılı sayılmadı. Teknik sağlık/veri/rapor izinleri, 30 görsel HTTPS hash/optimizasyon, raporlu gerçek snapshot restore ve güncel bağımsız PC kopyası/makbuzu kanıtları tamam. DB/Caddy/Doctus ve eski geri dönüş imajı korundu.
+
+WW-05 hazırlık (30 Ekim) ve ayrı onaylı canlı geçiş/kısa kabul (2 Kasım) tamamlandı. WW-01 ve WW-02 bu yayın kapsamındaki kabul kanıtlarıyla uzlaştırıldı; düzenli bakım devam eder. Fiziksel telefon ve kapsamlı masaüstü akışları **WW-03 açık**, önerilen sonraki hedeftir; henüz başlatılmadı. Ayrıntılı kapanış ve sınırlar deploy/RELEASE_EVIDENCE.md içinde. Doğrulanmış 0.6.0 kodu/arşivi değiştirilmedi; bu kapanış belge güncellemesidir.
+
+
+<!-- nok-release-center-local-2026-11-02 -->
+## 2 Kasım — WW-27 ortak yayın merkezi ve WW-28 güvenlik sırası
+
+Kullanıcı dosya/depo kapsamını onayladı; kaynak depoları mevcut görünürlükte kalacak, yalnız yeni yayın depoları private olacak. GitHub işlemlerini kullanıcı GitHub Desktop ile yapmayı seçti. Ortak merkez `NOk_Sites&Extensions` klasörü altında dört ayrı yerel Git deposu: NOk-Release-Core, NOk-Weathrobe-Release, NOk-Doctus-Release, NOk-FilmDeck-Release. Üst klasör tek depo yapılmadı. Yalnız gözden geçirilmiş otomasyon kaynakları commit edildi; uygulamaların mevcut commitlenmemiş işleri topluca commit/push edilmedi. Mevcut NOk-Tools runtime kopyası korundu.
+
+| Hedef | Durum / kabul sınırı |
+| --- | --- |
+| WW-27 / Doctus 18 — ortak yayın otomasyonu | Yerel kurulum/test tamam; dört private GitHub Publish, uzak CI ve ilk yeni otomatik gerçek yayın/mağaza kabulü bekliyor. Tek operatör release komutu, hash/makbuz, detached kalıcı iş/durum, yalnız hedef uygulama, yedek/izole restore, PC kopyası/hash/makbuz akışı uygulandı. Varsayılan plan; gerçek işlem açık --apply ve o sürümün kullanıcı onayı gerektirir. |
+| WW-28 — üç projede güvenlik ve görünürlük incelemesi | Sonraki öncelik. Yalnız Weathrobe/Doctus/FilmDeck public kaynak/Git geçmişi, işletim bilgileri, artifact/log/issue içerikleri, yetkili API ve kullanıcı veri sınırları incelensin. Riskli yapı için private depo/sunucuya özel yapılandırma/sır yönetimi uygunluğunu belirle; bulguları sır basmadan kaydet, görünürlük/izin/geçmiş veya anahtar değişikliklerini somut kapsamla onaya sun. Private yapmak tek başına uygulama güvenliği veya geçmiş sızıntının giderilmesi sayılmaz. |
+| WW-03 | Açık; kullanıcı tercihiyle otomasyon ve güvenlik önceliğinin ardından kapsamlı masaüstü/gerçek telefon kabulü. |
+
+Yeni motor 0.1.0: 11 ortak Node + 9 paket/sahte mağaza testi =20/20; ağsız Linux ortamında Weathrobe 8 + Doctus 3 + kalıcı iş 7 =18/18. Gerçek SSH/sunucu/magaza kullanmadan başarılı ve başarısız geçiş, yalnız uygulama geri dönüşü, kaynak/adapter değişikliği, kesilmiş iş, yedek/PC kopyası hataları sınandı. FilmDeck kaynak 0.7.7.2 için 180/180 Node testi geçti, iki tarayıcıya uygun 14'er runtime dosyalı ZIP üretildi; paket makbuzları kaynak ve otomasyon kimliklerine bağlandı, not-submitted. Yeni server adaptörlerinin gerçek canlı kabulü yapılmadı. GitHub prepare workflow'u plan üretir; tam uygulama hazırlığı/transfer yerel komuttadır; üretim SSH/mağaza sırları GitHub'a taşınmadı.
+
+Codex/Claude kullanıcı düzeyi ve üst klasör notları ile mevcut üç projenin AGENTS/CLAUDE bağlantıları kuruldu (10 dosya, mevcut kurallar korunarak). Yeni site/eklenti projeleri merkezde register ve incelenmiş hedef profiliyle kendi yapılarını kuracak; eksik adaptor registered-not-ready durumunda durur. Parent notu tek başına her Git köküne otomatik uygulanır varsayılmadı; global ve proje içi bağlantılar birlikte eklendi. Kuralın bu sohbete yüklenmesi görüldü; başka yeni sohbet ajanı başlatılmadı.
+
+Merkezdeki README.md, VALIDATION.md, GITHUB_DESKTOP.md ve ROADMAP.md güncel kullanım/kanıtları taşır. Doctus'un eski 0.0.10 arşiv/baz/adaptör hash'leri sağlam, güncel kaynak eski native makbuzla uyuşmadığından verify beklenen şekilde durur; yeni sürüm/kanıt gerekir. Weathrobe'un mevcut 0.6.0 kaynak/arşiv kapısı doğrulandı; aynı canlı sürümü yeniden yayınlamak için kullanılmaz. Bu kurulum gerçek siteleri, verileri veya mağaza hesaplarını değiştirmedi; private GitHub depoları kullanıcı Publish sonrası ayrıca doğrulanacak.
+
+<!-- ww28-source-ci-2026-11-02 -->
+## WW-28/1 — 2 Kasım 2026, CI kapsamı
+
+Kaynak CI için npm check, test/typecheck ve audit komutları; lint kapsamı app/components/hooks/lib, özel/üretilen dizinler hariç. State/effect düzeltmeleri hydration, modal açılışı, seçimden çıkan anchor ve iptal edilen şehir araması akışlarını korur. Ek onay: tests/weather-plan-ui.test.cjs mock'u useSyncExternalStore/server snapshot ve render-phase tekrarını destekleyecek; yarış/kayıt koruma kontrolleri kapatılmayacak.
+
+Bağımlılık sürümü/lock, kişisel anahtarlar, üretim ayarları, manifest, Git görünürlüğü ve eski yayın arşivleri değişmedi. Ayrıntılı kanıt ve kalan işler: ../NOk_Sites&Extensions/NOk-Release-Core/docs/WW28_SECURITY_AND_CI_AUDIT.md. Yerel doğrulama sonuçları aşağıya eklenecek; GitHub koşuları kaynaklar gözden geçirilip ayrıca gönderildikten sonra doğrulanmalı.
+
+### WW-28/1 yerel doğrulama sonucu
+
+2 Kasım 2026: Weathrobe lint 0 hata / 8 mevcut uyarı; typecheck ve temiz Linux üretim build'i geçti. Linux CJS 158 geçti / 0 başarısız / 5 bağlamsal skip; ayrı PostgreSQL grupları 1/1 ve 21/21, Docker rapor grubu 9/9 geçti. Eski 74 ürünlü snapshot testi bu tur çalıştırılmadı. Sentetik Edge TR/EN, kayıt korunumu, modal/arama ve 390px kaynak modalı kontrolleri geçti; fiziksel telefon değildir. Tüm projelerin yeni npm güvenlik eşikleri geçti; orta geliştirme bulguları açık kayıtta. Uzak CI, gerekli check/ruleset ve yeni otomatik CD kabulü henüz yok.
+
+Sonraki adım: gözden geçirilmiş kaynak/CI dosyaları için ayrı commit/push kapsamı ve gerçek GitHub koşularının doğrulanması; ardından WW-28/2 API erişim/kaynak tüketimi ve önbellek/konum gizliliği. Bu kayıt WW-28'in bütünü veya canlı yayın onayı değildir.
+
+<!-- ww28-private-evidence-2026-11-02 -->
+## WW-28/1 — private görsel kanıt ayrımı, 2 Kasım 2026
+
+Onaylanan 29 kod/test/belge dosyası ve 33 varlık kopyası + 1 envanter kapsamında uygulama ve private yayın kanıtı ayrıldı. 33 dosyanın toplam 49.317.827 byte kopyası özgünlerle birebir eşleşti; kaynaklar silinmedi. Envanter SHA-256: `08ccdeb037d06ef338fa8bfc6fae9caad38a14110964cee644ca18a11a370029`. Üretim WebP'leri, tasarım ID'leri ve kişisel kayıtlar değiştirilmedi.
+
+- Public testler yalnız runtime varlıkları ve koddan üretilen SVG'leri kontrol ediyor. Kayıtlı HTML/özgün PNG/kabul denetimleri private hedefe taşındı; test sessizce atlanmadı.
+- Temiz, özgün/özel kanıt ve gerçek ayar içermeyen Linux Node 24 bağlamında `npm run check`: 152 geçti / 0 başarısız / 5 bağlamsal skip; lint 0 hata / 8 mevcut uyarı, typecheck ve Next üretim build'i geçti. Önceki 163 sayısı ayrımdan önceki toplamdır. Üç DB ve bir Docker kontrolünün önceki ayrı kanıtları korunur; tarihsel 74 ürün restore testi hâlâ çalıştırılmadı. Bu tur veri tabanı/tarayıcı/telefon kontrolü yeniden yapılmadı.
+- Private gerçek görsel doğrulaması 9/9, Core kapı testleri 21/21. Eksik/değişmiş özgün, envanter, yanlış kaynak ve değişen doğrulayıcı/test kodu yeni yayını engeller. Kanıt sourceId + envanter + doğrulayıcı ve iki testin ortak hash'i ile makbuza bağlanır. Geçerli eski makbuzla status/resume mevcut işi yalnız izler; yeni yayın başlatmaz.
+- Private workflow kesin incelenmiş kaynak commit'i ister; `main` girdisi reddedildi. Public guard'ın sentetik private dosyayı reddi ve gerçek public index'te özel varlık olmaması doğrulandı.
+
+Core/Weathrobe yayın araçları 0.1.1 oldu; uygulama 0.6.0 ve eski değişmez arşivler korundu. Güncel çalışma kaynakları eski 0.6.0 paketinin hazırlık kanıtı gibi kullanılamaz. Commit/push, Core action referanslarını değiştirme, gerçek otomatik yayın veya mağaza işlemi yapılmadı. Doctus'un mevcut taslak PR'ı ve klinik çalışmaları korunur.
+
+**Sıradaki hedef:** gözden geçirilmiş public kaynak/private kanıt/CI dosyaları için ayrı GitHub gönderim kapsamını sun; Core commit'i ve hedef workflow referanslarını eşleştir; kesin kaynak commit'inde gerçek uzak CI/kanıt koşularını doğrula. Sonrasında WW-28/2 API erişim/kullanım sınırları ve konum/önbellek gizliliği ayrı kapsamla ele alınacak. WW-28 bütünü açık; WW-03 gerçek telefon kabulü de açık.
+
+### Ek satır sonu koruması onayı
+
+Kullanıcı aynı aşamada private `.gitattributes` dosyasını da onayladı: mevcut kurallar korunarak `/evidence/ww21/** -text` eklendi. Gerçek dosyalarda dönüşüm veya global Git ayarı değişikliği yapılmadı. Ayrı sentetik Git deposunda core.autocrlf=true ile commit ve yeniden checkout sonrası 34 kanıt/envanter dosyasının hem blob hem çalışma kopyası hash'leri eşleşti. Gerçek depolarda commit/push yapılmadı. Nihai kapsam 30 kod/test/belge dosyası + 33 varlık kopyası + 1 envanterdir.
+
+## 16 Kasım 2026 — Claude incelemesi için WW-28 devri
+
+Yerel dal `codex/ww28-weathrobe`, taban `f8cd86a`. Çalışma kopyası Codex'in ayrı git worktree klasörü. Dalda kaynak, test ve CI değişiklikleri çalışma ağacında bulunuyor. GitHub dalına gönderme ve PR sürecini kullanıcı yürütecek. İnceleme kopyasının 109 dosyalık kapsamı Weathrobe'un yereldeki 0.6.0 uygulama temelini de taşıyor. Yeni WW-28/2 diff'inin odak dosyaları `app/api/ai-stylist/route.ts`, `lib/ai-stylist-input.ts`, `components/WardrobeModal.tsx`, `app/api/geocode/route.ts`, `app/api/route/route.ts`, `app/api/weather/route.ts`, `public/sw.js` ve `tests/ai-stylist-security.test.cjs`.
+
+İnceleme başlıkları: tarayıcı kaynaklı çapraz köken reddi, sunucu Gemini anahtarının anonim istekten kullanılamaması, bozuk ve büyük akış gövdeleri, kişisel Gemini anahtarıyla tek sınırlı istek, sağlayıcı hata içeriğinin ayıklanması, koordinat hassasiyeti ve eski API önbelleğinin temizlenmesi. Sabit oran ve eşzamanlı limitler tek uygulama süreci içindir. Adres/rota sağlayıcıları arayüzden gelen koordinatları, hava sağlayıcıları iki ondalık konumu görür. Dış sağlayıcı saklama politikaları bu diff'in dışında kalır.
+
+İlk `npm run check` doğrulaması: 0 lint hatası, 8 mevcut uyarı, typecheck başarılı, 158 test geçti ve 5 entegrasyon senaryosu varsayılan koşuda atlandı. Next.js üretim derlemesi tamamlandı. İlk Windows derlemesinde paylaşımlı `node_modules` junction'ı standalone trace kopyasına uyarı verdi. npm üretim taraması 0 açık, tam taramada yüksek/kritik 0, aynı `minimatch` bildirimi zincirinde 7 orta seviye npm kaydı. `npm audit fix --dry-run` uyumlu değişiklik önermedi. Yerel kaynak doğrulaması GitHub Actions veya gerçek Gemini çağrısı kanıtı sağlamaz.
+
+Son doğrulama: Windows kopyasında kurulu paket envanteri kilit ile eşleşti (504 kayıt, 0 eksik, 0 uyuşmazlık) ve `standalone/server.js` oluştu. Linux Docker imajı temiz `npm ci` ile üretildi ve ağsız çalışma testi ana sayfada 200, anahtarsız taslakta 200 ve bozuk konumda 400 verdi. PostgreSQL yaşam döngüsü 1/1, sentetik entegrasyon paketi 30/30 geçti. Bu paket, gözden geçirilen katalog içe aktarımını, salt okunur uygulama rolünü ve konteyner değişiminden sonra rapor kalıcılığını kapsıyor. Önceki 74 ürünlük yedek şeması senaryosu geçmiş fixture gerektiriyor. Yerel private stüdyo kanıtı 9/9 geçti. Kaynak kimliği `bee4c82d355998721d5d569f5e9dbddbe022b9da65302e6a5bf8f8210b4fdd93`. Bu, kesin GitHub commit'ine bağlı uzak makbuz yerine kullanılmamalı.
+
+Çalışma ağacında 109 dosya kontrol edildi. Bilinen anahtar biçimleri ve gerçek adres kalıbı için eşleşme 0, kurulum testlerindeki 4 adres RFC dokümantasyon örneği. GitHub bağlayıcısı üç uygulama deposunu gördü, dört private yayın deposu için yeterli erişim vermedi. Geçmiş yayın arşivi ve Actions loglarının tümü ile zorunlu GitHub check ayarları bu oturumda doğrulanmadı. Önce Claude incelemesi, ardından kullanıcı tarafından yayımlanan kesin dal commit'inde CI ve görsel kanıt koşusu. Sonraki ürün hedefi WW-03.
+
+<!-- ww28-2-claude-review-2026-11-16 -->
+## 16 Kasım 2026 — WW-28/2 Claude incelemesi ve düzeltme devri
+
+Dal `claude/weathrobe`, taban `main` @ `1c090c0`; commit yok. Codex'in WW-28/2 diff'i incelendi, engelleyici bulgu çıkmadı. Kullanıcı onayıyla beş düzeltme uygulandı; ayrıntı ve sınırlar PROJECT_GOALS.md aynı tarihli bölümde.
+
+- `lib/upstream-policy.ts`: `UPSTREAM_USER_AGENT` (sürüm `lib/release.ts` üzerinden package.json), `roundForReverseGeocode` (3 ondalık), `roundForRouting` (4 ondalık), `createWindowLimit`, `createSpacedQueue`, `createMemo`, `nominatimReverse` ve `tooManyRequests`. `nominatimReverse` çağıranın `fetch`'ini kullanır; böylece istek route içinde kalır ve testlerdeki sahte fetch ile sınanır. Kuyruk gerçek zamanlı `performance.now()` ile aralık bırakır; arka arkaya iki Nominatim çağrısı yaklaşık 1,1 sn bekletir, ilk rota isteği bu yüzden en fazla bu kadar uzar.
+- `app/api/geocode/route.ts`: geçersiz koordinat bütçe harcamadan 400; ters ve ileri arama ortak 120/dk bütçe; ters arama yardımcıdan geçer, yanıt istemcinin kendi koordinatını korur.
+- `app/api/route/route.ts`: 30/dk bütçe, OSRM'e 4 ondalık, ara durak adları yardımcıdan. Sınırlanan istek sağlayıcıya hiç gitmez.
+- `app/api/ai-stylist/route.ts`: eşzamanlılık aşımı `Retry-After: 5`; anahtarlı istek için 30/dk ve pencerede kalan gerçek süre; anahtarlı istekte Origin yoksa 403. İstemci (`WardrobeModal`) aynı köken POST'u kullandığı için tarayıcı Origin'i gönderir.
+- Testler: `tests/upstream-policy.test.cjs` (6 test) her yüklemede taze modül durumu kurar; ağ yok, sentetik koordinat/isim. `tests/ai-stylist-security.test.cjs` yeni bütçe anlamına göre güncellendi; `tests/weather-flow.test.cjs` tek assertion 3 ondalık ve User-Agent'ı bekler.
+- Windows'ta testler PowerShell'den çalıştırılmalı (Git Bash GNU tar iki yayın testini düşürür). Kanıt: odaklı 26/26, tüm CJS 164 geçti / 0 başarısız / 5 atlama, lint 0 hata / 8 uyarı, typecheck ve build exit 0.
+
+Sıradaki: kullanıcı onayıyla yalnız bu düzeltme dosyalarının commit/push'u ve uzak CI; Codex incelemesi (NOk-Tools `AGENT_NOTES.md` N-021). Sonraki ürün hedefi WW-03.
+
+<!-- ww03-desktop-2026-11-16 -->
+## 16 Kasım 2026 — WW-03 masaüstü turu devri
+
+`claude/weathrobe` = `main` @ `3fef9e9`; kod değişmedi. Yerel kurulum: `npm run catalog:local` (146 ürün, mevcut yayınlar korundu, kapsayıcı yeniden oluşturuldu, `weathrobe-local_postgres_data` volume'u korundu), `next start` ile 3000 portu; önizleme için yerel ve commit edilmeyen `.claude/launch.json` (`weathrobe-prod`). Tur sonunda sunucu ve `weathrobe-local-db-1` durduruldu. Tarayıcıdaki localhost test kayıtları (varsayılan dolap + sentetik ekleme, dil) temizlendi. Yerel `.data/reports` içinde sentetik bir rapor kaldı (İngilizce açıklama "Synthetic WW-03 desktop acceptance check").
+
+13 senaryonun 12'si masaüstünde geçti; konum reddi öykünmeyle sınandı. Mobil öykünmede (360 px) M1 (11/10 px giriş yazısı → iOS yakınlaştırma) ve M2 (44 px altı dokunma hedefleri) bulundu; ilgili alanlar konum arama (`LocationSearch`), harita durak arama/saat ve tıklama modu (`RealCityMap`), üst simgeler (`Navbar`) ve stilleri (`app/globals.css`). Düzeltme ayrı kapsam onayı bekliyor. Ayrıntılı matris ve kullanıcı telefon listesi PROJECT_GOALS.md aynı tarihli bölümde.
+
+<!-- ww03-phone-2026-11-16 -->
+## 16 Kasım 2026 — WW-03 telefon turu
+
+Kullanıcı canlı 0.6.0'ı telefonunda Firefox ile denedi: izin reddi uyarısı, katalogdan ekleme ve yenilemede saklama, kaydetme/kaldırma, Eşleştir ve 3D, yarın planı (klavye açıkken), EN, geri bildirim önizlemesi ve güvenli alan geçti. M1 (odakta yakınlaşma) Firefox'ta görülmedi; iOS/WebKit riski doğrulanmadı. M2 (küçük dokunma hedefleri) kullanıcı tarafından doğrulandı. Konum saklamada kullanıcı ilkesi: tam konum yok, ilçe/semt düzeyi; saklanacaksa yuvarlanmış koordinat + ilçe etiketi. Sıradaki: M1–M2 düzeltme kapsamı (yalnız `app/globals.css` sonuna dokunmatik ekran bloğu + CSS testi) onaya sunuldu.
+
+<!-- ww03-m1m2-2026-11-16 -->
+## 16 Kasım 2026 — WW-03 M1–M2 düzeltmesi (Claude, 16 Kasım 2026, commit yok)
+
+- **Değişiklik:** `app/globals.css` sonuna yalnız `@media (pointer: coarse)` bloğu; masaüstü değerleri aynı kaldı (1024 px'te konum 12 px/39 px, harita arama 11 px/17 px, simge 40×40). Yeni test `tests/mobile-touch-targets.test.cjs` (3 test). `.tsx` dosyası değişmedi.
+- **Ölçüm (yerel üretim derlemesi, dokunmatik öykünme):** 360 px'te konum arama 16 px/44 px, harita durak arama 16 px/44 px, durak saati 16 px/104×44, dil seçimi 16 px/54×44 (TR ve EN sığıyor), "Tıkla: durak ekle" 91×44, durak hapı 56×44, konum sonuç satırları 307×44, "Konumumu kullan" 44 px, App Preview 33×44, üst simgeler 38×44 (geri bildirim simgesi 44×44). Harita arama çubuğu 61 → 45 px. Yatay taşma yok (360/375/390/412).
+- **Üst çubuk:** 360 ve 375 px'te değişiklikten önce de iki satırdı (122 px); 390 px'te tek satır kalıyor (70 px, TR ve EN); 412 px'te 68 px. Bunun için simgeler 44 yerine 38 px genişlikte bırakıldı; 44 px genişlik 390 px'te çubuğu ikiye bölüyordu.
+- **Doğrulanmayan:** harita arama sonuç düğmeleri ve aktif durak saat alanı ekranda ölçülmedi (kural ve testte var); iOS Safari'de gerçek yakınlaşma davranışı telefonda denenmedi.
+- **Kontrol:** `npm run check` (PowerShell) exit 0: lint 0 hata / 8 uyarı, typecheck, 172 test (167 geçti / 0 başarısız / 5 atlama), build.
+
+- **Gönderim:** kullanıcı onayıyla yalnız iki dosya `a9645dc` olarak `origin/claude/weathrobe` dalına gönderildi (taban `main` @ `3fef9e9`). PR kullanıcıda; Codex incelemesi N-022.
+- **Uzak CI:** "Weathrobe Quality" koşusu 43944402688 (push, `a9645dc`) başarılı.
+
+<!-- ww29-1-2026-11-16 -->
+## 16 Kasım 2026 — WW-29/1 ısıl çekirdek ve teşekkür alanı (Claude, 16 Kasım 2026, commit yok)
+
+- **Kullanıcı kararı:** kombin eşleştirme bilimsel temele oturacak (WW-29; araştırma notu yerel `KOMBIN_SISTEMI_ARASTIRMASI.md`). Kullanılan her içerik (MIT dahil) göze sokmadan ayrı bir alanda teşekkür, lisans ve kullanım açıklamasıyla anılacak.
+- **Kod:** `lib/thermal-model.ts` (ISO 9920 toplama ve rüzgâr/yürüme düzeltmesi, ISO 11079 IREQ/ICL/DLE; pythermalcomfort MIT kodundan port), `lib/credits.ts` (5 grup, 34 kayıt), "Kaynaklar & gizlilik" içinde kapalı "Teşekkürler ve kaynaklar" bölümü, `THIRD_PARTY_NOTICES.md` (MIT metni), `app/globals.css` sonuna stil, `lib/translations.ts` iki metin. Öneri motoruna bağlanmadı; kullanıcıya görünen öneriler değişmedi.
+- **Testler:** `tests/thermal-model.test.cjs` (8; ISO 11079 Tablo F1'in 8 satırı, pythermalcomfort örnekleri), `tests/credits.test.cjs` (3; her bağımlılık doğru lisansla, 9 dış adresin her biri bir teşekkür kaydına bağlı). PowerShell `npm run check` exit 0: 183 test (178 geçti / 0 başarısız / 5 atlama), lint 0 hata / 8 uyarı, typecheck, build. Tarayıcı (390 px): bölüm kapalı açılıyor, TR/EN, 42 dış bağlantı `noopener`, yatay taşma yok; ekran görüntüsü alınamadı (pencere arka planda), kontrol metin/DOM ile.
+- **Bulgular:** (1) IREQ sürekli maruziyet içindir; 10 °C yürüyüşte 1,45–1,93 clo ister, "kazak + kot" ~0,8–1,0 clo. Kısa yolculuk DLE ile değerlendirilir (`assessOutfit`, varsayılan 8 saat; 29/2'de rota süresi bağlanacak). (2) 10 °C üstü ISO 11079 dışı; sayı `extended` etiketli, karar `unknown`. Sıcak hava için ayrı model gerekli. (3) Dış giyim (mont, parka, yağmurluk, softshell, rüzgârlık, panço) ve bere/atkı/eldiven için kaynaklı clo yok → `null`. Kaynak adayı: ISO 9920 Ek A (ücretli) veya yayımlanmış manken ölçümleri. (4) motion, @hookform/resolvers, class-variance-authority, @tailwindcss/typography, tw-animate-css kurulu ama kodda kullanılmıyor.
+- **Varsayımlar (kodda belgeli):** iç çamaşırı 0,04 clo; rüzgâr 10 m → 1,1 m log profil (z0 0,01 m, ×0,68); hava geçirgenliği 50 l/(m² s); güneş ışınımı yok (ışınım sıcaklığı = hava sıcaklığı); etkinlik: oturma/bekleme 1,2 met, yürüme 2,0 met (0,89 m/s), aktif 2,6 met (1,2 m/s).
+
+- **Gönderim:** kullanıcı onayıyla yalnız 8 dosya `450eed0` olarak `origin/claude/weathrobe` dalına gönderildi (taban `a9645dc`). PR kullanıcıda; Codex incelemesi N-023.
+- **Uzak CI:** "Weathrobe Quality" koşusu 43953935753 (push, `450eed0`) başarılı.
+
+<!-- ww29-2a-2026-11-17 -->
+## 17 Kasım 2026 — WW-29/2a ısıl çekirdeğin öneriye bağlanması (Claude, 17 Kasım 2026, commit yok)
+
+- **Kararlar (kullanıcı):** dış giyimde ikincil değerler (şişme mont 0,55, palto/parka 0,60–0,70 clo; Engineering ToolBox, "doğrulanmadı"), süre plan aralığından yoksa 1 saat, etkinlik varsayılanı yürüme, sıra 29/2a → 29/2b.
+- **Ne değişti:** "Günün kombini", "Eşleştir" ve "Dolabımdan" yolları ≤10 °C'de kombini bütün olarak ISO 11079'a göre değerlendiriyor (`lib/outfit-thermal.ts`). Önce karar sınıfı (yeterli > doğrulanamadı > fazla > yetersiz), kanıtlanamıyorsa kaynaklı parçaların açığı, sonra mevcut tercihten uzaklık. 10 °C üstünde seçim birebir eskisi gibi. Plan için en soğuk saat ve en güçlü rüzgâr kullanılıyor; kişisel ısı ofseti sıcaklığı kaydırıyor. Katalog 1–5 puanı yalnız türün kaynaklı aralığında nokta seçiyor (WW-10). Kartta TR/EN tek satır gerekçe.
+- **Önemli bulgu ve karar:** İkincil değerler alt sınır olarak da güvenilir değil: `coat-parka` türü hafif trençkotu da kapsıyor. Tarayıcıda Erzurum'da (0 °C) öneri şişme montu bırakıp varsayılan dolaptaki trençkota geçti. Düzeltme: ikincil değerler hiçbir kararı belirlemiyor; yeterlilik yalnız kaynaklı parçalarla kanıtlanıyor. Sonuç: kışın montlu kombinlerde not "doğrulanamadı". Gerçek karar için kaynaklı dış giyim değeri (ISO 9920 Ek A veya yayımlanmış manken ölçümleri) gerekli. Tür ayrımı (trençkot ≠ parka) ayrı bir taksonomi işi.
+- **Testler:** `tests/outfit-thermal.test.cjs` (7, Erzurum regresyonu dahil), `tests/thermal-model.test.cjs` güncellendi (10). PowerShell `npm run check` exit 0: 191 test (186 geçti / 0 başarısız / 5 atlama), lint 0 hata / 8 uyarı, typecheck, build. Kombin araması ~7–11 ms.
+- **Tarayıcı:** İstanbul 12 °C "kural tabanlı" notu; Erzurum 0 °C üç sekmede şişme mont ve "doğrulanamadı" notu, TR/EN. Ekran görüntüsü değil, sayfa metni/DOM ile.
+- **Sonraki (29/2b):** sıcak hava (SolarCal + ISO 7933 PHS), 10–15 °C boşluğu; kaynaklı dış giyim değeri; trençkot/parka tür ayrımı.
+
+- **Gönderim:** kullanıcı onayıyla yalnız 9 dosya `79666ab` olarak `origin/claude/weathrobe` dalına gönderildi (taban `450eed0`). PR kullanıcıda; Codex incelemesi N-024.
+- **Uzak CI:** "Weathrobe Quality" koşusu 43962094843 (push, `79666ab`) başarılı.
+
+<!-- pr9-security-2026-11-17 -->
+## 17 Kasım 2026 — PR #9 güvenlik denetimi — bekleme kararı (17 Kasım 2026)
+
+PR #9 (`claude/weathrobe` → `main`, `79666ab`) "Dependency security" işinde kırmızı: `npm audit --audit-level=high` geliştirme zincirinde GHSA-fc5q-39xc-vjpf (picomatch ≤4.0.7, yüksek, düzeltilmiş sürüm yok) ve GHSA-g3hv-75wg-m249 (minimatch, orta, `typescript-eslint` 8.73.0 ile kapanıyor). Üretim denetimi temiz. **Kullanıcı kararı:** güvenlik öncelikli; istisna/gevşetme yok, PR ilerletilmez, ara ara yeniden denenir, çözülünce birleştirilir. İş `claude/weathrobe` dalında sürer (AGENT_NOTES N-025).
+
+<!-- ww29-2b-2026-11-17 -->
+## 17 Kasım 2026 — WW-29/2b 10 °C üstü konfor modeli (Claude, 17 Kasım 2026, commit yok)
+
+- **Kararlar (kullanıcı):** model Gagge iki düğümlü (ASHRAE 55 SET*) + SolarCal; hissedilen ±1 kabul edilebilir, ±0,5'e yakın olan tercih; kentte yarı gölge; emilim 0,7; etkinlik yürüme. PHS sonraya; dış giyim kaynağı ve trençkot ayrımı 29/2c.
+- **Ne değişti:** Open-Meteo'dan doğrudan normal ışınım (anlık ve saatlik). 10 °C üstündeki her plan saati (plan yoksa anlık değer) için kombinin bir saat sonraki hissi hesaplanıyor; güneş SolarCal ile ışınım sıcaklığına ekleniyor. Plan aralığı 10 °C'nin iki yanına düşerse soğuk (ISO 11079) ve ılık (SET*) kontrolleri birlikte; biri başarısızsa kombin başarısız. Kart notu "SET* modeline göre … rahat (güneş dahil)" / "sıcak gelir; daha hafif bir parça seç" / "serin gelir; bir katman ekle". Kural tabanlı yol artık yalnız hiçbir model uygulanamazsa.
+- **Doğrulama:** `tests/comfort-model.test.cjs` (FedericoTartarini/validation-data-comfort-models v1.1.0, MIT: iki düğümlü 10 vaka, SolarCal 27 ASHRAE 55 vakası; pythermalcomfort'tan 4 sabit SolarCal vakası; NOAA güneş yüksekliği), `tests/outfit-thermal.test.cjs` (9; sıcak günde hafifletme, güneş etkisi, plan saatleri ışınımı). PowerShell `npm run check` exit 0: 196 test (191 geçti / 0 başarısız / 5 atlama), lint 0 hata / 8 uyarı, typecheck, build.
+- **Tarayıcı (sayfa metni ile):** İstanbul 15 °C gece "SET* modeline göre 60 dk boyunca rahat" (gömlek, denim ceket, chino); Honolulu 24 °C, DNI 413 W/m² "rahat (güneş dahil)" (tişört, şort, kanvas ayakkabı).
+- **Sınırlar:** SolarCal dağınık ışınımı 0,2×doğrudan varsayıyor (bulutlu günde güneş etkisi eksik kalabilir); kişinin yönü ve gölge oranı varsayım; giysi rengi emilime henüz bağlı değil; nem yüksek sıcakta PHS güvenlik uyarısı yok.
+
+- **Gönderim:** kullanıcı onayıyla yalnız 13 dosya `9330ce9` olarak `origin/claude/weathrobe` dalına gönderildi (taban `79666ab`); PR #9 N-025 gereği bekliyor. Codex incelemesi N-026.
+- **Uzak CI:** 44152045290 (push) ve 44152056782 (PR): Source checks ve Disposable catalogue lifecycle başarılı; Dependency security N-025 bildirimleri nedeniyle kırmızı (yeni bildirim yok, üretim denetimi temiz).
+
+<!-- ww29-2c-2026-11-17 -->
+## 17 Kasım 2026 — WW-29/2c CBE manken ölçümleriyle doğrulama (Claude, 17 Kasım 2026, commit yok)
+
+- **Kaynak (kullanıcı onayı, seçenek A):** Lee, Zhang & Arens 2013, CBE UC Berkeley (açık erişim): 40 kombin, oturan kadın termal manken, tüm vücut clo. Yalnız sayılar kaynak gösterilerek `tests/fixtures/cbe-2013-ensembles.json` içinde.
+- **Doğrulama:** ISO 9920 toplamamız, türlerimize eşlenebilen 14 ölçülmüş kombinde (0,31–1,07 clo) ortalama mutlak hata 0,089 clo, sapma −0,042 (hafif düşük tahmin), en kötü 0,21. Test bu doğruluğu kilitliyor (0,10 / 0,06 / 0,25).
+- **Şişme mont:** aynı alt kombine eklenen dört kışlık mont 0,22–0,35 clo ekliyor → giysi başına 0,26–0,42 (÷0,835). En düşüğü (0,26) ölçülmüş alt değer, üst uç açık: "yeterli"yi kanıtlayabilir, "yetersiz" diyemez. Engineering ToolBox'ın 0,55 değeri artık kullanılmıyor.
+- **Kapsamdan sapma:** kaban/parka (trençkot) için temiz karşılaştırma yok (trençkot balıkçı yakayla ölçülmüş; iki farkla ~0,40–0,53 tahmini, tür için güvenilir alt sınır değil). İkincil kaldı, karar vermiyor. Çözüm: trençkot/parka tür ayrımı (WW-30 önerisi; katalog göçü, 36→37 tür, hedefler, çizim/3D, ürünlerin kanıtla yeniden sınıflandırılması, Codex katalog alanı).
+- **Sıralama:** yeterlilik kanıtlanamıyorsa olası sıcak dış katmanlı (açık/ikincil) kombin tam kaynaklı ama yetersiz kombinden önce; grup içinde daha sıcak kaynaklı katmanlar. Erzurum regresyon testi geçiyor.
+- **Kontrol:** PowerShell `npm run check` exit 0 (200 test: 195 geçti / 0 başarısız / 5 atlama); ilk koşuda değiştirilmemiş geri bildirim testinde bilinen `ENOTEMPTY`, tekrarda geçti. Tarayıcı (sayfa metni): Erzurum 1 °C üç sekmede şişme mont ve "Şişme mont için yalnız ölçülmüş bir alt değer biliniyor (CBE 2013); … daha sıcak bir mont yetebilir."
+
+- **Gönderim:** kullanıcı onayıyla yalnız 8 dosya `64b67ce` olarak `origin/claude/weathrobe` dalına gönderildi (taban `9330ce9`); PR #9 N-025 gereği bekliyor. Codex incelemesi N-027.
+- **Uzak CI:** 44165866043 (push) ve 44165880467 (PR): Source checks ve Disposable catalogue lifecycle başarılı; Dependency security N-025 bildirimleri nedeniyle kırmızı (picomatch hâlâ 4.0.7).
+
+<!-- ww30-2026-11-18 -->
+## 18 Kasım 2026 — WW-30 trençkot ayrı tür (Claude, 18 Kasım 2026, commit yok)
+
+- **Karar (kullanıcı):** trençkot `coat-parka`dan ayrılır; katalog taksonomisi ortak alan, kullanıcı onayıyla. Katalog hedefi 36 → 37 tür; tür başına 100 ile toplam 3.600 → 3.700 (WW-09).
+- **Ne değişti:** `trench-coat` ("Trençkot / Trench coat", dış katman, gövde/kol/uyluk; "trench, trençkot, gabardin") listenin sonuna eklendi. Eski profil `cat-outer-2`, varsayılan dolap `w-outer-trench`, öneri profilleri `s-9`, `p-9` ve "Bej Klasik Trençkot" eşleştirme parçası yeni türde. 5 trençkot tasarımı (kuşaklı klasik, kısa, kruvaze uzun, kapüşonlu, uzun sade); SVG ve 3D'de uzun etek ve kuşak. Kaban/parka tasarımları ve kaydedilmiş tasarım kimlikleri değişmedi.
+- **Isıl:** CBE 2013 kısa trençkot, iki aşamalı fark: 1,24 − (0,80 + 0,70 − 0,59) = 0,33 → 0,40 clo alt değer, açık üst sınır ("yeterli"yi kanıtlayabilir, "yetersiz" diyemez). Kaban/parka ikincil kaldı.
+- **Veritabanı:** `db/migrations/003_trench_coat.sql` türü ekler ve yalnız `cat-outer-2` eski profilini bağlar; ürünlere dokunmaz. Katalogda `coat-parka` ürünü yoktu. Canlıya ancak sonraki yayında (ayrı onay). Kullanıcıların kendi "Kaban / parka" kayıtları kendiliğinden değişmez; düzenleyicide Trençkot seçilebilir.
+- **Testler:** 36→37 tür, 180→185 tasarım, hedef 3.700 (kalan 3.554) güncellendi; yeni `tests/trench-coat.test.cjs` (5). PowerShell `npm run check` exit 0: 205 test (200 geçti / 0 başarısız / 5 atlama); ilk koşuda değiştirilmemiş geri bildirim testlerinde bilinen `ENOTEMPTY`, tekrarda geçti. Docker Desktop kapalı: veritabanı testleri yerelde çalışmadı, CI'da sınanacak.
+- **Tarayıcı (sayfa metni):** katalog filtresinde "Trençkot (0)"; dolaptaki trençkot düzenleyicide 5 trençkot tasarımı ve tür listesinde Trençkot.
+
+- **Gönderim:** kullanıcı onayıyla yalnız 20 dosya `4ab45a6` olarak `origin/claude/weathrobe` dalına gönderildi (taban `64b67ce`); PR #9 N-025 gereği bekliyor. Codex incelemesi N-028.
+- **Uzak CI:** 44179952643 (push) ve 44179963304 (PR): Source checks ve Disposable catalogue lifecycle başarılı (göç 003 ve 37 tür PostgreSQL üzerinde geçti); Dependency security N-025 bildirimleri nedeniyle kırmızı.
+
+<!-- ww29-3-2026-11-18 -->
+## 18 Kasım 2026 — WW-29/3 renk ve resmiyet uyumu (Claude, 18 Kasım 2026, commit yok)
+
+- **Renk:** sRGB → CIELAB (doğrulandı: kırmızı 53,24/80,09/67,20) ve Ou & Luo (2006) iki renk uyumu (denklemler US10107687'deki yeniden yayımdan; özgün makaleye erişilemedi). Model açık renkleri kayırıyor ve giysilerde zayıf (lacivert+bej −0,22, kırmızı+yeşil −0,81). Bu yüzden yalnız en kötü çift CH < −0,3 olduğunda (belirgin çatışma) geri sıralanıyor; kart etiketi: ortalama ≥ 0 "uyumlu", çatışma yoksa "kabul edilebilir", varsa "çatışıyor". Bilinmeyen katalog renkleri ve kişisel çizim renkleri hariç; termal içlik ve çorap görünmez sayılıyor.
+- **Resmiyet:** kural tabanlı 1–4 ölçek (Batı kıyafet kuralları, Permanent Style; bilimsel ölçüm değil), görünür parçalarda fark ≥ 3 "karışık".
+- **Seçim:** önce ısıl karar ve açık, sonra görünüş, sonra tercihe yakınlık; görünüş ısıl kararı ezmiyor (test). "Eşleştir"teki HSL kuralı kaldırıldı. Kartta ikinci satır: "Görünüş: renkler … (Ou–Luo) · resmiyet … (kural tabanlı)".
+- **Yan düzeltme (önceki işlerden kalan hata):** ılık havada alt değeri bilinen dış katmanlar (şişme mont 0,26, trençkot 0,40) sıralamada "hafif" görünüyordu; artık ılık sıralama yalnız tam kaynaklı parçalara bakıyor. Ilık havadaki not "fazla sıcak gelmeyeceği doğrulanamadı" oldu.
+- **Açık karar:** varsayılan dolapta 16 °C'de kapüşonlu (1) + trençkot (4) "karışık" sayıldığı için şişme mont (2) seçiliyor.
+- **Kontrol:** PowerShell `npm run check` exit 0 (211 test: 206 geçti / 0 başarısız / 5 atlama). Tarayıcı (sayfa metni, İstanbul 16 °C): üç sekmede görünüş satırı TR/EN; "Dolabımdan" yeni ılık hava notu.
+- **Karar (kullanıcı, 18 Kasım):** sweatshirt/hoodie resmiyeti 1 → 2 (kapüşonlu + trençkot yaygın sokak kombini). Tam varsayılan dolapla 17 °C İstanbul: "Dolabımdan" kapüşonlu + trençkot, resmiyet tutarlı. `npm run check` exit 0 (206 geçti / 0 başarısız).
+
+- **Gönderim:** kullanıcı onayıyla yalnız 9 dosya `45a24fb` olarak `origin/claude/weathrobe` dalına gönderildi (taban `4ab45a6`); PR #9 N-025 gereği bekliyor. Codex incelemesi N-029.
+- **Uzak CI:** 44192021236 (push) ve 44192031584 (PR): Source checks ve Disposable catalogue lifecycle başarılı; Dependency security N-025 bildirimleri nedeniyle kırmızı.
+
+<!-- maint-audit-2026-11-18 -->
+## 18 Kasım 2026 — Güvenlik bakımı ve PR #9 engelinin kalkması (Claude, 18 Kasım 2026)
+
+- **Engel:** GHSA-fc5q-39xc-vjpf (picomatch) 18 Kasım 15:38 UTC'de GitHub tarafından geri çekildi (bakımcı: "güvenlik açığı değil"; micromatch/picomatch#235). Bizde picomatch yalnız eslint geliştirme aracında, kendi sabit desenlerimizle.
+- **Bakım (`370f1fc`, kullanıcı onayı):** `eslint-config-next` 16.4.1 → 16.4.6 ve `typescript-eslint` 8.71.2 → 8.73.0 yalnız lock ile (minimatch 11.0.9; GHSA-g3hv-75wg-m249 kapandı). Kullanılmayan `motion`, `@hookform/resolvers`, `class-variance-authority`, `@tailwindcss/typography`, `tw-animate-css` kaldırıldı (lock'tan 12 paket). Teşekkür listesi temizlendi; test kaldırılmış paketi listeleyen kaydı yakalıyor.
+- **Kontrol:** `npm audit` 0; iki CI audit kapısı yerelde geçti. `npm ci --ignore-scripts` ve PowerShell `npm run check` exit 0 (212 test: 207 geçti / 0 başarısız / 5 atlama; lint 0 hata / 8 uyarı).
+- **Not:** npm `eslint@9.39.1` için "desteklenmiyor" uyarısı verdi (güvenlik bildirimi değil; ayrı bakım işi). `bun.lock` eski, değiştirilmedi.
+- **Uzak CI:** 44385238269 (push) ve 44385255156 (PR): Source checks, Disposable catalogue lifecycle ve Dependency security başarılı. PR #9 birleştirmeye hazır (`clean`, `370f1fc`); birleştirme kullanıcıda.
+
+<!-- pr9-merged-2026-11-18 -->
+### PR #9 birleştirildi (18 Kasım 2026)
+
+Kullanıcı PR #9'u `main`'e birleştirdi (`8827670`). İçerik: WW-03 M1–M2, WW-29/1, 29/2a, 29/2b, 29/2c, WW-30, WW-29/3 ve güvenlik bakımı. Canlı yayın yapılmadı: sürüm 0.6.0, göç 003 canlıda çalışmadı; WW-03 kapanışı (iPhone kontrolü) sonraki yayına bağlı. Codex incelemesi: `git diff 3fef9e9 8827670` (AGENT_NOTES N-022–N-029).
+
+<!-- avatar-reference-2026-11-18 -->
+## 18 Kasım 2026 — Kullanıcının hedeflediği giydirilmiş model görünümü — referans (18 Kasım 2026)
+
+- **Referans:** https://willeastcott.github.io/splat-fashion/ — "The Future of Clothes Shopping", PlayCanvas üzerinde Gaussian splat sanal kabin demosu. Kıyafet döngüsü, değişiklik işaretleri, seçilen parçaya yakınlaşma, sepete ekleme, sunum modu, boşta animasyon/kafa kameraya bakma, iskelet ağırlıkları görünümü. Çekim: Christoph Schindelar (SuperSplat), CC BY 4.0; sayfada kaynak depo bağlantısı yok.
+- **Kullanıcı notu:** Kıyafet giyen modelimizin baştan beri böyle olmasını umuyordu; ilk tasarımda örnek gösterebileceği bir site yoktu.
+- **İlgili hedefler:** WW-25 (avatar kıyafet seçimi tasarımı), WW-14 (3D katman). Bugünkü 3D: Quaternius CC0 gövdeler + türetilmiş giysi yüzeyleri; splat yaklaşımı gerçek çekim (her giysi/kişi için tarama) ve farklı bir oluşturucu ister, lisans ve teşekkür (CC BY 4.0 atıf) gerektirir. Uygulama kapsamı henüz yok; ayrı araştırma ve kullanıcı kararıyla.
+- **main CI (8827670):** Source checks, Disposable catalogue lifecycle ve Dependency security başarılı.
+
+<!-- ww11-2026-11-18 -->
+## 18 Kasım 2026 — WW-11 "Yanına al" (Claude, 18 Kasım 2026, commit yok)
+
+- **Kararlar (kullanıcı):** plan yokken önümüzdeki 8 saat (yerel gece yarısını geçmeden); ısınma ipucu yok; en fazla bir soğuma + bir yağmur önerisi.
+- **Ne yapıyor:** Kombin, gelecek en soğuk saatte aynı modellerle (ISO 11079 / SET*) yeniden değerlendiriliyor; "yetersiz" ise kombine eklenip o saati "yeterli"ye çeviren en hafif tek ara/dış katman öneriliyor. Kanıtlanamıyorsa "doğrulanamadı", hiç yoksa "eklenip yetecek tek katman yok" deniyor. Şimdi kuru ve ileride yağış olasılığı ≥ %40 ise ve kombinde su geçirmez dış katman yoksa su geçirmez parça öneriliyor. Sabitlenen parçalar korunuyor (yalnız ekleme). "Dolabımdan" yalnız kendi dolabından; diğer sekmeler günün kombini havuzundan. Planlı aralıkta öneri yok (kombin tüm aralığa göre seçiliyor).
+- **Örnek (test):** 15 °C öğlen, 19:00'da 8 °C → hırka eklenir; 5 °C → tek katman yetmiyor.
+- **Kontrol:** yeni `tests/carry-along.test.cjs` (3). PowerShell `npm run check` exit 0 (215 test: 210 geçti / 0 başarısız / 5 atlama). Tarayıcı: gece 23:24'te yanıltıcı "tahmin yok" uyarısı yakalanıp düzeltildi; canlı öneri örneği gözlenemedi (İstanbul gece, Los Angeles ılık akşam).
+- **Açık not (WW-07):** "Katmanlar" sekmesi plan yokken sabah/akşamı sabit sapmalarla (−3/−2) tahmin ediyor; ayrı iş.
+
+- **Gönderim:** kullanıcı onayıyla yalnız 4 dosya `921bf07` olarak `origin/claude/weathrobe` dalına gönderildi (taban `main` @ `8827670`). PR kullanıcıda; Codex incelemesi N-030.
+- **Uzak CI:** 44396521930 (push, `921bf07`): Source checks, Disposable catalogue lifecycle ve Dependency security başarılı.
+
+## 19 Kasım 2026 — WW-10 B2 taslaklar bilgi uydurmuyor (Claude, 19 Kasım 2026)
+
+- **Sorun:** "AI Taslağı" (Gemini ve yerel kurallar) bilinmeyen ısı/su/rüzgâr/malzeme/renk için varsayılan uyduruyor, taslağı onaysız dolaba yazıyordu; barkod formunda ısı 3/5 ile başlıyordu.
+- **Ne yapıyor:** Sunucu artık `{ draft }` döndürüyor: bilinmeyen alan `null`; ısı/su/rüzgâr tahminleri yalnız `suggestions` içinde. Gemini şemasında yalnız ad + kategori zorunlu, tür kimliği taksonomi listesiyle sınırlı; geçersiz değerler `null` oluyor (`lib/garment-draft.ts`). Yerel kurallar yalnız kullanıcının kelimelerini kullanıyor ("yün" → ısı önerisi 4, "su geçirmez" → öneri). Dolaba eklemeden önce düzenlenebilir önizleme (`components/GarmentDraftReview.tsx`): ısı/su/rüzgâr "Bilmiyorum" ile başlıyor, öneri tek dokunuşla uygulanıyor, Vazgeç kaydetmiyor. Kaydedilen parça `dataSource: user`; onaysız malzeme "bilinmiyor", renk bilinmiyorsa `colorType: unknown`. Barkod formunda ısı "Bilmiyorum" ile başlıyor. Mevcut kayıtlara dokunulmadı.
+- **Kontrol:** yeni `tests/garment-draft.test.cjs` (6), `ai-stylist-security` yeni yanıt biçimine güncellendi, `mobile-touch-targets` `.draft-suggestion` 44 px kontrolü. PowerShell `npm run check`: 221 test, 216 geçti / 0 başarısız / 5 atlama; build derlendi. Tarayıcı (yerel, sentetik): TR/EN form, öneri uygulama, kayıtta yalnız onaylanan alanlar, Vazgeç, barkod "Bilmiyorum". Gemini yolu yalnız fixture ile.
+- **Açık not:** Yerel kurallar Türkçe kelimelerle çalışıyor; İngilizce açıklamada ("wool") malzeme/renk/ısı önerisi çıkmıyor, tür eşleşmesi çalışıyor.
+
+- **Gönderim:** kullanıcı onayıyla yalnız 10 dosya `be797c4` olarak `origin/claude/weathrobe` dalına gönderildi (taban `921bf07`). PR kullanıcıda; Codex incelemesi N-031. Uzak CI (Weathrobe Quality, 43. çalıştırma) gönderim sırasında sürüyordu.
+
+## 19 Kasım 2026 — kullanıcı yokken 5 iş (Claude, yerel commit, push yok)
+
+- **WW-07 `c8558ef`:** `generateLayerTimeline` plan yokken yalnız konumun o günkü (veya `requestedDate`) tarihli saatlerini kullanıyor; dilim özeti planlı yolla ortak `phaseMetrics` (en soğuk saat, en yüksek yağış/rüzgâr); saat aralığı gerçek saatlerden; saati olmayan dilim yok; boş plan için arayüzde açık mesaj. Eski `extractPhaseMetrics` ve −3/+2/−2 yedeği kaldırıldı. Kalan WW-07: `lib/weather-service.ts` çevrimdışı yedeği sabit 18 °C; rota API yedekleri.
+- **WW-10 B2 `ab3b360`:** `rulesDraft` İngilizce kelimeleri tam kelime tanıyor; Türkçe kökler kelime başında. Malzeme yazılan dilde.
+- **Güneş emilimi:** uygulanmadı; rapor ve A/B/C seçenekleri `KOMBIN_SISTEMI_ARASTIRMASI.md`.
+- **`ce1c250`:** `Modal` temizliği açtığı dialog üzerinden; `OutfitRecommendation` `feedbackCount` anahtarı bilinçli (yorum).
+- **Kontrol:** PowerShell `npm run check` exit 0 (227 / 222 geçti / 0 başarısız / 5 atlama; lint 7 uyarı).

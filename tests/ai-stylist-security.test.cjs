@@ -49,7 +49,12 @@ test('anonymous drafts use the rule engine even if operator Gemini keys are pres
   assert.equal(response.headers.get('Cache-Control'), 'private, no-store');
   const draft = await response.json();
   assert.equal(draft.modelUsed, 'local-heuristic');
-  assert.equal(draft.item.category, 'outer');
+  assert.equal(draft.draft.category, 'outer');
+  assert.equal(draft.draft.garmentTypeId, 'coat-parka');
+  assert.equal(draft.draft.material, 'Yün');
+  // WW-10 B2: "yün" hints at warmth, but that stays a suggestion, never a stored fact.
+  assert.equal(draft.draft.suggestions.warmth, 4);
+  assert.equal(draft.item, undefined);
   assert.deepEqual(savedKeys, []);
 });
 
@@ -129,7 +134,14 @@ test('a photo with a caller key reaches Gemini, and provider failure cannot crea
   });
   const success = await POST(request(photo, headers));
   assert.equal(success.status, 200);
-  assert.equal((await success.json()).item.name, 'Fixture garment');
+  const body = await success.json();
+  assert.equal(body.draft.name, 'Fixture garment');
+  assert.equal(body.draft.source, 'gemini');
+  assert.equal(body.draft.suggestions.warmth, 4);
+  // Fields Gemini left out stay unknown instead of being filled with defaults.
+  assert.equal(body.draft.material, null);
+  assert.equal(body.draft.colorHex, null);
+  assert.equal(body.draft.suggestions.waterResistance, null);
   assert.deepEqual(Buffer.from(calls[0].contents[0].inlineData.data, 'base64'), png);
   const failed = await POST(request(photo, headers));
   assert.equal(failed.status, 502);
