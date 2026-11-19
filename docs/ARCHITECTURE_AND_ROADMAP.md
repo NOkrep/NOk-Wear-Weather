@@ -97,7 +97,7 @@ Platform, bulunulan ülkenin alım gücüne uyarlanan **3 kademeli giyim motoru*
 
 * **Multi-Stage Dockerfile:** Next.js Standalone modunda çalışan, ultra hafif konteyner.
 * **docker-compose.yml:** Tek komutla (`docker compose up -d --build`) ayağa kalkma garantisi.
-* **ORACLE_CLOUD_DEPLOY_GUIDE.md:** VM oluşturma, firewall/port açma, Nginx reverse proxy ve Let's Encrypt ücretsiz SSL kurulum kılavuzu.
+* **ORACLE_CLOUD_DEPLOY_GUIDE.md:** VM oluşturma, firewall/port açma, Nginx reverse proxy ve Let's Encrypt ücretsiz SSL kurulum kılavuzu. *(20 Kasım 2026: kaldırıldı; güncel önizleme rehberi [deploy/ORACLE_PREVIEW.md](../deploy/ORACLE_PREVIEW.md).)*
 * **MOBILE_APP_GUIDE.md:** `public/manifest.json`, `public/sw.js` ve `capacitor.config.json` ile iOS/Android mobil uygulama kurulumu.
 
 ---
